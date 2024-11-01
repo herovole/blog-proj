@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 export class EditableText extends React.Component {
     constructor(props) {

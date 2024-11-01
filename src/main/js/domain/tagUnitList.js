@@ -1,10 +1,14 @@
+import {TagUnit} from './tagUnit.js'
 
-
-class TagUnitList {
+export class TagUnitList {
 
     static fromJsonStringList(arrayJsonStringList) {
-        arrayListOfTagUnits = arrayJsonStringList.map(TagUnit.fromJsonString);
+        var arrayListOfTagUnits = arrayJsonStringList.map(TagUnit.fromJsonString);
         return new TagUnitList(arrayListOfTagUnits);
+    }
+
+    static empty() {
+        return new TagUnitList([]);
     }
 
     constructor(arrayListOfTagUnits) {
@@ -17,5 +21,25 @@ class TagUnitList {
 
     getTagOptionsEnglish() {
         return this.tagUnits.map(TagUnit.getTagOptionEnglish);
+    }
+
+    getJapaneseNamesByIdsForDisplay(ids) {
+        var result = [];
+        for(const e of this.tagUnits) {
+            if(ids.includes(e.id)) {
+                result.push(e.nameJp);
+            }
+        }
+        return result.join(",");
+    }
+
+    getEnglishNamesByIdsForDisplay(ids) {
+        var result = [];
+        for(const e of this.tagUnits) {
+            if(ids.includes(e.id)) {
+                result.push(e.nameEn);
+            }
+        }
+        return result.join(",");
     }
 }

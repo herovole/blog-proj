@@ -1,7 +1,7 @@
 
-class TagUnit {
+export class TagUnit {
 
-    static fromJsonString(String jsonString) {
+    static fromJsonString(jsonString) {
         parsedData = JSON.parse(jsonString);
         tagUnit = Object.assign(new TagUnit(), parsedData);
         return tagUnit;

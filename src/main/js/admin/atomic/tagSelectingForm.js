@@ -1,38 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-
-/* sample code for react-select
-const options = [
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'react', label: 'React' },
-  { value: 'css', label: 'CSS' },
-];
-
-function TagSelector() {
-  return (
-    <Select
-      isMulti
-      options={options}
-      placeholder="Select or type to add tags"
-    />
-  );
-}
-*/
-
+import {TagUnitList} from '../../domain/tagUnitList.js';
 
 export class TagSelectingForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            input : this.props.children ? this.props.children : "",
-            fixedInput : this.props.children ? this.props.children : "",
-            candidatesJapanese: [],
-            candidatesEnglish: [],
+            candidates: TagUnitList.empty(), // :TagUnitList
+            selectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
+            fixedSelectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
             isBeingEdited : false
         };
-        this.refTextArea = React.createRef();
     }
 
     componentDidMount() { }
@@ -45,43 +25,41 @@ export class TagSelectingForm extends React.Component {
 
     fix = () => {
         this.setState(prevState => ({
-            input: this.refTextArea.current.value,
-            fixedInput: this.refTextArea.current.value,
+            fixedSelectedTags: this.state.selectedTags,
             isBeingEdited: false
         }));
     }
 
-    replenishOptions= () => {
+    replenishOptions= async () => {
         try {
             var response = await axios.post("/b/api/tags");
             this.setState(prevState => ({
-                candidatesJapanese: response.data
+                candidates: TagUnitList.fromJsonStringList(response.data),
             }));
         } catch (error) {
-            console.error("error : countrySelectBox", error);
+            console.error("error : tagSelectingForm", error);
         }
     };
 
     render() {
         if(this.state.isBeingEdited) {
+            this.replenishOptions();
             return (
                 <div>
-                    <input
-                      placeholder="Type here..."
-                      type="text"
-                      value={this.state.input}
-                      onChange={this.handleInputChange}
-                      ref={this.refTextArea}
+                    <Select
+                      isMulti
+                      options={this.state.candidates.getOptionsJapanese}
+                      value={this.state.selectedTags}
+                      //onChange={handleTagChange}
+                      placeholder="Select or type to add tags"
                     />
-                    <ul class="select-body">
-                      {this.state.candidates.map((e, i) => (
-                        <li class="select-element" key={i} onClick={() => this.handleSuggestionClick(e)}>
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <br/>
+                    <Select
+                      isMulti
+                      options={this.state.candidates.getOptionsEnglish}
+                      value={this.state.selectedTags}
+                      //onChange={handleTagChange}
+                      placeholder="Select or type to add tags"
+                    />
                     <button
                       type="button"
                       onClick={this.fix}
@@ -97,14 +75,20 @@ export class TagSelectingForm extends React.Component {
                 </div>
             );
         } else {
+            this.replenishOptions();
+            var tagsInJapanese = this.state.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            var tagsInEnglish = this.state.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed">
-                        {this.state.fixedInput}
+                        {tagsInJapanese}
+                    </div>
+                    <div class="editable-text-fixed">
+                        {tagsInEnglish}
                     </div>
                     <input type="hidden"
                       name={this.props.postKey}
-                      value={this.state.fixedInput} />
+                      value={JSON.stringify(this.state.fixedSelectedTags)} />
                 </div>
             );
         }
