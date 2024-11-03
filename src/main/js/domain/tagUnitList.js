@@ -3,7 +3,7 @@ import {TagUnit} from './tagUnit.js'
 export class TagUnitList {
 
     static fromJsonStringList(arrayJsonStringList) {
-        var arrayListOfTagUnits = arrayJsonStringList.map(TagUnit.fromJsonString);
+        var arrayListOfTagUnits = arrayJsonStringList.map(jsonString => TagUnit.fromJsonString(jsonString));
         return new TagUnitList(arrayListOfTagUnits);
     }
 
@@ -12,15 +12,23 @@ export class TagUnitList {
     }
 
     constructor(arrayListOfTagUnits) {
-        this.tagUnits = arrayListOfTagUnits;
+        this.tagUnits = arrayListOfTagUnits ? arrayListOfTagUnits : [];
     }
 
     getTagOptionsJapanese() {
-        return this.tagUnits.map(TagUnit.getTagOptionJapanese);
+        return this.tagUnits.map(e => e.getTagOptionJapanese());
+    }
+
+    getTagOptionsJapaneseSelected(arrayIds) {
+        return this.tagUnits.filter(e => arrayIds.includes(e.id)).map(e => e.getTagOptionJapanese());
     }
 
     getTagOptionsEnglish() {
-        return this.tagUnits.map(TagUnit.getTagOptionEnglish);
+        return this.tagUnits.map(e => e.getTagOptionEnglish());
+    }
+
+    getTagOptionsEnglishSelected(arrayIds) {
+        return this.tagUnits.filter(e => arrayIds.includes(e.id)).map(e => e.getTagOptionEnglish());
     }
 
     getJapaneseNamesByIdsForDisplay(ids) {

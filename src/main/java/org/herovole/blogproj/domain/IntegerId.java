@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class IntegerId {
+public class IntegerId implements Comparable<IntegerId> {
 
     private static final String EMPTY = "-";
 
@@ -36,4 +36,10 @@ public class IntegerId {
         return this.id;
     }
 
+    @Override
+    public int compareTo(IntegerId o) {
+        Long thisValue = this.isEmpty() ? -1 : this.id;
+        Long thatValue = o.isEmpty() ? -1 : o.id;
+        return thisValue.compareTo(thatValue);
+    }
 }

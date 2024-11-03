@@ -1,18 +1,18 @@
 import React from 'react';
-import axios from 'axios';
 import Select from 'react-select';
-import {TagUnitList} from '../../domain/tagUnitList.js';
+import {TagUnitList} from '../../../domain/tagUnitList.js';
 
 export class TagSelectingForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            candidates: TagUnitList.empty(), // :TagUnitList
+            //this.props.candidates, // :TagUnitList
             selectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
             fixedSelectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
             isBeingEdited : false
         };
+        console.log("state / " + this.props.candidates);
     }
 
     componentDidMount() { }
@@ -30,34 +30,31 @@ export class TagSelectingForm extends React.Component {
         }));
     }
 
-    replenishOptions= async () => {
-        try {
-            var response = await axios.post("/b/api/tags");
-            this.setState(prevState => ({
-                candidates: TagUnitList.fromJsonStringList(response.data),
-            }));
-        } catch (error) {
-            console.error("error : tagSelectingForm", error);
-        }
+    handleChange = (theSelectedTags) => {
+        var ids = theSelectedTags.map(e => parseInt(e.value,10));
+        this.setState(prevState => ({
+            selectedTags: ids
+        }));
     };
 
     render() {
         if(this.state.isBeingEdited) {
-            this.replenishOptions();
+            console.log("render-active :" + JSON.stringify(this.props.candidates.getTagOptionsJapanese()));
+            console.log("selected :" + JSON.stringify(this.state.selectedTags));
             return (
                 <div>
                     <Select
                       isMulti
-                      options={this.state.candidates.getOptionsJapanese}
-                      value={this.state.selectedTags}
-                      //onChange={handleTagChange}
+                      options={this.props.candidates.getTagOptionsJapanese()}
+                      value={this.props.candidates.getTagOptionsJapaneseSelected(this.state.selectedTags)}
+                      onChange={this.handleChange}
                       placeholder="Select or type to add tags"
                     />
                     <Select
                       isMulti
-                      options={this.state.candidates.getOptionsEnglish}
-                      value={this.state.selectedTags}
-                      //onChange={handleTagChange}
+                      options={this.props.candidates.getTagOptionsEnglish()}
+                      value={this.props.candidates.getTagOptionsEnglishSelected(this.state.selectedTags)}
+                      onChange={this.handleChange}
                       placeholder="Select or type to add tags"
                     />
                     <button
@@ -75,9 +72,9 @@ export class TagSelectingForm extends React.Component {
                 </div>
             );
         } else {
-            this.replenishOptions();
-            var tagsInJapanese = this.state.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
-            var tagsInEnglish = this.state.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            console.log("render-passive:" + JSON.stringify(this.props.candidates.getTagOptionsJapanese()));
+            var tagsInJapanese = this.props.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            var tagsInEnglish = this.props.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed">
