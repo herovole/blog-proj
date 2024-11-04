@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CountrySelectBox } from './atomic/countrySelectBox';
+import { CountrySelectBox } from './fragment/atomic/countrySelectBox';
 import { EditOriginalPostUnit } from './editOriginalPostUnit';
 import { BasicClass } from './basicclass';
 import { DateSelectingForm } from './atomic/plain/dateSelectingForm';
 import { TagSelectingForm } from './atomic/plain/tagSelectingForm';
 import { TagUnitList } from '../domain/tagUnitList';
-import { ImageSelectingForm } from './atomic/plain/imageSelectingForm';
+import { ImageSelectingForm } from './fragment/atomic/plain/imageSelectingForm';
 
 console.log("sandbox.js");
 

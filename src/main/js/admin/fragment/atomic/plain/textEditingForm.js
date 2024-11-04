@@ -1,15 +1,15 @@
 import React from 'react';
 
-export class EditableText extends React.Component {
+export class TextEditingForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             //this.props.postKey : form component name
             text : this.props.children ? this.props.children : "",
+            fixedText : this.props.children ? this.props.children : "",
             isHidden : this.props.isHidden ? true : false,
             isBeingEdited : false
         };
-        this.refTextArea = React.createRef();
     }
 
     componentDidMount() { }
@@ -20,9 +20,15 @@ export class EditableText extends React.Component {
         }));
     }
 
+    handleChange = (e) = {
+        this.setState(prevState => ({
+            text: e.target.value
+        }));
+    }
+
     fix = () => {
         this.setState(prevState => ({
-            text: this.refTextArea.current.value,
+            fixedText: this.state.text,
             isBeingEdited: false
         }));
     }
@@ -33,7 +39,7 @@ export class EditableText extends React.Component {
                 <div>
                     <textarea
                       class="editable-text-activated scale-large-flexible"
-                      ref={this.refTextArea}
+                      onChange={this.handleChange}
                       placeholder="Type here..."
                     >
                         {this.state.text}
@@ -56,11 +62,11 @@ export class EditableText extends React.Component {
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed scale-large">
-                        {this.state.text}
+                        {this.state.fixedText}
                     </div>
                     <input type="hidden"
                       name={this.props.postKey}
-                      value={this.state.text} />
+                      value={this.state.fixedText} />
                 </div>
             );
         }

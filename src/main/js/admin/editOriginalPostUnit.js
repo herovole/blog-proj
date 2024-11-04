@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { CountrySelectBox } from './atomic/countrySelectBox';
-import { EditableText } from './atomic/plain/editableText';
+import { TextEditingForm } from './atomic/plain/textEditingForm';
 import { FormEventHandler } from "react";
 
 console.log("editOriginalPostUnit.js");
@@ -37,9 +37,9 @@ export class EditOriginalPostUnit extends React.Component {
                 <CountrySelectBox postKey="country">
                     {this.state.country}
                 </CountrySelectBox>
-                <EditableText postKey="content">
+                <TextEditingForm postKey="content">
                     {this.state.text}
-                </EditableText>
+                </TextEditingForm>
 
                 <p><button type="submit">Update</button></p>
             </form>
