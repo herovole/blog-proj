@@ -7,16 +7,21 @@ export class ImageSelectingForm extends React.Component {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            //this.props.candidates, // :TagUnitList
             image : null,
             isBeingEdited : false
         };
-        console.log("state / " + this.props.candidates);
     }
 
     handleFileChange = (e) => {
+        if (!e.target || !e.target.files) return;
+        console.log("image info : " + JSON.stringify(e.target.files));
+        console.log("image info2 : " + JSON.stringify(e.target.value));
+        console.log("image info : " + e.target.files);
+        console.log("image info : " + e.target.files["0"]);
+        console.log("image info : " + e.target.files[0]);
+        var imageDatum = e.target.files[0];
         this.setState(prevState => ({
-            image : e.target.files[0]
+            image : imageDatum
         }));
     };
 
@@ -41,12 +46,10 @@ export class ImageSelectingForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <div>
                 <input type="file" accept="image/jpeg" onChange={this.handleFileChange} />
-                <button type="submit">Upload Image</button>
-            </form>
+            </div>
         );
     }
 }
 
-export default ImageSelectingForm;

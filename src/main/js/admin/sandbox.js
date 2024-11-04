@@ -61,7 +61,9 @@ export const Sandbox = () =>{
         </div>
         <div>
             test5:
-            <ImageSelectingForm/>
+            <ImageSelectingForm
+              postKey="isf"
+            />
         </div>
     </div>
 
