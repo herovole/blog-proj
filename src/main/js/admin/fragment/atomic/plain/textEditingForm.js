@@ -5,10 +5,11 @@ export class TextEditingForm extends React.Component {
         super(props);
         this.state = {
             //this.props.postKey : form component name
+            //this.props.isFixed : forbidden to edit
             text : this.props.children ? this.props.children : "",
             fixedText : this.props.children ? this.props.children : "",
             isHidden : this.props.isHidden ? true : false,
-            isBeingEdited : false
+            isBeingEdited : false,
         };
     }
 
@@ -16,11 +17,11 @@ export class TextEditingForm extends React.Component {
 
     switchMode = () => {
         this.setState(prevState => ({
-            isBeingEdited: !prevState.isBeingEdited
+            isBeingEdited: !prevState.isBeingEdited && !this.props.isFixed
         }));
     }
 
-    handleChange = (e) = {
+    handleChange = (e) => {
         this.setState(prevState => ({
             text: e.target.value
         }));
@@ -62,7 +63,7 @@ export class TextEditingForm extends React.Component {
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed scale-large">
-                        {this.state.fixedText}
+                        {this.state.fixedText ? this.state.fixedText : "(No Text)"}
                     </div>
                     <input type="hidden"
                       name={this.props.postKey}

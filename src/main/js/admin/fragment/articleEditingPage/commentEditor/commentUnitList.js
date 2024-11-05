@@ -1,4 +1,5 @@
 
+import { CommentUnit } from './commentUnit'
 
 export class CommentUnitList {
 
@@ -13,6 +14,14 @@ export class CommentUnitList {
 
     constructor(arrayListOfComments) {
         this.arrayListOfComments = arrayListOfComments ? arrayListOfComments : [];
+    }
+
+    getElementNumber() {
+        return this.arrayListOfComments.length;
+    }
+
+    getCommentUnit(index) () {
+        return this.arrayListOfComments[index];
     }
 
 }

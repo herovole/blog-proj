@@ -19,9 +19,10 @@ export class BooleanSelectingForm extends React.Component {
         }));
     }
 
-    handleChange = (e) = {
+    handleChange = (e) => {
+        var isChecked = e.target.checked;
         this.setState(prevState => ({
-            check: e.target.value
+            check: isChecked
         }));
     }
 
@@ -30,6 +31,15 @@ export class BooleanSelectingForm extends React.Component {
             fixedCheck: this.state.check,
             isBeingEdited: false
         }));
+        console.log(this.state.check + "/" + this.state.fixedCheck);
+    }
+
+    cancel = () => {
+        this.setState(prevState => ({
+            check: this.state.fixedCheck,
+            isBeingEdited: false
+        }));
+        console.log(this.state.check + "/" + this.state.fixedCheck);
     }
 
     render() {
@@ -40,9 +50,8 @@ export class BooleanSelectingForm extends React.Component {
                       type="checkbox"
                       id={this.props.postKey}
                       checked={this.state.check}
-                      onChange={handleChange}
+                      onChange={this.handleChange}
                     />
-                    </textarea>
                     <button
                       type="button"
                       onClick={this.fix}
@@ -51,7 +60,7 @@ export class BooleanSelectingForm extends React.Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.switchMode}
+                      onClick={this.cancel}
                     >
                         Cancel
                     </button>
@@ -60,8 +69,8 @@ export class BooleanSelectingForm extends React.Component {
         } else {
             return (
                 <div onClick={this.switchMode} >
-                    <div class="editable-text-fixed scale-large">
-                        {this.state.fixedCheck}
+                    <div class="editable-text-fixed scale-minimum">
+                        {this.state.fixedCheck ? "On" : "Off"}
                     </div>
                     <input type="hidden"
                       name={this.props.postKey}

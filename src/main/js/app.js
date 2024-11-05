@@ -12,7 +12,6 @@ import { Footer } from "./footer";
 import { TextForm } from './textForm';
 
 import { AdminEntrance } from './admin/adminEntrance';
-import { NewArticle } from './admin/newarticle';
 import { Sandbox } from './admin/sandbox';
 
 
@@ -31,7 +30,7 @@ function App () {
 
         <Route path="/about" element={ <About /> } /> {}
         <Route path="/admin" element={ <AdminEntrance /> } /> {}
-        <Route path="/admin/newarticle" element={ <NewArticle /> } /> {}
+        <Route path="/admin/newarticle" element={ <Sandbox/> } /> {}
         <Route path="/admin/sandbox" element={ <Sandbox/> } /> {}
       </Routes>
 

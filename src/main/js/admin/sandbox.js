@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CountrySelectBox } from './fragment/atomic/countrySelectBox';
-import { EditOriginalPostUnit } from './editOriginalPostUnit';
 import { BasicClass } from './basicclass';
-import { DateSelectingForm } from './atomic/plain/dateSelectingForm';
-import { TagSelectingForm } from './atomic/plain/tagSelectingForm';
-import { TagUnitList } from '../domain/tagUnitList';
+import { DateSelectingForm } from './fragment/atomic/plain/dateSelectingForm';
+import { TagSelectingForm } from './fragment/atomic/plain/tagSelectingForm/tagSelectingForm';
+import { TagUnitList } from './fragment/atomic/plain/tagSelectingForm/tagUnitList';
 import { ImageSelectingForm } from './fragment/atomic/plain/imageSelectingForm';
+import { ArticleEditingPageBody } from './fragment/articleEditingPage/articleEditingPageBody';
 
 console.log("sandbox.js");
 
@@ -37,15 +37,6 @@ export const Sandbox = () =>{
             <CountrySelectBox>United Kingdom</CountrySelectBox>
         </div>
         <div>
-            test2:
-            <EditOriginalPostUnit
-              country="United Kingdom"
-              isHidden="false"
-            >
-              デフォルトコメント
-            </EditOriginalPostUnit>
-        </div>
-        <div>
             test3:
             <DateSelectingForm
               postKey="dsf"
@@ -64,6 +55,10 @@ export const Sandbox = () =>{
             <ImageSelectingForm
               postKey="isf"
             />
+        </div>
+        <div>
+            test6:
+            <ArticleEditingPageBody/>
         </div>
     </div>
 

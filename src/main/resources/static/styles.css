@@ -12,6 +12,11 @@
     background-color: #FFFFFF;
 }
 
+.scale-minimum {
+    width: 20px
+    height: 20px
+}
+
 .scale-large {
     width: 100%
     height: 100px
