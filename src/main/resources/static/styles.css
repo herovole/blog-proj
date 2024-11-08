@@ -40,13 +40,21 @@
     background-color: #FFFFFF
 }
 
-.pseudo-button {
-    display: inline-block; /* or inline-flex */
-    padding: 5px 10px; /* optional padding */
-    border: 1px solid black; /* button-like border */
-    background-color: #f0f0f0; /* button-like background color */
-    cursor: pointer; /* shows a hand cursor like a button */
-    /* Additional styling */
-    text-align: center;
-    border-radius: 4px; /* Rounded edges */
+.item-title {
+    border-bottom: 1px solid black;
+    padding-top: 5px;
+}
+
+.item-title-large {
+    border-bottom: 2px solid black;
+    padding-top: 5px;
+}
+
+.frame-unit {
+    border: 1px solid #8888AA;
+    background-color: #AAAAFF;
+}
+
+.left-space {
+    padding-left: 5px
 }

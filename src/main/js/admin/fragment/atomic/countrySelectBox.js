@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {ElementId} from '../../../domain/elementId'
 
 export class CountrySelectBox extends React.Component {
     constructor(props) {
@@ -104,7 +105,7 @@ export class CountrySelectBox extends React.Component {
                         {this.state.fixedInput}
                     </div>
                     <input type="hidden"
-                      name={this.props.postKey}
+                      name={this.props.postKey.toStringKey()}
                       value={this.state.fixedInput} />
                 </div>
             );

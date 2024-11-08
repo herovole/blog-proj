@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import {TagUnitList} from './tagUnitList.js';
+import {ElementId} from '../../../../../domain/elementId'
 
 export class TagSelectingForm extends React.Component {
     constructor(props) {
@@ -84,7 +85,7 @@ export class TagSelectingForm extends React.Component {
                         {tagsInEnglish}
                     </div>
                     <input type="hidden"
-                      name={this.props.postKey}
+                      name={this.props.postKey.toStringKey()}
                       value={JSON.stringify(this.state.fixedSelectedTags)} />
                 </div>
             );

@@ -7,12 +7,28 @@ import { TagSelectingForm } from './fragment/atomic/plain/tagSelectingForm/tagSe
 import { TagUnitList } from './fragment/atomic/plain/tagSelectingForm/tagUnitList';
 import { ImageSelectingForm } from './fragment/atomic/plain/imageSelectingForm';
 import { ArticleEditingPageBody } from './fragment/articleEditingPage/articleEditingPageBody';
+import { ElementId } from '../domain/elementId';
 
 console.log("sandbox.js");
+
+var rootId = new ElementId("root");
+var first = rootId.append("1stLevel");
+var second = first.append("2ndLevel");
+var another = rootId.append("another");
+
+console.log(rootId.toStringKey());
+console.log(first.toStringKey());
+console.log(second.toStringKey());
+console.log(another.toStringKey());
+
+const testArticleEditingPageBody;
+Comment
 
 
 export const Sandbox = () =>{
     const [tagsOptions, setTagsOptions] = useState(null);
+
+    var postKey = new ElementId("sandbox");
 
     useEffect(() => {
         const fetchTagsOptions = async () => {
@@ -34,18 +50,18 @@ export const Sandbox = () =>{
     return <div>
         <div>
             test1:
-            <CountrySelectBox>United Kingdom</CountrySelectBox>
+            <CountrySelectBox postKey={postKey.append("csb")}>United Kingdom</CountrySelectBox>
         </div>
         <div>
             test3:
             <DateSelectingForm
-              postKey="dsf"
+              postKey={postKey.append("dsf")}
             />
         </div>
         <div>
             test4:
             <TagSelectingForm
-              postKey="tsf"
+              postKey={postKey.append("tsf")}
               candidates={tagsOptions ? tagsOptions : new TagUnitList()}
               selectedTagIds={selectedTags}
             />
@@ -53,12 +69,12 @@ export const Sandbox = () =>{
         <div>
             test5:
             <ImageSelectingForm
-              postKey="isf"
+              postKey={postKey.append("isf")}
             />
         </div>
         <div>
             test6:
-            <ArticleEditingPageBody/>
+            <ArticleEditingPageBody postKey={postKey.append("aep")}/>
         </div>
     </div>
 

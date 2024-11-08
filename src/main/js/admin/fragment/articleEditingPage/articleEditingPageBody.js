@@ -11,7 +11,7 @@ export class ArticleEditingPageBody extends React.Component {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            //this.props.content : CommentUnit
+            //this.props.content : Article
         };
     }
 
@@ -20,26 +20,46 @@ export class ArticleEditingPageBody extends React.Component {
     render() {
             return (
                 <div>
-                    <TextEditingForm postKey = "id" isFixed = {true}>
+                    <div>
+                        <p class="item-title">Article ID</p>
+                        <TextEditingForm postKey = {this.props.postKey.append("id")} isFixed = {true}>
 
-                    </TextEditingForm>
-                    <ImageSelectingForm postKey = "img">
+                        </TextEditingForm>
+                    </div>
+                    <div>
+                        <p class="item-title">Article Image</p>
+                        <ImageSelectingForm postKey = {this.props.postKey.append("img")}>
 
-                    </ImageSelectingForm>
-                    <TextEditingForm postKey = "articleText">
+                        </ImageSelectingForm>
+                    </div>
+                    <div>
+                        <p class="item-title">Article Text</p>
+                        <TextEditingForm postKey = {this.props.postKey.append("articleText")}>
 
-                    </TextEditingForm>
-                    <DateSelectingForm postKey = "date">
+                        </TextEditingForm>
+                    </div>
+                    <div>
+                        <p class="item-title">Date</p>
+                        <DateSelectingForm postKey = {this.props.postKey.append("date")}>
 
-                    </DateSelectingForm>
-                    <BooleanSelectingForm postKey = "publish">
+                        </DateSelectingForm>
+                    </div>
+                    <div>
+                        <p class="item-title">Published?</p>
+                        <BooleanSelectingForm postKey = {this.props.postKey.append("publish")}>
 
-                    </BooleanSelectingForm>
-                    <TextEditingForm postKey = "editors" isFixed = {true}>
+                        </BooleanSelectingForm>
+                    </div>
+                    <div>
+                        <p class="item-title">Editors</p>
+                        <TextEditingForm postKey = {this.props.postKey.append("editors")} isFixed = {true}>
 
-                    </TextEditingForm>
-
-                    <CommentEditor/>
+                        </TextEditingForm>
+                    </div>
+                    <div>
+                        <p class="item-title-large">Original Comments</p>
+                        <CommentEditor postKey = {this.props.postKey.append("commentEditor")}/>
+                    </div>
                 </div>
             );
     }

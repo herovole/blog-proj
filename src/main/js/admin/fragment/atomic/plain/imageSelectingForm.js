@@ -1,6 +1,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import {ElementId} from '../../../../domain/elementId'
 
 export class ImageSelectingForm extends React.Component {
     constructor(props) {
@@ -19,9 +20,9 @@ export class ImageSelectingForm extends React.Component {
         console.log("image info : " + e.target.files);
         console.log("image info : " + e.target.files["0"]);
         console.log("image info : " + e.target.files[0]);
-        var imageDatum = e.target.files[0];
+        this.state.image = e.target.files[0];
         this.setState(prevState => ({
-            image : imageDatum
+            image : this.state.image
         }));
     };
 
@@ -47,6 +48,7 @@ export class ImageSelectingForm extends React.Component {
     render() {
         return (
             <div>
+                <img src={this.state.image ? URL.createObjectURL(this.state.image) : ""} />
                 <input type="file" accept="image/jpeg" onChange={this.handleFileChange} />
             </div>
         );

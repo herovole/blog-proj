@@ -1,10 +1,11 @@
 import React from 'react';
+import {ElementId} from '../../../../domain/elementId'
 
 export class BooleanSelectingForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //this.props.postKey : form component name
+            //this.props.postKey : ElementId / form component name
             check : this.props.children ? this.props.children : false,
             fixedCheck : this.props.children ? this.props.children : false,
             isBeingEdited : false
@@ -48,7 +49,6 @@ export class BooleanSelectingForm extends React.Component {
                 <div>
                     <input
                       type="checkbox"
-                      id={this.props.postKey}
                       checked={this.state.check}
                       onChange={this.handleChange}
                     />
@@ -69,11 +69,11 @@ export class BooleanSelectingForm extends React.Component {
         } else {
             return (
                 <div onClick={this.switchMode} >
-                    <div class="editable-text-fixed scale-minimum">
+                    <span class="editable-text-fixed scale-minimum">
                         {this.state.fixedCheck ? "On" : "Off"}
-                    </div>
+                    </span>
                     <input type="hidden"
-                      name={this.props.postKey}
+                      name={this.props.postKey.toStringKey()}
                       value={this.state.fixedCheck} />
                 </div>
             );

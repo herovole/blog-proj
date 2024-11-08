@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
+import {ElementId} from '../../../../domain/elementId'
 
 export class DateSelectingForm extends React.Component {
     constructor(props) {
@@ -67,7 +68,7 @@ export class DateSelectingForm extends React.Component {
                         {format(this.state.dateFixed, 'yyyy/MM/dd')}
                     </div>
                     <input type="hidden"
-                      name={this.props.postKey}
+                      name={this.props.postKey.toStringKey()}
                       value={format(this.state.dateFixed, 'yyyy/MM/dd')} />
                 </div>
             );

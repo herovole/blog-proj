@@ -5,22 +5,43 @@ export class CommentUnit {
     static API_KEY_TEXT = "text";
     static API_KEY_COUNTRY = "country";
     static API_KEY_IS_HIDDEN = "isHidden";
+    static API_KEY_REFERRING_IDS = "referringIds";
 
-    static fromJsonString(jsonString) {
-        var parsedHash = JSON.parse(jsonString);
+    static fromHash(hash) {
         return new CommentUnit(
-            parsedHash[TagUnit.API_KEY_ID],
-            parsedHash[TagUnit.API_KEY_TEXT],
-            parsedHash[TagUnit.API_KEY_COUNTRY],
-            parsedHash[TagUnit.API_KEY_IS_HIDDEN]
+            hash[CommentUnit.API_KEY_ID],
+            hash[CommentUnit.API_KEY_TEXT],
+            hash[CommentUnit.API_KEY_COUNTRY],
+            hash[CommentUnit.API_KEY_IS_HIDDEN],
+            hash[CommentUnit.API_KEY_REFERRING_IDS]
         );
     }
 
-    constructor(commentId, text, country, isHidden) {
+    constructor(commentId, text, country, isHidden, referringIds=[], depth=0) {
         this.commentId = commentId;
         this.text = text;
         this.country = country;
         this.isHidden = isHidden;
+        this.referringIds = referringIds;
+        this.depth = depth;
+    }
+
+    getLatestReferringId() {
+        if(this.referringIds.length == 0) {
+            return -1;
+        }
+        return Math.max(this.referringIds);
+    }
+
+    applyDepth(depth) {
+        return new CommentUnit(
+            this.commentId,
+            this.text,
+            this.country,
+            this.isHidden,
+            this.referringIds,
+            depth
+        );
     }
 
 }
