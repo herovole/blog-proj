@@ -20,7 +20,7 @@ export class CommentUnitList {
         return this.arrayListOfComments.length;
     }
 
-    getCommentUnit(index) () {
+    getCommentUnit(index) {
         return this.arrayListOfComments[index];
     }
 
@@ -31,10 +31,16 @@ export class CommentUnitList {
             var refId = unit.getLatestReferringId();
             if(refId < 0) {
                 newList = newList.appendUnit(unit);
+                console.log("added : " + unit.commentId);
+                console.log("comments : " + newList.getElementNumber());
             } else {
                 var referredUnit = newList.getById(refId);
-                var addedUnit = unit.applyDepth(referredUnit.depth + 1);
-                newList = newList.insertRightBeforeNextSameLevel(refId, unit);
+                if(!referredUnit) {
+                    newList = newList.appendUnit(unit);
+                    continue;
+                }
+                var appendedUnit = unit.applyDepth(referredUnit.depth + 1);
+                newList = newList.insertRightBeforeNextConversation(refId, appendedUnit);
             }
 
         }
@@ -44,37 +50,46 @@ export class CommentUnitList {
 
     appendUnit(unit) {
         var newArray = this.arrayListOfComments.slice();
-        newArray.push[unit];
+        console.log("slice length before : " + newArray.length);
+        newArray.push(unit);
+        console.log("slice length after : " + newArray.length);
         return new CommentUnitList(newArray);
     }
 
     getById(commentId) {
+        console.log("finding :" + commentId);
         for(var u of this.arrayListOfComments) {
+            console.log("looking :" + u.commentId);
             if(u.commentId == commentId) { return u; }
         }
         return null;
     }
 
-    insertRightBeforeNextSameLevel(commentId, unit) {
-        var originIndex;
+    insertRightBeforeNextConversation(commentId, unit) {
+        var originIndex = -1;
         var originUnit;
-
+        console.log("insertRightBeforeNextConversation referring to " + commentId + " by " + unit.commentId);
         for(var i = 0; i < this.arrayListOfComments.length; i++) {
             if(this.arrayListOfComments[i].commentId == commentId) {
                 originIndex = i;
                 originUnit = this.arrayListOfComments[i];
             }
         }
-        if(!originIndex) {
+        console.log("originIndex " + originIndex);
+        if(originIndex < 0) {
+            console.log("originIndex not found");
             return this;
         }
 
         var newArray = this.arrayListOfComments.slice();
         for(var i = originIndex + 1; i < this.arrayListOfComments.length; i++) {
-            if(this.arrayListOfComments[i].depth == originUnit.depth) {
+            console.log("index " + i + " depth " + this.arrayListOfComments[i].depth);
+            if(this.arrayListOfComments[i].depth <= originUnit.depth) {
                 newArray.splice(i, 0, unit);
+                return new CommentUnitList(newArray);
             }
         }
+        newArray.push(unit);
         return new CommentUnitList(newArray);
 
     }

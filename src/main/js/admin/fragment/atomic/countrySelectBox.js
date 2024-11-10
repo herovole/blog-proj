@@ -102,7 +102,7 @@ export class CountrySelectBox extends React.Component {
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed">
-                        {this.state.fixedInput}
+                        {this.state.fixedInput ? this.state.fixedInput : "(None)"}
                     </div>
                     <input type="hidden"
                       name={this.props.postKey.toStringKey()}

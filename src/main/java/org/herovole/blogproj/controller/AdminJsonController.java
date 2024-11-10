@@ -30,6 +30,7 @@ public class AdminJsonController {
 
     @PostMapping("/countryselectbox")
     public List<String> countrySelectBox(@RequestBody Map<String, String> request) {
+        System.out.println("endpoint : select");
         System.out.println("b/api/countryselectbox");
         List<MCountry> candidates = mCountryRepository.findForwardMatchCandidates(request.get(K_COUNTRY_SELECT_BOX_INPUT));
         return candidates.stream().map(MCountry::getNameEn).sorted().toList();
@@ -37,9 +38,21 @@ public class AdminJsonController {
 
     @PostMapping("/tags")
     public List<String> tags(@RequestBody Map<String, String> request) {
+        System.out.println("endpoint : select");
         System.out.println("b/api/tags");
         List<ATag> candidates = aTagRepository.findAllTags();
         return candidates.stream().map(ATag::toDomainObj).sorted().map(TagUnit::toJsonString).toList();
+    }
+
+    @PostMapping("/article")
+    public String article(@RequestBody Map<String, String> request) {
+        System.out.println("endpoint : upsert");
+        System.out.println("b/api/article");
+
+        for(Map.Entry<String,String> e : request.entrySet()) {
+            System.out.println(e.getKey() + " " + e.getValue());
+        }
+        return "";
     }
 
 }

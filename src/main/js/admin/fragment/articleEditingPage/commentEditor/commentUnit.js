@@ -30,7 +30,7 @@ export class CommentUnit {
         if(this.referringIds.length == 0) {
             return -1;
         }
-        return Math.max(this.referringIds);
+        return Math.max(...this.referringIds);
     }
 
     applyDepth(depth) {

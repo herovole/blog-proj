@@ -14,19 +14,38 @@ export class CommentEditor extends React.Component {
     componentDidMount() { }
 
     render() {
-            var htmlTags = [<div name={this.props.postKey.toStringKey()}></div>];
-            var commentUnitList = this.props.content.sort();
-            var elementNumber = 0;
-            if(this.props.content) {
-                elementNumber = commentUnitList.getElementNumber();
-                for(var i = 0; i < elementNumber; i++) {
-                    htmlTags.push(<CommentEditorUnit postKey={this.props.postKey.append(i.toString())}
-                        content={commentUnitList.getCommentUnit(i)} />);
-                }
-            }
-            htmlTags.push(<CommentEditorUnit postKey={this.props.postKey.append(elementNumber.toString())}
-                content="" />);
-            return htmlTags;
+        var commentUnitList = this.props.content ? this.props.content.sort() : [];
+        var elementNumber = commentUnitList.getElementNumber();
+
+        return (
+            <div>
+                <div name={this.props.postKey.toStringKey()}>
+
+                    {/* Step 2: Render each comment unit */}
+
+                    {commentUnitList.arrayListOfComments.map((commentUnit, i) => {
+                        var depth = commentUnit.depth;
+                        return (
+                            <div key={i} className="flex-container">
+                                {[...Array(depth)].map((_, j) => (
+                                    <span key={j} className="left-space" />
+                                ))}
+                                <CommentEditorUnit
+                                  postKey={this.props.postKey.append(i.toString())}
+                                  content={commentUnit}
+                                />
+                            </div>
+                        );
+                    })}
+
+                    {/* Step 3: Render an empty CommentEditorUnit at the end */}
+                    <CommentEditorUnit
+                      postKey={this.props.postKey.append(elementNumber.toString())}
+                      content=""
+                    />
+                </div>
+            </div>
+        );
     }
 }
 
