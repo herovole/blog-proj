@@ -37,7 +37,7 @@ export class CommentEditorUnit extends React.Component {
                     </div>
                     <div class="flex-container">
                         <p class="item-title">Referring Ids</p>
-                        <TextEditingForm type="id" postKey={this.props.postKey.append("referringId")}>
+                        <TextEditingForm type="id" postKey={this.props.postKey.append("referringCommentIds")}>
                             {JSON.stringify(this.props.content.referringIds)}
                         </TextEditingForm>
                     </div>

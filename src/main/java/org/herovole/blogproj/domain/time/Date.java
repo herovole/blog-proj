@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
@@ -21,7 +22,14 @@ public class Date {
     private static final String DOT = ".";
     private static final String HYPHEN = "-";
 
+    private static final String API_KEY_ARTICLE_DATE = "date";
+
     private static final DateTimeFormatter FROM_LOCAL_DATE_TO_YYYYMMDD = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+    public static Date fromPostContentArticleDate(PostContent postContent) {
+        PostContent child = postContent.getChildren(API_KEY_ARTICLE_DATE);
+        return valueOf(child.getValue());
+    }
 
     public static Date valueOf(String field) {
         return new Date(field);

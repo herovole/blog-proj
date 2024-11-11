@@ -1,5 +1,6 @@
 package org.herovole.blogproj.controller;
 
+import com.google.gson.Gson;
 import org.herovole.blogproj.domain.tag.TagUnit;
 import org.herovole.blogproj.entrypoint.property.LocalProperty;
 import org.herovole.blogproj.infra.jpa.entity.ATag;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +51,11 @@ public class AdminJsonController {
         System.out.println("endpoint : upsert");
         System.out.println("b/api/article");
 
-        for(Map.Entry<String,String> e : request.entrySet()) {
+        String jsonString = request.get("input");
+
+        HashMap<String, String> map = new Gson().fromJson(jsonString, HashMap.class);
+
+        for(Map.Entry<String,String> e : map.entrySet()) {
             System.out.println(e.getKey() + " " + e.getValue());
         }
         return "";

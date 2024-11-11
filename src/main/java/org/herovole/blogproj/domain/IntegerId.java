@@ -9,8 +9,22 @@ import lombok.RequiredArgsConstructor;
 public class IntegerId implements Comparable<IntegerId> {
 
     private static final String EMPTY = "-";
+    private static final String API_KEY_ARTICLE_ID = "id";
+    private static final String API_KEY_COMMENT_ID = "commentId";
 
-    public static IntegerId valueOf(long field) {
+    public static IntegerId fromPostContentArticleId(PostContent postContent) {
+        PostContent child = postContent.getChildren(API_KEY_ARTICLE_ID);
+        return valueOf(child.getValue());
+    }
+
+    public static IntegerId fromPostContentCommentId(PostContent postContent) {
+        PostContent child = postContent.getChildren(API_KEY_COMMENT_ID);
+        return valueOf(child.getValue());
+    }
+
+    public static IntegerId valueOf(Long field) {
+        if (null == field) return empty();
+        if (field < 0) throw new DomainUnexpectedArgumentException();
         return new IntegerId(field);
     }
 

@@ -58,7 +58,7 @@ export class ArticleEditingPageBody extends React.Component {
                             <div class="flex-container">
                                 <p class="item-title">Published?</p>
                                 <BooleanSelectingForm
-                                    postKey = {this.props.postKey.append("publish")}>
+                                    postKey = {this.props.postKey.append("isPublished")}>
                                     {this.props.content.isPublished}
                                 </BooleanSelectingForm>
                             </div>
@@ -87,7 +87,7 @@ export class ArticleEditingPageBody extends React.Component {
                             <div>
                                 <p class="item-title-large">Original Comments</p>
                                 <CommentEditor
-                                    postKey = {this.props.postKey.append("commentEditor")}
+                                    postKey = {this.props.postKey.append("originalComments")}
                                     content = {this.props.content.originalComments}
                                     />
                             </div>

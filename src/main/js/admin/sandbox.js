@@ -152,7 +152,7 @@ export const Sandbox = () =>{
         <div>
             test6:
             <ArticleEditingPageBody
-                postKey={postKey.append("aep")}
+                postKey={postKey.append("articleEditingPage")}
                 content={testArticle}
                 />
         </div>
