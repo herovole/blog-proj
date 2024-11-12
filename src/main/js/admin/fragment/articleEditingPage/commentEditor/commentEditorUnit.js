@@ -9,6 +9,7 @@ export class CommentEditorUnit extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : CommentUnitList
+            this.props.countryTagOptions : TagUnitList
         };
     }
 
@@ -25,9 +26,11 @@ export class CommentEditorUnit extends React.Component {
                     </div>
                     <div class="flex-container">
                         <p class="item-title">Country</p>
-                        <CountrySelectBox postKey={this.props.postKey.append("country")}>
-                            {this.props.content.country}
-                        </CountrySelectBox>
+                        <TagSelectingForm
+                          postKey={this.props.postKey.append("country")}>
+                          candidates={this.props.countryTagsOptions ? this.props.countryTagsOptions : new TagUnitList()}
+                          selectedTagIds={this.props.content.country}
+                        />
                     </div>
                     <div class="flex-container">
                         <p class="item-title">is Hidden</p>

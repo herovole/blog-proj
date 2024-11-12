@@ -21,7 +21,7 @@ spring:
         show-sql: true
   config:
     local:
-      boundary: C:/home/git/private_forecast_java
+      boundary: C:/home/git/blog-proj/app_utility
 server:
   tomcat:
     access_log_enabled: true

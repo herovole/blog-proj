@@ -103,18 +103,26 @@ var testArticle = new Article(
 
 
 export const Sandbox = () =>{
-    const [tagsOptions, setTagsOptions] = useState(null);
+    const [topicTagsOptions, setTopicTagsOptions] = useState(null);
+    const [countryTagsOptions, setCountryTagsOptions] = useState(null);
 
     var postKey = new ElementId("sandbox");
 
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
-                var response = await axios.post("/b/api/tags", {});
-                console.log("response data /" + response.data);
-                var tagUnitList = TagUnitList.fromJsonStringList(response.data);
-                console.log("tagsOptions / " + tagUnitList);
-                setTagsOptions(tagUnitList);
+                const topicResponse = await axios.post("/b/api/tags", {});
+                console.log("response data /" + topicResponse.data);
+                const topicUnitList = TagUnitList.fromJsonStringList(topicResponse.data);
+                console.log("topicOptions / " + topicUnitList);
+                setTopicTagsOptions(topicUnitList);
+
+                const countryResponse = await axios.post("b/api/countries", {})
+                console.log("response data /" + countryResponse.data);
+                const countryUnitList = TagUnitList.fromJsonStringList(countryResponse.data);
+                console.log("countryOptions / " + countryUnitList);
+                setCountryTagsOptions(countryUnitList);
+
             } catch (error) {
                 console.error("error : tagSelectingForm", error);
             }
@@ -154,6 +162,8 @@ export const Sandbox = () =>{
             <ArticleEditingPageBody
                 postKey={postKey.append("articleEditingPage")}
                 content={testArticle}
+                topicTagOptions={topicTagsOptions}
+                countryTagOptions={countryTagsOptions}
                 />
         </div>
     </div>

@@ -7,11 +7,11 @@ import org.herovole.blogproj.domain.DomainUnexpectedArgumentException;
 import java.io.File;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class LocalFile {
+public class LocalDirectory {
 
-    static LocalFile of(File file) {
-        if (file.exists() && file.isDirectory()) throw new DomainUnexpectedArgumentException();
-        return new LocalFile(file);
+    static LocalDirectory of(File file) {
+        if (file.exists() && !file.isDirectory()) throw new DomainUnexpectedArgumentException();
+        return new LocalDirectory(file);
     }
 
     private final File file;

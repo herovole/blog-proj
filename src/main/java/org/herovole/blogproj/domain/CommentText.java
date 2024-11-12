@@ -27,7 +27,7 @@ public class CommentText {
     private final String text;
 
     public boolean isEmpty() {
-        return null == text || "".equals(text);
+        return null == text || text.isEmpty();
     }
 
     public String letterSignature() {

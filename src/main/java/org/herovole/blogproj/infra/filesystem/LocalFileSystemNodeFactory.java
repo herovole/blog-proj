@@ -45,9 +45,7 @@ public class LocalFileSystemNodeFactory {
     }
 
     public LocalFile declareLocalFile(AccessKey accessKey) throws IOException {
-        if (accessKey.isEmpty()) {
-            throw new HazardousFileSystemNodeException();
-        }
+        if (accessKey.isEmpty()) throw new HazardousFileSystemNodeException();
         this.verify(accessKey);
         return LocalFile.of(new File(accessKey.memorySignature()));
     }

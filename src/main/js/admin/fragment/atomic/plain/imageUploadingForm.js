@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import {ElementId} from '../../../../domain/elementId'
 
-export class ImageSelectingForm extends React.Component {
+export class ImageUploadingForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

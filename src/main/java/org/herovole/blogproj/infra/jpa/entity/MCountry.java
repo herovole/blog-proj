@@ -5,6 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.herovole.blogproj.domain.tag.CountryCode;
+import org.herovole.blogproj.domain.tag.CountryTagUnit;
+import org.herovole.blogproj.domain.tag.TagEnglish;
+import org.herovole.blogproj.domain.tag.TagJapanese;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -52,6 +56,14 @@ public class MCountry implements Serializable {
 
     @Column(name = "insert_timestamp")
     private LocalDateTime insertTimestamp;
+
+    public CountryTagUnit toDomainObj() {
+        return CountryTagUnit.builder()
+                .id(CountryCode.valueOf(iso2))
+                .tagJapanese(TagJapanese.valueOf(nameJa))
+                .tagEnglish(TagEnglish.valueOf(nameEn))
+                .build();
+    }
 
     @Override
     public boolean equals(Object o) {

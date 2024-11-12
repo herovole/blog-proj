@@ -13,6 +13,8 @@ export class ArticleEditingPageBody extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : Article
+            topicTagOptions : this.props.topicTagOptions,
+            countryTagOptions : this.props.countryTagOptions
         };
     }
 
@@ -21,10 +23,11 @@ export class ArticleEditingPageBody extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault(); // Prevent page reload
         var formData = new FormData(event.target);
-        var formObj = Object.fromEntries(formData.entries());
 
         try {
-            const response = await axios.post("/b/api/article", {"input" : JSON.stringify(formObj)});
+            const response = await axios.post("/b/api/article", formData, {
+                headers: { 'Content-Type': 'multipart/form-data', },
+            });
 
             const data = await response.json();
             setResponseMessage(data.message);
@@ -85,10 +88,18 @@ export class ArticleEditingPageBody extends React.Component {
                                 </TextEditingForm>
                             </div>
                             <div>
+                                <TagSelectingForm
+                                  postKey={postKey.append("topicTags")}
+                                  candidates={topicTagsOptions ? topicTagsOptions : new TagUnitList()}
+                                  selectedTagIds={selectedTags}
+                                />
+                            </div>
+                            <div>
                                 <p class="item-title-large">Original Comments</p>
                                 <CommentEditor
                                     postKey = {this.props.postKey.append("originalComments")}
                                     content = {this.props.content.originalComments}
+                                    countryTagOptions = {this.props.countryTagOptions}
                                     />
                             </div>
                         </div>

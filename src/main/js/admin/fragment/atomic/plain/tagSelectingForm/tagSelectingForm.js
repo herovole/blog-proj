@@ -9,6 +9,7 @@ export class TagSelectingForm extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.candidates, // :TagUnitList
+            //this.props.allowsMultipleOptions
             selectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
             fixedSelectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
             isBeingEdited : false
@@ -45,14 +46,14 @@ export class TagSelectingForm extends React.Component {
             return (
                 <div>
                     <Select
-                      isMulti
+                      isMulti={this.props.allowsMultipleOptions}
                       options={this.props.candidates.getTagOptionsJapanese()}
                       value={this.props.candidates.getTagOptionsJapaneseSelected(this.state.selectedTags)}
                       onChange={this.handleChange}
                       placeholder="Select or type to add tags"
                     />
                     <Select
-                      isMulti
+                      isMulti={this.props.allowsMultipleOptions}
                       options={this.props.candidates.getTagOptionsEnglish()}
                       value={this.props.candidates.getTagOptionsEnglishSelected(this.state.selectedTags)}
                       onChange={this.handleChange}
