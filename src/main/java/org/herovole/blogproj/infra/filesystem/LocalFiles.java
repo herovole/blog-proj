@@ -1,0 +1,65 @@
+package org.herovole.blogproj.infra.filesystem;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
+import org.herovole.blogproj.domain.time.Timestamp;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class LocalFiles {
+
+    public static LocalFiles of(LocalFile[] files) {
+        return new LocalFiles(files);
+    }
+
+    private final LocalFile[] files;
+
+    public LocalFiles sortByTimestampDesc() throws IOException {
+
+        final List<LocalFileWithTimestamp> localFilesWithTimestamps = new ArrayList<>();
+        for (LocalFile localFile : files) {
+            Timestamp timestamp = localFile.getLastModifiedTime();
+            localFilesWithTimestamps.add(new LocalFileWithTimestamp(localFile, timestamp));
+        }
+
+        LocalFile[] sortedFiles = localFilesWithTimestamps.stream()
+                .sorted(Comparator.reverseOrder())
+                .map(localFileWithTimestamp -> localFileWithTimestamp.file)
+                .toArray(LocalFile[]::new);
+
+        return LocalFiles.of(sortedFiles);
+    }
+
+    // a work class to avoid IOException during sort
+    @EqualsAndHashCode
+    @RequiredArgsConstructor
+    static
+    class LocalFileWithTimestamp implements Comparable<LocalFileWithTimestamp> {
+        @EqualsAndHashCode.Exclude
+        private final LocalFile file;
+        @EqualsAndHashCode.Include
+        private final Timestamp timestamp;
+
+        @Override
+        public int compareTo(LocalFileWithTimestamp o) {
+            return this.timestamp.compareTo(o.timestamp);
+        }
+
+    }
+
+    public LocalFiles get(PagingRequest pagingRequest) {
+        LocalFile[] part = Arrays.copyOfRange(this.files, (int) pagingRequest.getOffset(), (int) pagingRequest.getLastIndexZeroOrigin() + 1);
+        return LocalFiles.of(part);
+    }
+
+    public String[] getFileNames() {
+        return Arrays.stream(this.files).map(LocalFile::getName).toArray(String[]::new);
+    }
+}

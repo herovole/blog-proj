@@ -1,7 +1,6 @@
 package org.herovole.blogproj.domain.helper;
 
 
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 
 import java.util.List;

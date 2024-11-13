@@ -14,7 +14,7 @@ public interface ATagRepository extends JpaRepository<ATag, Long> {
     @Query(value = "Select * from a_tag limit 1", nativeQuery = true)
     ATag findOne();
 
-    @Query(value = "Select * from a_tag where delete_flag = 0",
+    @Query(value = "Select * from a_tag where delete_flag = 0 order by id",
             nativeQuery = true)
     List<ATag> findAllTags();
 }

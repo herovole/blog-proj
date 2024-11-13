@@ -3,7 +3,6 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

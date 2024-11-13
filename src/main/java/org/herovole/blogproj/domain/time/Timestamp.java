@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Timestamp {
+public class Timestamp implements Comparable<Timestamp> {
 
     private static final String EMPTY = "-";
     private static final ZoneOffset zoneOffsetTokyo = ZoneOffset.of("+09:00");
@@ -50,7 +50,7 @@ public class Timestamp {
     }
 
     public String letterSignatureYyyyMMddSpaceHHmmss() {
-        if(this.isEmpty()) return EMPTY;
+        if (this.isEmpty()) return EMPTY;
         LocalDateTime date = this.toLocalDateTime();
         return date.format(formatterYyyyMMddSpaceHHmmss);
     }
@@ -71,5 +71,13 @@ public class Timestamp {
     @Override
     public String toString() {
         return this.letterSignatureYyyyMMddSpaceHHmmss();
+    }
+
+    @Override
+    public int compareTo(Timestamp o) {
+        if (this.isEmpty() && o.isEmpty()) return 0;
+        if (this.isEmpty() && !o.isEmpty()) return -1;
+        if (!this.isEmpty() && o.isEmpty()) return 1;
+        return this.unix.compareTo(o.unix);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageAsMultipartFile implements Image {
 
-    public static Image fromMultipartFile(MultipartFile file) {
+    public static Image of(MultipartFile file) {
         return new ImageAsMultipartFile(file);
     }
 
@@ -15,6 +15,11 @@ public class ImageAsMultipartFile implements Image {
 
     public MultipartFile toMultipartFile() {
         return this.file;
+    }
+
+    @Override
+    public String getFileName() {
+        return this.file.getOriginalFilename();
     }
 
 }

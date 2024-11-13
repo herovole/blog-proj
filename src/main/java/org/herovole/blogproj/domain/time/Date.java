@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
 import java.time.DayOfWeek;

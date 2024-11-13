@@ -1,8 +1,6 @@
 package org.herovole.blogproj.domain.time;
 
 
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
-
 public interface DateRange {
     boolean isEmpty();
 

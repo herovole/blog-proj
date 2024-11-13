@@ -1,7 +1,6 @@
 package org.herovole.blogproj.domain.time;
 
 
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
 import java.util.ArrayList;

@@ -36,7 +36,7 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
         if (field.equalsIgnoreCase(EMPTY)) {
             return empty();
         }
-        throw new DomainUnexpectedArgumentException();
+        throw new DomainInstanceGenerationException();
     }
 
     public static GenericSwitch positive() {

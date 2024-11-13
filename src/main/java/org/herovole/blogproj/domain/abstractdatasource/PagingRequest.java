@@ -1,25 +1,31 @@
 package org.herovole.blogproj.domain.abstractdatasource;
 
 import lombok.EqualsAndHashCode;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 
 @EqualsAndHashCode
 public class PagingRequest {
+
+    public static PagingRequest of(int page, int size) {
+        return new PagingRequest(page, size);
+    }
+
     private final int page;
     private final int size;
 
-    public PagingRequest(int page, int size) throws DomainInstanceGenerationException {
+    private PagingRequest(int page, int size) {
         this.page = page;
         this.size = size;
-        if(page < 0 || size < 1) throw new DomainInstanceGenerationException();
+        if (page < 1 || size < 1) throw new DomainInstanceGenerationException();
     }
 
-    public boolean isInPreparation() {
-        return this.page == 0;
+    public int getLimit() {
+        return this.size;
     }
 
-    public int getLimit() {return this.size; }
-
-    public long getOffset() {return (long)this.size * (this.page - 1); }
+    public long getOffset() {
+        return (long) this.size * (this.page - 1);
+    }
 
     public long getLastIndexZeroOrigin() {
         return this.getOffset() + this.getLimit() - 1;
@@ -31,8 +37,8 @@ public class PagingRequest {
         return offset <= index && index < end;
     }
 
-    public PagingRequest nextPage() throws DomainInstanceGenerationException {
-        return new PagingRequest(this.page + 1, this.size);
+    public PagingRequest nextPage() {
+        return of(this.page + 1, this.size);
     }
 
 }

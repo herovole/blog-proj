@@ -24,7 +24,7 @@ public class IntegerId implements Comparable<IntegerId> {
 
     public static IntegerId valueOf(Long field) {
         if (null == field) return empty();
-        if (field < 0) throw new DomainUnexpectedArgumentException();
+        if (field < 0) throw new DomainInstanceGenerationException();
         return new IntegerId(field);
     }
 

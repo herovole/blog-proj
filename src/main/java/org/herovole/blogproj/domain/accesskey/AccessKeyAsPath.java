@@ -2,18 +2,23 @@ package org.herovole.blogproj.domain.accesskey;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.image.Image;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class PathTypeAccessKey implements AccessKey {
+public class AccessKeyAsPath implements AccessKey {
 
     private static final String NULL_EXPRESSION = "-";
 
-    public static PathTypeAccessKey valueOf(String path) {
-        return new PathTypeAccessKey(path);
+    public static AccessKeyAsPath valueOf(String path) {
+        return new AccessKeyAsPath(path);
     }
 
-    public static PathTypeAccessKey empty() {
-        return new PathTypeAccessKey(NULL_EXPRESSION);
+    public static AccessKeyAsPath nameOf(Image image) {
+        return valueOf(image.getFileName());
+    }
+
+    public static AccessKeyAsPath empty() {
+        return new AccessKeyAsPath(NULL_EXPRESSION);
     }
 
     private final String path;
@@ -25,6 +30,6 @@ public class PathTypeAccessKey implements AccessKey {
 
     @Override
     public String memorySignature() {
-        return isEmpty() ? NULL_EXPRESSION : this.path;
+        return isEmpty() ? "" : this.path;
     }
 }
