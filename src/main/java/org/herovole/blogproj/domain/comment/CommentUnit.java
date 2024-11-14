@@ -6,6 +6,7 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.tag.CountryCode;
 
 @Builder
 public class CommentUnit {
@@ -15,7 +16,7 @@ public class CommentUnit {
         return CommentUnit.builder()
                 .commentId(IntegerId.fromPostContentCommentId(postContent))
                 .commentText(CommentText.fromPostContentCommentText(postContent))
-                .country()
+                .country(CountryCode.fromPostContent(postContent))
                 .isHidden(GenericSwitch.fromPostContentIsHidden(postContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(postContent))
                 .build();
@@ -23,7 +24,7 @@ public class CommentUnit {
 
     private final IntegerId commentId;
     private final CommentText commentText;
-    private final IntegerId country;
+    private final CountryCode country;
     private final GenericSwitch isHidden;
     private final IntegerIds referringCommentIds;
 }

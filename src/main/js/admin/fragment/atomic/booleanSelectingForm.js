@@ -1,5 +1,5 @@
 import React from 'react';
-import {ElementId} from '../../../../domain/elementId'
+import {ElementId} from '../../../domain/elementId'
 
 export class BooleanSelectingForm extends React.Component {
     constructor(props) {

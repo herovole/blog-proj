@@ -1,6 +1,7 @@
 package org.herovole.blogproj.domain.time;
 
 
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class RealDateRange implements DateRange {
     private final Date date0;
     private final Date date1;
 
-    public RealDateRange(Date date0, Date date1) throws DomainInstanceGenerationException {
+    public RealDateRange(Date date0, Date date1)  {
         this.date0 = date0;
         this.date1 = date1;
         if (date0.isEmpty() || date1.isEmpty() || date0.postcedes(date1)) throw new DomainInstanceGenerationException();
@@ -44,7 +45,7 @@ public class RealDateRange implements DateRange {
     }
 
     @Override
-    public DateRange[] splitToIncludingWeeks() throws DomainInstanceGenerationException {
+    public DateRange[] splitToIncludingWeeks()  {
         List<DateRange> weeks = new ArrayList<>();
         for (Date aDayOfWeek = date0;
              aDayOfWeek.sundayOnSameWeek().precedes(date1.sundayOnSameWeek().shift(1));

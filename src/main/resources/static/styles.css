@@ -72,3 +72,13 @@
 .left-space {
     padding-left: 20px
 }
+
+.image-thumbnail {
+    width: 200px;
+    height: 200px;
+}
+
+.image-sample {
+    width: 600px;
+    height: 600px;
+}

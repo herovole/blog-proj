@@ -8,3 +8,5 @@ package-lock.json
 src/main/resources/static/built/
 target/
 app_utility/
+yarn.lock
+package.json

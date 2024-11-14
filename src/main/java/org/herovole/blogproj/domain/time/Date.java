@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
@@ -34,7 +35,7 @@ public class Date {
         return new Date(field);
     }
 
-    public static Date fromDottedEightDigits(String field) throws DomainInstanceGenerationException {
+    public static Date fromDottedEightDigits(String field)  {
         if (!yyyyDotMMDotDd.matcher(field).matches()) {
             throw new DomainInstanceGenerationException();
         }
@@ -126,7 +127,7 @@ public class Date {
         if(dayOfWeek == 7) return this;
         return this.shift(dayOfWeek * (-1));
     }
-    public Week inclusiveWeek() throws DomainInstanceGenerationException {
+    public Week inclusiveWeek()  {
         return new Week(this.sundayOnSameWeek());
     }
 }

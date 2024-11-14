@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import {TagUnitList} from './tagUnitList.js';
-import {ElementId} from '../../../../../domain/elementId'
+import {ElementId} from '../../../../domain/elementId'
 
 export class TagSelectingForm extends React.Component {
     constructor(props) {

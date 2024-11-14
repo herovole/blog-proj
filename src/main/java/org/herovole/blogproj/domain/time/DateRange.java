@@ -10,7 +10,7 @@ public interface DateRange {
 
     Date to();
 
-    default DateRange[] splitToIncludingWeeks() throws DomainInstanceGenerationException {
+    default DateRange[] splitToIncludingWeeks()  {
         throw new UnsupportedOperationException();
     }
 

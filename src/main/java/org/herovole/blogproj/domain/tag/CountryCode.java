@@ -4,9 +4,17 @@ package org.herovole.blogproj.domain.tag;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
+import org.herovole.blogproj.domain.PostContent;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CountryCode implements Comparable<CountryCode> {
+
+    private static String API_KEY_COUNTRY = "country";
+
+    public static CountryCode fromPostContent(PostContent postContent) {
+        PostContent child = postContent.getChildren(API_KEY_COUNTRY);
+        return valueOf(child.getValue());
+    }
 
     public static CountryCode valueOf(String code) {
         if (code == null) return empty();

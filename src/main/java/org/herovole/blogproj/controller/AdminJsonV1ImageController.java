@@ -10,11 +10,13 @@ import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.entrypoint.property.LocalProperty;
 import org.herovole.blogproj.infra.filesystem.HazardousFileSystemNodeException;
 import org.herovole.blogproj.infra.filesystem.LocalFiles;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,11 +33,12 @@ public class AdminJsonV1ImageController {
         localProperty.setUpLocalFileSystemReader();
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<String[]> getImages(
-            @RequestPart("page") int page,
-            @RequestPart("number") int number
+            @RequestParam("page") int page,
+            @RequestParam("number") int number
     ) {
+        System.out.println("endpoint : get");
         try {
             PagingRequest pagingRequest = PagingRequest.of(page, number);
             LocalFiles images = imageDatasource.searchSortedByTimestampDesc(pagingRequest);
@@ -48,7 +51,7 @@ public class AdminJsonV1ImageController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> postImages(@RequestPart("image") MultipartFile file) {
         System.out.println("endpoint : post");
         System.out.println("/api/v1/images");

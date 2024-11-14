@@ -20,9 +20,8 @@ export class ImageUploadingForm extends React.Component {
         console.log("image info : " + e.target.files);
         console.log("image info : " + e.target.files["0"]);
         console.log("image info : " + e.target.files[0]);
-        this.state.image = e.target.files[0];
         this.setState(prevState => ({
-            image : this.state.image
+            image : e.target.files[0]
         }));
     };
 

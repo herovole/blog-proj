@@ -1,7 +1,8 @@
 import React from 'react';
-import { TextEditingForm } from '../../atomic/plain/textEditingForm';
-import { BooleanSelectingForm } from '../../atomic/plain/booleanSelectingForm';
-import { CountrySelectBox } from '../../atomic/countrySelectBox';
+import { TextEditingForm } from '../../atomic/textEditingForm';
+import { BooleanSelectingForm } from '../../atomic/booleanSelectingForm';
+import { TagSelectingForm } from '../../atomic/tagSelectingForm/tagSelectingForm';
+import { TagUnitList } from '../../atomic/tagSelectingForm/tagUnitList';
 
 export class CommentEditorUnit extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export class CommentEditorUnit extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : CommentUnitList
-            this.props.countryTagOptions : TagUnitList
+            //this.props.countryTagOptions : TagUnitList
         };
     }
 
@@ -27,7 +28,7 @@ export class CommentEditorUnit extends React.Component {
                     <div class="flex-container">
                         <p class="item-title">Country</p>
                         <TagSelectingForm
-                          postKey={this.props.postKey.append("country")}>
+                          postKey={this.props.postKey.append("country")}
                           candidates={this.props.countryTagsOptions ? this.props.countryTagsOptions : new TagUnitList()}
                           selectedTagIds={this.props.content.country}
                         />

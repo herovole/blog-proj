@@ -1,13 +1,14 @@
 package org.herovole.blogproj.domain.time;
 
 
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
 public class Week implements DateRange {
     private static final String SEPARATOR = "-";
     private final Date sunday;
 
-    public Week(Date sunday) throws DomainInstanceGenerationException {
+    public Week(Date sunday)  {
         if(sunday.isSunday()) {
             this.sunday = sunday;
         } else {

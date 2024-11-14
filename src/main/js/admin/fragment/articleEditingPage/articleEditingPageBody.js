@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 
-import { TextEditingForm } from '../atomic/plain/textEditingForm';
-import { ImageSelectingForm } from '../atomic/plain/imageSelectingForm';
-import { DateSelectingForm } from '../atomic/plain/dateSelectingForm';
-import { BooleanSelectingForm } from '../atomic/plain/booleanSelectingForm';
+import { TextEditingForm } from '../atomic/textEditingForm';
+import { ImageSelectingModal } from '../image/imageSelectingModal';
+import { DateSelectingForm } from '../atomic/dateSelectingForm';
+import { BooleanSelectingForm } from '../atomic/booleanSelectingForm';
 import { CommentEditor } from './commentEditor/commentEditor';
+import { TagSelectingForm } from '../atomic/tagSelectingForm/tagSelectingForm';
+import { TagUnitList } from '../atomic/tagSelectingForm/tagUnitList';
 
 export class ArticleEditingPageBody extends React.Component {
     constructor(props) {
@@ -13,8 +15,8 @@ export class ArticleEditingPageBody extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : Article
-            topicTagOptions : this.props.topicTagOptions,
-            countryTagOptions : this.props.countryTagOptions
+            //this.props.topicTagOptions, : TagUnitList
+            //this.props.countryTagOptions : TagUnitList
         };
     }
 
@@ -74,11 +76,11 @@ export class ArticleEditingPageBody extends React.Component {
                                 </TextEditingForm>
                             </div>
                             <div>
-                                <p class="item-title">Article Image</p>
-                                <ImageSelectingForm
-                                    postKey = {this.props.postKey.append("img")}>
-                                    {this.props.content.image}
-                                </ImageSelectingForm>
+                                <TagSelectingForm
+                                  postKey={this.props.postKey.append("country")}
+                                  candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
+                                  selectedTagIds={[]}
+                                />
                             </div>
                             <div>
                                 <p class="item-title">Article Text</p>
@@ -89,9 +91,9 @@ export class ArticleEditingPageBody extends React.Component {
                             </div>
                             <div>
                                 <TagSelectingForm
-                                  postKey={postKey.append("topicTags")}
-                                  candidates={topicTagsOptions ? topicTagsOptions : new TagUnitList()}
-                                  selectedTagIds={selectedTags}
+                                  postKey={this.props.postKey.append("topicTags")}
+                                  candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
+                                  selectedTagIds={[]}
                                 />
                             </div>
                             <div>

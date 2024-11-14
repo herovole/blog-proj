@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CountrySelectBox } from './fragment/atomic/countrySelectBox';
 import { BasicClass } from './basicclass';
-import { DateSelectingForm } from './fragment/atomic/plain/dateSelectingForm';
-import { TagSelectingForm } from './fragment/atomic/plain/tagSelectingForm/tagSelectingForm';
-import { TagUnitList } from './fragment/atomic/plain/tagSelectingForm/tagUnitList';
-import { ImageSelectingForm } from './fragment/atomic/plain/imageSelectingForm';
+import { DateSelectingForm } from './fragment/atomic/dateSelectingForm';
+import { TagSelectingForm } from './fragment/atomic/tagSelectingForm/tagSelectingForm';
+import { TagUnitList } from './fragment/atomic/tagSelectingForm/tagUnitList';
 import { ArticleEditingPageBody } from './fragment/articleEditingPage/articleEditingPageBody';
 import { ElementId } from '../domain/elementId';
 import { CommentUnit } from './fragment/articleEditingPage/commentEditor/commentUnit';
 import { CommentUnitList } from './fragment/articleEditingPage/commentEditor/commentUnitList';
 import { Article } from './fragment/articleEditingPage/article';
+import { ImageSelectingModal } from './fragment/image/imageSelectingModal';
 
 console.log("sandbox.js");
 
@@ -111,13 +110,13 @@ export const Sandbox = () =>{
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
-                const topicResponse = await axios.post("/b/api/tags", {});
+                const topicResponse = await axios.get("/api/v1/topicTags", {});
                 console.log("response data /" + topicResponse.data);
                 const topicUnitList = TagUnitList.fromJsonStringList(topicResponse.data);
                 console.log("topicOptions / " + topicUnitList);
                 setTopicTagsOptions(topicUnitList);
 
-                const countryResponse = await axios.post("b/api/countries", {})
+                const countryResponse = await axios.get("/api/v1/countries", {})
                 console.log("response data /" + countryResponse.data);
                 const countryUnitList = TagUnitList.fromJsonStringList(countryResponse.data);
                 console.log("countryOptions / " + countryUnitList);
@@ -134,8 +133,11 @@ export const Sandbox = () =>{
 
     return <div>
         <div>
-            test1:
-            <CountrySelectBox postKey={postKey.append("csb")}>United Kingdom</CountrySelectBox>
+            test1: imageSelectingModal
+            <ImageSelectingModal/>
+        </div>
+        <div>
+            test2: (none)
         </div>
         <div>
             test3:
@@ -147,15 +149,13 @@ export const Sandbox = () =>{
             test4:
             <TagSelectingForm
               postKey={postKey.append("tsf")}
-              candidates={tagsOptions ? tagsOptions : new TagUnitList()}
+              candidates={countryTagsOptions ? countryTagsOptions : new TagUnitList()}
               selectedTagIds={selectedTags}
             />
         </div>
         <div>
-            test5:
-            <ImageSelectingForm
-              postKey={postKey.append("isf")}
-            />
+            test5: (none)
+
         </div>
         <div>
             test6:
@@ -166,6 +166,7 @@ export const Sandbox = () =>{
                 countryTagOptions={countryTagsOptions}
                 />
         </div>
+
     </div>
 
 }
