@@ -33,7 +33,10 @@ export class TagSelectingForm extends React.Component {
     }
 
     handleChange = (theSelectedTags) => {
-        var ids = theSelectedTags.map(e => parseInt(e.value,10));
+        console.log("selected handleChange : " + JSON.stringify(theSelectedTags));
+
+        const thoseSelectedTags = this.props.allowsMultipleOptions ? theSelectedTags : [theSelectedTags];
+        const ids = thoseSelectedTags.map(e => e.value);
         this.setState(prevState => ({
             selectedTags: ids
         }));
@@ -75,8 +78,9 @@ export class TagSelectingForm extends React.Component {
             );
         } else {
             console.log("render-passive:" + JSON.stringify(this.props.candidates.getTagOptionsJapanese()));
-            var tagsInJapanese = this.props.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
-            var tagsInEnglish = this.props.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            const tagsInJapanese = this.props.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            const tagsInEnglish = this.props.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
+            const fixedSelectedTags = Array.isArray(this.state.fixedSelectedTags) ? this.state.fixedSelectedTags : [];
             return (
                 <div onClick={this.switchMode} >
                     <div class="editable-text-fixed">
@@ -85,9 +89,11 @@ export class TagSelectingForm extends React.Component {
                     <div class="editable-text-fixed">
                         {tagsInEnglish}
                     </div>
-                    <input type="hidden"
-                      name={this.props.postKey.toStringKey()}
-                      value={JSON.stringify(this.state.fixedSelectedTags)} />
+                    {fixedSelectedTags.map((v, i) => (
+                        <input type="hidden"
+                          name={this.props.postKey.append(i).toStringKey()}
+                          value={v} />
+                    ))}
                 </div>
             );
         }

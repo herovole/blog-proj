@@ -27,7 +27,7 @@ export class ArticleEditingPageBody extends React.Component {
         var formData = new FormData(event.target);
 
         try {
-            const response = await axios.post("/b/api/article", formData, {
+            const response = await axios.post("/api/v1/article", formData, {
                 headers: { 'Content-Type': 'multipart/form-data', },
             });
 
@@ -91,6 +91,7 @@ export class ArticleEditingPageBody extends React.Component {
                             </div>
                             <div>
                                 <TagSelectingForm
+                                  allowsMultipleOptions={true}
                                   postKey={this.props.postKey.append("topicTags")}
                                   candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
                                   selectedTagIds={[]}

@@ -26,56 +26,56 @@ console.log(another.toStringKey());
 var comment1 = new CommentUnit(
     1,
     "This is comment1.",
-    "United States",
+    "us",
     false,
     []
 );
 var comment2 = new CommentUnit(
     2,
     "This is comment2.",
-    "United States",
+    "us",
     false,
     []
 );
 var comment3 = new CommentUnit(
     3,
     "This is comment3.",
-    "United States",
+    "us",
     false,
     []
 );
 var comment4 = new CommentUnit(
     4,
     "This is comment4.",
-    "United States",
+    "us",
     false,
     [1]
 );
 var comment5 = new CommentUnit(
     5,
     "This is comment5.",
-    "United States",
+    "us",
     false,
     [4]
 );
 var comment6 = new CommentUnit(
     6,
     "This is comment6.",
-    "United States",
+    "us",
     false,
     [2,3]
 );
 var comment7 = new CommentUnit(
     7,
     "This is comment6.",
-    "United States",
+    "us",
     false,
     []
 );
 var comment8 = new CommentUnit(
     8,
     "This is comment8.",
-    "United States",
+    "us",
     false,
     [4]
 );
@@ -129,7 +129,7 @@ export const Sandbox = () =>{
         fetchTagsOptions();
     }, []);
 
-    var selectedTags = [1,4];
+    var selectedTags = ["af"];
 
     return <div>
         <div>

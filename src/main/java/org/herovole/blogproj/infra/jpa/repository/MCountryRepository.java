@@ -14,7 +14,7 @@ public interface MCountryRepository extends JpaRepository<MCountry, Long> {
     @Query(value = "Select * from m_country limit 1", nativeQuery = true)
     MCountry findOne();
 
-    @Query(value = "Select * from m_country where delete_flag = 0 order by iso_2",
+    @Query(value = "Select * from m_country order by iso_2",
             nativeQuery = true)
     List<MCountry> findAll();
 
