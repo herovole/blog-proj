@@ -1,5 +1,6 @@
 package org.herovole.blogproj.infra.image;
 
+import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.image.Image;
@@ -11,9 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public class ImageDatasourceLocalFile implements ImageDatasource {
+@RequiredArgsConstructor
+public class ImageDatasourceLocalFs implements ImageDatasource {
 
-    private static LocalDirectory parentDirectory;
+    private final LocalDirectory parentDirectory;
 
     @Override
     public void persist(AccessKey key, Image image) throws IOException {

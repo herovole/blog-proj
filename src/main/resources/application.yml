@@ -20,6 +20,7 @@ spring:
   config:
     local:
       boundary: C:/home/git/blog-proj/app_utility
+      images: C:/home/git/blog-proj/app_utility/images
 server:
   tomcat:
     access_log_enabled: true

@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class LocalDirectory {
 
-    static LocalDirectory of(Path path) throws IOException {
+    public static LocalDirectory of(AccessKey accessKey) throws IOException {
+        Path path = LocalFileSystem.getInstance().declareAbsoluteNode(accessKey);
         if (Files.exists(path) && !Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS))
             throw new IOException(path + "is not a directory");
         return new LocalDirectory(path);

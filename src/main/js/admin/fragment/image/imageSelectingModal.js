@@ -77,14 +77,10 @@ export class ImageSelectingModal extends React.Component {
         console.log(ImageSelectingModal.GET_PARAM_PAGE + "/" + ImageSelectingModal.GET_PARAM_NUMBER);
 
         try {
-            const response = await axios.get("/api/v1/images", params);
-            const fileNames = response.data;
+            const response = await axios.get("/api/v1/images", {params : params});
             this.setState(prevState => ({
-                fileNames : fileNames
+                fileNames : response.data
             }))
-            for(e in fileNames) {
-                console.log(e);
-            }
         } catch (error) {
             console.error('Error submitting form:', error);
             this.setState(prevState => ({
@@ -98,12 +94,13 @@ export class ImageSelectingModal extends React.Component {
             selectedImage : fileName
         }))
         this.closeModal();
+        this.reload();
     }
 
     render() {
         return (
             <div>
-                <img class="image-sample" src={ImageSelectingModal.LOCAL_DIR + this.selectedImage} />
+                <img class="image-sample" src={ImageSelectingModal.LOCAL_DIR + this.state.selectedImage} />
                 <button type="button" onClick={this.openModal}>Open List</button>
                 <Modal
                   isOpen={this.state.isOpen}
@@ -116,10 +113,10 @@ export class ImageSelectingModal extends React.Component {
                     <button type="button" onClick={this.nextPage}>Next</button>
                     <button onClick={this.closeModal}>close</button>
                     <div class="grid-container">
-                        {this.state.fileNames.map((_, name) => (
+                        {this.state.fileNames.map((name, i) => (
                             <div>
                                 <img class="image-thumbnail" src={ImageSelectingModal.LOCAL_DIR + name} />
-                                <button type="button" onClick={this.selectImage(name)}>Select</button>
+                                <button type="button" onClick={() => this.selectImage(name)}>Select</button>
                             </div>
                         ))}
                     </div>

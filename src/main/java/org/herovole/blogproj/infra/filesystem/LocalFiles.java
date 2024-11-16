@@ -55,11 +55,18 @@ public class LocalFiles {
     }
 
     public LocalFiles get(PagingRequest pagingRequest) {
-        LocalFile[] part = Arrays.copyOfRange(this.files, (int) pagingRequest.getOffset(), (int) pagingRequest.getLastIndexZeroOrigin() + 1);
+        LocalFile[] part = Arrays.copyOfRange(this.files,
+                (int) pagingRequest.getOffset(),
+                Math.min((int) pagingRequest.getLastIndexZeroOrigin() + 1, this.files.length)
+        );
         return LocalFiles.of(part);
     }
 
     public String[] getFileNames() {
+        System.out.println("number of files found " + this.files.length);
+        for (LocalFile f : this.files) {
+            System.out.println(f.getName());
+        }
         return Arrays.stream(this.files).map(LocalFile::getName).toArray(String[]::new);
     }
 }

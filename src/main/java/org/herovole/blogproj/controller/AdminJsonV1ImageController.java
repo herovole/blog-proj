@@ -8,9 +8,7 @@ import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageAsMultipartFile;
 import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.entrypoint.property.LocalProperty;
-import org.herovole.blogproj.infra.filesystem.HazardousFileSystemNodeException;
 import org.herovole.blogproj.infra.filesystem.LocalFiles;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +25,11 @@ import java.io.IOException;
 @RequestMapping("/api/v1/images")
 public class AdminJsonV1ImageController {
 
-    private ImageDatasource imageDatasource;
+    private final ImageDatasource imageDatasource;
 
-    public AdminJsonV1ImageController(LocalProperty localProperty) throws HazardousFileSystemNodeException {
+    public AdminJsonV1ImageController(LocalProperty localProperty) throws IOException {
         localProperty.setUpLocalFileSystemReader();
+        this.imageDatasource = localProperty.buildImageDatasourceLocalFs();
     }
 
     @GetMapping
