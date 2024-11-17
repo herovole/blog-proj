@@ -8,6 +8,7 @@ export class CommentEditor extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : CommentUnitList
+            //this.props.countryTagOptions : TagUnitList
         };
     }
 
@@ -32,6 +33,7 @@ export class CommentEditor extends React.Component {
                                 ))}
                                 <CommentEditorUnit
                                   postKey={this.props.postKey.append(i.toString())}
+                                  countryTagOptions={this.props.countryTagOptions}
                                   content={commentUnit}
                                 />
                             </div>

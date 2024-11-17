@@ -3,9 +3,11 @@ package org.herovole.blogproj.domain;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.Arrays;
 
+@ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IntegerIds {
@@ -14,16 +16,23 @@ public class IntegerIds {
     private static final String SEP = ",";
     private static final String API_KEY_EDITORS = "editors";
     private static final String API_KEY_REFERRING_COMMENT_IDS = "referringCommentIds";
+    private static final String API_KEY_TOPIC_TAGS = "topicTags";
+
+
+    public static IntegerIds fromPostContentTopicTags(PostContent postContent) {
+        return fromPostContent(postContent, API_KEY_TOPIC_TAGS);
+    }
 
     public static IntegerIds fromPostContentEditors(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_EDITORS);
-        PostContents arrayChildren = child.getInArray();
-        IntegerId[] ids = arrayChildren.stream().map(p -> IntegerId.valueOf(p.getValue())).toArray(IntegerId[]::new);
-        return of(ids);
+        return fromPostContent(postContent, API_KEY_EDITORS);
     }
 
     public static IntegerIds fromPostContentReferringCommentIds(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_REFERRING_COMMENT_IDS);
+        return fromPostContent(postContent, API_KEY_REFERRING_COMMENT_IDS);
+    }
+
+    private static IntegerIds fromPostContent(PostContent postContent, String apiKey) {
+        PostContent child = postContent.getChildren(apiKey);
         PostContents arrayChildren = child.getInArray();
         IntegerId[] ids = arrayChildren.stream().map(p -> IntegerId.valueOf(p.getValue())).toArray(IntegerId[]::new);
         return of(ids);

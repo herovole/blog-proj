@@ -1,6 +1,8 @@
 package org.herovole.blogproj.controller;
 
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
+import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.article.ArticleEditingPage;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.TagUnit;
 import org.herovole.blogproj.infra.jpa.entity.ATag;
@@ -73,6 +75,10 @@ public class AdminJsonV1Controller {
         for (Map.Entry<String, String> e : request.entrySet()) {
             System.out.println(e.getKey() + " " + e.getValue());
         }
+
+        PostContent postContent = PostContent.of(request);
+        ArticleEditingPage userInput = ArticleEditingPage.fromPost(postContent);
+        System.out.println(userInput);
         return "";
     }
 

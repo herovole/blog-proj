@@ -2,9 +2,11 @@ package org.herovole.blogproj.domain.comment;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.PostContents;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentUnits {
 

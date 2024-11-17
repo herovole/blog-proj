@@ -27,7 +27,7 @@ export class ImageSelectingModal extends React.Component {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            image : null,
+            image : this.props.imageName ? this.props.imageName : null,
             isOpen : false,
 
             page : 1,

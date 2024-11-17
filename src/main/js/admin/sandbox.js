@@ -67,7 +67,7 @@ var comment6 = new CommentUnit(
 );
 var comment7 = new CommentUnit(
     7,
-    "This is comment6.",
+    "This is comment7.",
     "us",
     false,
     []
@@ -105,8 +105,6 @@ export const Sandbox = () =>{
     const [topicTagsOptions, setTopicTagsOptions] = useState(null);
     const [countryTagsOptions, setCountryTagsOptions] = useState(null);
 
-    var postKey = new ElementId("sandbox");
-
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
@@ -142,13 +140,13 @@ export const Sandbox = () =>{
         <div>
             test3:
             <DateSelectingForm
-              postKey={postKey.append("dsf")}
+              postKey={new ElementId("dsf")}
             />
         </div>
         <div>
             test4:
             <TagSelectingForm
-              postKey={postKey.append("tsf")}
+              postKey={new ElementId("tsf")}
               candidates={countryTagsOptions ? countryTagsOptions : new TagUnitList()}
               selectedTagIds={selectedTags}
             />
@@ -160,7 +158,7 @@ export const Sandbox = () =>{
         <div>
             test6:
             <ArticleEditingPageBody
-                postKey={postKey.append("articleEditingPage")}
+                postKey={new ElementId("articleEditingPage")}
                 content={testArticle}
                 topicTagOptions={topicTagsOptions}
                 countryTagOptions={countryTagsOptions}

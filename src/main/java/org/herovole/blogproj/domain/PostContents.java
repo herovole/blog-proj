@@ -18,4 +18,5 @@ public class PostContents {
     public Stream<PostContent> stream() {
         return Arrays.stream(this.contents);
     }
+
 }

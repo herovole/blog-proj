@@ -52,6 +52,11 @@ public class PostContent {
     public PostContents getInArray() {
         PostContent[] hashes = new PostContent[this.getLength()];
         for (Map.Entry<String[], String> e : this.hash.entrySet()) {
+            for (String key : e.getKey()) {
+                System.out.print(key + " ");
+            }
+            System.out.println(":" + e.getValue());
+            if (e.getKey().length == 0) continue;
             String strIndex = e.getKey()[0];
             int index = Integer.parseInt(strIndex);
             hashes[index] = this.getChildren(strIndex);

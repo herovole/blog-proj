@@ -10,8 +10,9 @@ export class TagSelectingForm extends React.Component {
             //this.props.postKey : form component name
             //this.props.candidates, // :TagUnitList
             //this.props.allowsMultipleOptions
-            selectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
-            fixedSelectedTags : this.props.selectedTagIds ? this.props.selectedTagIds : [],
+            //this.props.isFixed
+            selectedTags : this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
+            fixedSelectedTags : this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
             isBeingEdited : false
         };
         console.log("state / " + this.props.candidates);
@@ -19,9 +20,10 @@ export class TagSelectingForm extends React.Component {
 
     componentDidMount() { }
 
-    switchMode = () => {
+    edit = () => {
+        if(this.props.isFixed) return;
         this.setState(prevState => ({
-            isBeingEdited: !prevState.isBeingEdited
+            isBeingEdited: true
         }));
     }
 
@@ -80,16 +82,15 @@ export class TagSelectingForm extends React.Component {
             console.log("render-passive:" + JSON.stringify(this.props.candidates.getTagOptionsJapanese()));
             const tagsInJapanese = this.props.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
             const tagsInEnglish = this.props.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
-            const fixedSelectedTags = Array.isArray(this.state.fixedSelectedTags) ? this.state.fixedSelectedTags : [];
             return (
-                <div onClick={this.switchMode} >
+                <div onClick={this.edit} >
                     <div class="editable-text-fixed">
-                        {tagsInJapanese}
+                        {tagsInJapanese ? tagsInJapanese : "(None)"}
                     </div>
                     <div class="editable-text-fixed">
-                        {tagsInEnglish}
+                        {tagsInEnglish ? tagsInEnglish : "(None)"}
                     </div>
-                    {fixedSelectedTags.map((v, i) => (
+                    {this.state.fixedSelectedTags.map((v, i) => (
                         <input type="hidden"
                           name={this.props.postKey.append(i).toStringKey()}
                           value={v} />

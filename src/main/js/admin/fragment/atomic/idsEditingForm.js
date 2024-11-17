@@ -1,53 +1,55 @@
 import React from 'react';
 import {ElementId} from '../../../domain/elementId'
 
-export class TextEditingForm extends React.Component {
+export class IdsEditingForm extends React.Component {
+
+    static SPLITTER = ",";
+
     constructor(props) {
         super(props);
         this.state = {
             //this.props.postKey : form component name
             //this.props.isFixed : forbidden to edit
-            text : this.props.children ? this.props.children : "",
-            fixedText : this.props.children ? this.props.children : "",
-            isHidden : this.props.isHidden ? true : false,
+            ids : this.props.ids ? Array.isArray(this.props.ids) ? this.props.ids : [this.props.ids] : [],
+            fixedIds : this.props.ids ? Array.isArray(this.props.ids) ? this.props.ids : [this.props.ids] : [],
             isBeingEdited : false,
         };
     }
 
     componentDidMount() { }
 
+
     handleChange = (e) => {
-        var currentText = e.target.value;
+        const currentText = e.target.value;
         this.setState(prevState => ({
-            text: currentText
+            ids : currentText.split(IdsEditingForm.SPLITTER)
         }));
     }
 
     edit = () => {
         this.setState(prevState => ({
-            isBeingEdited: false && !this.props.isFixed
+            isBeingEdited: true && !this.props.isFixed
         }));
     }
 
     fix = () => {
         this.setState(prevState => ({
-            fixedText: this.state.text,
+            fixedIds : this.state.ids,
             isBeingEdited: false
         }));
     }
 
     render() {
         if(this.state.isBeingEdited) {
-
             return (
                 <div>
-                    <textarea
+                    <input
                       class="editable-text-activated scale-large-flexible"
+                      pattern="^[0-9,]*$"
+                      placeholder="comma separated integer ids"
+                      value={this.state.ids.join(IdsEditingForm.SPLITTER)}
                       onChange={this.handleChange}
-                      placeholder="Type here..."
-                    >
-                        {this.state.text}
-                    </textarea>
+                    />
                     <button
                       type="button"
                       onClick={this.fix}
@@ -66,11 +68,13 @@ export class TextEditingForm extends React.Component {
             return (
                 <div onClick={this.edit} >
                     <div class="editable-text-fixed scale-large">
-                        {this.state.fixedText ? this.state.fixedText : "(No Text)"}
+                        {this.state.fixedIds.length > 0 ? this.state.fixedIds.join(IdsEditingForm.SPLITTER) : "(No IDs)"}
                     </div>
-                    <input type="hidden"
-                      name={this.props.postKey.toStringKey()}
-                      value={this.state.fixedText} />
+                    {this.state.fixedIds.map((v, i) => (
+                        <input type="hidden"
+                          name={this.props.postKey.append(i).toStringKey()}
+                          value={v} />
+                    ))}
                 </div>
             );
         }

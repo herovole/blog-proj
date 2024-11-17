@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
 
+@ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Date {
@@ -35,7 +37,7 @@ public class Date {
         return new Date(field);
     }
 
-    public static Date fromDottedEightDigits(String field)  {
+    public static Date fromDottedEightDigits(String field) {
         if (!yyyyDotMMDotDd.matcher(field).matches()) {
             throw new DomainInstanceGenerationException();
         }
@@ -124,10 +126,11 @@ public class Date {
 
     public Date sundayOnSameWeek() {
         int dayOfWeek = this.toLocalDate().getDayOfWeek().getValue();
-        if(dayOfWeek == 7) return this;
+        if (dayOfWeek == 7) return this;
         return this.shift(dayOfWeek * (-1));
     }
-    public Week inclusiveWeek()  {
+
+    public Week inclusiveWeek() {
         return new Week(this.sundayOnSameWeek());
     }
 }

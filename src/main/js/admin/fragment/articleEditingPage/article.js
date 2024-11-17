@@ -2,7 +2,7 @@
 export class Article {
 
     static API_KEY_ID = "articleId";
-    static API_KEY_IMAGE = "image";
+    static API_KEY_IMAGE = "imageName";
     static API_KEY_TEXT = "text";
     static API_KEY_DATE = "date";
     static API_KEY_IS_PUBLISHED = "isPublished";
@@ -26,13 +26,13 @@ export class Article {
 
     constructor(
         articleId,
-        image, text, date, isPublished,
+        imageName, text, date, isPublished,
         editors=[],
         originalComments = new CommentUnitList(),
         userComments = new CommentUnitList()
     ) {
         this.articleId = articleId;
-        this.image = image;
+        this.imageName = imageName;
         this.text = text;
         this.date = date;
         this.isPublished = isPublished;

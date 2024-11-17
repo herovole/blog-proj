@@ -1,4 +1,5 @@
 import React from 'react';
+import { IdsEditingForm } from '../../atomic/idsEditingForm';
 import { TextEditingForm } from '../../atomic/textEditingForm';
 import { BooleanSelectingForm } from '../../atomic/booleanSelectingForm';
 import { TagSelectingForm } from '../../atomic/tagSelectingForm/tagSelectingForm';
@@ -21,15 +22,16 @@ export class CommentEditorUnit extends React.Component {
                 <div class="frame-unit">
                     <div class="flex-container">
                         <p class="item-title">Comment Id</p>
-                        <TextEditingForm type="id" postKey={this.props.postKey.append("commentId")}>
-                            {this.props.content.commentId}
-                        </TextEditingForm>
+                        <IdsEditingForm
+                          postKey={this.props.postKey.append("commentId")}
+                          ids={this.props.content.commentId}
+                        />
                     </div>
                     <div class="flex-container">
                         <p class="item-title">Country</p>
                         <TagSelectingForm
                           postKey={this.props.postKey.append("country")}
-                          candidates={this.props.countryTagsOptions ? this.props.countryTagsOptions : new TagUnitList()}
+                          candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
                           selectedTagIds={this.props.content.country}
                         />
                     </div>
@@ -41,9 +43,10 @@ export class CommentEditorUnit extends React.Component {
                     </div>
                     <div class="flex-container">
                         <p class="item-title">Referring Ids</p>
-                        <TextEditingForm type="id" postKey={this.props.postKey.append("referringCommentIds")}>
-                            {JSON.stringify(this.props.content.referringIds)}
-                        </TextEditingForm>
+                        <IdsEditingForm
+                          postKey={this.props.postKey.append("referringCommentIds")}
+                          ids={this.props.content.referringIds}
+                        />
                     </div>
                     <div>
                         <p class="item-title">Text</p>

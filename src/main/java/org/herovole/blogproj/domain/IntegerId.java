@@ -3,7 +3,9 @@ package org.herovole.blogproj.domain;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IntegerId implements Comparable<IntegerId> {
@@ -29,6 +31,7 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public static IntegerId valueOf(String field) {
+        if (null == field) return empty();
         return new IntegerId(Long.parseLong(field, 10));
     }
 
@@ -49,6 +52,7 @@ public class IntegerId implements Comparable<IntegerId> {
     public Long memorySignature() {
         return this.id;
     }
+
 
     @Override
     public int compareTo(IntegerId o) {
