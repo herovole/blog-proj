@@ -8,9 +8,8 @@ import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
-import org.herovole.blogproj.domain.tag.CountryCode;
+import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.tag.CountryCodes;
-import org.herovole.blogproj.domain.time.Date;
 
 @ToString
 @Builder
@@ -26,8 +25,10 @@ public class ArticleEditingPage {
         PostContent children = postContent.getChildren(API_KEY);
         return ArticleEditingPage.builder()
                 .articleId(IntegerId.fromPostContentArticleId(children))
+                .title(ArticleTitle.fromPostContentArticleTitle(postContent))
+                .text(ArticleText.fromPostContent(postContent))
                 .image(ImageName.fromPostContentImageName(children))
-                .date(Date.fromPostContentArticleDate(children))
+                .sourcePage(SourcePage.fromPostContent(children))
                 .isPublished(GenericSwitch.fromPostContentIsPublished(children))
                 .countries(CountryCodes.fromPostContent(children))
                 .topicTags(IntegerIds.fromPostContentTopicTags(children))
@@ -37,8 +38,10 @@ public class ArticleEditingPage {
     }
 
     private final IntegerId articleId;
+    private final ArticleTitle title;
+    private final ArticleText text;
     private final ImageName image;
-    private final Date date;
+    private final SourcePage sourcePage;
     private final GenericSwitch isPublished;
     private final CountryCodes countries;
     private final IntegerIds topicTags;

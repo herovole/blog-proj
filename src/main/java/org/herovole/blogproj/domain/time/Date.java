@@ -24,12 +24,12 @@ public class Date {
     private static final String DOT = ".";
     private static final String HYPHEN = "-";
 
-    private static final String API_KEY_ARTICLE_DATE = "date";
+    private static final String API_KEY_SOURCE_DATE = "sourceDate";
 
     private static final DateTimeFormatter FROM_LOCAL_DATE_TO_YYYYMMDD = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static Date fromPostContentArticleDate(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_ARTICLE_DATE);
+        PostContent child = postContent.getChildren(API_KEY_SOURCE_DATE);
         return valueOf(child.getValue());
     }
 

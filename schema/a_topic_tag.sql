@@ -1,5 +1,5 @@
 
-CREATE TABLE a_tag (
+CREATE TABLE a_topic_tag (
   id INT PRIMARY KEY,
   name_en VARCHAR(31) NOT NULL,
   name_ja VARCHAR(15) NOT NULL,

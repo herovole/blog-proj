@@ -1,0 +1,15 @@
+
+CREATE TABLE a_source_comment (
+  id INT PRIMARY KEY,
+  comment_id INT not null,
+  comment_text TEXT,
+  iso_2 CHAR(2),
+  is_hidden TINYINT(1) NOT NULL DEFAULT 0,
+  referring_comment_ids VARCHAR(127),
+
+  update_timestamp timestamp default current_timestamp on update current_timestamp,
+  insert_timestamp timestamp default current_timestamp,
+  delete_flag TINYINT(1) NOT NULL DEFAULT 0,
+
+  FOREIGN KEY (iso_2) REFERENCES m_country(iso_2) ON DELETE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

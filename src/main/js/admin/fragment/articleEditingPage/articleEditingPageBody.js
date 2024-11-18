@@ -63,10 +63,21 @@ export class ArticleEditingPageBody extends React.Component {
                                 </IdsEditingForm>
                             </div>
                             <div class="flex-container">
-                                <p class="item-title">Date</p>
+                                <p class="item-title-large">Source Info</p>
+                                <span class="item-title">URL</span>
+                                <TextEditingForm
+                                    postKey = {this.props.postKey.append("sourceUrl")}>
+                                    {this.props.content.sourceUrl}
+                                </TextEditingForm>
+                                <span class="item-title">Title</span>
+                                <TextEditingForm
+                                    postKey = {this.props.postKey.append("sourceTitle")}>
+                                    {this.props.content.sourceTitle}
+                                </TextEditingForm>
+                                <span class="item-title">Date</span>
                                 <DateSelectingForm
-                                    postKey = {this.props.postKey.append("date")}>
-                                    {this.props.content.date}
+                                    postKey = {this.props.postKey.append("sourceDate")}>
+                                    {this.props.content.sourceDate}
                                 </DateSelectingForm>
                             </div>
                             <div class="flex-container">
@@ -103,6 +114,13 @@ export class ArticleEditingPageBody extends React.Component {
                                   candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
                                   selectedTagIds={[]}
                                 />
+                            </div>
+                            <div>
+                                <p class="item-title">Article Title</p>
+                                <TextEditingForm
+                                    postKey = {this.props.postKey.append("articleTitle")}>
+                                    {this.props.content.title}
+                                </TextEditingForm>
                             </div>
                             <div>
                                 <p class="item-title">Article Text</p>
