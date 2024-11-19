@@ -41,6 +41,11 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
         throw new DomainInstanceGenerationException();
     }
 
+    public static GenericSwitch valueOf(Boolean field) {
+        if (field == null) return empty();
+        return field ? positive() : negative();
+    }
+
     public static GenericSwitch positive() {
         return new GenericSwitch(true);
     }

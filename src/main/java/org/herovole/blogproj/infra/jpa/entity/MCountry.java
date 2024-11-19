@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.tag.CountryCode;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.TagEnglish;
@@ -12,7 +13,6 @@ import org.herovole.blogproj.domain.tag.TagJapanese;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /*
 CREATE TABLE m_country (
@@ -27,6 +27,7 @@ CREATE TABLE m_country (
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
  */
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "m_country")
 @Data
@@ -42,6 +43,7 @@ public class MCountry implements Serializable {
     @Column(name = "name_ja")
     private String nameJa;
 
+    @EqualsAndHashCode.Include
     @Column(name = "iso_2")
     private String iso2;
 
@@ -65,16 +67,5 @@ public class MCountry implements Serializable {
                 .build();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MCountry mCountry = (MCountry) o;
-        return nameEn.equals(mCountry.nameEn);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameEn);
-    }
 }

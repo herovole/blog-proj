@@ -5,9 +5,9 @@ import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.article.ArticleEditingPage;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.TagUnit;
-import org.herovole.blogproj.infra.jpa.entity.ATag;
+import org.herovole.blogproj.infra.jpa.entity.ATopicTag;
 import org.herovole.blogproj.infra.jpa.entity.MCountry;
-import org.herovole.blogproj.infra.jpa.repository.ATagRepository;
+import org.herovole.blogproj.infra.jpa.repository.ATopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.MCountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class AdminJsonV1Controller {
     private MCountryRepository mCountryRepository;
 
     @Autowired
-    private ATagRepository aTagRepository;
+    private ATopicTagRepository aTopicTagRepository;
 
 
     @GetMapping("/countries")
@@ -54,8 +54,8 @@ public class AdminJsonV1Controller {
         try {
             System.out.println("endpoint : select");
             System.out.println("/api/v1/topicTags");
-            List<ATag> candidates = aTagRepository.findAllTags();
-            String[] topicTags = candidates.stream().map(ATag::toDomainObj).sorted().map(TagUnit::toJsonString).toArray(String[]::new);
+            List<ATopicTag> candidates = aTopicTagRepository.findAllTags();
+            String[] topicTags = candidates.stream().map(ATopicTag::toDomainObj).sorted().map(TagUnit::toJsonString).toArray(String[]::new);
             return ResponseEntity.ok(topicTags);
         } catch (DomainInstanceGenerationException e) {
             System.out.println("error : 1");

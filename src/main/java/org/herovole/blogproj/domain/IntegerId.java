@@ -24,6 +24,11 @@ public class IntegerId implements Comparable<IntegerId> {
         return valueOf(child.getValue());
     }
 
+    public static IntegerId valueOf(Integer field) {
+        if (null == field) return empty();
+        return valueOf(Long.valueOf(field));
+    }
+
     public static IntegerId valueOf(Long field) {
         if (null == field) return empty();
         if (field < 0) throw new DomainInstanceGenerationException();

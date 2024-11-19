@@ -26,9 +26,9 @@ CREATE TABLE a_tag (
  */
 
 @Entity
-@Table(name = "a_tag")
+@Table(name = "a_topic_tag")
 @Data
-public class ATag implements Serializable {
+public class ATopicTag implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -53,8 +53,8 @@ public class ATag implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ATag aTag = (ATag) o;
-        return nameEn.equals(aTag.nameEn);
+        ATopicTag aTopicTag = (ATopicTag) o;
+        return nameEn.equals(aTopicTag.nameEn);
     }
 
     @Override

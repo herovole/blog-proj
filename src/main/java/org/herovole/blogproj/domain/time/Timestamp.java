@@ -26,6 +26,10 @@ public class Timestamp implements Comparable<Timestamp> {
         return new Timestamp(null);
     }
 
+    public static Timestamp valueOf(LocalDateTime localDateTime) {
+        return valueOf(localDateTime.atZone(zoneIdTokyo).toEpochSecond());
+    }
+
     public static Timestamp valueOf(long unixTimestamp) {
         return new Timestamp(unixTimestamp);
     }

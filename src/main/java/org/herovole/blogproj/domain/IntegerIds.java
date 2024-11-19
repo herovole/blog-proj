@@ -38,6 +38,10 @@ public class IntegerIds {
         return of(ids);
     }
 
+    public static IntegerIds of(String commaSeparatedIds) {
+        return of(commaSeparatedIds.split(SEP));
+    }
+
     public static IntegerIds of(long[] ids) {
         IntegerId[] fieldIds = Arrays.stream(ids)
                 .mapToObj(IntegerId::valueOf)
