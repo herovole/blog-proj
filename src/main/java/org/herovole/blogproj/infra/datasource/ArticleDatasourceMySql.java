@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.image;
+package org.herovole.blogproj.infra.datasource;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,30 +25,30 @@ import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
 import java.util.List;
 
 @Builder
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleDatasourceMySql implements ArticleDatasource {
 
-    private final AArticleRepository aArticleRepository;
-    private final AArticleHasTopicTagRepository aArticleHasTopicTagRepository;
-    private final AArticleHasCountryRepository aArticleHasCountryRepository;
-    private final AArticleHasEditorRepository aArticleHasEditorRepository;
-    private final ASourceCommentRepository aSourceCommentRepository;
+    protected final AArticleRepository aArticleRepository;
+    protected final AArticleHasTopicTagRepository aArticleHasTopicTagRepository;
+    protected final AArticleHasCountryRepository aArticleHasCountryRepository;
+    protected final AArticleHasEditorRepository aArticleHasEditorRepository;
+    protected final ASourceCommentRepository aSourceCommentRepository;
 
     public ArticleEditingPage findById(IntegerId articleId) {
-        AArticle jpaArticle = aArticleRepository.findById(articleId.memorySignature()).orElse(null);
+        AArticle jpaArticle = aArticleRepository.findById(articleId.longMemorySignature()).orElse(null);
         if (jpaArticle == null) return ArticleEditingPage.empty();
         ArticleEditingPage article = jpaArticle.toDomainObj();
 
-        List<AArticleHasTopicTag> jpaTopicTags = aArticleHasTopicTagRepository.findByArticleId(articleId.memorySignature());
+        List<AArticleHasTopicTag> jpaTopicTags = aArticleHasTopicTagRepository.findByArticleId(articleId.longMemorySignature());
         IntegerIds topicTags = IntegerIds.of(jpaTopicTags.stream().map(AArticleHasTopicTag::toTopicTagId).toArray(IntegerId[]::new));
 
-        List<AArticleHasCountry> jpaCountryCodes = aArticleHasCountryRepository.findByArticleId(articleId.memorySignature());
+        List<AArticleHasCountry> jpaCountryCodes = aArticleHasCountryRepository.findByArticleId(articleId.longMemorySignature());
         CountryCodes coutryCodes = CountryCodes.of(jpaCountryCodes.stream().map(AArticleHasCountry::toIso2).toArray(CountryCode[]::new));
 
-        List<AArticleHasEditor> jpaEditors = aArticleHasEditorRepository.findByArticleId(articleId.memorySignature());
+        List<AArticleHasEditor> jpaEditors = aArticleHasEditorRepository.findByArticleId(articleId.longMemorySignature());
         IntegerIds editors = IntegerIds.of(jpaEditors.stream().map(AArticleHasEditor::toEditorId).toArray(IntegerId[]::new));
 
-        List<ASourceComment> jpaSourceComments = aSourceCommentRepository.findByArticleId(articleId.memorySignature());
+        List<ASourceComment> jpaSourceComments = aSourceCommentRepository.findByArticleId(articleId.longMemorySignature());
         CommentUnits sourceComments = CommentUnits.of(jpaSourceComments.stream().map(ASourceComment::toDomainObj).toArray(CommentUnit[]::new));
 
         return article.append(topicTags, coutryCodes, editors, sourceComments);

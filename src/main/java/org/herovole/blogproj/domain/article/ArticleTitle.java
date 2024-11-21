@@ -30,4 +30,8 @@ public class ArticleTitle {
     }
 
     private final String title;
+
+    public String memorySignature() {
+        return this.title;
+    }
 }

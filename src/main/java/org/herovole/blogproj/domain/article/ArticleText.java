@@ -23,4 +23,8 @@ public class ArticleText {
     }
 
     private final String text;
+
+    public String memorySignature() {
+        return this.text;
+    }
 }

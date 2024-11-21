@@ -6,7 +6,7 @@ import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.infra.filesystem.HazardousFileSystemNodeException;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
-import org.herovole.blogproj.infra.image.ImageDatasourceLocalFs;
+import org.herovole.blogproj.infra.datasource.ImageDatasourceLocalFs;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

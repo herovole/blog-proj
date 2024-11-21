@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @ToString
 @EqualsAndHashCode
@@ -64,12 +65,28 @@ public class IntegerIds {
 
     private final IntegerId[] ids;
 
+    public Stream<IntegerId> stream() {
+        return Arrays.stream(ids);
+    }
+
     public boolean isEmpty() {
         return this.ids.length == 0;
     }
 
     public String letterSignature() {
         return this.isEmpty() ? EMPTY : String.join(SEP, Arrays.stream(ids).map(String::valueOf).toArray(String[]::new));
+    }
+
+    public String commaSeparatedMemorySignature() {
+        return this.isEmpty() ? null : String.join(SEP, Arrays.stream(ids).map(String::valueOf).toArray(String[]::new));
+    }
+
+    public boolean has(IntegerId integerId) {
+        return Arrays.asList(this.ids).contains(integerId);
+    }
+
+    public IntegerIds lack(IntegerIds that) {
+        return IntegerIds.of(that.stream().filter(e -> !this.has(e)).toArray(IntegerId[]::new));
     }
 
 }

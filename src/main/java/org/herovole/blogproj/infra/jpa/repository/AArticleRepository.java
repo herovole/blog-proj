@@ -12,4 +12,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
     @Query(value = "Select * from a_article limit 1", nativeQuery = true)
     AArticle findOne();
 
+    @Query(value = "Select max(id) from a_article limit 1", nativeQuery = true)
+    Long findMaxId();
+
 }

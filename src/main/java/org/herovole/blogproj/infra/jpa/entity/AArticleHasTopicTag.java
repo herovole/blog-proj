@@ -16,9 +16,7 @@ import java.time.LocalDateTime;
       id INT PRIMARY KEY,
       article_id INT not null,
       topic_tag_id INT not null,
-      update_timestamp timestamp default current_timestamp on update current_timestamp,
       insert_timestamp timestamp default current_timestamp,
-      delete_flag TINYINT(1) NOT NULL DEFAULT 0,
 
       FOREIGN KEY (article_id) REFERENCES a_article(id) ON DELETE CASCADE,
       FOREIGN KEY (topic_tag_id) REFERENCES a_topic_tag(id) ON DELETE CASCADE
@@ -44,15 +42,18 @@ public class AArticleHasTopicTag implements Serializable {
     @Column(name = "topic_tag_id")
     private long topicTagId;
 
-    @Column(name = "update_timestamp")
-    private LocalDateTime updateTimestamp;
-
     @Column(name = "insert_timestamp")
     private LocalDateTime insertTimestamp;
 
-    @Column(name = "delete_flag")
-    private boolean deleteFlag;
 
+    public static AArticleHasTopicTag fromInsertDomainObj(IntegerId articleId, IntegerId topicTag) {
+        if (topicTag.isEmpty()) throw new EmptyRecordException();
+        AArticleHasTopicTag entity = new AArticleHasTopicTag();
+        entity.setArticleId(articleId.longMemorySignature());
+        entity.setTopicTagId(topicTag.longMemorySignature());
+        entity.setInsertTimestamp(LocalDateTime.now());
+        return entity;
+    }
 
     public IntegerId toTopicTagId() {
         return IntegerId.valueOf(topicTagId);

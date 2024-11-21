@@ -1,7 +1,7 @@
 package org.herovole.blogproj.domain.article;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
@@ -15,6 +15,7 @@ import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
 @Builder
+@Getter
 public class RealArticleEditingPage implements ArticleEditingPage {
 
     // post sample

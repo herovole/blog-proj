@@ -15,4 +15,8 @@ public interface CommentUnit {
     }
 
     boolean isEmpty();
+
+    boolean hasSameCommentId(CommentUnit that);
+
+    boolean hasSameContent(CommentUnit that);
 }

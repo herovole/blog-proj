@@ -33,4 +33,8 @@ public class ImageName {
     }
 
     private final String name;
+
+    public String memorySignature() {
+        return this.name;
+    }
 }

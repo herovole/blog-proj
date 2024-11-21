@@ -7,6 +7,9 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.PostContents;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CountryCodes {
@@ -29,5 +32,21 @@ public class CountryCodes {
     }
 
     private final CountryCode[] codes;
+
+    public Stream<CountryCode> stream() {
+        return Arrays.stream(this.codes);
+    }
+
+    public boolean has(CountryCode countryCode) {
+        return Arrays.asList(codes).contains(countryCode);
+    }
+
+    /**
+     * @param that another CountryCodes
+     * @return CountryCodes that has, but this doesn't.
+     */
+    public CountryCodes lack(CountryCodes that) {
+        return CountryCodes.of(that.stream().filter(e -> !this.has(e)).toArray(CountryCode[]::new));
+    }
 
 }

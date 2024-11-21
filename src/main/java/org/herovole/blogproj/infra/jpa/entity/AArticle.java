@@ -82,6 +82,39 @@ public class AArticle implements Serializable {
     @Column(name = "delete_flag")
     private boolean deleteFlag;
 
+    public static AArticle fromInsertDomainObj(IntegerId id, ArticleEditingPage article) {
+        if (article.isEmpty()) throw new EmptyRecordException();
+        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+
+        AArticle entity = fromUpdateDomainObj(article1);
+        entity.setId(id.longMemorySignature());
+        entity.setInsertTimestamp(LocalDateTime.now());
+
+        return entity;
+    }
+
+    public static AArticle fromUpdateDomainObj(ArticleEditingPage article) {
+        if (article.isEmpty()) throw new EmptyRecordException();
+        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+
+        AArticle entity = new AArticle();
+        entity.setId(article1.getArticleId().longMemorySignature());
+        entity.setTitle(article1.getTitle().memorySignature());
+        entity.setText(article1.getText().memorySignature());
+        entity.setImageName(article1.getImage().memorySignature());
+
+        SourcePage sourcePage = article1.getSourcePage();
+        entity.setSourceTitle(sourcePage.getTitle().memorySignature());
+        entity.setSourcePage(sourcePage.getUrl().memorySignature());
+        entity.setSourceDate(sourcePage.getDate().toLocalDate());
+
+        entity.setPublished(article1.getIsPublished().memorySignature());
+
+        //entity.setInsertTimestamp(LocalDateTime.now());
+        entity.setUpdateTimestamp(LocalDateTime.now());
+        entity.setDeleteFlag(false);
+        return entity;
+    }
 
     public ArticleEditingPage toDomainObj() {
         return RealArticleEditingPage.builder()

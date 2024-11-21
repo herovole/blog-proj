@@ -1,11 +1,13 @@
 package org.herovole.blogproj.domain.source;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.ToString;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.article.ArticleTitle;
 import org.herovole.blogproj.domain.time.Date;
 
+@Getter
 @ToString
 @Builder
 public class SourcePage {

@@ -38,4 +38,8 @@ public class SourceUrl {
     }
 
     private final String url;
+
+    public String memorySignature() {
+        return this.url;
+    }
 }

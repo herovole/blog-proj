@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.image;
+package org.herovole.blogproj.infra.datasource;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;

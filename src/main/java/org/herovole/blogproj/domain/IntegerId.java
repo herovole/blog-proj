@@ -54,8 +54,12 @@ public class IntegerId implements Comparable<IntegerId> {
         return this.isEmpty() ? EMPTY : String.valueOf(this.id);
     }
 
-    public Long memorySignature() {
+    public Long longMemorySignature() {
         return this.id;
+    }
+
+    public Integer intMemorySignature() {
+        return Math.toIntExact(this.id);
     }
 
 

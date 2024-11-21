@@ -41,16 +41,17 @@ import java.time.LocalDateTime;
 @Data
 public class ASourceComment implements Serializable {
 
-    @EqualsAndHashCode.Include
     @Id
     @Column(name = "id")
     private long id;
 
+    @EqualsAndHashCode.Include
     @Column(name = "comment_id")
-    private int commentId;
+    private long commentId;
 
+    @EqualsAndHashCode.Include
     @Column(name = "article_id")
-    private int articleId;
+    private long articleId;
 
     @Column(name = "comment_text")
     private String commentText;
@@ -63,6 +64,7 @@ public class ASourceComment implements Serializable {
 
     @Column(name = "referring_comment_ids")
     private String referringCommentIds;
+
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
@@ -72,6 +74,29 @@ public class ASourceComment implements Serializable {
     @Column(name = "delete_flag")
     private boolean deleteFlag;
 
+
+    public static ASourceComment fromInsertDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+        ASourceComment aSourceComment = fromUpdateDomainObj(articleId, commentUnit);
+        aSourceComment.setInsertTimestamp(LocalDateTime.now());
+        return aSourceComment;
+    }
+
+    public static ASourceComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+        if (commentUnit.isEmpty()) throw new EmptyRecordException();
+        RealCommentUnit commentUnit1 = (RealCommentUnit) commentUnit;
+        ASourceComment sourceComment = new ASourceComment();
+        //sourceComment.setId();
+        sourceComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
+        sourceComment.setArticleId(articleId.longMemorySignature());
+        sourceComment.setCommentText(commentUnit1.getCommentText().memorySignature());
+        sourceComment.setIso2(commentUnit1.getCountry().memorySignature());
+        sourceComment.setHidden(commentUnit1.getIsHidden().memorySignature());
+        sourceComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
+        sourceComment.setUpdateTimestamp(LocalDateTime.now());
+        //sourceComment.setInsertTimestamp(LocalDateTime.now());
+        sourceComment.setDeleteFlag(false);
+        return sourceComment;
+    }
 
     public CommentUnit toDomainObj() {
         return RealCommentUnit.builder()

@@ -33,7 +33,7 @@ public class TagUnit implements Comparable<TagUnit> {
 
     public String toJsonString() {
         TagUnitJson model = TagUnitJson.builder()
-                .id(this.id.memorySignature())
+                .id(this.id.longMemorySignature())
                 .tagEnglish(this.tagEnglish.memorySignature())
                 .tagJapanese(this.tagJapanese.memorySignature())
                 .build();
