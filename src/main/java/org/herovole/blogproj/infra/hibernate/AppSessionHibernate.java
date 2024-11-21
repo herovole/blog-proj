@@ -1,10 +1,9 @@
 package org.herovole.blogproj.infra.hibernate;
 
+import jakarta.persistence.Entity;
 import org.herovole.blogproj.application.AppSession;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import java.util.Collection;
@@ -40,27 +39,27 @@ public class AppSessionHibernate implements AppSession {
 
     @Override
     public void insert(Object entity) {
-        session.save(entity);
+        session.persist(entity);
     }
 
     @Override
     public void update(Object entity) {
-        session.update(entity);
+        session.merge(entity);
     }
 
     @Override
     public void upsert(Object entity) {
-        session.saveOrUpdate(entity);
+        session.merge(entity);
     }
 
     @Override
     public void delete(Object entity) {
-        session.delete(entity);
+        session.remove(entity);
     }
 
     @Override
     public void executeSql(String sql) {
-        Query query = session.createQuery(sql);
+        Query<Entity> query = session.createQuery(sql, Entity.class);
         query.executeUpdate();
     }
 

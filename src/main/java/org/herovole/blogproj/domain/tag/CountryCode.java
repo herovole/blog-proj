@@ -40,6 +40,10 @@ public class CountryCode implements Comparable<CountryCode> {
         return this.code;
     }
 
+    public String letterSignature() {
+        return this.code;
+    }
+
     @Override
     public int compareTo(CountryCode o) {
         return this.code.compareTo(o.code);

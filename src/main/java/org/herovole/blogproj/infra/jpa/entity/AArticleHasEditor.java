@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
 /*
@@ -53,6 +54,11 @@ public class AArticleHasEditor implements Serializable {
         entity.setEditorId(editor.longMemorySignature());
         entity.setInsertTimestamp(LocalDateTime.now());
         return entity;
+    }
+
+    public static String fromDeleteDomainObj(IntegerId articleId, IntegerId editor) {
+        return MessageFormat.format("Delete From a_article_has_editor Where article_id = {0} And editor_id = {1}",
+                articleId.letterSignature(), editor.letterSignature());
     }
 
     public IntegerId toEditorId() {

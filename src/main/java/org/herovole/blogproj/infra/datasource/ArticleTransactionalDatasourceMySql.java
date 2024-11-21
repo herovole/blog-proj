@@ -41,6 +41,12 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
             session.update(transaction);
         }
     };
+    private static final TransactionCache<String> cacheDelete = new TransactionCache<>() {
+        @Override
+        protected void doTransaction(String transaction, AppSession session) {
+            session.executeSql(transaction);
+        }
+    };
     private final AtomicLong maxArticleId;
 
     @Autowired
@@ -59,6 +65,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     public void flush(AppSession session) {
         cacheInsert.flush(session);
         cacheUpdate.flush(session);
+        cacheDelete.flush(session);
     }
 
     @Override
@@ -89,31 +96,39 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         if (!before1.getArticleId().equals(after1.getArticleId())) throw new IncompatibleUpdateException();
         IntegerId articleId = before1.getArticleId();
 
-        CountryCodes countryCodesToAdd = before1.getCountries().lack(after1.getCountries());
+        CountryCodes countryCodesToInsert = before1.getCountries().lack(after1.getCountries());
         CountryCodes countryCodesToDelete = after1.getCountries().lack(before1.getCountries());
 
-        IntegerIds editorsToAdd = before1.getEditors().lack(after1.getEditors());
+        IntegerIds editorsToInsert = before1.getEditors().lack(after1.getEditors());
         IntegerIds editorsToDelete = after1.getEditors().lack(before1.getEditors());
 
-        IntegerIds topicTagsToAdd = before1.getTopicTags().lack(after1.getTopicTags());
+        IntegerIds topicTagsToInsert = before1.getTopicTags().lack(after1.getTopicTags());
         IntegerIds topicTagsToDelete = after1.getTopicTags().lack(before1.getTopicTags());
 
-        CommentUnits sourceCommentsToAdd = before1.getOriginalComments().lacksInId(after1.getOriginalComments());
+        CommentUnits sourceCommentsToInsert = before1.getOriginalComments().lacksInId(after1.getOriginalComments());
         CommentUnits sourceCommentsToDelete = after1.getOriginalComments().lacksInId(before1.getOriginalComments());
         CommentUnits sourceCommentsToUpdate = before1.getOriginalComments().differ(after1.getOriginalComments());
 
         AArticle entityToUpdate = AArticle.fromUpdateDomainObj(before);
-        AArticleHasCountry[] entitiesCountriesToInsert = countryCodesToAdd.stream().map(e -> AArticleHasCountry.fromInsertDomainObj(articleId, e)).toArray(AArticleHasCountry[]::new);
-        AArticleHasEditor[] entitiesEditorsToInsert = editorsToAdd.stream().map(e -> AArticleHasEditor.fromInsertDomainObj(articleId, e)).toArray(AArticleHasEditor[]::new);
-        AArticleHasTopicTag[] entitiesTopicTagsToInsert = topicTagsToAdd.stream().map(e -> AArticleHasTopicTag.fromInsertDomainObj(articleId, e)).toArray(AArticleHasTopicTag[]::new);
-        ASourceComment[] entitiesSourceCommentsToInsert = sourceCommentsToAdd.stream().map(e -> ASourceComment.fromInsertDomainObj(articleId, e)).toArray(ASourceComment[]::new);
+        AArticleHasCountry[] entitiesCountriesToInsert = countryCodesToInsert.stream().map(e -> AArticleHasCountry.fromInsertDomainObj(articleId, e)).toArray(AArticleHasCountry[]::new);
+        String[] sqlsCountriesToDelete = countryCodesToDelete.stream().map(e -> AArticleHasCountry.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
+        AArticleHasEditor[] entitiesEditorsToInsert = editorsToInsert.stream().map(e -> AArticleHasEditor.fromInsertDomainObj(articleId, e)).toArray(AArticleHasEditor[]::new);
+        String[] sqlsEditorsToDelete = editorsToDelete.stream().map(e -> AArticleHasEditor.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
+        AArticleHasTopicTag[] entitiesTopicTagsToInsert = topicTagsToInsert.stream().map(e -> AArticleHasTopicTag.fromInsertDomainObj(articleId, e)).toArray(AArticleHasTopicTag[]::new);
+        String[] sqlsTopicTagsToDelete = topicTagsToDelete.stream().map(e -> AArticleHasTopicTag.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
+        ASourceComment[] entitiesSourceCommentsToInsert = sourceCommentsToInsert.stream().map(e -> ASourceComment.fromInsertDomainObj(articleId, e)).toArray(ASourceComment[]::new);
+        String[] sqlsSourceCommentsToDelete = sourceCommentsToDelete.stream().map(e -> ASourceComment.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
         ASourceComment[] entitiesSourceCommentsToUpdate = sourceCommentsToUpdate.stream().map(e -> ASourceComment.fromUpdateDomainObj(articleId, e)).toArray(ASourceComment[]::new);
 
         cacheUpdate.add(entityToUpdate);
         cacheInsert.add(entitiesCountriesToInsert);
+        cacheDelete.add(sqlsCountriesToDelete);
         cacheInsert.add(entitiesEditorsToInsert);
+        cacheDelete.add(sqlsEditorsToDelete);
         cacheInsert.add(entitiesTopicTagsToInsert);
+        cacheDelete.add(sqlsTopicTagsToDelete);
         cacheInsert.add(entitiesSourceCommentsToInsert);
+        cacheDelete.add(sqlsSourceCommentsToDelete);
         cacheUpdate.add(entitiesSourceCommentsToUpdate);
 
     }

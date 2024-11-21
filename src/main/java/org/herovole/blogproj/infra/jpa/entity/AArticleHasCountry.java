@@ -10,6 +10,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.tag.CountryCode;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
 /*
@@ -56,6 +57,11 @@ public class AArticleHasCountry implements Serializable {
         entity.setIso2(countryCode.memorySignature());
         entity.setInsertTimestamp(LocalDateTime.now());
         return entity;
+    }
+
+    public static String fromDeleteDomainObj(IntegerId articleId, CountryCode countryCode) {
+        return MessageFormat.format("Delete From a_article_has_country where article_id = {0} And iso2 = {1}",
+                articleId.letterSignature(), countryCode.letterSignature());
     }
 
     public CountryCode toIso2() {

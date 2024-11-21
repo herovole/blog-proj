@@ -15,6 +15,7 @@ import org.herovole.blogproj.domain.comment.RealCommentUnit;
 import org.herovole.blogproj.domain.tag.CountryCode;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 
 /*
@@ -85,7 +86,7 @@ public class ASourceComment implements Serializable {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         RealCommentUnit commentUnit1 = (RealCommentUnit) commentUnit;
         ASourceComment sourceComment = new ASourceComment();
-        //sourceComment.setId();
+        sourceComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
         sourceComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
         sourceComment.setArticleId(articleId.longMemorySignature());
         sourceComment.setCommentText(commentUnit1.getCommentText().memorySignature());
@@ -98,8 +99,14 @@ public class ASourceComment implements Serializable {
         return sourceComment;
     }
 
+    public static String fromDeleteDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+        return MessageFormat.format("Delete From a_source_comment Where article_id = {0} And comment_id = {1}",
+                articleId.letterSignature(), commentUnit.getCommentId().letterSignature());
+    }
+
     public CommentUnit toDomainObj() {
         return RealCommentUnit.builder()
+                .commentSerialNumber(IntegerId.valueOf(id))
                 .commentId(IntegerId.valueOf(commentId))
                 .commentText(CommentText.valueOf(commentText))
                 .country(CountryCode.valueOf(iso2))

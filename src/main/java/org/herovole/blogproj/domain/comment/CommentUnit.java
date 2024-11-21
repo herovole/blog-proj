@@ -1,6 +1,7 @@
 package org.herovole.blogproj.domain.comment;
 
 
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.PostContent;
 
 public interface CommentUnit {
@@ -15,6 +16,8 @@ public interface CommentUnit {
     }
 
     boolean isEmpty();
+
+    IntegerId getCommentId();
 
     boolean hasSameCommentId(CommentUnit that);
 

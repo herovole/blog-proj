@@ -19,6 +19,7 @@ public class RealCommentUnit implements CommentUnit {
 
     public static RealCommentUnit fromPostContent(PostContent postContent) {
         return RealCommentUnit.builder()
+                .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.fromPostContentCommentId(postContent))
                 .commentText(CommentText.fromPostContentCommentText(postContent))
                 .country(CountryCode.fromPostContent(postContent))
@@ -27,6 +28,7 @@ public class RealCommentUnit implements CommentUnit {
                 .build();
     }
 
+    private final IntegerId commentSerialNumber;
     @EqualsAndHashCode.Include
     private final IntegerId commentId;
     @EqualsAndHashCode.Include
