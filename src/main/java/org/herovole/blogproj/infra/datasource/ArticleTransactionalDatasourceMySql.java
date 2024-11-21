@@ -21,9 +21,12 @@ import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+@Component
 public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql implements ArticleTransactionalDatasource {
 
     private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
@@ -40,6 +43,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     };
     private final AtomicLong maxArticleId;
 
+    @Autowired
     protected ArticleTransactionalDatasourceMySql(AArticleRepository aArticleRepository, AArticleHasTopicTagRepository aArticleHasTopicTagRepository, AArticleHasCountryRepository aArticleHasCountryRepository, AArticleHasEditorRepository aArticleHasEditorRepository, ASourceCommentRepository aSourceCommentRepository) {
         super(aArticleRepository, aArticleHasTopicTagRepository, aArticleHasCountryRepository, aArticleHasEditorRepository, aSourceCommentRepository);
         Long maxId = aArticleRepository.findMaxId();
@@ -109,6 +113,8 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         cacheInsert.add(entitiesCountriesToInsert);
         cacheInsert.add(entitiesEditorsToInsert);
         cacheInsert.add(entitiesTopicTagsToInsert);
+        cacheInsert.add(entitiesSourceCommentsToInsert);
+        cacheUpdate.add(entitiesSourceCommentsToUpdate);
 
     }
 }

@@ -1,5 +1,6 @@
 package org.herovole.blogproj.domain.article;
 
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.comment.CommentUnits;
@@ -22,6 +23,8 @@ public interface ArticleEditingPage {
     }
 
     boolean isEmpty();
+
+    IntegerId getArticleId();
 
     ArticleEditingPage append(
             IntegerIds topicTags,

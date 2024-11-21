@@ -1,6 +1,6 @@
 package org.herovole.blogproj.controller;
 
-import org.herovole.blogproj.entrypoint.property.LocalProperty;
+import org.herovole.blogproj.LocalProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

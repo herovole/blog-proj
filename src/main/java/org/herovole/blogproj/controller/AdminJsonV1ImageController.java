@@ -7,8 +7,8 @@ import org.herovole.blogproj.domain.accesskey.AccessKeyAsPath;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageAsMultipartFile;
 import org.herovole.blogproj.domain.image.ImageDatasource;
-import org.herovole.blogproj.entrypoint.property.LocalProperty;
 import org.herovole.blogproj.infra.filesystem.LocalFiles;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +27,9 @@ public class AdminJsonV1ImageController {
 
     private final ImageDatasource imageDatasource;
 
-    public AdminJsonV1ImageController(LocalProperty localProperty) throws IOException {
-        localProperty.setUpLocalFileSystemReader();
-        this.imageDatasource = localProperty.buildImageDatasourceLocalFs();
+    @Autowired
+    public AdminJsonV1ImageController(ImageDatasource imageDatasource) {
+        this.imageDatasource = imageDatasource;
     }
 
     @GetMapping

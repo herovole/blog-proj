@@ -1,8 +1,5 @@
 package org.herovole.blogproj.infra.datasource;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
@@ -21,11 +18,12 @@ import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Builder
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Component
 public class ArticleDatasourceMySql implements ArticleDatasource {
 
     protected final AArticleRepository aArticleRepository;
@@ -34,6 +32,20 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     protected final AArticleHasEditorRepository aArticleHasEditorRepository;
     protected final ASourceCommentRepository aSourceCommentRepository;
 
+    @Autowired
+    public ArticleDatasourceMySql(AArticleRepository aArticleRepository,
+                                  AArticleHasTopicTagRepository aArticleHasTopicTagRepository,
+                                  AArticleHasCountryRepository aArticleHasCountryRepository,
+                                  AArticleHasEditorRepository aArticleHasEditorRepository,
+                                  ASourceCommentRepository aSourceCommentRepository) {
+        this.aArticleRepository = aArticleRepository;
+        this.aArticleHasTopicTagRepository = aArticleHasTopicTagRepository;
+        this.aArticleHasCountryRepository = aArticleHasCountryRepository;
+        this.aArticleHasEditorRepository = aArticleHasEditorRepository;
+        this.aSourceCommentRepository = aSourceCommentRepository;
+    }
+
+    @Override
     public ArticleEditingPage findById(IntegerId articleId) {
         AArticle jpaArticle = aArticleRepository.findById(articleId.longMemorySignature()).orElse(null);
         if (jpaArticle == null) return ArticleEditingPage.empty();

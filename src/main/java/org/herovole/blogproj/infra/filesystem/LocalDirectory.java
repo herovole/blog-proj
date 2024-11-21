@@ -6,7 +6,6 @@ import org.herovole.blogproj.domain.accesskey.AccessKey;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +14,18 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class LocalDirectory {
 
-    public static LocalDirectory of(AccessKey accessKey) throws IOException {
-        Path path = LocalFileSystem.getInstance().declareAbsoluteNode(accessKey);
-        if (Files.exists(path) && !Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS))
-            throw new IOException(path + "is not a directory");
+    public static LocalDirectory of(Path path) {
         return new LocalDirectory(path);
+    }
+
+    public static LocalDirectory of(String path) {
+        return of(Path.of(path));
     }
 
     private final Path path;
 
-    public LocalFile declareFile(AccessKey accessKey) throws IOException {
-        Path child = LocalFileSystem.getInstance().declareChildNode(this.path, accessKey);
+    public LocalFile declareFile(LocalFileSystem fileSystem, AccessKey accessKey) throws IOException {
+        Path child = fileSystem.declareChildNode(this.path, accessKey);
         return LocalFile.of(child);
     }
 

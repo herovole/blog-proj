@@ -1,14 +1,17 @@
 package org.herovole.blogproj.controller;
 
+import org.herovole.blogproj.application.editarticle.EditArticle;
+import org.herovole.blogproj.application.editarticle.EditArticleInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.TagUnit;
 import org.herovole.blogproj.infra.jpa.entity.ATopicTag;
 import org.herovole.blogproj.infra.jpa.entity.MCountry;
 import org.herovole.blogproj.infra.jpa.repository.ATopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.MCountryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +26,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-public class AdminJsonV1Controller {
+public class AdminV1Controller {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminV1Controller.class.getSimpleName());
+
+    @Autowired
+    private EditArticle editArticle;
 
     @Autowired
     private MCountryRepository mCountryRepository;
 
     @Autowired
     private ATopicTagRepository aTopicTagRepository;
-
 
     @GetMapping("/countries")
     public ResponseEntity<String[]> countrySelectBox() {
@@ -67,19 +74,23 @@ public class AdminJsonV1Controller {
     }
 
     @PostMapping("/articles")
-    public String articles(
+    public ResponseEntity<String> articles(
             @RequestBody Map<String, String> request) {
-        System.out.println("endpoint : upsert");
-        System.out.println("/api/v1/articles");
+        logger.info("Endpoint : articles (Post) ");
 
-        for (Map.Entry<String, String> e : request.entrySet()) {
-            System.out.println(e.getKey() + " " + e.getValue());
+        try {
+            PostContent postContent = PostContent.of(request);
+            EditArticleInput input = EditArticleInput.fromPostContent(postContent);
+            this.editArticle.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
         }
 
-        PostContent postContent = PostContent.of(request);
-        ArticleEditingPage userInput = ArticleEditingPage.fromPost(postContent);
-        System.out.println(userInput);
-        return "";
+        return ResponseEntity.ok("");
     }
 
 

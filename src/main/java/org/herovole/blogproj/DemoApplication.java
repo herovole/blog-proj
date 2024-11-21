@@ -1,6 +1,5 @@
 package org.herovole.blogproj;
 
-import org.herovole.blogproj.entrypoint.property.LocalProperty;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
