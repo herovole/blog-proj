@@ -18,8 +18,13 @@ public class ArticleText {
     }
 
     public static ArticleText valueOf(String text) {
+        if (text == null) return empty();
         if (LENGTH_LIMIT < text.length()) throw new DomainInstanceGenerationException();
         return new ArticleText(text);
+    }
+
+    public static ArticleText empty() {
+        return new ArticleText(null);
     }
 
     private final String text;

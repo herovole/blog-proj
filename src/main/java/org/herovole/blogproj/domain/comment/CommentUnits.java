@@ -18,7 +18,7 @@ public class CommentUnits {
     public static CommentUnits fromPostContentEditors(PostContent postContent) {
         PostContent child = postContent.getChildren(API_KEY_ORIGINAL_COMMENTS);
         PostContents arrayChildren = child.getInArray();
-        CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromPostContent).toArray(CommentUnit[]::new);
+        CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromPostContent).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
         return of(comments);
     }
 

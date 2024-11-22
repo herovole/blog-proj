@@ -1,3 +1,4 @@
+import {CommentUnitList} from './commentEditor/commentUnitList'
 
 export class Article {
 
@@ -15,7 +16,7 @@ export class Article {
 
     static fromJsonString(jsonString) {
         var parsedHash = JSON.parse(jsonString);
-        return new CommentUnit(
+        return new Article(
             parsedHash[Article.API_KEY_ID],
             parsedHash[Article.API_KEY_IMAGE],
             parsedHash[Article.API_KEY_TITLE],

@@ -3,17 +3,16 @@ package org.herovole.blogproj.domain.source;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.PostContent;
-import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.errors.ValidationException;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SourceUrl {
 
     private static final int LENGTH_LIMIT = 200;
-    //private static final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
+    private static final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
 
     private static final String API_KEY_SOURCE_URL = "sourceUrl";
 
@@ -23,14 +22,10 @@ public class SourceUrl {
     }
 
     public static SourceUrl valueOf(String url) {
-        if (url == null) return empty();
-        try {
-            String safeUrl = ESAPI.validator().getValidInput("URL", url, "HTTPURL", LENGTH_LIMIT, false);
-            return new SourceUrl(safeUrl);
-        } catch (ValidationException e) {
-            System.out.println(e);
-            throw new DomainInstanceGenerationException();
-        }
+        if (url == null || url.isEmpty() || url.isBlank()) return empty();
+        if (LENGTH_LIMIT < url.length()) throw new DomainInstanceGenerationException();
+        if (!urlValidator.isValid(url)) throw new DomainInstanceGenerationException();
+        return new SourceUrl(url);
     }
 
     public static SourceUrl empty() {

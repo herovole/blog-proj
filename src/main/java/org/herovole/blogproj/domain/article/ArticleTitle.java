@@ -25,8 +25,13 @@ public class ArticleTitle {
     }
 
     public static ArticleTitle valueOf(String title) {
+        if (title == null) return empty();
         if (LENGTH_LIMIT < title.length()) throw new DomainInstanceGenerationException();
         return new ArticleTitle(title);
+    }
+
+    public static ArticleTitle empty() {
+        return new ArticleTitle(null);
     }
 
     private final String title;

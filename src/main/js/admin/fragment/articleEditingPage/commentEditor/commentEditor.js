@@ -43,6 +43,7 @@ export class CommentEditor extends React.Component {
                     {/* Step 3: Render an empty CommentEditorUnit at the end */}
                     <CommentEditorUnit
                       postKey={this.props.postKey.append(elementNumber.toString())}
+                      countryTagOptions={this.props.countryTagOptions}
                       content=""
                     />
                 </div>

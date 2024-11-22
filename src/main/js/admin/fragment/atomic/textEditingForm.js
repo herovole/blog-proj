@@ -25,7 +25,7 @@ export class TextEditingForm extends React.Component {
 
     edit = () => {
         this.setState(prevState => ({
-            isBeingEdited: false && !this.props.isFixed
+            isBeingEdited: true && !this.props.isFixed
         }));
     }
 

@@ -92,8 +92,11 @@ var testCommentUnitList = new CommentUnitList(
 var testArticle = new Article(
     14,
     "",
+    "Title123",
     "Lorem Ipsum",
-    "2024/11/09",
+    "http://localhost",
+    "source title123",
+    "2024/11/06",
     true,
     [1,2,3],
     testCommentUnitList,

@@ -77,25 +77,35 @@ public class ASourceComment implements Serializable {
 
 
     public static ASourceComment fromInsertDomainObj(IntegerId articleId, CommentUnit commentUnit) {
-        ASourceComment aSourceComment = fromUpdateDomainObj(articleId, commentUnit);
+        if (commentUnit.isEmpty()) throw new EmptyRecordException();
+        ASourceComment aSourceComment = fromDomainObj(commentUnit);
+        aSourceComment.setArticleId(articleId.longMemorySignature());
+        aSourceComment.setUpdateTimestamp(LocalDateTime.now());
         aSourceComment.setInsertTimestamp(LocalDateTime.now());
+        aSourceComment.setDeleteFlag(false);
         return aSourceComment;
     }
 
     public static ASourceComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         RealCommentUnit commentUnit1 = (RealCommentUnit) commentUnit;
-        ASourceComment sourceComment = new ASourceComment();
+        ASourceComment sourceComment = fromDomainObj(commentUnit);
         sourceComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
-        sourceComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
         sourceComment.setArticleId(articleId.longMemorySignature());
+        sourceComment.setUpdateTimestamp(LocalDateTime.now());
+        sourceComment.setDeleteFlag(false);
+        return sourceComment;
+    }
+
+    private static ASourceComment fromDomainObj(CommentUnit commentUnit) {
+        if (commentUnit.isEmpty()) throw new EmptyRecordException();
+        RealCommentUnit commentUnit1 = (RealCommentUnit) commentUnit;
+        ASourceComment sourceComment = new ASourceComment();
+        sourceComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
         sourceComment.setCommentText(commentUnit1.getCommentText().memorySignature());
         sourceComment.setIso2(commentUnit1.getCountry().memorySignature());
         sourceComment.setHidden(commentUnit1.getIsHidden().memorySignature());
         sourceComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
-        sourceComment.setUpdateTimestamp(LocalDateTime.now());
-        //sourceComment.setInsertTimestamp(LocalDateTime.now());
-        sourceComment.setDeleteFlag(false);
         return sourceComment;
     }
 

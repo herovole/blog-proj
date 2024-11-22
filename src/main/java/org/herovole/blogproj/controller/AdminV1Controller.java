@@ -77,6 +77,7 @@ public class AdminV1Controller {
     public ResponseEntity<String> articles(
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : articles (Post) ");
+        System.out.println(request);
 
         try {
             PostContent postContent = PostContent.of(request);

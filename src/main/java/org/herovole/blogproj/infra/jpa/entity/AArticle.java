@@ -83,22 +83,31 @@ public class AArticle implements Serializable {
     private boolean deleteFlag;
 
     public static AArticle fromInsertDomainObj(IntegerId id, ArticleEditingPage article) {
-        if (article.isEmpty()) throw new EmptyRecordException();
+        if (article.isEmpty() || id.isEmpty()) throw new EmptyRecordException();
         RealArticleEditingPage article1 = (RealArticleEditingPage) article;
 
-        AArticle entity = fromUpdateDomainObj(article1);
+        AArticle entity = fromDomainObj(article1);
         entity.setId(id.longMemorySignature());
+        entity.setUpdateTimestamp(LocalDateTime.now());
         entity.setInsertTimestamp(LocalDateTime.now());
-
         return entity;
     }
 
     public static AArticle fromUpdateDomainObj(ArticleEditingPage article) {
+        if (article.isEmpty() || article.getArticleId().isEmpty()) throw new EmptyRecordException();
+        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+
+        AArticle entity = fromDomainObj(article1);
+        entity.setId(article1.getArticleId().longMemorySignature());
+        entity.setUpdateTimestamp(LocalDateTime.now());
+        return entity;
+    }
+
+    private static AArticle fromDomainObj(ArticleEditingPage article) {
         if (article.isEmpty()) throw new EmptyRecordException();
         RealArticleEditingPage article1 = (RealArticleEditingPage) article;
 
         AArticle entity = new AArticle();
-        entity.setId(article1.getArticleId().longMemorySignature());
         entity.setTitle(article1.getTitle().memorySignature());
         entity.setText(article1.getText().memorySignature());
         entity.setImageName(article1.getImage().memorySignature());
@@ -106,12 +115,9 @@ public class AArticle implements Serializable {
         SourcePage sourcePage = article1.getSourcePage();
         entity.setSourceTitle(sourcePage.getTitle().memorySignature());
         entity.setSourcePage(sourcePage.getUrl().memorySignature());
-        entity.setSourceDate(sourcePage.getDate().toLocalDate());
-
+    entity.setSourceDate(sourcePage.getDate().toLocalDate());
         entity.setPublished(article1.getIsPublished().memorySignature());
 
-        //entity.setInsertTimestamp(LocalDateTime.now());
-        entity.setUpdateTimestamp(LocalDateTime.now());
         entity.setDeleteFlag(false);
         return entity;
     }

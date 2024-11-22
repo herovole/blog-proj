@@ -9,6 +9,7 @@ import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +22,7 @@ public class EditArticle {
     private final ArticleTransactionalDatasource articleTransactionalDatasource;
 
     @Autowired
-    public EditArticle(AppSessionFactory sessionFactory, ArticleDatasource articleDatasource, ArticleTransactionalDatasource articleTransactionalDatasource) {
+    public EditArticle(AppSessionFactory sessionFactory, @Qualifier("articleDatasource") ArticleDatasource articleDatasource, ArticleTransactionalDatasource articleTransactionalDatasource) {
         this.sessionFactory = sessionFactory;
         this.articleDatasource = articleDatasource;
         this.articleTransactionalDatasource = articleTransactionalDatasource;
@@ -32,11 +33,10 @@ public class EditArticle {
         ArticleEditingPage article = input.getArticle();
         IntegerId articleId = article.getArticleId();
 
-        ArticleEditingPage presentArticle = articleDatasource.findById(articleId);
-
-        if (presentArticle.isEmpty()) {
+        if (articleId.isEmpty()) {
             articleTransactionalDatasource.insert(article);
         } else {
+            ArticleEditingPage presentArticle = articleDatasource.findById(articleId);
             articleTransactionalDatasource.update(presentArticle, article);
         }
         logger.info("total transaction number : {}", articleTransactionalDatasource.amountOfCachedTransactions());

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+@Component("articleDatasource")
 public class ArticleDatasourceMySql implements ArticleDatasource {
 
     protected final AArticleRepository aArticleRepository;
