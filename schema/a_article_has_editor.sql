@@ -1,7 +1,7 @@
 
 CREATE TABLE a_article_has_editor (
-  id INT PRIMARY KEY,
-  article_id INT not null,
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  article_id BIGINT not null,
   editor_id INT not null,
   insert_timestamp timestamp default current_timestamp,
 

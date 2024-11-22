@@ -1,6 +1,6 @@
 
 CREATE TABLE a_article (
-  id INT PRIMARY KEY,
+  id BIGINT PRIMARY KEY,
   title VARCHAR(127),
   text TEXT,
   image_name VARCHAR(63),

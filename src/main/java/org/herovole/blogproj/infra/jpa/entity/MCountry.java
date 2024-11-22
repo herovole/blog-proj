@@ -14,18 +14,6 @@ import org.herovole.blogproj.domain.tag.TagJapanese;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/*
-CREATE TABLE m_country (
-  id INT PRIMARY KEY,
-  name_en VARCHAR(63) NOT NULL,
-  name_ja VARCHAR(31) NOT NULL,
-  iso_2 char(2) NOT NULL,
-  iso_3 char(3) NOT NULL,
-  icon_base VARCHAR(63) NOT NULL,
-  update_timestamp timestamp default current_timestamp on update current_timestamp,
-  insert_timestamp timestamp default current_timestamp
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
- */
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -35,7 +23,7 @@ public class MCountry implements Serializable {
 
     @Id
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "name_en")
     private String nameEn;
@@ -44,10 +32,10 @@ public class MCountry implements Serializable {
     private String nameJa;
 
     @EqualsAndHashCode.Include
-    @Column(name = "iso_2")
+    @Column(name = "iso_2", columnDefinition = "CHAR")
     private String iso2;
 
-    @Column(name = "iso_3")
+    @Column(name = "iso_3", columnDefinition = "CHAR")
     private String iso3;
 
     @Column(name = "icon_base")

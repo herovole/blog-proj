@@ -22,24 +22,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/*
-    CREATE TABLE a_article (
-      id INT PRIMARY KEY,
-      title VARCHAR(127),
-      text TEXT,
-      image_name VARCHAR(63),
-      source_title VARCHAR(127),
-      source_page VARCHAR(255),
-      source_date DATE,
-      is_published TINYINT(1) NOT NULL DEFAULT 0,
-      update_timestamp timestamp default current_timestamp on update current_timestamp,
-      insert_timestamp timestamp default current_timestamp,
-      delete_flag TINYINT(1) NOT NULL DEFAULT 0,
-
-      INDEX idx_article_title (title),
-      INDEX idx_article_timestamp (update_timestamp)
-    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
- */
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -115,7 +97,7 @@ public class AArticle implements Serializable {
         SourcePage sourcePage = article1.getSourcePage();
         entity.setSourceTitle(sourcePage.getTitle().memorySignature());
         entity.setSourcePage(sourcePage.getUrl().memorySignature());
-    entity.setSourceDate(sourcePage.getDate().toLocalDate());
+        entity.setSourceDate(sourcePage.getDate().toLocalDate());
         entity.setPublished(article1.getIsPublished().memorySignature());
 
         entity.setDeleteFlag(false);

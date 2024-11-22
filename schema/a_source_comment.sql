@@ -1,8 +1,8 @@
 
 CREATE TABLE a_source_comment (
-  id INT PRIMARY KEY,
-  comment_id INT not null,
-  article_id INT not null,
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  comment_id BIGINT not null,
+  article_id BIGINT not null,
   comment_text TEXT,
   iso_2 CHAR(2),
   is_hidden TINYINT(1) NOT NULL DEFAULT 0,

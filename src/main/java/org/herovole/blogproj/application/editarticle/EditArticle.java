@@ -43,6 +43,7 @@ public class EditArticle {
 
         try (AppSession session = sessionFactory.createSession()) {
             articleTransactionalDatasource.flush(session);
+            session.flushAndClear();
         }
         logger.info("job successful.");
 

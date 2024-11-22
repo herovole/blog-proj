@@ -1,7 +1,7 @@
 
 CREATE TABLE a_article_has_topic_tag (
-  id INT PRIMARY KEY,
-  article_id INT not null,
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  article_id BIGINT not null,
   topic_tag_id INT not null,
   insert_timestamp timestamp default current_timestamp,
 

@@ -12,11 +12,20 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
 
-        <property name="hibernate.archive.autodetection">java,class,hbm</property>
+        <!--
+        <property name="hibernate.archive.autodetection">class,hbm</property>
         <mapping package="org.herovole.blogproj.infra.jpa.entity"/>
-        <!--<mapping class="org.herovole.blogproj.infra.jpa.entity.AArticle"/>-->
+        -->
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticle"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.ASourceComment"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.ATopicTag"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.MCountry"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.MEditor"/>
 
     </session-factory>
 

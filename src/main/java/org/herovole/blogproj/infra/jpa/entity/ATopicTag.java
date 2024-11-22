@@ -14,16 +14,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/*
-CREATE TABLE a_tag (
-        id INT PRIMARY KEY,
-        name_en VARCHAR(31) NOT NULL,
-        name_ja VARCHAR(15) NOT NULL,
-        update_timestamp timestamp default current_timestamp on update current_timestamp,
-        insert_timestamp timestamp default current_timestamp,
-        delete_flag TINYINT(1) NOT NULL DEFAULT 0
-        ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
- */
 
 @Entity
 @Table(name = "a_topic_tag")
@@ -32,7 +22,7 @@ public class ATopicTag implements Serializable {
 
     @Id
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "name_en")
     private String nameEn;

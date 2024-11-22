@@ -1,7 +1,7 @@
 
 CREATE TABLE a_article_has_country (
-  id INT PRIMARY KEY,
-  article_id INT not null,
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  article_id BIGINT not null,
   iso_2 CHAR(2) not null,
   insert_timestamp timestamp default current_timestamp,
 
