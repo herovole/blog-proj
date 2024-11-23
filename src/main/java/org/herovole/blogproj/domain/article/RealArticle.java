@@ -16,18 +16,18 @@ import org.herovole.blogproj.domain.time.Timestamp;
 @ToString
 @Builder
 @Getter
-public class RealArticleEditingPage implements ArticleEditingPage {
+public class RealArticle implements Article {
 
     // post sample
     // key : articleEditingPage.commentEditor.1.text
     // val : This is comment4.
 
-    static RealArticleEditingPage fromPost(PostContent postContent) {
+    static RealArticle fromPost(PostContent postContent) {
         PostContent children = postContent.getChildren(API_KEY);
-        return RealArticleEditingPage.builder()
+        return RealArticle.builder()
                 .articleId(IntegerId.fromPostContentArticleId(children))
-                .title(ArticleTitle.fromPostContentArticleTitle(postContent))
-                .text(ArticleText.fromPostContent(postContent))
+                .title(ArticleTitle.fromPostContentArticleTitle(children))
+                .text(ArticleText.fromPostContent(children))
                 .image(ImageName.fromPostContentImageName(children))
                 .sourcePage(SourcePage.fromPostContent(children))
                 .isPublished(GenericSwitch.fromPostContentIsPublished(children))
@@ -60,7 +60,7 @@ public class RealArticleEditingPage implements ArticleEditingPage {
     }
 
     @Override
-    public ArticleEditingPage append(
+    public Article append(
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,

@@ -36,6 +36,8 @@ export class ImageSelectingModal extends React.Component {
             fileNames : [],
             selectedImage : "",
         };
+        this.refDisplay = React.createRef();
+        this.refHidden = React.createRef();
     }
 
     componentDidMount() { }
@@ -93,6 +95,8 @@ export class ImageSelectingModal extends React.Component {
         this.setState(prevState => ({
             selectedImage : fileName
         }))
+        this.refDisplay.current.text = this.state.selectedImage;
+        this.refHidden.current.value = this.state.selectedImage;
         this.closeModal();
         this.reload();
     }
@@ -102,6 +106,11 @@ export class ImageSelectingModal extends React.Component {
             <div>
                 <img class="image-sample" src={ImageSelectingModal.LOCAL_DIR + this.state.selectedImage} />
                 <button type="button" onClick={this.openModal}>Open List</button>
+                <p ref={this.refDisplay}>{this.state.selectedImage}</p>
+                <input type="hidden"
+                  ref={this.refHidden}
+                  name={this.props.postKey.toStringKey()}
+                  value={this.state.selectedImage} />
                 <Modal
                   isOpen={this.state.isOpen}
                   onAfterOpen={this.afterOpenModal}

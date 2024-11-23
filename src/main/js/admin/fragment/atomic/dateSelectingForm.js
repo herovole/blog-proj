@@ -18,11 +18,6 @@ export class DateSelectingForm extends React.Component {
 
     componentDidMount() { }
 
-    switchMode = () => {
-        this.setState(prevState => ({
-            isBeingEdited: !prevState.isBeingEdited
-        }));
-    }
 
     trackDateUpdate = (date) => {
         this.setState(prevState => ({
@@ -30,9 +25,20 @@ export class DateSelectingForm extends React.Component {
         }))
     }
 
+    edit = () => {
+        this.setState(prevState => ({
+            isBeingEdited: true && !this.props.isFixed
+        }));
+    }
     fix = () => {
         this.setState(prevState => ({
             dateFixed: this.state.dateEdited,
+            isBeingEdited: false
+        }));
+    }
+    cancel = () => {
+        this.setState(prevState => ({
+            dateEdited: this.state.dateFixed,
             isBeingEdited: false
         }));
     }
@@ -55,7 +61,7 @@ export class DateSelectingForm extends React.Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.switchMode}
+                      onClick={this.cancel}
                     >
                         Cancel
                     </button>
@@ -63,7 +69,7 @@ export class DateSelectingForm extends React.Component {
             );
         } else {
             return (
-                <div onClick={this.switchMode} >
+                <div onClick={this.edit} >
                     <div className="editable-text-fixed scale-large">
                         {format(this.state.dateFixed, 'yyyy/MM/dd')}
                     </div>

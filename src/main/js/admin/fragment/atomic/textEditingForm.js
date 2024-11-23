@@ -36,6 +36,13 @@ export class TextEditingForm extends React.Component {
         }));
     }
 
+    cancel = () => {
+        this.setState(prevState => ({
+            text: this.state.fixedText,
+            isBeingEdited: false
+        }));
+    }
+
     render() {
         if(this.state.isBeingEdited) {
 
@@ -56,7 +63,7 @@ export class TextEditingForm extends React.Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.switchMode}
+                      onClick={this.cancel}
                     >
                         Cancel
                     </button>

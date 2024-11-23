@@ -78,7 +78,7 @@ public class IntegerIds {
     }
 
     public String commaSeparatedMemorySignature() {
-        return this.isEmpty() ? null : String.join(SEP, Arrays.stream(ids).map(String::valueOf).toArray(String[]::new));
+        return this.isEmpty() ? null : String.join(SEP, Arrays.stream(ids).map(IntegerId::letterSignature).toArray(String[]::new));
     }
 
     public boolean has(IntegerId integerId) {

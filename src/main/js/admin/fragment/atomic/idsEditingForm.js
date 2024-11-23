@@ -39,6 +39,13 @@ export class IdsEditingForm extends React.Component {
         }));
     }
 
+    cancel = () => {
+        this.setState(prevState => ({
+            ids : this.state.fixedIds,
+            isBeingEdited: false
+        }));
+    }
+
     render() {
         if(this.state.isBeingEdited) {
             return (
@@ -58,7 +65,7 @@ export class IdsEditingForm extends React.Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.switchMode}
+                      onClick={this.cancel}
                     >
                         Cancel
                     </button>

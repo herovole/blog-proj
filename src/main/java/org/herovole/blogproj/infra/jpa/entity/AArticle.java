@@ -8,10 +8,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleText;
 import org.herovole.blogproj.domain.article.ArticleTitle;
-import org.herovole.blogproj.domain.article.RealArticleEditingPage;
+import org.herovole.blogproj.domain.article.RealArticle;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.source.SourceUrl;
@@ -64,9 +64,9 @@ public class AArticle implements Serializable {
     @Column(name = "delete_flag")
     private boolean deleteFlag;
 
-    public static AArticle fromInsertDomainObj(IntegerId id, ArticleEditingPage article) {
+    public static AArticle fromInsertDomainObj(IntegerId id, Article article) {
         if (article.isEmpty() || id.isEmpty()) throw new EmptyRecordException();
-        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+        RealArticle article1 = (RealArticle) article;
 
         AArticle entity = fromDomainObj(article1);
         entity.setId(id.longMemorySignature());
@@ -75,9 +75,9 @@ public class AArticle implements Serializable {
         return entity;
     }
 
-    public static AArticle fromUpdateDomainObj(ArticleEditingPage article) {
+    public static AArticle fromUpdateDomainObj(Article article) {
         if (article.isEmpty() || article.getArticleId().isEmpty()) throw new EmptyRecordException();
-        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+        RealArticle article1 = (RealArticle) article;
 
         AArticle entity = fromDomainObj(article1);
         entity.setId(article1.getArticleId().longMemorySignature());
@@ -85,9 +85,9 @@ public class AArticle implements Serializable {
         return entity;
     }
 
-    private static AArticle fromDomainObj(ArticleEditingPage article) {
+    private static AArticle fromDomainObj(Article article) {
         if (article.isEmpty()) throw new EmptyRecordException();
-        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+        RealArticle article1 = (RealArticle) article;
 
         AArticle entity = new AArticle();
         entity.setTitle(article1.getTitle().memorySignature());
@@ -104,8 +104,8 @@ public class AArticle implements Serializable {
         return entity;
     }
 
-    public ArticleEditingPage toDomainObj() {
-        return RealArticleEditingPage.builder()
+    public Article toDomainObj() {
+        return RealArticle.builder()
                 .articleId(IntegerId.valueOf(id))
                 .title(ArticleTitle.valueOf(title))
                 .text(ArticleText.valueOf(text))

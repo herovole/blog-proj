@@ -135,7 +135,9 @@ export const Sandbox = () =>{
     return <div>
         <div>
             test1: imageSelectingModal
-            <ImageSelectingModal/>
+            <ImageSelectingModal
+                postKey={new ElementId("test")}
+            />
         </div>
         <div>
             test2: (none)

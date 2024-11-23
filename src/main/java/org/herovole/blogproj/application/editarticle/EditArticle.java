@@ -4,7 +4,7 @@ import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +30,13 @@ public class EditArticle {
 
     public void process(EditArticleInput input) throws Exception {
         logger.info("interpreted post : {}", input);
-        ArticleEditingPage article = input.getArticle();
+        Article article = input.getArticle();
         IntegerId articleId = article.getArticleId();
 
         if (articleId.isEmpty()) {
             articleTransactionalDatasource.insert(article);
         } else {
-            ArticleEditingPage presentArticle = articleDatasource.findById(articleId);
+            Article presentArticle = articleDatasource.findById(articleId);
             articleTransactionalDatasource.update(presentArticle, article);
         }
         logger.info("total transaction number : {}", articleTransactionalDatasource.amountOfCachedTransactions());
@@ -44,6 +44,7 @@ public class EditArticle {
         try (AppSession session = sessionFactory.createSession()) {
             articleTransactionalDatasource.flush(session);
             session.flushAndClear();
+            session.commit();
         }
         logger.info("job successful.");
 

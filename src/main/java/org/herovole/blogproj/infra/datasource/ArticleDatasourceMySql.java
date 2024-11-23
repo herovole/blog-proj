@@ -3,7 +3,7 @@ package org.herovole.blogproj.infra.datasource;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.CountryCode;
@@ -46,10 +46,10 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     }
 
     @Override
-    public ArticleEditingPage findById(IntegerId articleId) {
+    public Article findById(IntegerId articleId) {
         AArticle jpaArticle = aArticleRepository.findById(articleId.longMemorySignature()).orElse(null);
-        if (jpaArticle == null) return ArticleEditingPage.empty();
-        ArticleEditingPage article = jpaArticle.toDomainObj();
+        if (jpaArticle == null) return Article.empty();
+        Article article = jpaArticle.toDomainObj();
 
         List<AArticleHasTopicTag> jpaTopicTags = aArticleHasTopicTagRepository.findByArticleId(articleId.longMemorySignature());
         IntegerIds topicTags = IntegerIds.of(jpaTopicTags.stream().map(AArticleHasTopicTag::toTopicTagId).toArray(IntegerId[]::new));

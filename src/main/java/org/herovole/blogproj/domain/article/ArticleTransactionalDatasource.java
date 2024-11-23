@@ -7,6 +7,6 @@ public interface ArticleTransactionalDatasource {
     int amountOfCachedTransactions();
 
     void flush(AppSession session);
-    void insert(ArticleEditingPage article);
-    void update(ArticleEditingPage before, ArticleEditingPage after);
+    void insert(Article article);
+    void update(Article before, Article after);
 }

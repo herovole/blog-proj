@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
+import org.herovole.blogproj.domain.article.Article;
 
 @ToString
 @Getter
@@ -13,8 +13,8 @@ import org.herovole.blogproj.domain.article.ArticleEditingPage;
 public class EditArticleInput {
 
     public static EditArticleInput fromPostContent(PostContent postContent) {
-        return new EditArticleInput(ArticleEditingPage.fromPost(postContent));
+        return new EditArticleInput(Article.fromPost(postContent));
     }
 
-    private final ArticleEditingPage article;
+    private final Article article;
 }

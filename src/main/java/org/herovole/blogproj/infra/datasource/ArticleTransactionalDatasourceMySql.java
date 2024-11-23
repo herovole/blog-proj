@@ -3,9 +3,9 @@ package org.herovole.blogproj.infra.datasource;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.article.ArticleEditingPage;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
-import org.herovole.blogproj.domain.article.RealArticleEditingPage;
+import org.herovole.blogproj.domain.article.RealArticle;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.CountryCodes;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
@@ -69,9 +69,9 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     }
 
     @Override
-    public void insert(ArticleEditingPage article) {
+    public void insert(Article article) {
         if (article.isEmpty()) return;
-        RealArticleEditingPage article1 = (RealArticleEditingPage) article;
+        RealArticle article1 = (RealArticle) article;
 
         IntegerId articleId = IntegerId.valueOf(maxArticleId.incrementAndGet());
         AArticle entity = AArticle.fromInsertDomainObj(articleId, article);
@@ -88,10 +88,10 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     }
 
     @Override
-    public void update(ArticleEditingPage before, ArticleEditingPage after) {
+    public void update(Article before, Article after) {
         if (after.isEmpty() || before.isEmpty()) throw new EmptyRecordException();
-        RealArticleEditingPage before1 = (RealArticleEditingPage) before;
-        RealArticleEditingPage after1 = (RealArticleEditingPage) after;
+        RealArticle before1 = (RealArticle) before;
+        RealArticle after1 = (RealArticle) after;
 
         if (!before1.getArticleId().equals(after1.getArticleId())) throw new IncompatibleUpdateException();
         IntegerId articleId = before1.getArticleId();

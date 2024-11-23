@@ -7,7 +7,7 @@ import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.CountryCodes;
 
 @ToString
-public class EmptyArticleEditingPage implements ArticleEditingPage {
+public class EmptyArticle implements Article {
     @Override
     public boolean isEmpty() {
         return true;
@@ -19,7 +19,7 @@ public class EmptyArticleEditingPage implements ArticleEditingPage {
     }
 
     @Override
-    public ArticleEditingPage append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, CommentUnits sourceComments) {
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, CommentUnits sourceComments) {
         return this;
     }
 }

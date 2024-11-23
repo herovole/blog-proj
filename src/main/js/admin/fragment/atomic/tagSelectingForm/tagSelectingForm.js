@@ -34,6 +34,13 @@ export class TagSelectingForm extends React.Component {
         }));
     }
 
+    cancel = () => {
+        this.setState(prevState => ({
+            selectedTags: this.state.fixedSelectedTags,
+            isBeingEdited: false
+        }));
+    }
+
     handleChange = (theSelectedTags) => {
         console.log("selected handleChange : " + JSON.stringify(theSelectedTags));
 
@@ -72,7 +79,7 @@ export class TagSelectingForm extends React.Component {
                     </button>
                     <button
                       type="button"
-                      onClick={this.switchMode}
+                      onClick={this.cancel}
                     >
                         Cancel
                     </button>

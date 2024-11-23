@@ -6,7 +6,7 @@ import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.CountryCodes;
 
-public interface ArticleEditingPage {
+public interface Article {
 
     // post sample
     // key : articleEditingPage.commentEditor.1.text
@@ -14,19 +14,19 @@ public interface ArticleEditingPage {
 
     String API_KEY = "articleEditingPage";
 
-    static ArticleEditingPage fromPost(PostContent postContent) {
-        return RealArticleEditingPage.fromPost(postContent);
+    static Article fromPost(PostContent postContent) {
+        return RealArticle.fromPost(postContent);
     }
 
-    static ArticleEditingPage empty() {
-        return new EmptyArticleEditingPage();
+    static Article empty() {
+        return new EmptyArticle();
     }
 
     boolean isEmpty();
 
     IntegerId getArticleId();
 
-    ArticleEditingPage append(
+    Article append(
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,

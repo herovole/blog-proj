@@ -23,9 +23,9 @@ public class ImageName {
     }
 
     public static ImageName valueOf(String field) {
-        if (field == null) return empty();
+        if (field == null || field.isEmpty()) return empty();
         if (PATTERN_IMG.matcher(field).matches()) return new ImageName(field);
-        throw new DomainInstanceGenerationException();
+        throw new DomainInstanceGenerationException(field);
     }
 
     public static ImageName empty() {
