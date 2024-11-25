@@ -49,6 +49,14 @@ public class Date {
         return new Date(null);
     }
 
+    public static Date today() {
+        return valueOf(LocalDate.now());
+    }
+
+    public static Date newYear2024() {
+        return valueOf(LocalDate.of(2024, 1, 1));
+    }
+
     private final LocalDate yyyyMMdd;
 
     public boolean isEmpty() {
@@ -104,5 +112,9 @@ public class Date {
 
     public Week inclusiveWeek() {
         return new Week(this.sundayOnSameWeek());
+    }
+
+    public Timestamp beginningTimestampOfDay() {
+        return Timestamp.valueOf(this.toLocalDate().atStartOfDay());
     }
 }

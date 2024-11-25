@@ -2,8 +2,9 @@ package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.article.ArticleDatasource;
 import org.herovole.blogproj.domain.article.Article;
+import org.herovole.blogproj.domain.article.ArticleDatasource;
+import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.CountryCode;
@@ -64,5 +65,34 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         CommentUnits sourceComments = CommentUnits.of(jpaSourceComments.stream().map(ASourceComment::toDomainObj).toArray(CommentUnit[]::new));
 
         return article.append(topicTags, coutryCodes, editors, sourceComments);
+    }
+
+    @Override
+    public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
+        long[] ids = aArticleRepository.searchByOptions(
+                searchOption.getKeywords().get(0).letterSignature(),
+                searchOption.getKeywords().get(1).letterSignature(),
+                searchOption.getKeywords().get(2).letterSignature(),
+                searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().from().toLocalDate(),
+                searchOption.getDateRange().to().toLocalDate(),
+                searchOption.getPagingRequest().getLimit(),
+                searchOption.getPagingRequest().getOffset()
+        );
+        return IntegerIds.of(ids);
+    }
+
+    @Override
+    public long countByOptions(ArticleListSearchOption searchOption) {
+        return aArticleRepository.countByOptions(
+                searchOption.getKeywords().get(0).letterSignature(),
+                searchOption.getKeywords().get(1).letterSignature(),
+                searchOption.getKeywords().get(2).letterSignature(),
+                searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().from().toLocalDate(),
+                searchOption.getDateRange().to().toLocalDate()
+        );
     }
 }
