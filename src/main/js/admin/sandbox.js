@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BasicClass } from './basicclass';
 import { DateSelectingForm } from './fragment/atomic/dateSelectingForm';
-import { TagSelectingForm } from './fragment/atomic/tagSelectingForm/tagSelectingForm';
-import { TagUnitList } from './fragment/atomic/tagSelectingForm/tagUnitList';
-import { ArticleEditingPageBody } from './fragment/articleEditingPage/articleEditingPageBody';
+import { TagSelectingForm } from './fragment/atomic/tagselectingform/tagSelectingForm';
+import { TagUnitList } from './fragment/atomic/tagselectingform/tagUnitList';
+import { ArticleEditingPageBody } from './fragment/articleeditingpage/articleEditingPageBody';
 import { ElementId } from '../domain/elementId';
-import { CommentUnit } from './fragment/articleEditingPage/commentEditor/commentUnit';
-import { CommentUnitList } from './fragment/articleEditingPage/commentEditor/commentUnitList';
-import { Article } from './fragment/articleEditingPage/article';
+import { CommentUnit } from './fragment/articleeditingpage/commenteditor/commentUnit';
+import { CommentUnitList } from './fragment/articleeditingpage/commenteditor/commentUnitList';
+import { Article } from './fragment/articleeditingpage/article';
 import { ImageSelectingModal } from './fragment/image/imageSelectingModal';
+import { ArticleListBody } from './fragment/articlelist/articleListBody';
 
 console.log("sandbox.js");
 
@@ -140,7 +141,8 @@ export const Sandbox = () =>{
             />
         </div>
         <div>
-            test2: (none)
+            test2: ArticleListBody
+            <ArticleListBody postKey={new ElementId("alb")}/>
         </div>
         <div>
             test3:

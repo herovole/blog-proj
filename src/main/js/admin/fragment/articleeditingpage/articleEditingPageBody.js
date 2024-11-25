@@ -7,8 +7,8 @@ import { ImageSelectingModal } from '../image/imageSelectingModal';
 import { DateSelectingForm } from '../atomic/dateSelectingForm';
 import { BooleanSelectingForm } from '../atomic/booleanSelectingForm';
 import { CommentEditor } from './commentEditor/commentEditor';
-import { TagSelectingForm } from '../atomic/tagSelectingForm/tagSelectingForm';
-import { TagUnitList } from '../atomic/tagSelectingForm/tagUnitList';
+import { TagSelectingForm } from '../atomic/tagselectingform/tagSelectingForm';
+import { TagUnitList } from '../atomic/tagselectingform/tagUnitList';
 
 export class ArticleEditingPageBody extends React.Component {
     constructor(props) {

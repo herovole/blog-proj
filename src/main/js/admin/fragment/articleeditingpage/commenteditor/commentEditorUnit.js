@@ -2,8 +2,8 @@ import React from 'react';
 import { IdsEditingForm } from '../../atomic/idsEditingForm';
 import { TextEditingForm } from '../../atomic/textEditingForm';
 import { BooleanSelectingForm } from '../../atomic/booleanSelectingForm';
-import { TagSelectingForm } from '../../atomic/tagSelectingForm/tagSelectingForm';
-import { TagUnitList } from '../../atomic/tagSelectingForm/tagUnitList';
+import { TagSelectingForm } from '../../atomic/tagselectingform/tagSelectingForm';
+import { TagUnitList } from '../../atomic/tagselectingform/tagUnitList';
 
 export class CommentEditorUnit extends React.Component {
     constructor(props) {
