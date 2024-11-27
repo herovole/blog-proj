@@ -59,20 +59,22 @@ export const ArticleListBody = ({postKey}) => {
         }
 
         const formData = new FormData(event.target);
-        const postData = Object.fromEntries(formData.entries());
+        const getParams = new URLSearchParams(formData);
 
-        console.log(postData);
+        console.log(getParams);
 
         try {
-            const response = await axios.post("/api/v1/articles", postData, {
-                headers: { 'Content-Type': 'application/json', },
+            const response = await axios.get("/api/v1/articles", {
+                params: getParams,
+                headers: { Accept: "application/json" },
             });
 
-            const data = await response.json();
-            setResponseMessage(data.message);
+            const searchArticlesOutput = await response.data;
+            setTotalRecordNumber(searchArticlesOutput.totalArticles);
+            console.log("total articles : " + searchArticlesOutput.totalArticles);
+
         } catch (error) {
             console.error('Error submitting form:', error);
-            setResponseMessage('Failed to submit form');
         }
 
     }

@@ -15,9 +15,8 @@ public interface AArticleHasEditorRepository extends JpaRepository<AArticleHasEd
     AArticleHasEditor findOne();
 
     @Query(value = "Select * from a_article_has_editor " +
-            "where delete_flag = 0 " +
-            "  and article_id = :article_id " +
-            "order by comment_id",
+            "  where article_id = :article_id " +
+            "order by editor_id",
             nativeQuery = true)
     List<AArticleHasEditor> findByArticleId(@Param("article_id") long articleId);
 }

@@ -44,4 +44,59 @@ public class RealArticleSimplified implements Article {
             CommentUnits sourceComments) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+        return builder()
+                .articleId(this.articleId)
+                .title(this.title)
+                .text(this.text)
+                .image(this.image)
+                .sourcePage(this.sourcePage)
+                .isPublished(this.isPublished)
+                .countries(countries)
+                .topicTags(topicTags)
+                .editors(editors)
+                .sourceComments(countSourceComments)
+
+                .registrationTimestamp(this.registrationTimestamp)
+                .latestEditTimestamp(this.latestEditTimestamp)
+
+                .build();
+    }
+
+    @Override
+    public Json toJsonRecord() {
+        return Json.builder()
+                .articleId(articleId.longMemorySignature())
+                .title(title.memorySignature())
+                .text(text.memorySignature())
+                .image(image.memorySignature())
+                .sourcePage(sourcePage.toJsonRecord())
+                .isPublished(isPublished.memorySignature())
+                .countries(countries.toMemorySignature())
+                .topicTags(topicTags.toIntMemorySignature())
+                .editors(editors.toIntMemorySignature())
+                .sourceComments(sourceComments)
+                .userComments(userComments)
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .build();
+    }
+
+    @Builder
+    record Json(long articleId,
+                String title,
+                String text,
+                String image,
+                SourcePage.Json sourcePage,
+                Boolean isPublished,
+                String[] countries,
+                int[] topicTags,
+                int[] editors,
+                int sourceComments,
+                int userComments,
+                String registrationTimestamp,
+                String latestEditTimestamp) implements Article.Json {
+    }
 }

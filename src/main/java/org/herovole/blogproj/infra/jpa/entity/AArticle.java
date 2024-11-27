@@ -12,6 +12,7 @@ import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleText;
 import org.herovole.blogproj.domain.article.ArticleTitle;
 import org.herovole.blogproj.domain.article.RealArticle;
+import org.herovole.blogproj.domain.article.RealArticleSimplified;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.source.SourceUrl;
@@ -116,7 +117,27 @@ public class AArticle implements Serializable {
                         .date(Date.valueOf(sourceDate))
                         .build())
                 .isPublished(GenericSwitch.valueOf(isPublished))
+                .registrationTimestamp(Timestamp.valueOf(insertTimestamp))
                 .latestEditTimestamp(Timestamp.valueOf(updateTimestamp))
+
+                .build();
+    }
+
+    public Article toDomainObjSimplified() {
+        return RealArticleSimplified.builder()
+                .articleId(IntegerId.valueOf(id))
+                .title(ArticleTitle.valueOf(title))
+                .text(ArticleText.valueOf(text))
+                .image(ImageName.valueOf(imageName))
+                .sourcePage(SourcePage.builder()
+                        .url(SourceUrl.valueOf(sourcePage))
+                        .title(ArticleTitle.valueOf(sourceTitle))
+                        .date(Date.valueOf(sourceDate))
+                        .build())
+                .isPublished(GenericSwitch.valueOf(isPublished))
+                .registrationTimestamp(Timestamp.valueOf(insertTimestamp))
+                .latestEditTimestamp(Timestamp.valueOf(updateTimestamp))
+
                 .build();
     }
 }

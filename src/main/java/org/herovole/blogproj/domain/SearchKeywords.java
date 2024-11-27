@@ -3,6 +3,8 @@ package org.herovole.blogproj.domain;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchKeywords {
 
@@ -11,7 +13,7 @@ public class SearchKeywords {
     public static SearchKeywords fromPostContent(PostContent postContent) {
         PostContent child = postContent.getChildren(SearchKeywords.API_KEY_KEYWORDS);
         PostContents arrayChildren = child.getInArray();
-        SearchKeyword[] keywords = arrayChildren.stream().map(p -> SearchKeyword.valueOf(p.getValue())).toArray(SearchKeyword[]::new);
+        SearchKeyword[] keywords = arrayChildren.stream().filter(Objects::nonNull).map(p -> SearchKeyword.valueOf(p.getValue())).toArray(SearchKeyword[]::new);
         return of(keywords);
     }
 

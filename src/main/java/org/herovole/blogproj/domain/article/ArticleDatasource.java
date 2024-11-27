@@ -6,6 +6,9 @@ import org.herovole.blogproj.domain.IntegerIds;
 public interface ArticleDatasource {
     Article findById(IntegerId articleId);
 
+    Article findByIdSimplified(IntegerId articleId);
+
     IntegerIds searchByOptions(ArticleListSearchOption searchOption);
+
     long countByOptions(ArticleListSearchOption searchOption);
 }

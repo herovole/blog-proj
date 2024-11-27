@@ -15,6 +15,7 @@ public class ArticleListSearchOption {
 
     public static ArticleListSearchOption fromPostContent(PostContent postContent) {
         PostContent children = postContent.getChildren(API_KEY);
+        children.println("articleListSearchOption");
         return ArticleListSearchOption.builder()
                 .pagingRequest(PagingRequest.fromPostContent(children))
                 .dateRange(DateRange.fromComplementedPostContent(children))

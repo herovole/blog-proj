@@ -15,9 +15,8 @@ public interface AArticleHasTopicTagRepository extends JpaRepository<AArticleHas
     AArticleHasTopicTag findOne();
 
     @Query(value = "Select * from a_article_has_topic_tag " +
-            "where delete_flag = 0 " +
-            "  and article_id = :article_id " +
-            "order by comment_id",
+            "  where article_id = :article_id " +
+            "order by topic_tag_id",
             nativeQuery = true)
     List<AArticleHasTopicTag> findByArticleId(@Param("article_id") long articleId);
 }

@@ -6,12 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Stream;
 
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class IntegerIds {
+public class IntegerIds implements Iterable<IntegerId> {
 
     private static final String EMPTY = "-";
     private static final String SEP = ",";
@@ -89,4 +90,16 @@ public class IntegerIds {
         return IntegerIds.of(that.stream().filter(e -> !this.has(e)).toArray(IntegerId[]::new));
     }
 
+    public long[] toLongMemorySignature() {
+        return stream().filter(e -> !e.isEmpty()).map(IntegerId::longMemorySignature).mapToLong(Long::longValue).toArray();
+    }
+
+    public int[] toIntMemorySignature() {
+        return stream().filter(e -> !e.isEmpty()).map(IntegerId::intMemorySignature).mapToInt(Integer::intValue).toArray();
+    }
+
+    @Override
+    public Iterator<IntegerId> iterator() {
+        return Arrays.stream(this.ids).iterator();
+    }
 }

@@ -49,4 +49,8 @@ public class CountryCodes {
         return CountryCodes.of(that.stream().filter(e -> !this.has(e)).toArray(CountryCode[]::new));
     }
 
+    public String[] toMemorySignature() {
+        return stream().map(CountryCode::memorySignature).toArray(String[]::new);
+    }
+
 }

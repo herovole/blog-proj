@@ -84,7 +84,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     insert_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
             "     source_date between :dateFrom And :dateTo " +
-            "    ) ")
+            "    ) ", nativeQuery = true)
     long countByOptions(@Param("keyword1") String keyword1,
                         @Param("keyword2") String keyword2,
                         @Param("keyword3") String keyword3,

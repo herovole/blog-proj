@@ -47,6 +47,7 @@ public class Timestamp implements Comparable<Timestamp> {
         return Timestamp.valueOf(unixTimestamp);
     }
 
+
     private final Long unix;
 
     boolean isEmpty() {

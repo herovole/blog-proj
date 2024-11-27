@@ -31,4 +31,15 @@ public interface Article {
             CountryCodes countries,
             IntegerIds editors,
             CommentUnits sourceComments);
+
+    Article append(
+            IntegerIds topicTags,
+            CountryCodes countries,
+            IntegerIds editors,
+            int countSourceComments);
+
+
+    Json toJsonRecord();
+
+    interface Json{}
 }

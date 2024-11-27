@@ -68,6 +68,26 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     }
 
     @Override
+    public Article findByIdSimplified(IntegerId articleId) {
+        AArticle jpaArticle = aArticleRepository.findById(articleId.longMemorySignature()).orElse(null);
+        if (jpaArticle == null) return Article.empty();
+        Article article = jpaArticle.toDomainObjSimplified();
+
+        List<AArticleHasTopicTag> jpaTopicTags = aArticleHasTopicTagRepository.findByArticleId(articleId.longMemorySignature());
+        IntegerIds topicTags = IntegerIds.of(jpaTopicTags.stream().map(AArticleHasTopicTag::toTopicTagId).toArray(IntegerId[]::new));
+
+        List<AArticleHasCountry> jpaCountryCodes = aArticleHasCountryRepository.findByArticleId(articleId.longMemorySignature());
+        CountryCodes coutryCodes = CountryCodes.of(jpaCountryCodes.stream().map(AArticleHasCountry::toIso2).toArray(CountryCode[]::new));
+
+        List<AArticleHasEditor> jpaEditors = aArticleHasEditorRepository.findByArticleId(articleId.longMemorySignature());
+        IntegerIds editors = IntegerIds.of(jpaEditors.stream().map(AArticleHasEditor::toEditorId).toArray(IntegerId[]::new));
+
+        int countSourceComments = aSourceCommentRepository.countByArticleId(articleId.longMemorySignature());
+
+        return article.append(topicTags, coutryCodes, editors, countSourceComments);
+    }
+
+    @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         long[] ids = aArticleRepository.searchByOptions(
                 searchOption.getKeywords().get(0).letterSignature(),

@@ -52,6 +52,7 @@ public class RealArticle implements Article {
     private final IntegerIds editors;
     private final CommentUnits originalComments;
     private final CommentUnits userComments;
+    private final Timestamp registrationTimestamp;
     private final Timestamp latestEditTimestamp;
 
     @Override
@@ -77,8 +78,19 @@ public class RealArticle implements Article {
                 .editors(editors)
                 .originalComments(sourceComments)
 
+                .registrationTimestamp(this.registrationTimestamp)
                 .latestEditTimestamp(this.latestEditTimestamp)
 
                 .build();
+    }
+
+    @Override
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Json toJsonRecord() {
+        return null;
     }
 }

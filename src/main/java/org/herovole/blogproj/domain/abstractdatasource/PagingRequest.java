@@ -11,6 +11,7 @@ public class PagingRequest {
     private static final String API_KEY_PAGER_PAGE = "page";
 
     public static PagingRequest fromPostContent(PostContent postContent) {
+        postContent.println("pagingrequest");
         PostContent postItemsPerPage = postContent.getChildren(API_KEY_PAGER_ITEMS_PER_PAGE);
         int itemsPerPage = Integer.parseInt(postItemsPerPage.getValue());
         PostContent postPage = postContent.getChildren(API_KEY_PAGER_PAGE);

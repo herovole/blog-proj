@@ -22,4 +22,14 @@ public class EmptyArticle implements Article {
     public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, CommentUnits sourceComments) {
         return this;
     }
+
+    @Override
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+        return this;
+    }
+
+    @Override
+    public Json toJsonRecord() {
+        return null;
+    }
 }

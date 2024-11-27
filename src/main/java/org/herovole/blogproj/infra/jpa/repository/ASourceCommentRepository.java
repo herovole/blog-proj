@@ -20,4 +20,11 @@ public interface ASourceCommentRepository extends JpaRepository<ASourceComment, 
             "order by comment_id",
             nativeQuery = true)
     List<ASourceComment> findByArticleId(@Param("article_id") long articleId);
+
+    @Query(value = "Select count(id) from a_source_comment " +
+            "where delete_flag = 0 " +
+            "  and article_id = :article_id " +
+            "order by comment_id",
+            nativeQuery = true)
+    int countByArticleId(@Param("article_id") long articleId);
 }

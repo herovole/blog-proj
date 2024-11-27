@@ -1,7 +1,11 @@
 package org.herovole.blogproj.controller;
 
+import com.google.gson.Gson;
 import org.herovole.blogproj.application.editarticle.EditArticle;
 import org.herovole.blogproj.application.editarticle.EditArticleInput;
+import org.herovole.blogproj.application.searcharticles.SearchArticles;
+import org.herovole.blogproj.application.searcharticles.SearchArticlesInput;
+import org.herovole.blogproj.application.searcharticles.SearchArticlesOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.PostContent;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,17 +32,22 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 public class AdminV1Controller {
-
     private static final Logger logger = LoggerFactory.getLogger(AdminV1Controller.class.getSimpleName());
-
-    @Autowired
-    private EditArticle editArticle;
+    private final EditArticle editArticle;
+    private final SearchArticles searchArticles;
 
     @Autowired
     private MCountryRepository mCountryRepository;
 
     @Autowired
     private ATopicTagRepository aTopicTagRepository;
+
+    AdminV1Controller(
+            @Autowired EditArticle editArticle,
+            @Autowired SearchArticles searchArticles) {
+        this.editArticle = editArticle;
+        this.searchArticles = searchArticles;
+    }
 
     @GetMapping("/countries")
     public ResponseEntity<String[]> countrySelectBox() {
@@ -74,7 +84,7 @@ public class AdminV1Controller {
     }
 
     @PostMapping("/articles")
-    public ResponseEntity<String> articles(
+    public ResponseEntity<String> postArticles(
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : articles (Post) ");
         System.out.println(request);
@@ -94,5 +104,25 @@ public class AdminV1Controller {
         return ResponseEntity.ok("");
     }
 
+    @GetMapping("/articles")
+    public ResponseEntity<String> searchArticles(
+            @RequestParam Map<String, String> request) {
+        logger.info("Endpoint : articles (Get) ");
+        System.out.println(request);
+
+        try {
+            PostContent postContent = PostContent.of(request);
+            SearchArticlesInput input = SearchArticlesInput.fromPostContent(postContent);
+            SearchArticlesOutput output = this.searchArticles.process(input);
+            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
 
 }

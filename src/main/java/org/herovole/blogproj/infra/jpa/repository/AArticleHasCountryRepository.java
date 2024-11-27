@@ -15,9 +15,8 @@ public interface AArticleHasCountryRepository extends JpaRepository<AArticleHasC
     AArticleHasCountry findOne();
 
     @Query(value = "Select * from a_article_has_country " +
-            "where delete_flag = 0 " +
-            "  and article_id = :article_id " +
-            "order by comment_id",
+            "  where article_id = :article_id " +
+            "order by iso_2",
             nativeQuery = true)
     List<AArticleHasCountry> findByArticleId(@Param("article_id") long articleId);
 }
