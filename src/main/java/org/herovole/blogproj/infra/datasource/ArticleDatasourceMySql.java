@@ -89,6 +89,9 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
 
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
+        System.out.println("keyword0 " + searchOption.getKeywords().get(0).memorySignature());
+        System.out.println("keyword1 " + searchOption.getKeywords().get(1).memorySignature());
+        System.out.println("keyword2 " + searchOption.getKeywords().get(2).memorySignature());
         long[] ids = aArticleRepository.searchByOptions(
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
