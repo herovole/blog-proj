@@ -24,18 +24,21 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     title like Concat('%', :keyword1, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword1, '%') " +
+            "   OR :keyword1 is null " +
             "   )" +
             "   And " +
             "   (" +
             "     title like Concat('%', :keyword2, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword2, '%') " +
+            "   OR :keyword2 is null " +
             "   )" +
             "   And " +
             "   (" +
             "     title like Concat('%', :keyword3, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword3, '%') " +
+            "   OR :keyword3 is null " +
             "   )" +
             "  AND " +
             "   (" +
@@ -43,7 +46,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   OR " +
             "     insert_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     source_date between :dateFrom And :dateTo " +
+            "     coalesce(source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) " +
             " order by id desc" +
             " limit :limit offset :offset", nativeQuery = true)
@@ -64,18 +67,21 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     title like Concat('%', :keyword1, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword1, '%') " +
+            "   OR :keyword1 is null " +
             "   )" +
             "   And " +
             "   (" +
             "     title like Concat('%', :keyword2, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword2, '%') " +
+            "   OR :keyword2 is null " +
             "   )" +
             "   And " +
             "   (" +
             "     title like Concat('%', :keyword3, '%') " +
             "   OR " +
             "     text like Concat('%', :keyword3, '%') " +
+            "   OR :keyword3 is null " +
             "   )" +
             "  AND " +
             "   (" +
@@ -83,7 +89,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   OR " +
             "     insert_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     source_date between :dateFrom And :dateTo " +
+            "     coalesce(source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) ", nativeQuery = true)
     long countByOptions(@Param("keyword1") String keyword1,
                         @Param("keyword2") String keyword2,

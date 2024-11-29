@@ -24,4 +24,8 @@ public class SearchKeyword {
     public String letterSignature() {
         return this.isEmpty() ? "" : this.keyword;
     }
+
+    public String memorySignature() {
+        return this.isEmpty() ? null : this.keyword;
+    }
 }

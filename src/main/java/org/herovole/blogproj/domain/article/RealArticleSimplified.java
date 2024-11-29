@@ -71,8 +71,10 @@ public class RealArticleSimplified implements Article {
                 .articleId(articleId.longMemorySignature())
                 .title(title.memorySignature())
                 .text(text.memorySignature())
-                .image(image.memorySignature())
-                .sourcePage(sourcePage.toJsonRecord())
+                .imageName(image.memorySignature())
+                .sourceUrl(sourcePage.getUrl().memorySignature())
+                .sourceTitle(sourcePage.getTitle().memorySignature())
+                .sourceDate(sourcePage.getDate().letterSignature())
                 .isPublished(isPublished.memorySignature())
                 .countries(countries.toMemorySignature())
                 .topicTags(topicTags.toIntMemorySignature())
@@ -88,8 +90,10 @@ public class RealArticleSimplified implements Article {
     record Json(long articleId,
                 String title,
                 String text,
-                String image,
-                SourcePage.Json sourcePage,
+                String imageName,
+                String sourceUrl,
+                String sourceTitle,
+                String sourceDate,
                 Boolean isPublished,
                 String[] countries,
                 int[] topicTags,

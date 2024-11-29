@@ -24,15 +24,4 @@ public class SourcePage {
     private final ArticleTitle title;
     private final Date date;
 
-    public Json toJsonRecord() {
-        return Json.builder()
-                .sourceUrl(this.url.memorySignature())
-                .sourceTitle(this.title.memorySignature())
-                .sourceDate(this.date.letterSignature())
-                .build();
-    }
-
-    @Builder
-    public record Json(String sourceUrl, String sourceTitle, String sourceDate) { }
-
 }

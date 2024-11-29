@@ -90,9 +90,9 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         long[] ids = aArticleRepository.searchByOptions(
-                searchOption.getKeywords().get(0).letterSignature(),
-                searchOption.getKeywords().get(1).letterSignature(),
-                searchOption.getKeywords().get(2).letterSignature(),
+                searchOption.getKeywords().get(0).memorySignature(),
+                searchOption.getKeywords().get(1).memorySignature(),
+                searchOption.getKeywords().get(2).memorySignature(),
                 searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
                 searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
                 searchOption.getDateRange().from().toLocalDate(),
@@ -106,9 +106,9 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     @Override
     public long countByOptions(ArticleListSearchOption searchOption) {
         return aArticleRepository.countByOptions(
-                searchOption.getKeywords().get(0).letterSignature(),
-                searchOption.getKeywords().get(1).letterSignature(),
-                searchOption.getKeywords().get(2).letterSignature(),
+                searchOption.getKeywords().get(0).memorySignature(),
+                searchOption.getKeywords().get(1).memorySignature(),
+                searchOption.getKeywords().get(2).memorySignature(),
                 searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
                 searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
                 searchOption.getDateRange().from().toLocalDate(),

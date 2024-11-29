@@ -3,17 +3,18 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {SearchArticlesOutput} from "./searchArticlesOutput"
 
 export const ArticleListBody = ({postKey}) => {
+    const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const LETTERS_PICKUP = 50;
     const PAGES_VISIBLE = 15;
-    const [articles, setArticles] = useState([]);
+    const [output, setOutput] = useState(SearchArticlesOutput.empty());
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [keywords, setKeywords] = useState("");
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
-    const [totalRecordNumber, setTotalRecordNumber] = useState(100);
 
     const refItemsPerPage = useRef(null);
     const refPage = useRef(null);
@@ -69,14 +70,26 @@ export const ArticleListBody = ({postKey}) => {
                 headers: { Accept: "application/json" },
             });
 
-            const searchArticlesOutput = await response.data;
-            setTotalRecordNumber(searchArticlesOutput.totalArticles);
-            console.log("total articles : " + searchArticlesOutput.totalArticles);
+            console.log(response);
+            //console.log(JSON.parse(response));
+
+            //const parsedHash = JSON.parse(jsonString);
+            //const searchArticlesOutput = await response.data;
+            const searchArticlesOutput = SearchArticlesOutput.fromHash(response.data);
+            setOutput(searchArticlesOutput);
+            console.log("total articles : " + output.totalArticles);
+            console.log("articles : " + JSON.stringify(output.articleSummaries));
 
         } catch (error) {
             console.error('Error submitting form:', error);
         }
 
+    }
+
+    const totalPages = () => {
+        return output.totalArticles % itemsPerPage == 0
+            ? output.totalArticles / itemsPerPage
+            : Math.floor(output.totalArticles / itemsPerPage) + 1;
     }
 
     return (
@@ -108,13 +121,9 @@ export const ArticleListBody = ({postKey}) => {
 
                 <Pagination size="sm" className="pull-right">
                     <Pagination.First onClick={() => handlePageChanged(1)} />
-                    <Pagination.Prev onClick={() => handlePageChanged(currentPage - 1)} />
+                    <Pagination.Prev onClick={() => handlePageChanged(currentPage - 1 > 0 ? currentPage - 1 : 1)} />
                     {(() => {
-                        const totalPages =
-                            totalRecordNumber % itemsPerPage === 0
-                            ? totalRecordNumber / itemsPerPage
-                            : Math.floor(totalRecordNumber / itemsPerPage) + 1;
-                        return Array.from({ length: totalPages }, (_, i) => (
+                        return Array.from({ length: totalPages() }, (_, i) => (
                             <Pagination.Item
                                 key={i + 1}
                                 active={i + 1 === currentPage}
@@ -124,8 +133,8 @@ export const ArticleListBody = ({postKey}) => {
                             </Pagination.Item>
                         ));
                     })()}
-                    <Pagination.Next onClick={() => handlePageChanged(currentPage + 1)} />
-                    <Pagination.Last onClick={() => handlePageChanged(totalPages)} />
+                    <Pagination.Next onClick={() => handlePageChanged(currentPage < totalPages() ? currentPage + 1 : totalPages())} />
+                    <Pagination.Last onClick={() => handlePageChanged(totalPages())} />
                 </Pagination>
             </form>
             <p>ページ当たり表示数 :
@@ -163,20 +172,23 @@ export const ArticleListBody = ({postKey}) => {
                   selected={dateTo}
                 />
             </p>
-            {articles.map((article) => (
-                <div key={article.articleId}>
-                    <p>ID : {article.articleId}</p>
-                    <p>Is Published : {article.isPublished}</p>
-                    <p>Title : {article.title.slice(0, LETTERS_PICKUP)}</p>
-                    <p>Text : {article.text.slice(0, LETTERS_PICKUP)}</p>
-                    <p>Editors : {article.editors}</p>
-                    <p>Source URL : {article.sourceUrl}</p>
-                    <p>Source Title : {article.sourceTitle}</p>
-                    <p>Source Date : {article.sourceDate}</p>
-                    <p>Source Comments Number : {article.originalComments.length}</p>
-                    <p>User Comments Number : {article.userComments.length}</p>
-                    <p>Insert Date : </p>
-                    <p>Update Date : </p>
+            {output.articleSummaries.list.map((article) => (
+                <div class="flex-container">
+                    <img class="image-sample" src={LOCAL_DIR + article.image} />
+                    <div>
+                        <p>ID : {article.articleId}</p>
+                        <p>Is Published : {article.isPublished}</p>
+                        <p>Title : {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}</p>
+                        <p>Text : {article.text ? article.text.slice(0, LETTERS_PICKUP) : ""}</p>
+                        <p>Editors : {article.editors}</p>
+                        <p>Source URL : {article.sourceUrl}</p>
+                        <p>Source Title : {article.sourceTitle}</p>
+                        <p>Source Date : {article.sourceDate}</p>
+                        <p>Source Comments Number : {article.countOriginalComments}</p>
+                        <p>User Comments Number : {article.countUserComments}</p>
+                        <p>Insert Date : {article.registrationTimestamp}</p>
+                        <p>Update Date : {article.latestEditTimestamp}</p>
+                    </div>
                 </div>
             ))}
         </>
