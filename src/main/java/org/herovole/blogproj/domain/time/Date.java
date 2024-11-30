@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class Date {
 
     private static final String EMPTY = "-";
+    private static final String EMPTY2 = "null";
     private static final Pattern patternYyyyMMDd = Pattern.compile("\\d{8}");
     private static final DateTimeFormatter formatterYyyyMMDd = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static final Pattern patternYyyySlashMMSlashDd = Pattern.compile("\\d{4}/\\d{2}/\\d{2}");
@@ -32,7 +33,7 @@ public class Date {
     }
 
     public static Date valueOf(String field) {
-        if (field == null || field.isEmpty()) return empty();
+        if (field == null || field.isEmpty() || EMPTY2.equalsIgnoreCase(field) || EMPTY.equals(field)) return empty();
         if (patternYyyySlashMMSlashDd.matcher(field).matches())
             return valueOf(LocalDate.parse(field, formatterYyyySlashMMSlashDd));
         if (patternYyyyMMDd.matcher(field).matches())

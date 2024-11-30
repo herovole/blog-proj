@@ -142,7 +142,7 @@ export const Sandbox = () =>{
         </div>
         <div>
             test2: ArticleListBody
-            <ArticleListBody postKey={new ElementId("articleList")}/>
+            <ArticleListBody formKey={new ElementId("articleList")}/>
         </div>
         <div>
             test3:
