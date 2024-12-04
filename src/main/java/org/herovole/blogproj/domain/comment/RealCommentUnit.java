@@ -59,4 +59,27 @@ public class RealCommentUnit implements CommentUnit {
                 && this.isHidden.equals(it.isHidden)
                 && this.referringCommentIds.equals(it.referringCommentIds);
     }
+
+    @Override
+    public CommentUnit.Json toJson() {
+        return new Json(
+                this.commentSerialNumber.longMemorySignature(),
+                this.commentId.intMemorySignature(),
+                this.commentText.memorySignature(),
+                this.country.memorySignature(),
+                this.isHidden.memorySignature(),
+                this.referringCommentIds.toIntMemorySignature()
+        );
+    }
+
+    record Json(
+            long commentSerialNumber,
+            Integer commentId,
+            String commentText,
+            String country,
+            boolean isHidden,
+            int[] referringCommentIds
+    ) implements CommentUnit.Json {
+    }
+
 }

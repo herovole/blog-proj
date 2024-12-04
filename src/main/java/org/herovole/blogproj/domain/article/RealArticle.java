@@ -7,6 +7,7 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
@@ -25,7 +26,7 @@ public class RealArticle implements Article {
     static RealArticle fromPost(PostContent postContent) {
         PostContent children = postContent.getChildren(API_KEY);
         return RealArticle.builder()
-                .articleId(IntegerId.fromPostContentArticleId(children))
+                .articleId(IntegerId.fromFormContentArticleId(children))
                 .title(ArticleTitle.fromPostContentArticleTitle(children))
                 .text(ArticleText.fromPostContent(children))
                 .image(ImageName.fromPostContentImageName(children))
@@ -77,6 +78,7 @@ public class RealArticle implements Article {
                 .topicTags(topicTags)
                 .editors(editors)
                 .originalComments(sourceComments)
+                .userComments(CommentUnits.empty())
 
                 .registrationTimestamp(this.registrationTimestamp)
                 .latestEditTimestamp(this.latestEditTimestamp)
@@ -91,6 +93,40 @@ public class RealArticle implements Article {
 
     @Override
     public Json toJsonRecord() {
-        return null;
+        return Json.builder()
+                .articleId(articleId.longMemorySignature())
+                .title(title.memorySignature())
+                .text(text.memorySignature())
+                .imageName(image.memorySignature())
+                .sourceUrl(sourcePage.getUrl().memorySignature())
+                .sourceTitle(sourcePage.getTitle().memorySignature())
+                .sourceDate(sourcePage.getDate().letterSignature())
+                .isPublished(isPublished.memorySignature())
+                .countries(countries.toMemorySignature())
+                .topicTags(topicTags.toIntMemorySignature())
+                .editors(editors.toIntMemorySignature())
+                .sourceComments(originalComments.toJson())
+                .userComments(userComments.toJson())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .build();
+    }
+
+    @Builder
+    record Json(long articleId,
+                String title,
+                String text,
+                String imageName,
+                String sourceUrl,
+                String sourceTitle,
+                String sourceDate,
+                Boolean isPublished,
+                String[] countries,
+                int[] topicTags,
+                int[] editors,
+                CommentUnit.Json[] sourceComments,
+                CommentUnit.Json[] userComments,
+                String registrationTimestamp,
+                String latestEditTimestamp) implements Article.Json {
     }
 }

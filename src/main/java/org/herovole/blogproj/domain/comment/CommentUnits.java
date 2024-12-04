@@ -26,6 +26,10 @@ public class CommentUnits {
         return new CommentUnits(units);
     }
 
+    public static CommentUnits empty() {
+        return of(new CommentUnit[0]);
+    }
+
     private final CommentUnit[] units;
 
     public Stream<CommentUnit> stream() {
@@ -52,5 +56,9 @@ public class CommentUnits {
                                 !this.getBySameId(e).hasSameContent(e)
                 )
                 .toArray(CommentUnit[]::new));
+    }
+
+    public CommentUnit.Json[] toJson() {
+        return stream().map(CommentUnit::toJson).toArray(CommentUnit.Json[]::new);
     }
 }

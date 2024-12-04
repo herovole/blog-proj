@@ -28,6 +28,11 @@ export const Footer = () => {
                 <Link to="/admin/sandbox">sandbox</Link>
                 <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/sandbox">sandbox</NavLink>
             </li>
+            <li>
+                <Link to="/admin/articles">articles</Link>
+                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/articles">articles</NavLink>
+            </li>
+
 
         </ul>
     )

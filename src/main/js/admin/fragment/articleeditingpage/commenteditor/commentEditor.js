@@ -9,10 +9,17 @@ export class CommentEditor extends React.Component {
             //this.props.postKey : form component name
             //this.props.content : CommentUnitList
             //this.props.countryTagOptions : TagUnitList
+            countAddedComments : 0
         };
     }
 
     componentDidMount() { }
+
+    handleAddComment = () => {
+        this.setState(prevState => ({
+            countAddedComments: prevState.countAddedComments + 1,
+        }));
+    }
 
     render() {
         var commentUnitList = this.props.content ? this.props.content.sort() : [];
@@ -22,7 +29,6 @@ export class CommentEditor extends React.Component {
             <div>
                 <div name={this.props.postKey.toStringKey()}>
 
-                    {/* Step 2: Render each comment unit */}
 
                     {commentUnitList.arrayListOfComments.map((commentUnit, i) => {
                         var depth = commentUnit.depth;
@@ -40,12 +46,15 @@ export class CommentEditor extends React.Component {
                         );
                     })}
 
-                    {/* Step 3: Render an empty CommentEditorUnit at the end */}
-                    <CommentEditorUnit
-                      postKey={this.props.postKey.append(elementNumber.toString())}
-                      countryTagOptions={this.props.countryTagOptions}
-                      content=""
-                    />
+                    {Array.from({ length: this.state.countAddedComments }).map((_, index) => (
+                        <CommentEditorUnit
+                          postKey={this.props.postKey.append((elementNumber + index).toString())}
+                          countryTagOptions={this.props.countryTagOptions}
+                          content=""
+                        />
+                    ))}
+
+                    <p><button type="button" onClick={this.handleAddComment}>Add Comment</button></p>
                 </div>
             </div>
         );

@@ -26,4 +26,9 @@ public class EmptyCommentUnit implements CommentUnit {
     public boolean hasSameContent(CommentUnit that) {
         return false;
     }
+
+    @Override
+    public Json toJson() {
+        throw new UnsupportedOperationException();
+    }
 }

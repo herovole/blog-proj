@@ -22,4 +22,9 @@ public interface CommentUnit {
     boolean hasSameCommentId(CommentUnit that);
 
     boolean hasSameContent(CommentUnit that);
+
+    CommentUnit.Json toJson();
+
+    interface Json {
+    }
 }

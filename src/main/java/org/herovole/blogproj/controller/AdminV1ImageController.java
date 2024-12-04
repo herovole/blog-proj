@@ -23,12 +23,12 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/images")
-public class AdminJsonV1ImageController {
+public class AdminV1ImageController {
 
     private final ImageDatasource imageDatasource;
 
     @Autowired
-    public AdminJsonV1ImageController(ImageDatasource imageDatasource) {
+    public AdminV1ImageController(ImageDatasource imageDatasource) {
         this.imageDatasource = imageDatasource;
     }
 

@@ -33,8 +33,6 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class AdminV1Controller {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1Controller.class.getSimpleName());
-    private final EditArticle editArticle;
-    private final SearchArticles searchArticles;
 
     @Autowired
     private MCountryRepository mCountryRepository;
@@ -42,12 +40,6 @@ public class AdminV1Controller {
     @Autowired
     private ATopicTagRepository aTopicTagRepository;
 
-    AdminV1Controller(
-            @Autowired EditArticle editArticle,
-            @Autowired SearchArticles searchArticles) {
-        this.editArticle = editArticle;
-        this.searchArticles = searchArticles;
-    }
 
     @GetMapping("/countries")
     public ResponseEntity<String[]> countrySelectBox() {
@@ -81,48 +73,6 @@ public class AdminV1Controller {
             System.out.println("error : 2");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new String[]{"Internal Server Error: " + e.getMessage()});
         }
-    }
-
-    @PostMapping("/articles")
-    public ResponseEntity<String> postArticles(
-            @RequestBody Map<String, String> request) {
-        logger.info("Endpoint : articles (Post) ");
-        System.out.println(request);
-
-        try {
-            PostContent postContent = PostContent.of(request);
-            EditArticleInput input = EditArticleInput.fromPostContent(postContent);
-            this.editArticle.process(input);
-        } catch (DomainInstanceGenerationException e) {
-            logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
-        } catch (Exception e) {
-            logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
-        }
-
-        return ResponseEntity.ok("");
-    }
-
-    @GetMapping("/articles")
-    public ResponseEntity<String> searchArticles(
-            @RequestParam Map<String, String> request) {
-        logger.info("Endpoint : articles (Get) ");
-        System.out.println(request);
-
-        try {
-            PostContent postContent = PostContent.of(request);
-            SearchArticlesInput input = SearchArticlesInput.fromPostContent(postContent);
-            SearchArticlesOutput output = this.searchArticles.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
-        } catch (DomainInstanceGenerationException e) {
-            logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception e) {
-            logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-
     }
 
 }

@@ -23,6 +23,7 @@ export class ArticleEditingPageBody extends React.Component {
 
     componentDidMount() { }
 
+
     handleSubmit = async (event) => {
         event.preventDefault(); // Prevent page reload
         const formData = new FormData(event.target);
@@ -58,27 +59,33 @@ export class ArticleEditingPageBody extends React.Component {
                                 <p class="item-title">Article ID</p>
                                 <IdsEditingForm
                                     postKey = {this.props.postKey.append("id")}
-                                    isFixed = {true}>
-                                    {this.props.content.articleId}
-                                </IdsEditingForm>
+                                    ids = {this.props.content.articleId}
+                                    isFixed = {true}
+                                />
                             </div>
-                            <div class="flex-container">
+                            <div>
                                 <p class="item-title-large">Source Info</p>
-                                <span class="item-title">URL</span>
-                                <TextEditingForm
-                                    postKey = {this.props.postKey.append("sourceUrl")}>
-                                    {this.props.content.sourceUrl}
-                                </TextEditingForm>
-                                <span class="item-title">Title</span>
-                                <TextEditingForm
-                                    postKey = {this.props.postKey.append("sourceTitle")}>
-                                    {this.props.content.sourceTitle}
-                                </TextEditingForm>
-                                <span class="item-title">Date</span>
-                                <DateSelectingForm
-                                    postKey = {this.props.postKey.append("sourceDate")}>
-                                    {this.props.content.sourceDate}
-                                </DateSelectingForm>
+                                <p>
+                                    <span class="item-title">URL</span>
+                                    <TextEditingForm
+                                        postKey = {this.props.postKey.append("sourceUrl")}>
+                                        {this.props.content.sourceUrl}
+                                    </TextEditingForm>
+                                </p>
+                                <p>
+                                    <span class="item-title">Title</span>
+                                    <TextEditingForm
+                                        postKey = {this.props.postKey.append("sourceTitle")}>
+                                        {this.props.content.sourceTitle}
+                                    </TextEditingForm>
+                                </p>
+                                <p>
+                                    <span class="item-title">Date</span>
+                                    <DateSelectingForm
+                                        postKey = {this.props.postKey.append("sourceDate")}>
+                                        {this.props.content.sourceDate}
+                                    </DateSelectingForm>
+                                </p>
                             </div>
                             <div class="flex-container">
                                 <p class="item-title">Published?</p>
@@ -103,7 +110,7 @@ export class ArticleEditingPageBody extends React.Component {
                                   allowsMultipleOptions={true}
                                   postKey={this.props.postKey.append("topicTags")}
                                   candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
-                                  selectedTagIds={[]}
+                                  selectedTagIds={this.props.content.topicTags}
                                 />
                             </div>
                             <div>
@@ -112,7 +119,7 @@ export class ArticleEditingPageBody extends React.Component {
                                   allowsMultipleOptions={true}
                                   postKey={this.props.postKey.append("countries")}
                                   candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
-                                  selectedTagIds={[]}
+                                  selectedTagIds={this.props.content.countries}
                                 />
                             </div>
                             <div>

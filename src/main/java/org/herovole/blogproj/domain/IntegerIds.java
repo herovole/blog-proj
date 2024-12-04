@@ -41,6 +41,7 @@ public class IntegerIds implements Iterable<IntegerId> {
     }
 
     public static IntegerIds of(String commaSeparatedIds) {
+        if (commaSeparatedIds == null || commaSeparatedIds.isEmpty()) return empty();
         return of(commaSeparatedIds.split(SEP));
     }
 

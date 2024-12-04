@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-bootstrap/Pagination';
@@ -6,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "./searchArticlesInput"
 import {SearchArticlesOutput} from "./searchArticlesOutput"
 
-export const ArticleListBody = ({formKey}) => {
+export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
     const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const LETTERS_PICKUP = 50;
     const PAGES_VISIBLE = 15;
@@ -80,6 +81,12 @@ export const ArticleListBody = ({formKey}) => {
             : Math.floor(output.totalArticles / inputFixed.itemsPerPage) + 1;
     }
 
+    const navigate = useNavigate();
+    const goToIndividualPage = (articleId) => {
+        console.log("link invoked")
+        navigate(directoryToIndividualPage + "/" + articleId);
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -142,6 +149,7 @@ export const ArticleListBody = ({formKey}) => {
                 <div class="flex-container">
                     <img class="image-sample" src={LOCAL_DIR + article.image} />
                     <div>
+                        <button onClick={() => goToIndividualPage(article.articleId)}>Open</button>
                         <p>ID : {article.articleId}</p>
                         <p>Is Published : {article.isPublished}</p>
                         <p>Title : {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}</p>

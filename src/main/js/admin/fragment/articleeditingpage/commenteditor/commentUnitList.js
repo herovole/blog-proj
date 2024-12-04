@@ -4,6 +4,7 @@ import { CommentUnit } from './commentUnit'
 export class CommentUnitList {
 
     static fromHash(array) {
+        console.log("comment unit list : " + JSON.stringify(array));
         var arrayListOfComments = array.map(child => CommentUnit.fromHash(child));
         return new CommentUnitList(arrayListOfComments);
     }

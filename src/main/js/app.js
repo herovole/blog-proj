@@ -13,6 +13,8 @@ import { TextForm } from './textForm';
 
 import { AdminEntrance } from './admin/adminEntrance';
 import { Sandbox } from './admin/sandbox';
+import { PageArticleList } from './admin/pageArticleList';
+import { PageArticle } from './admin/pageArticle';
 
 
 console.log("app.js");
@@ -32,6 +34,11 @@ function App () {
         <Route path="/admin" element={ <AdminEntrance /> } /> {}
         <Route path="/admin/newarticle" element={ <Sandbox/> } /> {}
         <Route path="/admin/sandbox" element={ <Sandbox/> } /> {}
+
+
+        <Route path="/admin/articles/:articleId" element={ <PageArticle/> } /> {}
+        <Route path="/admin/articles" element={ <PageArticleList/> } /> {}
+
       </Routes>
 
       <h1>これもRoutesの外側のエレメント</h1>
