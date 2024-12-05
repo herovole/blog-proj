@@ -5,8 +5,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.tag.topic.TagEnglish;
+import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 
 @Builder
 @EqualsAndHashCode

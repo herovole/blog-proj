@@ -6,9 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.tag.TagEnglish;
-import org.herovole.blogproj.domain.tag.TagJapanese;
-import org.herovole.blogproj.domain.tag.TagUnit;
+import org.herovole.blogproj.domain.tag.topic.RealTagUnit;
+import org.herovole.blogproj.domain.tag.topic.TagEnglish;
+import org.herovole.blogproj.domain.tag.topic.TagJapanese;
+import org.herovole.blogproj.domain.tag.topic.TagUnit;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -53,7 +54,7 @@ public class ATopicTag implements Serializable {
     }
 
     public TagUnit toDomainObj() {
-        return TagUnit.builder()
+        return RealTagUnit.builder()
                 .id(IntegerId.valueOf(id))
                 .tagJapanese(TagJapanese.valueOf(nameJa))
                 .tagEnglish(TagEnglish.valueOf(nameEn))

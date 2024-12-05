@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain.tag;
+package org.herovole.blogproj.domain.tag.topic;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

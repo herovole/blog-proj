@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.tag.CountryCode;
 import org.herovole.blogproj.domain.tag.CountryTagUnit;
-import org.herovole.blogproj.domain.tag.TagEnglish;
-import org.herovole.blogproj.domain.tag.TagJapanese;
+import org.herovole.blogproj.domain.tag.topic.TagEnglish;
+import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
