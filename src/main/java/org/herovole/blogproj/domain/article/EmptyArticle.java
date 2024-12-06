@@ -4,7 +4,7 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnits;
-import org.herovole.blogproj.domain.tag.CountryCodes;
+import org.herovole.blogproj.domain.tag.country.CountryCodes;
 
 @ToString
 public class EmptyArticle implements Article {

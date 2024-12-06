@@ -9,7 +9,7 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.tag.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
 
 @ToString
 @Builder

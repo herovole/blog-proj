@@ -3,10 +3,11 @@ package org.herovole.blogproj.domain.tag.topic;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 @Builder
 @EqualsAndHashCode
-public class RealTagUnit implements TagUnit {
+public class RealTagUnitWithStat implements TagUnit {
 
     @Override
     public IntegerId getId() {
@@ -19,6 +20,10 @@ public class RealTagUnit implements TagUnit {
     private final TagEnglish tagEnglish;
     @EqualsAndHashCode.Exclude
     private final TagJapanese tagJapanese;
+    @EqualsAndHashCode.Exclude
+    private final int articles;
+    @EqualsAndHashCode.Exclude
+    private final Timestamp lastUpdate;
 
 
     @Override
@@ -29,10 +34,12 @@ public class RealTagUnit implements TagUnit {
 
     @Override
     public Json toJson() {
-        return RealTagUnit.Json.builder()
+        return RealTagUnitWithStat.Json.builder()
                 .id(this.id.longMemorySignature())
                 .tagEnglish(this.tagEnglish.memorySignature())
                 .tagJapanese(this.tagJapanese.memorySignature())
+                .articles(this.articles)
+                .lastUpdate(this.lastUpdate.letterSignatureYyyyMMddSpaceHHmmss())
                 .build();
     }
 
@@ -40,7 +47,9 @@ public class RealTagUnit implements TagUnit {
     record Json(
             Long id,
             String tagEnglish,
-            String tagJapanese
+            String tagJapanese,
+            int articles,
+            String lastUpdate
     ) implements TagUnit.Json {
     }
 

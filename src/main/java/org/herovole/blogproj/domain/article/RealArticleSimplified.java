@@ -9,7 +9,7 @@ import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
-import org.herovole.blogproj.domain.tag.CountryCodes;
+import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString

@@ -21,11 +21,26 @@ public interface ATopicTagRepository extends JpaRepository<ATopicTag, Long> {
     @Query(value = "Select * from a_topic_tag Where delete_flag = 0 and id = :id", nativeQuery = true)
     ATopicTag findByTopicTagId(@Param("id") long id);
 
-    @Query(value = "Select * from a_topic_tag Where delete_flag = 0 " +
-            " Order By id " +
+    @Query(value = "Select t.* from " +
+            "  a_topic_tag t " +
+            " Where " +
+            "  t.delete_flag = 0 " +
+            " Order By t.id " +
             " Limit :limit " +
             " Offset :offset ", nativeQuery = true)
     List<ATopicTag> searchByOptions(@Param("limit") int limit, @Param("offset") long offset);
+
+    @Query(value = "Select t.*, count(h.article_id) as article_count from " +
+            "  a_topic_tag t, " +
+            "  a_article_has_topic_tag h " +
+            " Where " +
+            "  t.delete_flag = 0 And " +
+            "  h.topic_tag_id = t.id " +
+            " Order By t.id " +
+            " Group By t.id " +
+            " Limit :limit " +
+            " Offset :offset ", nativeQuery = true)
+    List<ATopicTag.ATopicTagWithStat> searchByOptionsWithStat(@Param("limit") int limit, @Param("offset") long offset);
 
     @Query(value = "Select count(id) from a_topic_tag Where delete_flag = 0 ", nativeQuery = true)
     long countAll();

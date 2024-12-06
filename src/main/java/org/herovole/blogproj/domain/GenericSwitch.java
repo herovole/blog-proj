@@ -17,6 +17,7 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
     private static final String FALSE2 = "0";
     private static final String API_KEY_IS_PUBLISHED = "isPublished";
     private static final String API_KEY_IS_HIDDEN = "isHidden";
+    private static final String API_KEY_IS_DETAILED = "isDetailed";
 
     public static GenericSwitch fromPostContentIsPublished(PostContent postContent) {
         PostContent child = postContent.getChildren(API_KEY_IS_PUBLISHED);
@@ -25,6 +26,11 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
 
     public static GenericSwitch fromPostContentIsHidden(PostContent postContent) {
         PostContent child = postContent.getChildren(API_KEY_IS_HIDDEN);
+        return valueOf(child.getValue());
+    }
+
+    public static GenericSwitch fromPostContentIsDetailed(PostContent postContent) {
+        PostContent child = postContent.getChildren(API_KEY_IS_DETAILED);
         return valueOf(child.getValue());
     }
 
@@ -62,6 +68,10 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
 
     public boolean isEmpty() {
         return null == field;
+    }
+
+    public boolean isTrue() {
+        return !this.isEmpty() && field;
     }
 
     public String letterSignature() {

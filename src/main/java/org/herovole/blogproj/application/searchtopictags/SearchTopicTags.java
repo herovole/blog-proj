@@ -25,7 +25,7 @@ public class SearchTopicTags {
         logger.info("interpreted post : {}", input);
         PagingRequest option = input.getPagingRequest();
         long total = topicTagDatasource.countAll();
-        TagUnits tagUnits = topicTagDatasource.search(option);
+        TagUnits tagUnits = topicTagDatasource.search(input.isDetailed(), option);
         logger.info("job successful.");
 
         return SearchTopicTagsOutput.builder()

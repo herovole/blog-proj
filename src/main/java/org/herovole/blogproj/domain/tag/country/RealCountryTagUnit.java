@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain.tag;
+package org.herovole.blogproj.domain.tag.country;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -10,7 +10,7 @@ import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 
 @Builder
 @EqualsAndHashCode
-public class CountryTagUnit implements Comparable<CountryTagUnit> {
+public class RealCountryTagUnit implements CountryTagUnit {
 
     @EqualsAndHashCode.Include
     private final CountryCode id;
@@ -19,8 +19,23 @@ public class CountryTagUnit implements Comparable<CountryTagUnit> {
     @EqualsAndHashCode.Exclude
     private final TagJapanese tagJapanese;
 
+
+    @Override
+    public CountryCode getCountryCode() {
+        return this.id;
+    }
+
+    @Override
+    public CountryTagUnit.Json toJson() {
+        return Json.builder()
+                .id(this.id.memorySignature())
+                .tagEnglish(this.tagEnglish.memorySignature())
+                .tagJapanese(this.tagJapanese.memorySignature())
+                .build();
+    }
+
     @Builder
-    private static class TagUnitJson {
+    private static class Json implements CountryTagUnit.Json {
         @SerializedName("id")
         @Expose
         private String id;
@@ -32,18 +47,6 @@ public class CountryTagUnit implements Comparable<CountryTagUnit> {
         private String tagJapanese;
     }
 
-    public String toJsonString() {
-        TagUnitJson model = TagUnitJson.builder()
-                .id(this.id.memorySignature())
-                .tagEnglish(this.tagEnglish.memorySignature())
-                .tagJapanese(this.tagJapanese.memorySignature())
-                .build();
-        return new Gson().toJson(model);
-    }
 
-    @Override
-    public int compareTo(CountryTagUnit o) {
-        return this.id.compareTo(o.id);
-    }
 
 }

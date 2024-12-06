@@ -2,8 +2,10 @@ import {TagUnit} from './tagUnit.js'
 
 export class TagUnitList {
 
-    static fromJsonStringList(arrayJsonStringList) {
-        var arrayListOfTagUnits = arrayJsonStringList.map(jsonString => TagUnit.fromJsonString(jsonString));
+    static API_KEY = "tagUnits";
+
+    static fromHash(hash) {
+        var arrayListOfTagUnits = hash[TagUnitList.API_KEY].map(hash => TagUnit.fromHash(hash));
         return new TagUnitList(arrayListOfTagUnits);
     }
 

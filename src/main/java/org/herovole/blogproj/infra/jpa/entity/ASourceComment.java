@@ -14,7 +14,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealCommentUnit;
-import org.herovole.blogproj.domain.tag.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
 
 import java.io.Serializable;
 import java.text.MessageFormat;

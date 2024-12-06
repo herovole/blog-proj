@@ -7,7 +7,7 @@ import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.article.RealArticle;
 import org.herovole.blogproj.domain.comment.CommentUnits;
-import org.herovole.blogproj.domain.tag.CountryCodes;
+import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.AArticle;
 import org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry;

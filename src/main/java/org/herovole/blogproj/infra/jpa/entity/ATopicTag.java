@@ -7,9 +7,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.tag.topic.RealTagUnit;
+import org.herovole.blogproj.domain.tag.topic.RealTagUnitWithStat;
 import org.herovole.blogproj.domain.tag.topic.TagEnglish;
 import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 import org.herovole.blogproj.domain.tag.topic.TagUnit;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -59,5 +61,34 @@ public class ATopicTag implements Serializable {
                 .tagJapanese(TagJapanese.valueOf(nameJa))
                 .tagEnglish(TagEnglish.valueOf(nameEn))
                 .build();
+    }
+
+    public record ATopicTagWithStat(
+            @Column(name = "id")
+            int id,
+            @Column(name = "name_en")
+            String nameEn,
+            @Column(name = "name_ja")
+            String nameJa,
+            @Column(name = "update_timestamp")
+            LocalDateTime updateTimestamp,
+            @Column(name = "insert_timestamp")
+            LocalDateTime insertTimestamp,
+            @Column(name = "delete_flag")
+            boolean deleteFlag,
+            @Column(name = "article_count")
+            int articleCount
+    ) {
+
+        public TagUnit toDomainObj() {
+            return RealTagUnitWithStat.builder()
+                    .id(IntegerId.valueOf(id))
+                    .tagJapanese(TagJapanese.valueOf(nameJa))
+                    .tagEnglish(TagEnglish.valueOf(nameEn))
+                    .lastUpdate(Timestamp.valueOf(updateTimestamp))
+                    .articles(articleCount)
+                    .build();
+        }
+
     }
 }

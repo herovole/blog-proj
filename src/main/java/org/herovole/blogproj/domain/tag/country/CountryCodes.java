@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain.tag;
+package org.herovole.blogproj.domain.tag.country;
 
 
 import lombok.AccessLevel;

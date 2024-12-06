@@ -6,7 +6,7 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 public interface TopicTagDatasource {
     TagUnit findById(IntegerId tagId);
 
-    TagUnits search(PagingRequest pagingRequest);
+    TagUnits search(boolean isDetailed, PagingRequest pagingRequest);
 
     long countAll();
 }

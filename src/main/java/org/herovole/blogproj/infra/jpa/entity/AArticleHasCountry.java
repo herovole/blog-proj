@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.tag.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
 
 import java.io.Serializable;
 import java.text.MessageFormat;

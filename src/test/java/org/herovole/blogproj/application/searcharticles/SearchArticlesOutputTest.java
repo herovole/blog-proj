@@ -1,26 +1,21 @@
 package org.herovole.blogproj.application.searcharticles;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleText;
 import org.herovole.blogproj.domain.article.ArticleTitle;
-import org.herovole.blogproj.domain.article.Articles;
 import org.herovole.blogproj.domain.article.RealArticleSimplified;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.source.SourceUrl;
-import org.herovole.blogproj.domain.tag.CountryCode;
-import org.herovole.blogproj.domain.tag.CountryCodes;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 class SearchArticlesOutputTest {
 

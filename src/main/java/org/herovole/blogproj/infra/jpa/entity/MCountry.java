@@ -6,8 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.herovole.blogproj.domain.tag.CountryCode;
-import org.herovole.blogproj.domain.tag.CountryTagUnit;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryTagUnit;
+import org.herovole.blogproj.domain.tag.country.RealCountryTagUnit;
 import org.herovole.blogproj.domain.tag.topic.TagEnglish;
 import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 
@@ -48,7 +49,7 @@ public class MCountry implements Serializable {
     private LocalDateTime insertTimestamp;
 
     public CountryTagUnit toDomainObj() {
-        return CountryTagUnit.builder()
+        return RealCountryTagUnit.builder()
                 .id(CountryCode.valueOf(iso2))
                 .tagJapanese(TagJapanese.valueOf(nameJa))
                 .tagEnglish(TagEnglish.valueOf(nameEn))

@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.searchtopictags;
+package org.herovole.blogproj.application.searchcountrytags;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,11 +11,11 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 @ToString
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class SearchTopicTagsInput {
+public class SearchCountryTagsInput {
 
     //?page=...&itemsPerPage=...&isDetailed=...
-    public static SearchTopicTagsInput fromPostContent(PostContent postContent) {
-        return new SearchTopicTagsInput(
+    public static SearchCountryTagsInput fromPostContent(PostContent postContent) {
+        return new SearchCountryTagsInput(
                 PagingRequest.fromPostContent(postContent),
                 GenericSwitch.fromPostContentIsDetailed(postContent)
         );

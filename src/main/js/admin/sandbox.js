@@ -112,16 +112,19 @@ export const Sandbox = () =>{
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
-                const topicResponse = await axios.get("/api/v1/topicTags", {});
-                console.log("response data /" + topicResponse.data);
-                const topicUnitList = TagUnitList.fromJsonStringList(topicResponse.data);
-                console.log("topicOptions / " + topicUnitList);
+
+                const topicResponse = await axios.get("/api/v1/topicTags", {
+                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
+                    headers: { Accept: "application/json" },
+                });
+                const topicUnitList = TagUnitList.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
-                const countryResponse = await axios.get("/api/v1/countries", {})
-                console.log("response data /" + countryResponse.data);
-                const countryUnitList = TagUnitList.fromJsonStringList(countryResponse.data);
-                console.log("countryOptions / " + countryUnitList);
+                const countryResponse = await axios.get("/api/v1/countries", {
+                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
+                    headers: { Accept: "application/json" },
+                });
+                const countryUnitList = TagUnitList.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
             } catch (error) {
