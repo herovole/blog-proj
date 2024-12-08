@@ -15,6 +15,7 @@ import { AdminEntrance } from './admin/adminEntrance';
 import { Sandbox } from './admin/sandbox';
 import { PageArticleList } from './admin/pageArticleList';
 import { PageArticle } from './admin/pageArticle';
+import { PageTopicTagList } from './admin/pageTopicTagList';
 
 
 console.log("app.js");
@@ -38,6 +39,7 @@ function App () {
 
         <Route path="/admin/articles/:articleId" element={ <PageArticle/> } /> {}
         <Route path="/admin/articles" element={ <PageArticleList/> } /> {}
+        <Route path="/admin/topictags" element={ <PageTopicTagList/> } /> {}
 
       </Routes>
 

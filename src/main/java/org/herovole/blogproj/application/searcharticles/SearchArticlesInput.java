@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 
 @ToString
@@ -13,8 +13,8 @@ import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 public class SearchArticlesInput {
 
 
-    public static SearchArticlesInput fromPostContent(PostContent postContent) {
-        return new SearchArticlesInput(ArticleListSearchOption.fromPostContent(postContent));
+    public static SearchArticlesInput fromPostContent(FormContent formContent) {
+        return new SearchArticlesInput(ArticleListSearchOption.fromPostContent(formContent));
     }
 
     private final ArticleListSearchOption searchOption;

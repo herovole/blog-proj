@@ -2,7 +2,7 @@ package org.herovole.blogproj.domain.article;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.SearchKeywords;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.time.DateRange;
@@ -13,8 +13,8 @@ public class ArticleListSearchOption {
 
     private static final String API_KEY = "articleList";
 
-    public static ArticleListSearchOption fromPostContent(PostContent postContent) {
-        PostContent children = postContent.getChildren(API_KEY);
+    public static ArticleListSearchOption fromPostContent(FormContent formContent) {
+        FormContent children = formContent.getChildren(API_KEY);
         children.println("articleListSearchOption");
         return ArticleListSearchOption.builder()
                 .pagingRequest(PagingRequest.fromPostContent(children))

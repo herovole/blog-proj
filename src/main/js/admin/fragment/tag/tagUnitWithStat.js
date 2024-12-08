@@ -8,12 +8,12 @@ export class TagUnitWithStat {
     static API_KEY_LAST_UPDATE = "lastUpdate";
 
     static fromHash(hash) {
-        return new TagUnit(
-            hash[TagUnit.API_KEY_ID],
-            hash[TagUnit.API_KEY_NAME_JP],
-            hash[TagUnit.API_KEY_NAME_EN],
-            hash[TagUnit.API_KEY_ARTICLES],
-            hash[TagUnit.API_KEY_LAST_UPDATE]
+        return new TagUnitWithStat(
+            hash[TagUnitWithStat.API_KEY_ID],
+            hash[TagUnitWithStat.API_KEY_NAME_JP],
+            hash[TagUnitWithStat.API_KEY_NAME_EN],
+            hash[TagUnitWithStat.API_KEY_ARTICLES],
+            hash[TagUnitWithStat.API_KEY_LAST_UPDATE]
         );
     }
 

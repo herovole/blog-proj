@@ -2,7 +2,7 @@ package org.herovole.blogproj.domain.article;
 
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
 
@@ -14,8 +14,8 @@ public interface Article {
 
     String API_KEY = "articleEditingPage";
 
-    static Article fromPost(PostContent postContent) {
-        return RealArticle.fromPost(postContent);
+    static Article fromPost(FormContent formContent) {
+        return RealArticle.fromPost(formContent);
     }
 
     static Article empty() {

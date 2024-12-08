@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
@@ -23,8 +23,8 @@ public class RealArticle implements Article {
     // key : articleEditingPage.commentEditor.1.text
     // val : This is comment4.
 
-    static RealArticle fromPost(PostContent postContent) {
-        PostContent children = postContent.getChildren(API_KEY);
+    static RealArticle fromPost(FormContent formContent) {
+        FormContent children = formContent.getChildren(API_KEY);
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
                 .title(ArticleTitle.fromPostContentArticleTitle(children))

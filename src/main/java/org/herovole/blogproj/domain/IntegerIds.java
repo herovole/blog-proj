@@ -21,21 +21,21 @@ public class IntegerIds implements Iterable<IntegerId> {
     private static final String API_KEY_TOPIC_TAGS = "topicTags";
 
 
-    public static IntegerIds fromPostContentTopicTags(PostContent postContent) {
-        return fromPostContent(postContent, API_KEY_TOPIC_TAGS);
+    public static IntegerIds fromPostContentTopicTags(FormContent formContent) {
+        return fromPostContent(formContent, API_KEY_TOPIC_TAGS);
     }
 
-    public static IntegerIds fromPostContentEditors(PostContent postContent) {
-        return fromPostContent(postContent, API_KEY_EDITORS);
+    public static IntegerIds fromPostContentEditors(FormContent formContent) {
+        return fromPostContent(formContent, API_KEY_EDITORS);
     }
 
-    public static IntegerIds fromPostContentReferringCommentIds(PostContent postContent) {
-        return fromPostContent(postContent, API_KEY_REFERRING_COMMENT_IDS);
+    public static IntegerIds fromPostContentReferringCommentIds(FormContent formContent) {
+        return fromPostContent(formContent, API_KEY_REFERRING_COMMENT_IDS);
     }
 
-    private static IntegerIds fromPostContent(PostContent postContent, String apiKey) {
-        PostContent child = postContent.getChildren(apiKey);
-        PostContents arrayChildren = child.getInArray();
+    private static IntegerIds fromPostContent(FormContent formContent, String apiKey) {
+        FormContent child = formContent.getChildren(apiKey);
+        FormContents arrayChildren = child.getInArray();
         IntegerId[] ids = arrayChildren.stream().map(p -> IntegerId.valueOf(p.getValue())).toArray(IntegerId[]::new);
         return of(ids);
     }

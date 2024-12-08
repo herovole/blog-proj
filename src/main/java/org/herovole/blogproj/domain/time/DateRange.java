@@ -1,19 +1,19 @@
 package org.herovole.blogproj.domain.time;
 
 
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 public interface DateRange {
 
     String API_KEY_DATE_FROM = "dateFrom";
     String API_KEY_DATE_TO = "dateTo";
 
-    static DateRange fromComplementedPostContent(PostContent postContent) {
-        return RealDateRange.fromComplementedPostContent(postContent);
+    static DateRange fromComplementedPostContent(FormContent formContent) {
+        return RealDateRange.fromComplementedPostContent(formContent);
     }
 
-    static DateRange fromPostContent(PostContent postContent) {
-        return RealDateRange.fromPostContent(postContent);
+    static DateRange fromPostContent(FormContent formContent) {
+        return RealDateRange.fromPostContent(formContent);
     }
 
     boolean isEmpty();

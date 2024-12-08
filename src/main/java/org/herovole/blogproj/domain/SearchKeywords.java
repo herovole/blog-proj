@@ -10,8 +10,8 @@ public class SearchKeywords {
 
     private static final String API_KEY_KEYWORDS = "keywords";
 
-    public static SearchKeywords fromPostContent(PostContent postContent) {
-        PostContent child = postContent.getChildren(SearchKeywords.API_KEY_KEYWORDS);
+    public static SearchKeywords fromPostContent(FormContent formContent) {
+        FormContent child = formContent.getChildren(SearchKeywords.API_KEY_KEYWORDS);
         String[] keywords = child.getValue().split(" ");
         SearchKeyword[] searchKeywords = Arrays.stream(keywords).filter(e -> !e.isEmpty()).map(SearchKeyword::valueOf).toArray(SearchKeyword[]::new);
         return of(searchKeywords);

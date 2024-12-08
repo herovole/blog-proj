@@ -3,8 +3,8 @@ package org.herovole.blogproj.domain.comment;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.PostContents;
+import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.FormContents;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -15,9 +15,9 @@ public class CommentUnits {
 
     private static final String API_KEY_ORIGINAL_COMMENTS = "originalComments";
 
-    public static CommentUnits fromPostContentEditors(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_ORIGINAL_COMMENTS);
-        PostContents arrayChildren = child.getInArray();
+    public static CommentUnits fromPostContentEditors(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_ORIGINAL_COMMENTS);
+        FormContents arrayChildren = child.getInArray();
         CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromPostContent).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
         return of(comments);
     }

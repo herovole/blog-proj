@@ -10,7 +10,7 @@ import org.herovole.blogproj.application.searcharticles.SearchArticles;
 import org.herovole.blogproj.application.searcharticles.SearchArticlesInput;
 import org.herovole.blogproj.application.searcharticles.SearchArticlesOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +51,8 @@ public class AdminV1ArticleController {
         System.out.println(request);
 
         try {
-            PostContent postContent = PostContent.of(request);
-            EditArticleInput input = EditArticleInput.fromPostContent(postContent);
+            FormContent formContent = FormContent.of(request);
+            EditArticleInput input = EditArticleInput.fromPostContent(formContent);
             this.editArticle.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
@@ -72,8 +72,8 @@ public class AdminV1ArticleController {
         System.out.println(request);
 
         try {
-            PostContent postContent = PostContent.of(request);
-            SearchArticlesInput input = SearchArticlesInput.fromPostContent(postContent);
+            FormContent formContent = FormContent.of(request);
+            SearchArticlesInput input = SearchArticlesInput.fromPostContent(formContent);
             SearchArticlesOutput output = this.searchArticles.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {

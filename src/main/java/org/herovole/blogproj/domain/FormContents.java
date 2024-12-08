@@ -7,15 +7,15 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostContents {
+public class FormContents {
 
-    public static PostContents of(PostContent[] contents) {
-        return new PostContents(contents);
+    public static FormContents of(FormContent[] contents) {
+        return new FormContents(contents);
     }
 
-    private final PostContent[] contents;
+    private final FormContent[] contents;
 
-    public Stream<PostContent> stream() {
+    public Stream<FormContent> stream() {
         return Arrays.stream(this.contents);
     }
 

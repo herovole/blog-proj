@@ -1,11 +1,9 @@
-import {TagUnit} from './tagUnit.js'
+import {TagUnitWithStat} from './tagUnitWithStat.js'
 
 export class TagUnitWithStatList {
 
-    static API_KEY = "tagUnits";
-
     static fromHash(hash) {
-        var arrayListOfTagUnits = hash[TagUnitWithStatList.API_KEY].map(hash => TagUnitWithStat.fromHash(hash));
+        var arrayListOfTagUnits = hash.map(hash => TagUnitWithStat.fromHash(hash));
         return new TagUnitWithStatList(arrayListOfTagUnits);
     }
 

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -27,8 +27,8 @@ public class Date {
 
     private static final String API_KEY_SOURCE_DATE = "sourceDate";
 
-    public static Date fromPostContentArticleDate(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_SOURCE_DATE);
+    public static Date fromPostContentArticleDate(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_SOURCE_DATE);
         return valueOf(child.getValue());
     }
 

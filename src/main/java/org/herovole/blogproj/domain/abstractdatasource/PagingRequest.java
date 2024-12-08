@@ -2,7 +2,7 @@ package org.herovole.blogproj.domain.abstractdatasource;
 
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 @EqualsAndHashCode
 public class PagingRequest {
@@ -10,11 +10,11 @@ public class PagingRequest {
     private static final String API_KEY_PAGER_ITEMS_PER_PAGE = "itemsPerPage";
     private static final String API_KEY_PAGER_PAGE = "page";
 
-    public static PagingRequest fromPostContent(PostContent postContent) {
-        postContent.println("pagingrequest");
-        PostContent postItemsPerPage = postContent.getChildren(API_KEY_PAGER_ITEMS_PER_PAGE);
+    public static PagingRequest fromPostContent(FormContent formContent) {
+        formContent.println("pagingrequest");
+        FormContent postItemsPerPage = formContent.getChildren(API_KEY_PAGER_ITEMS_PER_PAGE);
         int itemsPerPage = Integer.parseInt(postItemsPerPage.getValue());
-        PostContent postPage = postContent.getChildren(API_KEY_PAGER_PAGE);
+        FormContent postPage = formContent.getChildren(API_KEY_PAGER_PAGE);
         int page = Integer.parseInt(postPage.getValue());
         return of(page, itemsPerPage);
     }

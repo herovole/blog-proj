@@ -19,30 +19,30 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
     private static final String API_KEY_IS_HIDDEN = "isHidden";
     private static final String API_KEY_IS_DETAILED = "isDetailed";
 
-    public static GenericSwitch fromPostContentIsPublished(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_IS_PUBLISHED);
+    public static GenericSwitch fromPostContentIsPublished(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_IS_PUBLISHED);
         return valueOf(child.getValue());
     }
 
-    public static GenericSwitch fromPostContentIsHidden(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_IS_HIDDEN);
+    public static GenericSwitch fromPostContentIsHidden(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_IS_HIDDEN);
         return valueOf(child.getValue());
     }
 
-    public static GenericSwitch fromPostContentIsDetailed(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_IS_DETAILED);
+    public static GenericSwitch fromPostContentIsDetailed(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_IS_DETAILED);
         return valueOf(child.getValue());
     }
 
     public static GenericSwitch valueOf(String field) {
+        if (field == null || field.equalsIgnoreCase(EMPTY)) {
+            return empty();
+        }
         if (field.equalsIgnoreCase(TRUE1) || field.equalsIgnoreCase(TRUE2)) {
             return positive();
         }
         if (field.equalsIgnoreCase(FALSE1) || field.equalsIgnoreCase(FALSE2)) {
             return negative();
-        }
-        if (field.equalsIgnoreCase(EMPTY)) {
-            return empty();
         }
         throw new DomainInstanceGenerationException();
     }

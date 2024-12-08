@@ -8,7 +8,7 @@ import org.herovole.blogproj.domain.CommentText;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 
 @ToString
@@ -17,14 +17,14 @@ import org.herovole.blogproj.domain.tag.country.CountryCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RealCommentUnit implements CommentUnit {
 
-    public static RealCommentUnit fromPostContent(PostContent postContent) {
+    public static RealCommentUnit fromPostContent(FormContent formContent) {
         return RealCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
-                .commentId(IntegerId.fromPostContentCommentId(postContent))
-                .commentText(CommentText.fromPostContentCommentText(postContent))
-                .country(CountryCode.fromPostContent(postContent))
-                .isHidden(GenericSwitch.fromPostContentIsHidden(postContent))
-                .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(postContent))
+                .commentId(IntegerId.fromPostContentCommentId(formContent))
+                .commentText(CommentText.fromPostContentCommentText(formContent))
+                .country(CountryCode.fromPostContent(formContent))
+                .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
+                .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
                 .build();
     }
 

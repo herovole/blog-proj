@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.GenericSwitch;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 
 @ToString
@@ -14,10 +14,10 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 public class SearchCountryTagsInput {
 
     //?page=...&itemsPerPage=...&isDetailed=...
-    public static SearchCountryTagsInput fromPostContent(PostContent postContent) {
+    public static SearchCountryTagsInput fromPostContent(FormContent formContent) {
         return new SearchCountryTagsInput(
-                PagingRequest.fromPostContent(postContent),
-                GenericSwitch.fromPostContentIsDetailed(postContent)
+                PagingRequest.fromPostContent(formContent),
+                GenericSwitch.fromPostContentIsDetailed(formContent)
         );
     }
 

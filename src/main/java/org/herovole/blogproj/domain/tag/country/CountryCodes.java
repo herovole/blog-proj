@@ -4,8 +4,8 @@ package org.herovole.blogproj.domain.tag.country;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.PostContents;
+import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.FormContents;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -16,9 +16,9 @@ public class CountryCodes {
 
     private static final String API_KEY_COUNTRY = "countries";
 
-    public static CountryCodes fromPostContent(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_COUNTRY);
-        PostContents arrayChildren = child.getInArray();
+    public static CountryCodes fromPostContent(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_COUNTRY);
+        FormContents arrayChildren = child.getInArray();
         CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).toArray(CountryCode[]::new);
         return of(codes);
     }

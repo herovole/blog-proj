@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 @EqualsAndHashCode
 @ToString
@@ -15,8 +15,8 @@ public class CountryCode implements Comparable<CountryCode> {
 
     private static final String API_KEY_COUNTRY = "country";
 
-    public static CountryCode fromPostContent(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_COUNTRY);
+    public static CountryCode fromPostContent(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_COUNTRY);
         return valueOf(child.getValue());
     }
 

@@ -4,7 +4,7 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
 import java.util.ArrayList;
@@ -13,18 +13,18 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RealDateRange implements DateRange {
 
-    public static RealDateRange fromComplementedPostContent(PostContent postContent) {
-        PostContent postDateFrom = postContent.getChildren(API_KEY_DATE_FROM);
+    public static RealDateRange fromComplementedPostContent(FormContent formContent) {
+        FormContent postDateFrom = formContent.getChildren(API_KEY_DATE_FROM);
         Date dateFrom = Date.valueOf(postDateFrom.getValue());
-        PostContent postDateTo = postContent.getChildren(API_KEY_DATE_TO);
+        FormContent postDateTo = formContent.getChildren(API_KEY_DATE_TO);
         Date dateTo = Date.valueOf(postDateTo.getValue());
         return complementOf(dateFrom, dateTo);
     }
 
-    public static RealDateRange fromPostContent(PostContent postContent) {
-        PostContent postDateFrom = postContent.getChildren(API_KEY_DATE_FROM);
+    public static RealDateRange fromPostContent(FormContent formContent) {
+        FormContent postDateFrom = formContent.getChildren(API_KEY_DATE_FROM);
         Date dateFrom = Date.valueOf(postDateFrom.getValue());
-        PostContent postDateTo = postContent.getChildren(API_KEY_DATE_TO);
+        FormContent postDateTo = formContent.getChildren(API_KEY_DATE_TO);
         Date dateTo = Date.valueOf(postDateTo.getValue());
         return of(dateFrom, dateTo);
     }

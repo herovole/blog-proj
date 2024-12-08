@@ -2,23 +2,22 @@ package org.herovole.blogproj.domain;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostContent {
+public class FormContent {
 
     private static final String SPLITTER = "\\.";
 
-    public static PostContent of(Map<String, String> kv) {
+    public static FormContent of(Map<String, String> kv) {
         final Map<String[], String> field = new HashMap<>();
         for (Map.Entry<String, String> e : kv.entrySet()) {
             String[] keyLayers = e.getKey().split(SPLITTER);
             field.put(keyLayers, e.getValue());
         }
-        return new PostContent(field);
+        return new FormContent(field);
     }
 
     private final Map<String[], String> hash;
@@ -29,7 +28,7 @@ public class PostContent {
      * @param keyRoot "articleEditingPage"
      * @return "commentEditor.1.text"
      */
-    public PostContent getChildren(String keyRoot) {
+    public FormContent getChildren(String keyRoot) {
         final Map<String[], String> field = new HashMap<>();
         for (Map.Entry<String[], String> e : this.hash.entrySet()) {
             String[] originalKey = e.getKey();
@@ -39,7 +38,7 @@ public class PostContent {
                 field.put(newKey, e.getValue());
             }
         }
-        return new PostContent(field);
+        return new FormContent(field);
     }
 
     public String getValue() {
@@ -50,15 +49,15 @@ public class PostContent {
         return this.hash.size();
     }
 
-    public PostContents getInArray() {
-        PostContent[] hashes = new PostContent[this.getLength()];
+    public FormContents getInArray() {
+        FormContent[] hashes = new FormContent[this.getLength()];
         for (Map.Entry<String[], String> e : this.hash.entrySet()) {
             if (e.getKey().length == 0) continue;
             String strIndex = e.getKey()[0];
             int index = Integer.parseInt(strIndex);
             hashes[index] = this.getChildren(strIndex);
         }
-        return PostContents.of(hashes);
+        return FormContents.of(hashes);
     }
 
     public void println(String prefix) {

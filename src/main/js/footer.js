@@ -32,6 +32,10 @@ export const Footer = () => {
                 <Link to="/admin/articles">articles</Link>
                 <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/articles">articles</NavLink>
             </li>
+            <li>
+                <Link to="/admin/topictags">topicTags</Link>
+                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/topictags">topicTags</NavLink>
+            </li>
 
 
         </ul>

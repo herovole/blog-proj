@@ -14,13 +14,13 @@ public class IntegerId implements Comparable<IntegerId> {
     private static final String API_KEY_ARTICLE_ID = "id";
     private static final String API_KEY_COMMENT_ID = "commentId";
 
-    public static IntegerId fromFormContentArticleId(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_ARTICLE_ID);
+    public static IntegerId fromFormContentArticleId(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_ARTICLE_ID);
         return valueOf(child.getValue());
     }
 
-    public static IntegerId fromPostContentCommentId(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_COMMENT_ID);
+    public static IntegerId fromPostContentCommentId(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_COMMENT_ID);
         return valueOf(child.getValue());
     }
 

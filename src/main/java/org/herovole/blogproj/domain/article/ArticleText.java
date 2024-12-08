@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -12,8 +12,8 @@ public class ArticleText {
     private static final int LENGTH_LIMIT = 2047;
     private static final String API_KEY_TEXT = "articleText";
 
-    public static ArticleText fromPostContent(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_TEXT);
+    public static ArticleText fromPostContent(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_TEXT);
         return valueOf(child.getValue());
     }
 

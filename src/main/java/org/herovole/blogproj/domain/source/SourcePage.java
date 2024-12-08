@@ -1,10 +1,9 @@
 package org.herovole.blogproj.domain.source;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.article.ArticleTitle;
 import org.herovole.blogproj.domain.time.Date;
 
@@ -12,11 +11,11 @@ import org.herovole.blogproj.domain.time.Date;
 @ToString
 @Builder
 public class SourcePage {
-    public static SourcePage fromPostContent(PostContent postContent) {
+    public static SourcePage fromPostContent(FormContent formContent) {
         return builder()
-                .url(SourceUrl.fromPostContent(postContent))
-                .title(ArticleTitle.fromPostContentSourceTitle(postContent))
-                .date(Date.fromPostContentArticleDate(postContent))
+                .url(SourceUrl.fromPostContent(formContent))
+                .title(ArticleTitle.fromPostContentSourceTitle(formContent))
+                .date(Date.fromPostContentArticleDate(formContent))
                 .build();
     }
 

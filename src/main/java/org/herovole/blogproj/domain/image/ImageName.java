@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 import java.util.regex.Pattern;
 
@@ -17,8 +17,8 @@ public class ImageName {
     private static final Pattern PATTERN_IMG = Pattern.compile("^.{1,63}\\.(jpg|png)$");
     private static final String API_KEY_IMAGE_NAME = "imageName";
 
-    public static ImageName fromPostContentImageName(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_IMAGE_NAME);
+    public static ImageName fromPostContentImageName(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_IMAGE_NAME);
         return valueOf(child.getValue());
     }
 

@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -14,13 +14,13 @@ public class ArticleTitle {
     private static final String API_KEY_TITLE = "articleTitle";
     private static final String API_KEY_SOURCE_TITLE = "sourceTitle";
 
-    public static ArticleTitle fromPostContentArticleTitle(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_TITLE);
+    public static ArticleTitle fromPostContentArticleTitle(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_TITLE);
         return valueOf(child.getValue());
     }
 
-    public static ArticleTitle fromPostContentSourceTitle(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_SOURCE_TITLE);
+    public static ArticleTitle fromPostContentSourceTitle(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_SOURCE_TITLE);
         return valueOf(child.getValue());
     }
 

@@ -8,9 +8,7 @@ import org.herovole.blogproj.application.searchtopictags.SearchTopicTags;
 import org.herovole.blogproj.application.searchtopictags.SearchTopicTagsInput;
 import org.herovole.blogproj.application.searchtopictags.SearchTopicTagsOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
-import org.herovole.blogproj.domain.tag.country.CountryTagUnit;
-import org.herovole.blogproj.infra.jpa.entity.MCountry;
+import org.herovole.blogproj.domain.FormContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,8 +44,8 @@ public class AdminV1TopicTagController {
     ) {
         logger.info("Endpoint : countryTags (Get) ");
         try {
-            PostContent postContent = PostContent.of(request);
-            SearchCountryTagsInput input = SearchCountryTagsInput.fromPostContent(postContent);
+            FormContent formContent = FormContent.of(request);
+            SearchCountryTagsInput input = SearchCountryTagsInput.fromPostContent(formContent);
             SearchCountryTagsOutput output = this.searchCountryTags.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {
@@ -67,8 +64,8 @@ public class AdminV1TopicTagController {
         logger.info("Endpoint : topicTags (Get) ");
 
         try {
-            PostContent postContent = PostContent.of(request);
-            SearchTopicTagsInput input = SearchTopicTagsInput.fromPostContent(postContent);
+            FormContent formContent = FormContent.of(request);
+            SearchTopicTagsInput input = SearchTopicTagsInput.fromPostContent(formContent);
             SearchTopicTagsOutput output = this.searchTopicTags.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {

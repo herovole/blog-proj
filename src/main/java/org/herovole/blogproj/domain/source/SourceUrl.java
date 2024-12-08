@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.PostContent;
+import org.herovole.blogproj.domain.FormContent;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -16,8 +16,8 @@ public class SourceUrl {
 
     private static final String API_KEY_SOURCE_URL = "sourceUrl";
 
-    public static SourceUrl fromPostContent(PostContent postContent) {
-        PostContent child = postContent.getChildren(API_KEY_SOURCE_URL);
+    public static SourceUrl fromPostContent(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_SOURCE_URL);
         return valueOf(child.getValue());
     }
 
