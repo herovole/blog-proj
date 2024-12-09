@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {TextEditingForm} from "../atomic/textEditingForm";
 import {SearchTopicTagsInput} from "./searchTopicTagsInput"
 import {SearchTopicTagsOutput} from "./searchTopicTagsOutput"
 
@@ -111,19 +112,19 @@ export const TopicTagListBody = ({formKey}) => {
                         <TextEditingForm
                             postKey={formKey.append("id")}
                             isFixed={true}
-                        > {tagUnit.id} </TextEditingForm>
+                        >{tagUnit.id}</TextEditingForm>
                     </td>
                     <td>
                         <TextEditingForm
                             postKey={formKey.append("nameJp")}
                             isFixed={false}
-                        > {tagUnit.nameJp} </TextEditingForm>
+                        >{tagUnit.nameJp}</TextEditingForm>
                     </td>
                     <td>
                         <TextEditingForm
                             postKey={formKey.append("nameEn")}
                             isFixed={false}
-                        > {tagUnit.nameEn} </TextEditingForm>
+                        >{tagUnit.nameEn}</TextEditingForm>
                     </td>
                     <td>{tagUnit.articles}</td>
                     <td>{tagUnit.latestEditTimestamp}</td>

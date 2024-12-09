@@ -16,11 +16,11 @@ public class SearchTopicTagsInput {
     private static final String API_KEY = "topicTags";
 
     //?page=...&itemsPerPage=...&isDetailed=...
-    public static SearchTopicTagsInput fromPostContent(FormContent formContent) {
+    public static SearchTopicTagsInput fromFormContent(FormContent formContent) {
         FormContent contents = formContent.getChildren(API_KEY);
         return new SearchTopicTagsInput(
-                PagingRequest.fromPostContent(contents),
-                GenericSwitch.fromPostContentIsDetailed(contents)
+                PagingRequest.fromFormContent(contents),
+                GenericSwitch.fromFormContentIsDetailed(contents)
         );
     }
 

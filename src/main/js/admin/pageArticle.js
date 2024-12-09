@@ -16,8 +16,13 @@ export const PageArticle = () => {
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
+                const topicTagsKey = new ElementId("topicTags");
                 const topicResponse = await axios.get("/api/v1/topicTags", {
-                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
+                    params: {
+                        [topicTagsKey.append("page").toStringKey()] :1,
+                        [topicTagsKey.append("itemsPerPage").toStringKey()] :10000,
+                        [topicTagsKey.append("isDetailed").toStringKey()] :false
+                    },
                     headers: { Accept: "application/json" },
                 });
                 const topicUnitList = TagUnitList.fromHash(topicResponse.data);

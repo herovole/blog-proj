@@ -14,10 +14,10 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 public class SearchCountryTagsInput {
 
     //?page=...&itemsPerPage=...&isDetailed=...
-    public static SearchCountryTagsInput fromPostContent(FormContent formContent) {
+    public static SearchCountryTagsInput fromFormContent(FormContent formContent) {
         return new SearchCountryTagsInput(
-                PagingRequest.fromPostContent(formContent),
-                GenericSwitch.fromPostContentIsDetailed(formContent)
+                PagingRequest.fromFormContent(formContent),
+                GenericSwitch.fromFormContentIsDetailed(formContent)
         );
     }
 

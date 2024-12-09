@@ -45,7 +45,7 @@ public class AdminV1TopicTagController {
         logger.info("Endpoint : countryTags (Get) ");
         try {
             FormContent formContent = FormContent.of(request);
-            SearchCountryTagsInput input = SearchCountryTagsInput.fromPostContent(formContent);
+            SearchCountryTagsInput input = SearchCountryTagsInput.fromFormContent(formContent);
             SearchCountryTagsOutput output = this.searchCountryTags.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {
@@ -65,7 +65,7 @@ public class AdminV1TopicTagController {
 
         try {
             FormContent formContent = FormContent.of(request);
-            SearchTopicTagsInput input = SearchTopicTagsInput.fromPostContent(formContent);
+            SearchTopicTagsInput input = SearchTopicTagsInput.fromFormContent(formContent);
             SearchTopicTagsOutput output = this.searchTopicTags.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {

@@ -27,7 +27,7 @@ public class Timestamp implements Comparable<Timestamp> {
     }
 
     public static Timestamp valueOf(LocalDateTime localDateTime) {
-        return valueOf(localDateTime.atZone(zoneIdTokyo).toEpochSecond());
+        return localDateTime == null ? empty() : valueOf(localDateTime.atZone(zoneIdTokyo).toEpochSecond());
     }
 
     public static Timestamp valueOf(long unixTimestamp) {

@@ -17,7 +17,7 @@ public class ArticleListSearchOption {
         FormContent children = formContent.getChildren(API_KEY);
         children.println("articleListSearchOption");
         return ArticleListSearchOption.builder()
-                .pagingRequest(PagingRequest.fromPostContent(children))
+                .pagingRequest(PagingRequest.fromFormContent(children))
                 .dateRange(DateRange.fromComplementedPostContent(children))
                 .keywords(SearchKeywords.fromPostContent(children))
                 .build();

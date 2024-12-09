@@ -29,7 +29,7 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
         return valueOf(child.getValue());
     }
 
-    public static GenericSwitch fromPostContentIsDetailed(FormContent formContent) {
+    public static GenericSwitch fromFormContentIsDetailed(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_DETAILED);
         return valueOf(child.getValue());
     }
