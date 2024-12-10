@@ -74,7 +74,7 @@ public class TopicTagTransactionalDatasourceMySql extends TopicTagDatasourceMySq
         RealTagUnit after1 = (RealTagUnit) after;
         if (!before1.getId().equals(after1.getId())) throw new IncompatibleUpdateException();
 
-        ATopicTag entityToUpdate = ATopicTag.fromUpdateDomainObj(before);
+        ATopicTag entityToUpdate = ATopicTag.fromUpdateDomainObj(after);
 
         cacheUpdate.add(entityToUpdate);
 

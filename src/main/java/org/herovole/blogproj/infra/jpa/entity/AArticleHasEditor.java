@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -34,7 +35,8 @@ public class AArticleHasEditor implements Serializable {
     private int editorId;
 
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
 
@@ -43,7 +45,6 @@ public class AArticleHasEditor implements Serializable {
         AArticleHasEditor entity = new AArticleHasEditor();
         entity.setArticleId(articleId.longMemorySignature());
         entity.setEditorId(editor.intMemorySignature());
-        entity.setInsertTimestamp(LocalDateTime.now());
         return entity;
     }
 

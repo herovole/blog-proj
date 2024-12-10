@@ -15,6 +15,8 @@ import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealCommentUnit;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -52,10 +54,12 @@ public class ASourceComment implements Serializable {
     @Column(name = "referring_comment_ids")
     private String referringCommentIds;
 
+    @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
     @Column(name = "delete_flag")
@@ -66,8 +70,6 @@ public class ASourceComment implements Serializable {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         ASourceComment aSourceComment = fromDomainObj(commentUnit);
         aSourceComment.setArticleId(articleId.longMemorySignature());
-        aSourceComment.setUpdateTimestamp(LocalDateTime.now());
-        aSourceComment.setInsertTimestamp(LocalDateTime.now());
         aSourceComment.setDeleteFlag(false);
         return aSourceComment;
     }
@@ -78,7 +80,6 @@ public class ASourceComment implements Serializable {
         ASourceComment sourceComment = fromDomainObj(commentUnit);
         sourceComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
         sourceComment.setArticleId(articleId.longMemorySignature());
-        sourceComment.setUpdateTimestamp(LocalDateTime.now());
         sourceComment.setDeleteFlag(false);
         return sourceComment;
     }

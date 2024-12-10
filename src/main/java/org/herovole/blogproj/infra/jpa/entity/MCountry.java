@@ -11,6 +11,8 @@ import org.herovole.blogproj.domain.tag.country.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.country.RealCountryTagUnit;
 import org.herovole.blogproj.domain.tag.topic.TagEnglish;
 import org.herovole.blogproj.domain.tag.topic.TagJapanese;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -42,10 +44,12 @@ public class MCountry implements Serializable {
     @Column(name = "icon_base")
     private String iconBase;
 
+    @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
     public CountryTagUnit toDomainObj() {

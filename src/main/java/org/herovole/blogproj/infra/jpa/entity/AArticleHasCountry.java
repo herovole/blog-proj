@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -36,7 +37,8 @@ public class AArticleHasCountry implements Serializable {
     private String iso2;
 
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
 
@@ -45,7 +47,6 @@ public class AArticleHasCountry implements Serializable {
         AArticleHasCountry entity = new AArticleHasCountry();
         entity.setArticleId(articleId.longMemorySignature());
         entity.setIso2(countryCode.memorySignature());
-        entity.setInsertTimestamp(LocalDateTime.now());
         return entity;
     }
 

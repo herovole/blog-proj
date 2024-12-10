@@ -12,6 +12,8 @@ import org.herovole.blogproj.domain.tag.topic.TagEnglish;
 import org.herovole.blogproj.domain.tag.topic.TagJapanese;
 import org.herovole.blogproj.domain.tag.topic.TagUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -33,10 +35,12 @@ public class ATopicTag implements Serializable {
     @Column(name = "name_ja")
     private String nameJa;
 
+    @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
     @Column(name = "delete_flag")
@@ -61,8 +65,8 @@ public class ATopicTag implements Serializable {
         aTopicTag.setId(id.intMemorySignature());
         aTopicTag.setNameEn(tagUnit1.getTagEnglish().memorySignature());
         aTopicTag.setNameJa(tagUnit1.getTagJapanese().memorySignature());
-        aTopicTag.setUpdateTimestamp(LocalDateTime.now());
-        aTopicTag.setInsertTimestamp(LocalDateTime.now());
+        //aTopicTag.setUpdateTimestamp(LocalDateTime.now());
+        //aTopicTag.setInsertTimestamp(LocalDateTime.now());
         aTopicTag.setDeleteFlag(false);
         return aTopicTag;
     }
@@ -73,7 +77,7 @@ public class ATopicTag implements Serializable {
         aTopicTag.setId(tagUnit1.getId().intMemorySignature());
         aTopicTag.setNameEn(tagUnit1.getTagEnglish().memorySignature());
         aTopicTag.setNameJa(tagUnit1.getTagJapanese().memorySignature());
-        aTopicTag.setUpdateTimestamp(LocalDateTime.now());
+        //aTopicTag.setUpdateTimestamp(LocalDateTime.now());
         //aTopicTag.setInsertTimestamp(LocalDateTime.now());
         aTopicTag.setDeleteFlag(false);
         return aTopicTag;

@@ -18,6 +18,8 @@ import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.source.SourceUrl;
 import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -56,10 +58,12 @@ public class AArticle implements Serializable {
     @Column(name = "is_published")
     private boolean isPublished;
 
+    @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
     @Column(name = "delete_flag")
@@ -71,8 +75,6 @@ public class AArticle implements Serializable {
 
         AArticle entity = fromDomainObj(article1);
         entity.setId(id.longMemorySignature());
-        entity.setUpdateTimestamp(LocalDateTime.now());
-        entity.setInsertTimestamp(LocalDateTime.now());
         return entity;
     }
 
@@ -82,7 +84,6 @@ public class AArticle implements Serializable {
 
         AArticle entity = fromDomainObj(article1);
         entity.setId(article1.getArticleId().longMemorySignature());
-        entity.setUpdateTimestamp(LocalDateTime.now());
         return entity;
     }
 
