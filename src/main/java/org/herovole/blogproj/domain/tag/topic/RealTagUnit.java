@@ -2,8 +2,11 @@ package org.herovole.blogproj.domain.tag.topic;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
 
+@ToString
 @Builder
 @EqualsAndHashCode
 public class RealTagUnit implements TagUnit {
@@ -15,8 +18,10 @@ public class RealTagUnit implements TagUnit {
 
     @EqualsAndHashCode.Include
     private final IntegerId id;
+    @Getter
     @EqualsAndHashCode.Exclude
     private final TagEnglish tagEnglish;
+    @Getter
     @EqualsAndHashCode.Exclude
     private final TagJapanese tagJapanese;
 
@@ -24,6 +29,15 @@ public class RealTagUnit implements TagUnit {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    @Override
+    public boolean hasSameContentWith(TagUnit that) {
+        if (that.isEmpty()) return false;
+        RealTagUnit another = (RealTagUnit) that;
+        return this.id.equals(another.id)
+                && this.tagEnglish.equals(another.tagEnglish)
+                && this.tagJapanese.equals(another.tagJapanese);
     }
 
 

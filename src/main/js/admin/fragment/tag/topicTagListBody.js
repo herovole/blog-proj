@@ -8,9 +8,10 @@ import {SearchTopicTagsOutput} from "./searchTopicTagsOutput"
 
 export const TopicTagListBody = ({formKey}) => {
     //prop : formKey
-    const [inputCached, setInputCached] = useState(SearchTopicTagsInput.byDefault(formKey));
-    const [inputFixed, setInputFixed] = useState(SearchTopicTagsInput.byDefault(formKey));
+    const [inputCached, setInputCached] = useState(SearchTopicTagsInput.byDefault(formKey, true));
+    const [inputFixed, setInputFixed] = useState(SearchTopicTagsInput.byDefault(formKey, true));
     const [output, setOutput] = useState(SearchTopicTagsOutput.empty());
+    const [countAddedTags , setCountAddedTags] = useState(0);
 
     const handlePageChanged = (page) => {
         // Trigger the form submission manually
@@ -29,7 +30,30 @@ export const TopicTagListBody = ({formKey}) => {
         if (form) form.dispatchEvent(new Event('submit', { cancelable: true }));
     }
 
+    const handleAddTag = () => {
+        setCountAddedTags(countAddedTags + 1);
+    }
+
     const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent page reload
+        const formData = new FormData(event.target);
+        const postData = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await axios.post("/api/v1/topicTags", postData, {
+                headers: { 'Content-Type': 'application/json', },
+            });
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            console.error(error.response.data);
+            console.error(error.request);
+            console.error(error.message);
+        }
+
+    }
+
+    const handleSearch = async (event) => {
         event.preventDefault(); // Prevent page reload
 
         // submitter exists if normal submit button is invoked.
@@ -42,7 +66,6 @@ export const TopicTagListBody = ({formKey}) => {
             input = inputFixed.appendPage(inputCached.page);
             setInputCached({...inputFixed});
         }
-        console.log("after");
         console.log("input:", JSON.stringify(input));
         console.log("toUrlSearchParams:", input.toUrlSearchParams().toString());
 
@@ -76,7 +99,7 @@ export const TopicTagListBody = ({formKey}) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSearch}>
 
                 <Pagination size="sm" className="pull-right">
                     <Pagination.First onClick={() => handlePageChanged(1)} />
@@ -95,43 +118,71 @@ export const TopicTagListBody = ({formKey}) => {
                 </Pagination>
             </form>
 
-            <table>
-                <thead>
+            <form onSubmit={handleSubmit}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name(JP)</th>
+                            <th>NAME(EN)</th>
+                            <th>Articles</th>
+                            <th>Latest Edit Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {output.tagUnits.tagUnits.map((tagUnit, i) => (
                     <tr>
-                        <th>ID</th>
-                        <th>Name(JP)</th>
-                        <th>NAME(EN)</th>
-                        <th>Articles</th>
-                        <th>Latest Edit Timestamp</th>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("id")}
+                                isFixed={true}
+                            >{tagUnit.id}</TextEditingForm>
+                        </td>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("nameJp")}
+                                isFixed={false}
+                            >{tagUnit.nameJp}</TextEditingForm>
+                        </td>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("nameEn")}
+                                isFixed={false}
+                            >{tagUnit.nameEn}</TextEditingForm>
+                        </td>
+                        <td>{tagUnit.articles}</td>
+                        <td>{tagUnit.lastUpdate}</td>
                     </tr>
-                </thead>
-                <tbody>
-            {output.tagUnits.tagUnits.map((tagUnit) => (
-                <tr>
-                    <td>
-                        <TextEditingForm
-                            postKey={formKey.append("id")}
-                            isFixed={true}
-                        >{tagUnit.id}</TextEditingForm>
-                    </td>
-                    <td>
-                        <TextEditingForm
-                            postKey={formKey.append("nameJp")}
-                            isFixed={false}
-                        >{tagUnit.nameJp}</TextEditingForm>
-                    </td>
-                    <td>
-                        <TextEditingForm
-                            postKey={formKey.append("nameEn")}
-                            isFixed={false}
-                        >{tagUnit.nameEn}</TextEditingForm>
-                    </td>
-                    <td>{tagUnit.articles}</td>
-                    <td>{tagUnit.latestEditTimestamp}</td>
-                </tr>
-            ))}
-                </tbody>
-            </table>
+                ))}
+                {Array.from({ length: countAddedTags }).map((_, i) => (
+                    <tr>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("id")}
+                                isFixed={true}
+                            >{null}</TextEditingForm>
+                        </td>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("nameJp")}
+                                isFixed={false}
+                            >{null}</TextEditingForm>
+                        </td>
+                        <td>
+                            <TextEditingForm
+                                postKey={formKey.append(i).append("nameEn")}
+                                isFixed={false}
+                            >{null}</TextEditingForm>
+                        </td>
+                        <td>{"-"}</td>
+                        <td>{"new"}</td>
+                    </tr>
+                ))}
+                    </tbody>
+                </table>
+                <button type="submit">Update</button>
+            </form>
+            <button type="button" onClick={handleAddTag}>Add</button>
         </>
     );
 };

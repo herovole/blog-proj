@@ -31,6 +31,10 @@ public class RealTagUnitWithStat implements TagUnit {
         return false;
     }
 
+    @Override
+    public boolean hasSameContentWith(TagUnit that) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Json toJson() {

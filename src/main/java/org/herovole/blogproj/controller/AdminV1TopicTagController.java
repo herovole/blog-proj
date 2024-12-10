@@ -1,6 +1,8 @@
 package org.herovole.blogproj.controller;
 
 import com.google.gson.Gson;
+import org.herovole.blogproj.application.edittopictags.EditTopicTags;
+import org.herovole.blogproj.application.edittopictags.EditTopicTagsInput;
 import org.herovole.blogproj.application.searchcountrytags.SearchCountryTags;
 import org.herovole.blogproj.application.searchcountrytags.SearchCountryTagsInput;
 import org.herovole.blogproj.application.searchcountrytags.SearchCountryTagsOutput;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,12 +33,16 @@ public class AdminV1TopicTagController {
     private final SearchCountryTags searchCountryTags;
     private final SearchTopicTags searchTopicTags;
 
+    private final EditTopicTags editTopicTags;
+
     @Autowired
     public AdminV1TopicTagController(
             SearchCountryTags searchCountryTags,
-            SearchTopicTags searchTopicTags) {
+            SearchTopicTags searchTopicTags,
+            EditTopicTags editTopicTags) {
         this.searchCountryTags = searchCountryTags;
         this.searchTopicTags = searchTopicTags;
+        this.editTopicTags = editTopicTags;
     }
 
     //?page=...&itemsPerPage=...&isDetailed=...
@@ -75,6 +83,27 @@ public class AdminV1TopicTagController {
             logger.error("Server Error", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @PostMapping("/topicTags")
+    public ResponseEntity<String> editTopicTags(
+            @RequestBody Map<String, String> request) {
+        logger.info("Endpoint : articles (Post) ");
+        System.out.println(request);
+
+        try {
+            FormContent formContent = FormContent.of(request);
+            EditTopicTagsInput input = EditTopicTagsInput.fromFormContent(formContent);
+            this.editTopicTags.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+        }
+
+        return ResponseEntity.ok("");
     }
 
 }

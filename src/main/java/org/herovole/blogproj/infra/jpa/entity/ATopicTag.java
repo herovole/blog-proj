@@ -55,6 +55,31 @@ public class ATopicTag implements Serializable {
         return Objects.hash(nameEn);
     }
 
+    public static ATopicTag fromInsertDomainObj(IntegerId id, TagUnit tagUnit) {
+        RealTagUnit tagUnit1 = (RealTagUnit) tagUnit;
+        ATopicTag aTopicTag = new ATopicTag();
+        aTopicTag.setId(id.intMemorySignature());
+        aTopicTag.setNameEn(tagUnit1.getTagEnglish().memorySignature());
+        aTopicTag.setNameJa(tagUnit1.getTagJapanese().memorySignature());
+        aTopicTag.setUpdateTimestamp(LocalDateTime.now());
+        aTopicTag.setInsertTimestamp(LocalDateTime.now());
+        aTopicTag.setDeleteFlag(false);
+        return aTopicTag;
+    }
+
+    public static ATopicTag fromUpdateDomainObj(TagUnit tagUnit) {
+        RealTagUnit tagUnit1 = (RealTagUnit) tagUnit;
+        ATopicTag aTopicTag = new ATopicTag();
+        aTopicTag.setId(tagUnit1.getId().intMemorySignature());
+        aTopicTag.setNameEn(tagUnit1.getTagEnglish().memorySignature());
+        aTopicTag.setNameJa(tagUnit1.getTagJapanese().memorySignature());
+        aTopicTag.setUpdateTimestamp(LocalDateTime.now());
+        //aTopicTag.setInsertTimestamp(LocalDateTime.now());
+        aTopicTag.setDeleteFlag(false);
+        return aTopicTag;
+    }
+
+
     public TagUnit toDomainObj() {
         return RealTagUnit.builder()
                 .id(IntegerId.valueOf(id))
@@ -63,32 +88,30 @@ public class ATopicTag implements Serializable {
                 .build();
     }
 
-    public record ATopicTagWithStat(
-            @Column(name = "id")
-            int id,
-            @Column(name = "name_en")
-            String nameEn,
-            @Column(name = "name_ja")
-            String nameJa,
-            @Column(name = "update_timestamp")
-            LocalDateTime updateTimestamp,
-            @Column(name = "insert_timestamp")
-            LocalDateTime insertTimestamp,
-            @Column(name = "delete_flag")
-            boolean deleteFlag,
-            @Column(name = "article_count")
-            int articleCount
-    ) {
+    public interface ATopicTagWithStat {
+        int getId();
 
-        public TagUnit toDomainObj() {
+        String getName_en();
+
+        String getName_ja();
+
+        LocalDateTime getUpdate_timestamp();
+
+        LocalDateTime getInsert_timestamp();
+
+        boolean getDeleteFlag();
+
+        int getArticle_count();
+
+        default TagUnit toDomainObj() {
             return RealTagUnitWithStat.builder()
-                    .id(IntegerId.valueOf(id))
-                    .tagJapanese(TagJapanese.valueOf(nameJa))
-                    .tagEnglish(TagEnglish.valueOf(nameEn))
-                    .lastUpdate(Timestamp.valueOf(updateTimestamp))
-                    .articles(articleCount)
+                    .id(IntegerId.valueOf(getId()))
+                    .tagJapanese(TagJapanese.valueOf(getName_ja()))
+                    .tagEnglish(TagEnglish.valueOf(getName_en()))
+                    .lastUpdate(Timestamp.valueOf(getUpdate_timestamp()))
+                    .articles(getArticle_count())
                     .build();
         }
-
     }
+
 }

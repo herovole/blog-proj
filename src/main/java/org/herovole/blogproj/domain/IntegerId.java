@@ -19,6 +19,10 @@ public class IntegerId implements Comparable<IntegerId> {
         return valueOf(child.getValue());
     }
 
+    public static IntegerId fromFormContentTopicTagId(FormContent formContent) {
+        return fromFormContentArticleId(formContent);
+    }
+
     public static IntegerId fromPostContentCommentId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_ID);
         return valueOf(child.getValue());
@@ -36,7 +40,7 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public static IntegerId valueOf(String field) {
-        if (null == field) return empty();
+        if (null == field || field.isEmpty() || EMPTY.equals(field)) return empty();
         return new IntegerId(Long.parseLong(field, 10));
     }
 

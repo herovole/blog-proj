@@ -14,6 +14,9 @@ public interface ATopicTagRepository extends JpaRepository<ATopicTag, Long> {
     @Query(value = "Select * from a_topic_tag limit 1", nativeQuery = true)
     ATopicTag findOne();
 
+    @Query(value = "Select max(id) from a_topic_tag", nativeQuery = true)
+    int findMaxId();
+
     @Query(value = "Select * from a_topic_tag where delete_flag = 0 order by id",
             nativeQuery = true)
     List<ATopicTag> findAllTags();
@@ -31,13 +34,15 @@ public interface ATopicTagRepository extends JpaRepository<ATopicTag, Long> {
     List<ATopicTag> searchByOptions(@Param("limit") int limit, @Param("offset") long offset);
 
     @Query(value = "Select t.*, count(h.article_id) as article_count from " +
-            "  a_topic_tag t, " +
-            "  a_article_has_topic_tag h " +
+            "   a_topic_tag t " +
+            " Left Join " +
+            "   a_article_has_topic_tag h " +
+            " On " +
+            "   h.topic_tag_id = t.id " +
             " Where " +
-            "  t.delete_flag = 0 And " +
-            "  h.topic_tag_id = t.id " +
-            " Order By t.id " +
+            "   t.delete_flag = 0 " +
             " Group By t.id " +
+            " Order By t.id " +
             " Limit :limit " +
             " Offset :offset ", nativeQuery = true)
     List<ATopicTag.ATopicTagWithStat> searchByOptionsWithStat(@Param("limit") int limit, @Param("offset") long offset);

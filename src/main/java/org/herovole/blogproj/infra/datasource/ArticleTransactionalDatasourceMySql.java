@@ -58,7 +58,9 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
 
     @Override
     public int amountOfCachedTransactions() {
-        return cacheInsert.amountOfStackedTransactions();
+        return cacheInsert.amountOfStackedTransactions() +
+                cacheInsert.amountOfStackedTransactions() +
+                cacheDelete.amountOfStackedTransactions();
     }
 
     @Override
@@ -109,7 +111,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         CommentUnits sourceCommentsToDelete = after1.getOriginalComments().lacksInId(before1.getOriginalComments());
         CommentUnits sourceCommentsToUpdate = before1.getOriginalComments().differ(after1.getOriginalComments());
 
-        AArticle entityToUpdate = AArticle.fromUpdateDomainObj(before);
+        AArticle entityToUpdate = AArticle.fromUpdateDomainObj(after);
         AArticleHasCountry[] entitiesCountriesToInsert = countryCodesToInsert.stream().map(e -> AArticleHasCountry.fromInsertDomainObj(articleId, e)).toArray(AArticleHasCountry[]::new);
         String[] sqlsCountriesToDelete = countryCodesToDelete.stream().map(e -> AArticleHasCountry.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
         AArticleHasEditor[] entitiesEditorsToInsert = editorsToInsert.stream().map(e -> AArticleHasEditor.fromInsertDomainObj(articleId, e)).toArray(AArticleHasEditor[]::new);
