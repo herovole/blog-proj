@@ -43,6 +43,8 @@ export const TopicTagListBody = ({formKey}) => {
             const response = await axios.post("/api/v1/topicTags", postData, {
                 headers: { 'Content-Type': 'application/json', },
             });
+            setCountAddedTags(0);
+            initialLoad();
 
         } catch (error) {
             console.error('Error submitting form:', error);
