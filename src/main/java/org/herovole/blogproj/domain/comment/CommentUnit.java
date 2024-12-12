@@ -6,10 +6,16 @@ import org.herovole.blogproj.domain.FormContent;
 
 public interface CommentUnit {
 
-    static CommentUnit fromPostContent(FormContent formContent) {
+    static CommentUnit fromFormContentToSourceComment(FormContent formContent) {
         if (formContent == null) return empty();
-        return RealCommentUnit.fromPostContent(formContent);
+        return RealSourceCommentUnit.fromFormContent(formContent);
     }
+
+    static CommentUnit fromFormContentToUserComment(FormContent formContent) {
+        if (formContent == null) return empty();
+        return RealUserCommentUnit.fromFormContent(formContent);
+    }
+
 
     static CommentUnit empty() {
         return new EmptyCommentUnit();

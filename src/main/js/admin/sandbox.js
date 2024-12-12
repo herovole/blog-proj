@@ -6,8 +6,8 @@ import { TagSelectingForm } from './fragment/atomic/tagselectingform/tagSelectin
 import { TagUnitList } from './fragment/atomic/tagselectingform/tagUnitList';
 import { ArticleEditingPageBody } from './fragment/articleeditingpage/articleEditingPageBody';
 import { ElementId } from '../domain/elementId';
-import { CommentUnit } from './fragment/articleeditingpage/commenteditor/commentUnit';
-import { CommentUnitList } from './fragment/articleeditingpage/commenteditor/commentUnitList';
+import { SourceCommentUnit } from './fragment/articleeditingpage/commenteditor/sourceCommentUnit';
+import { CommentUnitList } from '../domain/commentUnitList';
 import { Article } from './fragment/articleeditingpage/article';
 import { ImageSelectingModal } from './fragment/image/imageSelectingModal';
 import { ArticleListBody } from './fragment/articlelist/articleListBody';
@@ -24,56 +24,56 @@ console.log(first.toStringKey());
 console.log(second.toStringKey());
 console.log(another.toStringKey());
 
-var comment1 = new CommentUnit(
+var comment1 = new SourceCommentUnit(
     1,
     "This is comment1.",
     "us",
     false,
     []
 );
-var comment2 = new CommentUnit(
+var comment2 = new SourceCommentUnit(
     2,
     "This is comment2.",
     "us",
     false,
     []
 );
-var comment3 = new CommentUnit(
+var comment3 = new SourceCommentUnit(
     3,
     "This is comment3.",
     "us",
     false,
     []
 );
-var comment4 = new CommentUnit(
+var comment4 = new SourceCommentUnit(
     4,
     "This is comment4.",
     "us",
     false,
     [1]
 );
-var comment5 = new CommentUnit(
+var comment5 = new SourceCommentUnit(
     5,
     "This is comment5.",
     "us",
     false,
     [4]
 );
-var comment6 = new CommentUnit(
+var comment6 = new SourceCommentUnit(
     6,
     "This is comment6.",
     "us",
     false,
     [2,3]
 );
-var comment7 = new CommentUnit(
+var comment7 = new SourceCommentUnit(
     7,
     "This is comment7.",
     "us",
     false,
     []
 );
-var comment8 = new CommentUnit(
+var comment8 = new SourceCommentUnit(
     8,
     "This is comment8.",
     "us",

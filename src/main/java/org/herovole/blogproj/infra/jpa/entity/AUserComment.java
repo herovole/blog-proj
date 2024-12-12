@@ -13,8 +13,9 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnit;
-import org.herovole.blogproj.domain.comment.RealSourceCommentUnit;
-import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
+import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.DailyUserId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,9 +26,9 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "a_source_comment")
+@Table(name = "a_user_comment")
 @Data
-public class ASourceComment implements Serializable {
+public class AUserComment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,14 +46,20 @@ public class ASourceComment implements Serializable {
     @Column(name = "comment_text")
     private String commentText;
 
-    @Column(name = "iso_2", columnDefinition = "CHAR")
-    private String iso2;
-
     @Column(name = "is_hidden")
     private boolean isHidden;
 
     @Column(name = "referring_comment_ids")
     private String referringCommentIds;
+
+    @Column(name = "likes")
+    private int likes;
+
+    @Column(name = "dislikes")
+    private int dislikes;
+
+    @Column(name = "daily_user_id", columnDefinition = "CHAR")
+    private String dailyUserId;
 
     @UpdateTimestamp
     @Column(name = "update_timestamp")
@@ -66,34 +73,36 @@ public class ASourceComment implements Serializable {
     private boolean deleteFlag;
 
 
-    public static ASourceComment fromInsertDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+    public static AUserComment fromInsertDomainObj(IntegerId articleId, CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
-        ASourceComment aSourceComment = fromDomainObj(commentUnit);
-        aSourceComment.setArticleId(articleId.longMemorySignature());
-        aSourceComment.setDeleteFlag(false);
-        return aSourceComment;
+        AUserComment aUserComment = fromDomainObj(commentUnit);
+        aUserComment.setArticleId(articleId.longMemorySignature());
+        aUserComment.setDeleteFlag(false);
+        return aUserComment;
     }
 
-    public static ASourceComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+    public static AUserComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
-        RealSourceCommentUnit commentUnit1 = (RealSourceCommentUnit) commentUnit;
-        ASourceComment sourceComment = fromDomainObj(commentUnit);
-        sourceComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
-        sourceComment.setArticleId(articleId.longMemorySignature());
-        sourceComment.setDeleteFlag(false);
-        return sourceComment;
+        RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
+        AUserComment userComment = fromDomainObj(commentUnit);
+        userComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
+        userComment.setArticleId(articleId.longMemorySignature());
+        userComment.setDeleteFlag(false);
+        return userComment;
     }
 
-    private static ASourceComment fromDomainObj(CommentUnit commentUnit) {
+    private static AUserComment fromDomainObj(CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
-        RealSourceCommentUnit commentUnit1 = (RealSourceCommentUnit) commentUnit;
-        ASourceComment sourceComment = new ASourceComment();
-        sourceComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
-        sourceComment.setCommentText(commentUnit1.getCommentText().memorySignature());
-        sourceComment.setIso2(commentUnit1.getCountry().memorySignature());
-        sourceComment.setHidden(commentUnit1.getIsHidden().memorySignature());
-        sourceComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
-        return sourceComment;
+        RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
+        AUserComment userComment = new AUserComment();
+        userComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
+        userComment.setCommentText(commentUnit1.getCommentText().memorySignature());
+        userComment.setHidden(commentUnit1.getIsHidden().memorySignature());
+        userComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
+        userComment.setLikes(commentUnit1.getLikes());
+        userComment.setDislikes(commentUnit1.getDislikes());
+        userComment.setDailyUserId(commentUnit1.getDailyUserId().memorySignature());
+        return userComment;
     }
 
     public static String fromDeleteDomainObj(IntegerId articleId, CommentUnit commentUnit) {
@@ -102,13 +111,16 @@ public class ASourceComment implements Serializable {
     }
 
     public CommentUnit toDomainObj() {
-        return RealSourceCommentUnit.builder()
+        return RealUserCommentUnit.builder()
                 .commentSerialNumber(IntegerId.valueOf(id))
                 .commentId(IntegerId.valueOf(commentId))
                 .commentText(CommentText.valueOf(commentText))
-                .country(CountryCode.valueOf(iso2))
                 .isHidden(GenericSwitch.valueOf(isHidden))
                 .referringCommentIds(IntegerIds.of(referringCommentIds))
+                .likes(likes)
+                .dislikes(dislikes)
+                .dailyUserId(DailyUserId.valueOf(dailyUserId))
+                .postTimestamp(Timestamp.valueOf(insertTimestamp))
                 .build();
     }
 }

@@ -19,12 +19,12 @@ public class EmptyArticle implements Article {
     }
 
     @Override
-    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, CommentUnits sourceComments) {
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, CommentUnits sourceComments, CommentUnits userComments) {
         return this;
     }
 
     @Override
-    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments, int countUserComments) {
         return this;
     }
 

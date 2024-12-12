@@ -30,13 +30,14 @@ public interface Article {
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,
-            CommentUnits sourceComments);
+            CommentUnits sourceComments,
+            CommentUnits userComments);
 
     Article append(
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,
-            int countSourceComments);
+            int countSourceComments, int countUserComments);
 
 
     Json toJsonRecord();

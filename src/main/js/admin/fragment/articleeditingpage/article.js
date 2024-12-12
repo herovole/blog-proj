@@ -1,4 +1,4 @@
-import {CommentUnitList} from './commentEditor/commentUnitList'
+import {CommentUnitList} from '../../../domain/commentUnitList'
 
 export class Article {
 

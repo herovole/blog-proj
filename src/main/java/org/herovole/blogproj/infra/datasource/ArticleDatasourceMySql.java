@@ -14,11 +14,13 @@ import org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry;
 import org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor;
 import org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag;
 import org.herovole.blogproj.infra.jpa.entity.ASourceComment;
+import org.herovole.blogproj.infra.jpa.entity.AUserComment;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasCountryRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
+import org.herovole.blogproj.infra.jpa.repository.AUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,18 +34,22 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     protected final AArticleHasCountryRepository aArticleHasCountryRepository;
     protected final AArticleHasEditorRepository aArticleHasEditorRepository;
     protected final ASourceCommentRepository aSourceCommentRepository;
+    protected final AUserCommentRepository aUserCommentRepository;
 
     @Autowired
     public ArticleDatasourceMySql(AArticleRepository aArticleRepository,
                                   AArticleHasTopicTagRepository aArticleHasTopicTagRepository,
                                   AArticleHasCountryRepository aArticleHasCountryRepository,
                                   AArticleHasEditorRepository aArticleHasEditorRepository,
-                                  ASourceCommentRepository aSourceCommentRepository) {
+                                  ASourceCommentRepository aSourceCommentRepository,
+                                  AUserCommentRepository aUserCommentRepository
+    ) {
         this.aArticleRepository = aArticleRepository;
         this.aArticleHasTopicTagRepository = aArticleHasTopicTagRepository;
         this.aArticleHasCountryRepository = aArticleHasCountryRepository;
         this.aArticleHasEditorRepository = aArticleHasEditorRepository;
         this.aSourceCommentRepository = aSourceCommentRepository;
+        this.aUserCommentRepository = aUserCommentRepository;
     }
 
     @Override
@@ -64,7 +70,10 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         List<ASourceComment> jpaSourceComments = aSourceCommentRepository.findByArticleId(articleId.longMemorySignature());
         CommentUnits sourceComments = CommentUnits.of(jpaSourceComments.stream().map(ASourceComment::toDomainObj).toArray(CommentUnit[]::new));
 
-        return article.append(topicTags, coutryCodes, editors, sourceComments);
+        List<AUserComment> jpaUserComments = aUserCommentRepository.findByArticleId(articleId.longMemorySignature());
+        CommentUnits userComments = CommentUnits.of(jpaUserComments.stream().map(AUserComment::toDomainObj).toArray(CommentUnit[]::new));
+
+        return article.append(topicTags, coutryCodes, editors, sourceComments, userComments);
     }
 
     @Override
@@ -83,15 +92,13 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         IntegerIds editors = IntegerIds.of(jpaEditors.stream().map(AArticleHasEditor::toEditorId).toArray(IntegerId[]::new));
 
         int countSourceComments = aSourceCommentRepository.countByArticleId(articleId.longMemorySignature());
+        int countUserComments = aUserCommentRepository.countByArticleId(articleId.longMemorySignature());
 
-        return article.append(topicTags, coutryCodes, editors, countSourceComments);
+        return article.append(topicTags, coutryCodes, editors, countSourceComments, countUserComments);
     }
 
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
-        System.out.println("keyword0 " + searchOption.getKeywords().get(0).memorySignature());
-        System.out.println("keyword1 " + searchOption.getKeywords().get(1).memorySignature());
-        System.out.println("keyword2 " + searchOption.getKeywords().get(2).memorySignature());
         long[] ids = aArticleRepository.searchByOptions(
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),

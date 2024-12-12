@@ -21,7 +21,7 @@ public class FindArticle {
         this.articleDatasource = articleDatasource;
     }
 
-    public FindArticleOutput process(FindArticleInput input) throws Exception {
+    public FindArticleOutput process(FindArticleInput input) {
         logger.info("interpreted post : {}", input);
         IntegerId articleId = input.getArticleId();
         Article article = articleDatasource.findById(articleId);

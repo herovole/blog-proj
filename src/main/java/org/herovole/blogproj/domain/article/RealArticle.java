@@ -3,10 +3,10 @@ package org.herovole.blogproj.domain.article;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
@@ -35,7 +35,8 @@ public class RealArticle implements Article {
                 .countries(CountryCodes.fromPostContent(children))
                 .topicTags(IntegerIds.fromPostContentTopicTags(children))
                 .editors(IntegerIds.fromPostContentEditors(children))
-                .originalComments(CommentUnits.fromPostContentEditors(children))
+                .originalComments(CommentUnits.fromFormContentToSourceComments(children))
+                .userComments(CommentUnits.fromFormContentToUserComments(children))
 
                 .latestEditTimestamp(Timestamp.empty())
 
@@ -66,7 +67,8 @@ public class RealArticle implements Article {
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,
-            CommentUnits sourceComments) {
+            CommentUnits sourceComments,
+            CommentUnits userComments) {
         return builder()
                 .articleId(this.articleId)
                 .title(this.title)
@@ -78,7 +80,7 @@ public class RealArticle implements Article {
                 .topicTags(topicTags)
                 .editors(editors)
                 .originalComments(sourceComments)
-                .userComments(CommentUnits.empty())
+                .userComments(userComments)
 
                 .registrationTimestamp(this.registrationTimestamp)
                 .latestEditTimestamp(this.latestEditTimestamp)
@@ -87,7 +89,11 @@ public class RealArticle implements Article {
     }
 
     @Override
-    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+    public Article append(IntegerIds topicTags,
+                          CountryCodes countries,
+                          IntegerIds editors,
+                          int countSourceComments,
+                          int countUserComments) {
         throw new UnsupportedOperationException();
     }
 

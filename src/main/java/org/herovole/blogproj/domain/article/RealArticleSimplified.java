@@ -41,12 +41,12 @@ public class RealArticleSimplified implements Article {
             IntegerIds topicTags,
             CountryCodes countries,
             IntegerIds editors,
-            CommentUnits sourceComments) {
+            CommentUnits sourceComments, CommentUnits userComments) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments) {
+    public Article append(IntegerIds topicTags, CountryCodes countries, IntegerIds editors, int countSourceComments, int countUserComments) {
         return builder()
                 .articleId(this.articleId)
                 .title(this.title)

@@ -1,5 +1,6 @@
+import {CommentUnit} from '../../../../domain/commentUnit'
 
-export class CommentUnit {
+export class SourceCommentUnit extends CommentUnit {
 
     static API_KEY_ID = "commentId";
     static API_KEY_TEXT = "commentText";
@@ -26,15 +27,11 @@ export class CommentUnit {
         this.depth = depth;
     }
 
-    getLatestReferringId() {
-        if(this.referringIds.length == 0) {
-            return -1;
-        }
-        return Math.max(...this.referringIds);
-    }
-
+    getInArticleCommentId(){ return commentId;}
+    getReferringCommentIds(){ return referringIds;}
+    getDepth(){ return depth; }
     applyDepth(depth) {
-        return new CommentUnit(
+        return new SourceCommentUnit(
             this.commentId,
             this.text,
             this.country,
@@ -42,6 +39,13 @@ export class CommentUnit {
             this.referringIds,
             depth
         );
+    }
+
+    getLatestReferringId() {
+        if(this.getReferringCommentIds().length == 0) {
+            return -1;
+        }
+        return Math.max(...this.getReferringCommentIds());
     }
 
 }

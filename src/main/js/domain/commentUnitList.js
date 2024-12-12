@@ -1,5 +1,6 @@
 
-import { CommentUnit } from './commentUnit'
+import { SourceCommentUnit } from '../admin/fragment/articleeditingpage/commenteditor/sourceCommentUnit'
+import { UserCommentUnit } from '../public/fragment/usercomment/userCommentUnit'
 
 export class CommentUnitList {
 
@@ -8,6 +9,13 @@ export class CommentUnitList {
         var arrayListOfComments = array.map(child => CommentUnit.fromHash(child));
         return new CommentUnitList(arrayListOfComments);
     }
+
+    static fromHashAsUserCommentUnits(array) {
+        console.log("user comment unit list : " + JSON.stringify(array));
+        var arrayListOfComments = array.map(child => UserCommentUnit.fromHash(child));
+        return new CommentUnitList(arrayListOfComments);
+    }
+
 
     static empty() {
         return new CommentUnitList([]);
@@ -57,11 +65,11 @@ export class CommentUnitList {
         return new CommentUnitList(newArray);
     }
 
-    getById(commentId) {
+    getByInArticleCommentId(commentId) {
         console.log("finding :" + commentId);
         for(var u of this.arrayListOfComments) {
-            console.log("looking :" + u.commentId);
-            if(u.commentId == commentId) { return u; }
+            console.log("looking :" + u.getInArticleCommentId());
+            if(u.getInArticleCommentId() == commentId) { return u; }
         }
         return null;
     }
@@ -69,9 +77,9 @@ export class CommentUnitList {
     insertRightBeforeNextConversation(commentId, unit) {
         var originIndex = -1;
         var originUnit;
-        console.log("insertRightBeforeNextConversation referring to " + commentId + " by " + unit.commentId);
+        console.log("insertRightBeforeNextConversation referring to " + commentId + " by " + unit.getInArticleCommentId());
         for(var i = 0; i < this.arrayListOfComments.length; i++) {
-            if(this.arrayListOfComments[i].commentId == commentId) {
+            if(this.arrayListOfComments[i].getInArticleCommentId() == commentId) {
                 originIndex = i;
                 originUnit = this.arrayListOfComments[i];
             }

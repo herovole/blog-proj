@@ -1,17 +1,15 @@
 package org.herovole.blogproj.domain.time;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
-@EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Timestamp implements Comparable<Timestamp> {
 
@@ -19,6 +17,8 @@ public class Timestamp implements Comparable<Timestamp> {
     private static final ZoneOffset zoneOffsetTokyo = ZoneOffset.of("+09:00");
     private static final ZoneId zoneIdTokyo = ZoneId.of("Asia/Tokyo");
 
+
+    private static final DateTimeFormatter formatterFrontendDisplay = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private static final DateTimeFormatter formatterYyyyMMddSpaceHHmmss = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
     private static final DateTimeFormatter formatterYyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
 
@@ -26,12 +26,16 @@ public class Timestamp implements Comparable<Timestamp> {
         return new Timestamp(null);
     }
 
+    public static Timestamp now() {
+        return valueOf(LocalDateTime.now(zoneIdTokyo));
+    }
+
     public static Timestamp valueOf(LocalDateTime localDateTime) {
-        return localDateTime == null ? empty() : valueOf(localDateTime.atZone(zoneIdTokyo).toEpochSecond());
+        return new Timestamp(localDateTime);
     }
 
     public static Timestamp valueOf(long unixTimestamp) {
-        return new Timestamp(unixTimestamp);
+        return valueOf(LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp), zoneIdTokyo));
     }
 
     public static Timestamp fromDateHourMinute(Date date, Hour hour, Minute minute) {
@@ -42,35 +46,36 @@ public class Timestamp implements Comparable<Timestamp> {
                 hour.memorySignature(),
                 minute.memorySignature()
         );
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneOffsetTokyo); // convert to UTC+9
-        long unixTimestamp = zonedDateTime.toInstant().getEpochSecond();
-        return Timestamp.valueOf(unixTimestamp);
+        return valueOf(localDateTime);
     }
 
 
-    private final Long unix;
+    private final LocalDateTime localDateTime;
 
     boolean isEmpty() {
-        return unix == null;
+        return this.localDateTime == null;
     }
 
     public String letterSignatureYyyyMMddSpaceHHmmss() {
         if (this.isEmpty()) return EMPTY;
-        LocalDateTime date = this.toLocalDateTime();
-        return date.format(formatterYyyyMMddSpaceHHmmss);
+        return this.localDateTime.format(formatterYyyyMMddSpaceHHmmss);
+    }
+
+    public String letterSignatureFrontendDisplay() {
+        if (this.isEmpty()) return EMPTY;
+        return this.localDateTime.format(formatterFrontendDisplay);
     }
 
     public Date toDate() {
-        LocalDateTime date = this.toLocalDateTime();
-        return Date.valueOf(date.format(formatterYyyyMMdd));
+        return Date.valueOf(this.localDateTime.format(formatterYyyyMMdd));
     }
 
     public LocalDateTime toLocalDateTime() {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(unix), zoneIdTokyo);
+        return this.localDateTime;
     }
 
-    public long memorySignature() {
-        return this.unix;
+    public long longMemorySignature() {
+        return this.localDateTime.atZone(zoneIdTokyo).toEpochSecond();
     }
 
     @Override
@@ -83,6 +88,19 @@ public class Timestamp implements Comparable<Timestamp> {
         if (this.isEmpty() && o.isEmpty()) return 0;
         if (this.isEmpty() && !o.isEmpty()) return -1;
         if (!this.isEmpty() && o.isEmpty()) return 1;
-        return this.unix.compareTo(o.unix);
+        return this.localDateTime.compareTo(o.localDateTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Timestamp that = (Timestamp) o;
+        return Objects.equals(this.longMemorySignature(), that.longMemorySignature());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.localDateTime);
     }
 }

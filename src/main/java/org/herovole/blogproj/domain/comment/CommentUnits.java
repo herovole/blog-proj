@@ -14,11 +14,19 @@ import java.util.stream.Stream;
 public class CommentUnits {
 
     private static final String API_KEY_ORIGINAL_COMMENTS = "originalComments";
+    private static final String API_KEY_USER_COMMENTS = "userComments";
 
-    public static CommentUnits fromPostContentEditors(FormContent formContent) {
+    public static CommentUnits fromFormContentToSourceComments(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ORIGINAL_COMMENTS);
         FormContents arrayChildren = child.getInArray();
-        CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromPostContent).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
+        CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromFormContentToSourceComment).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
+        return of(comments);
+    }
+
+    public static CommentUnits fromFormContentToUserComments(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_USER_COMMENTS);
+        FormContents arrayChildren = child.getInArray();
+        CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromFormContentToUserComment).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
         return of(comments);
     }
 

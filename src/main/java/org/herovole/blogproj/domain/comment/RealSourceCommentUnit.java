@@ -15,10 +15,10 @@ import org.herovole.blogproj.domain.tag.country.CountryCode;
 @Builder
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class RealCommentUnit implements CommentUnit {
+public class RealSourceCommentUnit implements CommentUnit {
 
-    public static RealCommentUnit fromPostContent(FormContent formContent) {
-        return RealCommentUnit.builder()
+    public static RealSourceCommentUnit fromFormContent(FormContent formContent) {
+        return RealSourceCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.fromPostContentCommentId(formContent))
                 .commentText(CommentText.fromPostContentCommentText(formContent))
@@ -47,13 +47,13 @@ public class RealCommentUnit implements CommentUnit {
     @Override
     public boolean hasSameCommentId(CommentUnit that) {
         if (that.isEmpty()) return false;
-        return this.commentId.equals(((RealCommentUnit) that).commentId);
+        return this.commentId.equals(((RealSourceCommentUnit) that).commentId);
     }
 
     @Override
     public boolean hasSameContent(CommentUnit that) {
         if (that.isEmpty()) return false;
-        RealCommentUnit it = (RealCommentUnit) that;
+        RealSourceCommentUnit it = (RealSourceCommentUnit) that;
         return this.commentText.equals(it.commentText)
                 && this.country.equals(it.country)
                 && this.isHidden.equals(it.isHidden)
