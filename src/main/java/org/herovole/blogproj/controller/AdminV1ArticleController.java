@@ -27,24 +27,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/articles")
 public class AdminV1ArticleController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1ArticleController.class.getSimpleName());
     private final EditArticle editArticle;
     private final SearchArticles searchArticles;
     private final FindArticle findArticle;
 
+    @Autowired
     AdminV1ArticleController(
-            @Autowired EditArticle editArticle,
-            @Autowired SearchArticles searchArticles,
-            @Autowired FindArticle findArticle
+            EditArticle editArticle,
+            SearchArticles searchArticles,
+            FindArticle findArticle
     ) {
         this.editArticle = editArticle;
         this.searchArticles = searchArticles;
         this.findArticle = findArticle;
     }
 
-    @PostMapping("/articles")
+    @PostMapping
     public ResponseEntity<String> postArticles(
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : articles (Post) ");
@@ -65,7 +66,7 @@ public class AdminV1ArticleController {
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("/articles")
+    @GetMapping
     public ResponseEntity<String> searchArticles(
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) ");
@@ -86,7 +87,7 @@ public class AdminV1ArticleController {
 
     }
 
-    @GetMapping("/articles/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<String> findArticle(
             @PathVariable int id) {
         logger.info("Endpoint : articles (Get) {}", id);

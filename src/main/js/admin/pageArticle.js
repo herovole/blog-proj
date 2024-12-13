@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnitList} from "./fragment/atomic/tagselectingform/tagUnitList";
 import {ArticleEditingPageBody} from "./fragment/articleeditingpage/articleEditingPageBody";
-import {Article} from "./fragment/articleeditingpage/article";
+import {Article} from "../domain/article";
 import {ElementId} from "../domain/elementId";
 
 export const PageArticle = () => {

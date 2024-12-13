@@ -10,21 +10,13 @@ import { CommentEditor } from './commentEditor/commentEditor';
 import { TagSelectingForm } from '../atomic/tagselectingform/tagSelectingForm';
 import { TagUnitList } from '../atomic/tagselectingform/tagUnitList';
 
-export class ArticleEditingPageBody extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            //this.props.postKey : form component name
-            //this.props.content : Article
-            //this.props.topicTagOptions, : TagUnitList
-            //this.props.countryTagOptions : TagUnitList
-        };
-    }
+//  postKey : ElementId
+//  article : Article
+//  topicTagOptions, : TagUnitList
+//  countryTagOptions : TagUnitList
+export const ArticleViewer = ({postKey, article, topicTagOptions, countryTagOptions}) => {
 
-    componentDidMount() { }
-
-
-    handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent page reload
         const formData = new FormData(event.target);
         const postData = Object.fromEntries(formData.entries());
@@ -42,22 +34,22 @@ export class ArticleEditingPageBody extends React.Component {
 
     render() {
             return (
-                <form onSubmit={this.handleSubmit}>
                     <div class="flex-container">
-                        <button type="submit">Submit</button>
                         <div>
                             <div class="flex-container">
-                                <p class="item-title">Image</p>
+                                <p class="item-title">{article.title}</p>
+                            </div>
+                            <div class="flex-container">
                                 <ImageSelectingModal
-                                    postKey = {this.props.postKey.append("imageName")}
-                                    imageName = {this.props.content.imageName}
+                                    postKey = {postKey.append("imageName")}
+                                    imageName = {article.imageName}
                                 />
                             </div>
                             <div class="flex-container">
                                 <p class="item-title">Article ID</p>
                                 <IdsEditingForm
                                     postKey = {this.props.postKey.append("id")}
-                                    ids = {this.props.content.articleId}
+                                    ids = {article.articleId}
                                     isFixed = {true}
                                 />
                             </div>
@@ -65,42 +57,16 @@ export class ArticleEditingPageBody extends React.Component {
                                 <p class="item-title-large">Source Info</p>
                                 <p>
                                     <span class="item-title">URL</span>
-                                    <TextEditingForm
-                                        postKey = {this.props.postKey.append("sourceUrl")}>
-                                        {this.props.content.sourceUrl}
-                                    </TextEditingForm>
+                                    <span>{article.sourceUrl}</span>
                                 </p>
                                 <p>
                                     <span class="item-title">Title</span>
-                                    <TextEditingForm
-                                        postKey = {this.props.postKey.append("sourceTitle")}>
-                                        {this.props.content.sourceTitle}
-                                    </TextEditingForm>
+                                    <span>{article.sourceTitle}</span>
                                 </p>
                                 <p>
                                     <span class="item-title">Date</span>
-                                    <DateSelectingForm
-                                        postKey = {this.props.postKey.append("sourceDate")}>
-                                        {this.props.content.sourceDate}
-                                    </DateSelectingForm>
+                                    <span>{article.sourceDate}</span>
                                 </p>
-                            </div>
-                            <div class="flex-container">
-                                <p class="item-title">Published?</p>
-                                <BooleanSelectingForm
-                                    postKey = {this.props.postKey.append("isPublished")}>
-                                    {this.props.content.isPublished}
-                                </BooleanSelectingForm>
-                            </div>
-                            <div class="flex-container">
-                                <p class="item-title">Editors</p>
-                                <TagSelectingForm
-                                  allowsMultipleOptions={true}
-                                  postKey={this.props.postKey.append("editors")}
-                                  candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
-                                  isFixed = {true}
-                                  selectedTagIds={[]}
-                                />
                             </div>
                             <div>
                                 <p class="item-title">Topic Tags</p>
@@ -108,7 +74,8 @@ export class ArticleEditingPageBody extends React.Component {
                                   allowsMultipleOptions={true}
                                   postKey={this.props.postKey.append("topicTags")}
                                   candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
-                                  selectedTagIds={this.props.content.topicTags}
+                                  selectedTagIds={article.topicTags}
+                                  isFixed={true}
                                 />
                             </div>
                             <div>
@@ -117,34 +84,35 @@ export class ArticleEditingPageBody extends React.Component {
                                   allowsMultipleOptions={true}
                                   postKey={this.props.postKey.append("countries")}
                                   candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
-                                  selectedTagIds={this.props.content.countries}
+                                  selectedTagIds={article.countries}
+                                  isFixed={true}
                                 />
                             </div>
                             <div>
-                                <p class="item-title">Article Title</p>
-                                <TextEditingForm
-                                    postKey = {this.props.postKey.append("articleTitle")}>
-                                    {this.props.content.title}
-                                </TextEditingForm>
-                            </div>
-                            <div>
-                                <p class="item-title">Article Text</p>
-                                <TextEditingForm
-                                    postKey = {this.props.postKey.append("articleText")}>
-                                    {this.props.content.text}
-                                </TextEditingForm>
+                                <div>{article.text}</div>
                             </div>
                             <div>
                                 <p class="item-title-large">Original Comments</p>
                                 <CommentEditor
                                     postKey = {this.props.postKey.append("originalComments")}
-                                    content = {this.props.content.originalComments}
+                                    content = {article.originalComments}
                                     countryTagOptions = {this.props.countryTagOptions}
                                     />
                             </div>
+                            <div>
+                                <UserCommentViewer
+                                    postKey={this.props.postKey.append("userComments")}
+                                    commentUnitList={article.userComments}
+                                />
+                            </div>
+                            <div>
+                                <UserCommentForm
+                                    postKey={this.props.postKey.append("userCommentForm")}
+                                    articleId={article.articleId}
+                                />
+                            </div>
                         </div>
                     </div>
-                </form>
             );
     }
 }

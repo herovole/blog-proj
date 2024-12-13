@@ -22,7 +22,7 @@ public class RealUserCommentUnit implements CommentUnit {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.fromPostContentCommentId(formContent))
-                .commentText(CommentText.fromPostContentCommentText(formContent))
+                .commentText(CommentText.fromFormContentCommentText(formContent))
                 .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
                 .build();

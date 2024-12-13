@@ -13,7 +13,7 @@ public class CommentText {
     private static final String API_KEY_COMMENT_TEXT = "text";
     private static final String EMPTY = "-";
 
-    public static CommentText fromPostContentCommentText(FormContent formContent) {
+    public static CommentText fromFormContentCommentText(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_TEXT);
         return valueOf(child.getValue());
     }
