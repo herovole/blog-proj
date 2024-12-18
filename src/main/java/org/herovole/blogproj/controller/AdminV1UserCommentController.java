@@ -1,5 +1,6 @@
 package org.herovole.blogproj.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.herovole.blogproj.application.postusercomment.PostUserComment;
 import org.herovole.blogproj.application.postusercomment.PostUserCommentInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
@@ -31,7 +32,9 @@ public class AdminV1UserCommentController {
 
     @PostMapping
     public ResponseEntity<String> postComment(
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, String> request,
+            HttpServletRequest servletRequest
+    ) {
         logger.info("Endpoint : userComments (Post) ");
         System.out.println(request);
 

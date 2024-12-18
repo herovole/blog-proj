@@ -41,8 +41,8 @@ public class TopicTagTransactionalDatasourceMySql extends TopicTagDatasourceMySq
     @Autowired
     public TopicTagTransactionalDatasourceMySql(ATopicTagRepository aTopicTagRepository) {
         super(aTopicTagRepository);
-        int maxId = aTopicTagRepository.findMaxId();
-        this.maxTopicTagId = new AtomicInteger(maxId);
+        Integer maxId = aTopicTagRepository.findMaxId();
+        this.maxTopicTagId = maxId == null ? new AtomicInteger(0) : new AtomicInteger(maxId);
     }
 
     @Override

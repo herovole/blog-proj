@@ -23,7 +23,7 @@ public class IntegerId implements Comparable<IntegerId> {
         return fromFormContentArticleId(formContent);
     }
 
-    public static IntegerId fromPostContentCommentId(FormContent formContent) {
+    public static IntegerId fromFormContentCommentId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_ID);
         return valueOf(child.getValue());
     }

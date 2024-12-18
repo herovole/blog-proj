@@ -18,6 +18,11 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getArticleId() {
+        return IntegerId.empty();
+    }
+
+    @Override
     public boolean hasSameCommentId(CommentUnit that) {
         return false;
     }

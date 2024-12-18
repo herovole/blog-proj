@@ -6,7 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.CommentText;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
+import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.DailyUserId;
 
 @ToString
 @Getter
@@ -25,4 +31,20 @@ public class PostUserCommentInput {
 
     private final IntegerId articleId;
     private final CommentText commentText;
+
+    CommentUnit buildCommentUnit() {
+        return RealUserCommentUnit.builder()
+                .commentSerialNumber(IntegerId.empty())
+                .commentId(IntegerId.empty())
+                .articleId(articleId)
+                .commentText(commentText)
+                .isHidden(GenericSwitch.negative())
+                .referringCommentIds(IntegerIds.empty())
+                .likes(0)
+                .dislikes(0)
+                .dailyUserId(DailyUserId.empty())
+                .postTimestamp(Timestamp.now())
+                .build();
+    }
 }
+

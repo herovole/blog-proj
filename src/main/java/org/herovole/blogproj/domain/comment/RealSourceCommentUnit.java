@@ -5,10 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.herovole.blogproj.domain.CommentText;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 
 @ToString
@@ -20,7 +20,7 @@ public class RealSourceCommentUnit implements CommentUnit {
     public static RealSourceCommentUnit fromFormContent(FormContent formContent) {
         return RealSourceCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
-                .commentId(IntegerId.fromPostContentCommentId(formContent))
+                .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
                 .country(CountryCode.fromPostContent(formContent))
                 .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
@@ -42,6 +42,11 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public boolean isEmpty() {
         return this.commentId.isEmpty();
+    }
+
+    @Override
+    public IntegerId getArticleId() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -2,10 +2,9 @@ package org.herovole.blogproj.application.postusercomment;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
-import org.herovole.blogproj.domain.tag.topic.TagUnit;
-import org.herovole.blogproj.domain.tag.topic.TagUnits;
-import org.herovole.blogproj.domain.tag.topic.TopicTagDatasource;
-import org.herovole.blogproj.domain.tag.topic.TopicTagTransactionalDatasource;
+import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.UserCommentDatasource;
+import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +17,28 @@ public class PostUserComment {
     private static final Logger logger = LoggerFactory.getLogger(PostUserComment.class.getSimpleName());
 
     private final AppSessionFactory sessionFactory;
-    private final TopicTagDatasource topicTagDatasource;
-    private final TopicTagTransactionalDatasource topicTagTransactionalDatasource;
+    private final UserCommentDatasource userCommentDatasource;
+    private final UserCommentTransactionalDatasource userCommentTransactionalDatasource;
 
     @Autowired
     public PostUserComment(AppSessionFactory sessionFactory,
-                           @Qualifier("topicTagDatasource") TopicTagDatasource topicTagDatasource,
-                           TopicTagTransactionalDatasource topicTagTransactionalDatasource) {
+                           @Qualifier("userCommentDatasource") UserCommentDatasource userCommentDatasource,
+                           UserCommentTransactionalDatasource userCommentTransactionalDatasource) {
         this.sessionFactory = sessionFactory;
-        this.topicTagDatasource = topicTagDatasource;
-        this.topicTagTransactionalDatasource = topicTagTransactionalDatasource;
+        this.userCommentDatasource = userCommentDatasource;
+        this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
     }
 
     public void process(PostUserCommentInput input) throws Exception {
         logger.info("interpreted post : {}", input);
-        TagUnits topicTags = input.getTagUnits();
-        for (TagUnit topicTag : topicTags) {
-            if (topicTag.isEmpty()) continue;
-            TagUnit before = topicTagDatasource.findById(topicTag.getId());
-            if (before.hasSameContentWith(topicTag)) continue;
-            if (before.isEmpty()) {
-                logger.info("insert topic tag : {}", topicTag);
-                topicTagTransactionalDatasource.insert(topicTag);
-            } else {
-                logger.info("update topic tag : {} -> {}", before, topicTag);
-                topicTagTransactionalDatasource.update(before, topicTag);
-            }
-            logger.info("total transaction number : {}", topicTagTransactionalDatasource.amountOfCachedTransactions());
-        }
+        CommentUnit comment = input.buildCommentUnit();
+
+        logger.info("insert user comment : {}", comment);
+        this.userCommentTransactionalDatasource.insert(comment);
+        logger.info("total transaction number : {}", userCommentTransactionalDatasource.amountOfCachedTransactions());
 
         try (AppSession session = sessionFactory.createSession()) {
-            topicTagTransactionalDatasource.flush(session);
+            userCommentTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
         }

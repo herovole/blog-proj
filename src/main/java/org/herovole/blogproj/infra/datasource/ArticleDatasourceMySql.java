@@ -14,13 +14,13 @@ import org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry;
 import org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor;
 import org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag;
 import org.herovole.blogproj.infra.jpa.entity.ASourceComment;
-import org.herovole.blogproj.infra.jpa.entity.AUserComment;
+import org.herovole.blogproj.infra.jpa.entity.EUserComment;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasCountryRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
-import org.herovole.blogproj.infra.jpa.repository.AUserCommentRepository;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +34,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     protected final AArticleHasCountryRepository aArticleHasCountryRepository;
     protected final AArticleHasEditorRepository aArticleHasEditorRepository;
     protected final ASourceCommentRepository aSourceCommentRepository;
-    protected final AUserCommentRepository aUserCommentRepository;
+    protected final EUserCommentRepository eUserCommentRepository;
 
     @Autowired
     public ArticleDatasourceMySql(AArticleRepository aArticleRepository,
@@ -42,14 +42,14 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
                                   AArticleHasCountryRepository aArticleHasCountryRepository,
                                   AArticleHasEditorRepository aArticleHasEditorRepository,
                                   ASourceCommentRepository aSourceCommentRepository,
-                                  AUserCommentRepository aUserCommentRepository
+                                  EUserCommentRepository eUserCommentRepository
     ) {
         this.aArticleRepository = aArticleRepository;
         this.aArticleHasTopicTagRepository = aArticleHasTopicTagRepository;
         this.aArticleHasCountryRepository = aArticleHasCountryRepository;
         this.aArticleHasEditorRepository = aArticleHasEditorRepository;
         this.aSourceCommentRepository = aSourceCommentRepository;
-        this.aUserCommentRepository = aUserCommentRepository;
+        this.eUserCommentRepository = eUserCommentRepository;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         List<ASourceComment> jpaSourceComments = aSourceCommentRepository.findByArticleId(articleId.longMemorySignature());
         CommentUnits sourceComments = CommentUnits.of(jpaSourceComments.stream().map(ASourceComment::toDomainObj).toArray(CommentUnit[]::new));
 
-        List<AUserComment> jpaUserComments = aUserCommentRepository.findByArticleId(articleId.longMemorySignature());
-        CommentUnits userComments = CommentUnits.of(jpaUserComments.stream().map(AUserComment::toDomainObj).toArray(CommentUnit[]::new));
+        List<EUserComment> jpaUserComments = eUserCommentRepository.findByArticleId(articleId.longMemorySignature());
+        CommentUnits userComments = CommentUnits.of(jpaUserComments.stream().map(EUserComment::toDomainObj).toArray(CommentUnit[]::new));
 
         return article.append(topicTags, coutryCodes, editors, sourceComments, userComments);
     }
@@ -92,7 +92,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         IntegerIds editors = IntegerIds.of(jpaEditors.stream().map(AArticleHasEditor::toEditorId).toArray(IntegerId[]::new));
 
         int countSourceComments = aSourceCommentRepository.countByArticleId(articleId.longMemorySignature());
-        int countUserComments = aUserCommentRepository.countByArticleId(articleId.longMemorySignature());
+        int countUserComments = eUserCommentRepository.countByArticleId(articleId.longMemorySignature());
 
         return article.append(topicTags, coutryCodes, editors, countSourceComments, countUserComments);
     }

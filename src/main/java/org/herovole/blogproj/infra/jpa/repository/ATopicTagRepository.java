@@ -15,7 +15,7 @@ public interface ATopicTagRepository extends JpaRepository<ATopicTag, Long> {
     ATopicTag findOne();
 
     @Query(value = "Select max(id) from a_topic_tag", nativeQuery = true)
-    int findMaxId();
+    Integer findMaxId();
 
     @Query(value = "Select * from a_topic_tag where delete_flag = 0 order by id",
             nativeQuery = true)

@@ -7,10 +7,12 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.CommentText;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
+import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
 @Builder
@@ -21,7 +23,8 @@ public class RealUserCommentUnit implements CommentUnit {
     public static RealUserCommentUnit fromFormContent(FormContent formContent) {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
-                .commentId(IntegerId.fromPostContentCommentId(formContent))
+                .commentId(IntegerId.fromFormContentCommentId(formContent))
+                .articleId(IntegerId.fromFormContentArticleId(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
                 .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
@@ -31,6 +34,9 @@ public class RealUserCommentUnit implements CommentUnit {
     private final IntegerId commentSerialNumber;
     @EqualsAndHashCode.Include
     private final IntegerId commentId;
+
+    @EqualsAndHashCode.Include
+    private final IntegerId articleId;
     @EqualsAndHashCode.Include
     private final CommentText commentText;
     @EqualsAndHashCode.Include
@@ -39,6 +45,8 @@ public class RealUserCommentUnit implements CommentUnit {
     private final int likes;
     private final int dislikes;
     private final DailyUserId dailyUserId;
+    private final UniversallyUniqueId uuId;
+    private final IPv4Address ip;
     private final Timestamp postTimestamp;
 
     @Override
@@ -66,6 +74,7 @@ public class RealUserCommentUnit implements CommentUnit {
         return new Json(
                 this.commentSerialNumber.longMemorySignature(),
                 this.commentId.intMemorySignature(),
+                this.articleId.intMemorySignature(),
                 this.commentText.memorySignature(),
                 this.isHidden.memorySignature(),
                 this.referringCommentIds.toIntMemorySignature(),
@@ -79,6 +88,7 @@ public class RealUserCommentUnit implements CommentUnit {
     record Json(
             long commentSerialNumber,
             Integer commentId,
+            Integer articleId,
             String commentText,
             boolean isHidden,
             int[] referringCommentIds,

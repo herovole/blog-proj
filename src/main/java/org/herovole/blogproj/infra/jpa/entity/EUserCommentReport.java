@@ -26,9 +26,9 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "a_user_comment")
+@Table(name = "e_user_comment_report")
 @Data
-public class AUserComment implements Serializable {
+public class EUserCommentReport implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,30 +36,20 @@ public class AUserComment implements Serializable {
     private long id;
 
     @EqualsAndHashCode.Include
-    @Column(name = "comment_id")
-    private long commentId;
+    @Column(name = "comment_serial_number")
+    private long commentSerialNumber;
 
-    @EqualsAndHashCode.Include
-    @Column(name = "article_id")
-    private long articleId;
+    @Column(name = "reporter_user_id")
+    private long reporterUserId;
 
-    @Column(name = "comment_text")
-    private String commentText;
+    @Column(name = "aton")
+    private long aton;
 
-    @Column(name = "is_hidden")
-    private boolean isHidden;
+    @Column(name = "classifications")
+    private String classifications;
 
-    @Column(name = "referring_comment_ids")
-    private String referringCommentIds;
-
-    @Column(name = "likes")
-    private int likes;
-
-    @Column(name = "dislikes")
-    private int dislikes;
-
-    @Column(name = "daily_user_id", columnDefinition = "CHAR")
-    private String dailyUserId;
+    @Column(name = "report_text")
+    private String reportText;
 
     @UpdateTimestamp
     @Column(name = "update_timestamp")
@@ -73,35 +63,38 @@ public class AUserComment implements Serializable {
     private boolean deleteFlag;
 
 
-    public static AUserComment fromInsertDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+    public static EUserCommentReport fromInsertDomainObj(IntegerId inArticleCommentId, CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
-        AUserComment aUserComment = fromDomainObj(commentUnit);
-        aUserComment.setArticleId(articleId.longMemorySignature());
-        aUserComment.setDeleteFlag(false);
-        return aUserComment;
+        EUserCommentReport eUserComment = fromDomainObj(commentUnit);
+        eUserComment.setCommentId(inArticleCommentId.longMemorySignature());
+        eUserComment.setArticleId(commentUnit.getArticleId().longMemorySignature());
+        eUserComment.setDeleteFlag(false);
+        return eUserComment;
     }
 
-    public static AUserComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
+    public static EUserCommentReport fromUpdateDomainObj(CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
-        AUserComment userComment = fromDomainObj(commentUnit);
+        EUserCommentReport userComment = fromDomainObj(commentUnit);
         userComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
-        userComment.setArticleId(articleId.longMemorySignature());
+        userComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
+        userComment.setArticleId(commentUnit.getArticleId().longMemorySignature());
         userComment.setDeleteFlag(false);
         return userComment;
     }
 
-    private static AUserComment fromDomainObj(CommentUnit commentUnit) {
+    private static EUserCommentReport fromDomainObj(CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
-        AUserComment userComment = new AUserComment();
-        userComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
+        EUserCommentReport userComment = new EUserCommentReport();
         userComment.setCommentText(commentUnit1.getCommentText().memorySignature());
         userComment.setHidden(commentUnit1.getIsHidden().memorySignature());
         userComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
         userComment.setLikes(commentUnit1.getLikes());
         userComment.setDislikes(commentUnit1.getDislikes());
         userComment.setDailyUserId(commentUnit1.getDailyUserId().memorySignature());
+        //userComment.setUserId(commentUnit1.getUuId().letterSignature())
+        userComment.setAton(commentUnit1.getIp().aton());
         return userComment;
     }
 

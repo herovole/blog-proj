@@ -21,6 +21,7 @@ import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
 import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,10 +51,16 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     private final AtomicLong maxArticleId;
 
     @Autowired
-    protected ArticleTransactionalDatasourceMySql(AArticleRepository aArticleRepository, AArticleHasTopicTagRepository aArticleHasTopicTagRepository, AArticleHasCountryRepository aArticleHasCountryRepository, AArticleHasEditorRepository aArticleHasEditorRepository, ASourceCommentRepository aSourceCommentRepository) {
-        super(aArticleRepository, aArticleHasTopicTagRepository, aArticleHasCountryRepository, aArticleHasEditorRepository, aSourceCommentRepository);
+    protected ArticleTransactionalDatasourceMySql(
+            AArticleRepository aArticleRepository,
+            AArticleHasTopicTagRepository aArticleHasTopicTagRepository,
+            AArticleHasCountryRepository aArticleHasCountryRepository,
+            AArticleHasEditorRepository aArticleHasEditorRepository,
+            ASourceCommentRepository aSourceCommentRepository,
+            EUserCommentRepository eUserCommentRepository) {
+        super(aArticleRepository, aArticleHasTopicTagRepository, aArticleHasCountryRepository, aArticleHasEditorRepository, aSourceCommentRepository, eUserCommentRepository);
         Long maxId = aArticleRepository.findMaxId();
-        this.maxArticleId = maxId == null ? new AtomicLong(-1) : new AtomicLong(maxId);
+        this.maxArticleId = maxId == null ? new AtomicLong(0) : new AtomicLong(maxId);
     }
 
     @Override
