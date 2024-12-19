@@ -35,4 +35,8 @@ public class UniversallyUniqueId {
     public String letterSignature() {
         return this.isEmpty() ? "" : this.id;
     }
+
+    public String memorySignature() {
+        return this.isEmpty() ? null : this.id;
+    }
 }

@@ -1,6 +1,7 @@
 package org.herovole.blogproj.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.postusercomment.PostUserComment;
 import org.herovole.blogproj.application.postusercomment.PostUserCommentInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,15 +35,23 @@ public class AdminV1UserCommentController {
     @PostMapping
     public ResponseEntity<String> postComment(
             @RequestBody Map<String, String> request,
-            HttpServletRequest servletRequest
+            @CookieValue(name = "flag", defaultValue = "") String uuId,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse
     ) {
         logger.info("Endpoint : userComments (Post) ");
-        System.out.println(request);
 
         try {
+            ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
+            ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
-            PostUserCommentInput input = PostUserCommentInput.fromFormContent(formContent);
+            PostUserCommentInput input = new PostUserCommentInput.Builder()
+                    .setiPv4Address(servletRequest.getUserIp())
+                    .setUuId(uuId)
+                    .setFormContent(formContent)
+                    .build();
             this.postUserComment.process(input);
+            servletResponse.setCookie("flag");
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());

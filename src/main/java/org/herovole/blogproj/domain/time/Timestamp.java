@@ -2,6 +2,7 @@ package org.herovole.blogproj.domain.time;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Timestamp implements Comparable<Timestamp> {
 
@@ -52,8 +54,12 @@ public class Timestamp implements Comparable<Timestamp> {
 
     private final LocalDateTime localDateTime;
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return this.localDateTime == null;
+    }
+
+    public boolean precedes(Timestamp that) {
+        return this.isEmpty() || that.isEmpty() || this.localDateTime.isBefore(that.localDateTime);
     }
 
     public String letterSignatureYyyyMMddSpaceHHmmss() {
