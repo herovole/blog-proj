@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.editarticle;
+package org.herovole.blogproj.application.article.editarticle;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;

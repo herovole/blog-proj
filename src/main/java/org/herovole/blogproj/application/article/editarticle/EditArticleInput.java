@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.editarticle;
+package org.herovole.blogproj.application.article.editarticle;
 
 import lombok.AccessLevel;
 import lombok.Getter;

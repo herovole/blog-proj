@@ -1,16 +1,17 @@
-package org.herovole.blogproj.application.postusercomment;
+package org.herovole.blogproj.application.user.postusercomment;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.CommentText;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
@@ -23,7 +24,7 @@ public class PostUserCommentInput {
 
     public static class Builder {
         private IPv4Address iPv4Address;
-        private String uuId;
+        private UniversallyUniqueId uuId;
         private FormContent formContent;
 
         public Builder setiPv4Address(IPv4Address iPv4Address) {
@@ -31,7 +32,7 @@ public class PostUserCommentInput {
             return this;
         }
 
-        public Builder setUuId(String uuId) {
+        public Builder setUuId(UniversallyUniqueId uuId) {
             this.uuId = uuId;
             return this;
         }
@@ -48,8 +49,9 @@ public class PostUserCommentInput {
             FormContent children = formContent.getChildren(API_KEY_PREFIX);
             return new PostUserCommentInput(
                     iPv4Address,
-                    UniversallyUniqueId.valueOf(uuId),
+                    uuId,
                     IntegerId.fromFormContentArticleId(children),
+                    HandleName.fromFormContentHandleName(children),
                     CommentText.fromFormContentCommentText(children)
             );
         }
@@ -61,6 +63,7 @@ public class PostUserCommentInput {
     private final UniversallyUniqueId uuId;
 
     private final IntegerId articleId;
+    private final HandleName handleName;
     private final CommentText commentText;
 
     CommentUnit buildCommentUnit() {
@@ -68,6 +71,7 @@ public class PostUserCommentInput {
                 .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.empty())
                 .articleId(articleId)
+                .handleName(handleName)
                 .commentText(commentText)
                 .isHidden(GenericSwitch.negative())
                 .referringCommentIds(IntegerIds.empty())

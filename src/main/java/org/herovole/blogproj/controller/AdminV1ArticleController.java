@@ -1,14 +1,14 @@
 package org.herovole.blogproj.controller;
 
 import com.google.gson.Gson;
-import org.herovole.blogproj.application.editarticle.EditArticle;
-import org.herovole.blogproj.application.editarticle.EditArticleInput;
-import org.herovole.blogproj.application.findarticle.FindArticle;
-import org.herovole.blogproj.application.findarticle.FindArticleInput;
-import org.herovole.blogproj.application.findarticle.FindArticleOutput;
-import org.herovole.blogproj.application.searcharticles.SearchArticles;
-import org.herovole.blogproj.application.searcharticles.SearchArticlesInput;
-import org.herovole.blogproj.application.searcharticles.SearchArticlesOutput;
+import org.herovole.blogproj.application.article.editarticle.EditArticle;
+import org.herovole.blogproj.application.article.editarticle.EditArticleInput;
+import org.herovole.blogproj.application.article.findarticle.FindArticle;
+import org.herovole.blogproj.application.article.findarticle.FindArticleInput;
+import org.herovole.blogproj.application.article.findarticle.FindArticleOutput;
+import org.herovole.blogproj.application.article.searcharticles.SearchArticles;
+import org.herovole.blogproj.application.article.searcharticles.SearchArticlesInput;
+import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.slf4j.Logger;

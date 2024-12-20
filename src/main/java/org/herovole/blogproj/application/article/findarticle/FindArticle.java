@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.findarticle;
+package org.herovole.blogproj.application.article.findarticle;
 
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.article.Article;

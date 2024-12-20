@@ -1,9 +1,10 @@
-package org.herovole.blogproj.domain;
+package org.herovole.blogproj.domain.comment;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.herovole.blogproj.domain.FormContent;
 
 @ToString
 @EqualsAndHashCode

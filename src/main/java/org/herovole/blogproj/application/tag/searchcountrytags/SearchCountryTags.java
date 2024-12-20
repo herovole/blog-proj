@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.searchcountrytags;
+package org.herovole.blogproj.application.tag.searchcountrytags;
 
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.tag.country.CountryTagDatasource;

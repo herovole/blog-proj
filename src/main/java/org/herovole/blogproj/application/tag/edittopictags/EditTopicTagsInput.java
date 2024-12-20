@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.edittopictags;
+package org.herovole.blogproj.application.tag.edittopictags;
 
 import lombok.AccessLevel;
 import lombok.Getter;

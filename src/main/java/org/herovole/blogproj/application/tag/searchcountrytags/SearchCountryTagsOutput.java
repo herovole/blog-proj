@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.searchcountrytags;
+package org.herovole.blogproj.application.tag.searchcountrytags;
 
 import lombok.Builder;
 import org.herovole.blogproj.domain.tag.country.CountryTagUnit;

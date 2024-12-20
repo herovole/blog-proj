@@ -1,14 +1,14 @@
 package org.herovole.blogproj.controller;
 
 import com.google.gson.Gson;
-import org.herovole.blogproj.application.edittopictags.EditTopicTags;
-import org.herovole.blogproj.application.edittopictags.EditTopicTagsInput;
-import org.herovole.blogproj.application.searchcountrytags.SearchCountryTags;
-import org.herovole.blogproj.application.searchcountrytags.SearchCountryTagsInput;
-import org.herovole.blogproj.application.searchcountrytags.SearchCountryTagsOutput;
-import org.herovole.blogproj.application.searchtopictags.SearchTopicTags;
-import org.herovole.blogproj.application.searchtopictags.SearchTopicTagsInput;
-import org.herovole.blogproj.application.searchtopictags.SearchTopicTagsOutput;
+import org.herovole.blogproj.application.tag.edittopictags.EditTopicTags;
+import org.herovole.blogproj.application.tag.edittopictags.EditTopicTagsInput;
+import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTags;
+import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsInput;
+import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsOutput;
+import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTags;
+import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsInput;
+import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.searcharticles;
+package org.herovole.blogproj.application.article.searcharticles;
 
 import lombok.Builder;
 import org.herovole.blogproj.domain.article.Articles;

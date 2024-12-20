@@ -1,26 +1,23 @@
-package org.herovole.blogproj.application.searchtopictags;
+package org.herovole.blogproj.application.tag.searchcountrytags;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 
 @ToString
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class SearchTopicTagsInput {
-
-    private static final String API_KEY = "topicTags";
+public class SearchCountryTagsInput {
 
     //?page=...&itemsPerPage=...&isDetailed=...
-    public static SearchTopicTagsInput fromFormContent(FormContent formContent) {
-        FormContent contents = formContent.getChildren(API_KEY);
-        return new SearchTopicTagsInput(
-                PagingRequest.fromFormContent(contents),
-                GenericSwitch.fromFormContentIsDetailed(contents)
+    public static SearchCountryTagsInput fromFormContent(FormContent formContent) {
+        return new SearchCountryTagsInput(
+                PagingRequest.fromFormContent(formContent),
+                GenericSwitch.fromFormContentIsDetailed(formContent)
         );
     }
 

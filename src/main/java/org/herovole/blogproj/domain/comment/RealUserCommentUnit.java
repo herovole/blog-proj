@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.herovole.blogproj.domain.CommentText;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
@@ -25,6 +24,7 @@ public class RealUserCommentUnit implements CommentUnit {
                 .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .articleId(IntegerId.fromFormContentArticleId(formContent))
+                .handleName(HandleName.fromFormContentHandleName(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
                 .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
@@ -37,6 +37,8 @@ public class RealUserCommentUnit implements CommentUnit {
 
     @EqualsAndHashCode.Include
     private final IntegerId articleId;
+    @EqualsAndHashCode.Include
+    private final HandleName handleName;
     @EqualsAndHashCode.Include
     private final CommentText commentText;
     @EqualsAndHashCode.Include
@@ -75,6 +77,7 @@ public class RealUserCommentUnit implements CommentUnit {
                 this.commentSerialNumber.longMemorySignature(),
                 this.commentId.intMemorySignature(),
                 this.articleId.intMemorySignature(),
+                this.handleName.memorySignature(),
                 this.commentText.memorySignature(),
                 this.isHidden.memorySignature(),
                 this.referringCommentIds.toIntMemorySignature(),
@@ -89,6 +92,7 @@ public class RealUserCommentUnit implements CommentUnit {
             long commentSerialNumber,
             Integer commentId,
             Integer articleId,
+            String handleName,
             String commentText,
             boolean isHidden,
             int[] referringCommentIds,

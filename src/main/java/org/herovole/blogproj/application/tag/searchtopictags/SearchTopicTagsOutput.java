@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.searchtopictags;
+package org.herovole.blogproj.application.tag.searchtopictags;
 
 import lombok.Builder;
 import org.herovole.blogproj.domain.tag.topic.TagUnit;
