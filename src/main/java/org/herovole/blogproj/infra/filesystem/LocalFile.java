@@ -9,11 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class LocalFile {
 
-    static LocalFile of(Path path) throws IOException {
+    public static LocalFile of(Path path, LocalFileSystem fs) throws IOException {
+        fs.verify(path);
         if (Files.exists(path) && !Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS))
             throw new IOException(path + "is not a file");
         return new LocalFile(path);
@@ -36,6 +38,10 @@ public class LocalFile {
 
     public String getName() {
         return this.path.getFileName().toString();
+    }
+
+    public Stream<String> readLines() throws IOException {
+        return Files.lines(path);
     }
 
 }

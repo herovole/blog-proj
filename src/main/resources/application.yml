@@ -21,6 +21,7 @@ spring:
     local:
       boundary: C:/home/git/blog-proj/app_utility
       images: C:/home/git/blog-proj/app_utility/images
+      comment_blacklist: C:/home/git/blog-proj/app_utility/comment_blacklist.txt
 server:
   tomcat:
     access_log_enabled: true
