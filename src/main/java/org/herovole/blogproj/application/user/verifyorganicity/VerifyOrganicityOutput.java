@@ -1,33 +1,31 @@
 package org.herovole.blogproj.application.user.verifyorganicity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@RequiredArgsConstructor
 public class VerifyOrganicityOutput {
+    private final Boolean isHuman;
 
-    private final UniversallyUniqueId uuId;
-    private final Timestamp timestampBannedUntil;
+    public boolean isHuman() {
+        return isHuman != null && isHuman;
+    }
 
-    public boolean hasPassed() {
-        return timestampBannedUntil.isEmpty();
+    public boolean isSuccessful() {
+        return isHuman != null;
     }
 
     record Json(
-            String timestampBannedUntil
+            boolean isHuman,
+            boolean isSuccessful
     ) {
     }
 
-    public Json toJsonModel() {
-        return new Json(timestampBannedUntil.letterSignatureFrontendDisplay());
+    public VerifyOrganicityOutput.Json toJsonModel() {
+        return new VerifyOrganicityOutput.Json(isHuman(), isSuccessful());
     }
 }
 

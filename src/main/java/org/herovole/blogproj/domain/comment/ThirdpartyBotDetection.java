@@ -5,5 +5,5 @@ import org.herovole.blogproj.domain.IPv4Address;
 import java.io.IOException;
 
 public interface ThirdpartyBotDetection {
-    float receiveProbabilityOfBeingHuman(String verificationToken, IPv4Address iPv4Address) throws IOException, InterruptedException;
+    Float receiveProbabilityOfBeingHuman(String verificationToken, IPv4Address iPv4Address) throws IOException, InterruptedException;
 }

@@ -9,6 +9,9 @@ import org.herovole.blogproj.application.user.checkuser.CheckUserOutput;
 import org.herovole.blogproj.application.user.postusercomment.PostUserComment;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentInput;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentOutput;
+import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicity;
+import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicityInput;
+import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicityOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
@@ -30,22 +33,27 @@ import java.util.Map;
 public class AdminV1UserCommentController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1UserCommentController.class.getSimpleName());
 
+    private static final String KEY_UUID = "uuId";
+    private static final String KEY_BOT_DETECTION_TOKEN = "token";
     private final CheckUser checkUser;
+    private final VerifyOrganicity verifyOrganicity;
     private final PostUserComment postUserComment;
 
     @Autowired
     AdminV1UserCommentController(
             CheckUser checkUser,
+            VerifyOrganicity verifyOrganicity,
             PostUserComment postUserComment
     ) {
         this.checkUser = checkUser;
+        this.verifyOrganicity = verifyOrganicity;
         this.postUserComment = postUserComment;
     }
 
     @PostMapping
     public ResponseEntity<String> postComment(
             @RequestBody Map<String, String> request,
-            @CookieValue(name = "uuId", defaultValue = "") String uuId,
+            @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse
     ) {
@@ -60,10 +68,25 @@ public class AdminV1UserCommentController {
                     .uuId(UniversallyUniqueId.valueOf(uuId))
                     .build();
             CheckUserOutput checkUserOutput = this.checkUser.process(checkUserInput);
-            servletResponse.setCookie("uuId", checkUserOutput.getUuId().letterSignature());
+            servletResponse.setCookie(KEY_UUID, checkUserOutput.getUuId().letterSignature());
             if (!checkUserOutput.hasPassed()) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Gson().toJson(checkUserOutput.toJsonModel()));
             }
+
+            // Check if a User is not BOT
+            VerifyOrganicityInput verifyOrganicityInput = VerifyOrganicityInput.builder()
+                    .iPv4Address(servletRequest.getUserIp())
+                    .uuId(UniversallyUniqueId.valueOf(uuId))
+                    .verificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
+                    .build();
+            VerifyOrganicityOutput verifyOrganicityOutput = this.verifyOrganicity.process(verifyOrganicityInput);
+            if (!verifyOrganicityOutput.isSuccessful()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Gson().toJson(verifyOrganicityOutput.toJsonModel()));
+            }
+            if (!verifyOrganicityOutput.isHuman()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Gson().toJson(verifyOrganicityOutput.toJsonModel()));
+            }
+
 
             // Post user comment
             FormContent formContent = FormContent.of(request);
