@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 @Data
 @Component
@@ -27,27 +26,35 @@ public class LocalProperty {
 
     private static final Logger logger = LoggerFactory.getLogger(LocalProperty.class.getSimpleName());
     private String boundary;
-    private String images;
-    private String commentBlacklist;
+    private String config;
 
     private LocalFileSystem buildLocalFileSystem() throws HazardousFileSystemNodeException {
-        logger.info("Bean : {}", LocalFileSystem.class.getSimpleName());
+        logger.info("Bean component : {}", LocalFileSystem.class.getSimpleName());
         return new LocalFileSystem(boundary);
+    }
+
+    private ConfigFile getConfigFile() throws IOException {
+        logger.info("Bean component : {}", ConfigFile.class.getSimpleName());
+        return ConfigFile.of(config, this.buildLocalFileSystem());
     }
 
     @Bean
     public ImageDatasource buildImageDatasourceLocalFs() throws IOException {
-        Path directoryPath = Path.of(images);
         LocalFileSystem localFileSystem = this.buildLocalFileSystem();
-        LocalDirectory imageDirectory = LocalDirectory.of(directoryPath, localFileSystem);
+        LocalDirectory imageDirectory = LocalDirectory.of(
+                this.getConfigFile().getImageDirectoryPath(),
+                localFileSystem
+        );
         return new ImageDatasourceLocalFs(imageDirectory);
     }
 
     @Bean
     public CommentBlackList buildCommentBlacklist() throws IOException {
-        Path filePath = Path.of(commentBlacklist);
         LocalFileSystem localFileSystem = this.buildLocalFileSystem();
-        LocalFile localFile = LocalFile.of(filePath, localFileSystem);
-        return CommentBlackListLocalFile.of(localFile);
+        LocalFile commentBlacklistFile = LocalFile.of(
+                this.getConfigFile().getCommentBlacklistFilePath(),
+                localFileSystem
+        );
+        return CommentBlackListLocalFile.of(commentBlacklistFile);
     }
 }

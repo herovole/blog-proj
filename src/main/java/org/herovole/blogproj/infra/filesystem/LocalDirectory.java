@@ -20,6 +20,10 @@ public class LocalDirectory {
         return new LocalDirectory(path, fs);
     }
 
+    public static LocalDirectory of(String path, LocalFileSystem fs) throws IOException {
+        return of(Path.of(path), fs);
+    }
+
     private final Path path;
     private final LocalFileSystem fs;
 

@@ -21,6 +21,10 @@ public class LocalFile {
         return new LocalFile(path);
     }
 
+    public static LocalFile of(String path, LocalFileSystem fs) throws IOException {
+        return of(Path.of(path), fs);
+    }
+
     private final Path path;
 
     public Path toPath() {
