@@ -16,37 +16,48 @@ import { Sandbox } from './admin/sandbox';
 import { PageArticleList } from './admin/pageArticleList';
 import { PageArticle } from './admin/pageArticle';
 import { PageTopicTagList } from './admin/pageTopicTagList';
+import { ArticleView } from './public/pageArticleView';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 
 console.log("app.js");
 
 function App () {
-  return (
-    <div className="App">
-      <h1>これはRoutesの外側のエレメント</h1>
 
-      <Routes> {/*Routesで囲む*/}
-        <Route path="/" element={ <Home /> } /> {}
-        <Route path="/about" element={ <About /> } /> {}
-        <Route path="/contact" element={ <Contact  message="Hello" /> } /> {}
-        <Route path="/*" element={ <NotFound /> } /> {}
+    static googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
 
-        <Route path="/about" element={ <About /> } /> {}
-        <Route path="/admin" element={ <AdminEntrance /> } /> {}
-        <Route path="/admin/newarticle" element={ <Sandbox/> } /> {}
-        <Route path="/admin/sandbox" element={ <Sandbox/> } /> {}
+    return (
+        <div className="App">
+            <h1>これはRoutesの外側のエレメント</h1>
+
+            <Routes> {/*Routesで囲む*/}
+                <Route path="/" element={ <Home /> } /> {}
+                <Route path="/about" element={ <About /> } /> {}
+                <Route path="/contact" element={ <Contact  message="Hello" /> } /> {}
+                <Route path="/*" element={ <NotFound /> } /> {}
+
+                <Route path="/about" element={ <About /> } /> {}
+                <Route path="/admin" element={ <AdminEntrance /> } /> {}
+                <Route path="/admin/newarticle" element={ <Sandbox/> } /> {}
+                <Route path="/admin/sandbox" element={ <Sandbox/> } /> {}
 
 
-        <Route path="/admin/articles/:articleId" element={ <PageArticle/> } /> {}
-        <Route path="/admin/articles" element={ <PageArticleList/> } /> {}
-        <Route path="/admin/topictags" element={ <PageTopicTagList/> } /> {}
+                <Route path="/admin/articles/:articleId" element={ <PageArticle/> } /> {}
+                <Route path="/admin/articles" element={ <PageArticleList/> } /> {}
+                <Route path="/admin/topictags" element={ <PageTopicTagList/> } /> {}
 
-      </Routes>
+                <Route path="/articles/:articleId" element={
+                    <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                        <ArticleView/>
+                    </GoogleReCaptchaProvider>
+                } /> {}
 
-      <h1>これもRoutesの外側のエレメント</h1>
-      <Footer/>
-    </div>
-  );
+            </Routes>
+
+            <h1>これもRoutesの外側のエレメント</h1>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;

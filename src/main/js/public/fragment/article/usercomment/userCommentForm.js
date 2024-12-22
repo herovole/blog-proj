@@ -1,6 +1,9 @@
 import React from 'react';
+import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export const UserCommentViewer = ({postKey, articleId, evokerFunc}) => {
+    const [refresh, setRefresh] = React.useState(false);
+    const [token, setToken] = React.useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,18 +21,32 @@ export const UserCommentViewer = ({postKey, articleId, evokerFunc}) => {
 
     }
 
+    const onVerify = (token) => {
+        setToken(token);
+    }
+    const refreshReCaptcha = () => {
+        setRefresh(r => !r);
+    }
+
     return (
-        <form onSubmit={this.handleSubmit}>
-            <div class="frame-unit">
-                <hidden name={postKey.append("articleId").toStringKey()} value={articleId} />
-                <textarea
-                  class="editable-text-activated scale-large-flexible"
-                  placeholder="Comment here..."
-                  name={{postKey.append("text").toStringKey()}}
-                />
-            </div>
-            <button type="submit">投稿</button>
-        </form>
+        <>
+            <form onSubmit={this.handleSubmit}>
+                <div class="frame-unit">
+                    <hidden name={postKey.append("articleId").toStringKey()} value={articleId} />
+                    <textarea
+                      class="editable-text-activated scale-large-flexible"
+                      placeholder="Comment here..."
+                      name={{postKey.append("text").toStringKey()}}
+                    />
+                    <input type="hidden" name="token" value={token} />
+                </div>
+                <button type="submit">投稿</button>
+            </form>
+            <GoogleReCaptcha
+              onVerify={onVerify}
+              refreshReCaptcha={refreshReCaptcha}
+            />
+        </>
     );
 }
 

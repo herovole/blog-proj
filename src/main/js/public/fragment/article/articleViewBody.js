@@ -14,7 +14,7 @@ import { TagUnitList } from '../atomic/tagselectingform/tagUnitList';
 //  article : Article
 //  topicTagOptions, : TagUnitList
 //  countryTagOptions : TagUnitList
-export const ArticleViewer = ({postKey, article, topicTagOptions, countryTagOptions}) => {
+export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent page reload
