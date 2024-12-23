@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EUserCommentRepository extends JpaRepository<EUserComment, Long> {
 
@@ -20,5 +22,15 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "Where article_id = :articleId " +
             "limit 1", nativeQuery = true)
     Integer findMaxCommentId(@Param("articleId") int articleId);
+
+    @Query(value = "Select * " +
+            "From e_user_comment " +
+            "Where " +
+            "  article_id = :articleId" +
+            "Order By comment_id", nativeQuery = true)
+    List<EUserComment> findByArticleId(@Param("articleId") long articleId);
+
+    @Query(value = "Select COUNT(*) From e_user_comment Where article_id = :articleId", nativeQuery = true)
+    int countByArticleId(@Param("articleId") long articleId);
 
 }

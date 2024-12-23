@@ -28,6 +28,7 @@ public class ConfigFile {
     private static final String CONFIG_SEPARATOR = "=";
     private static final String CONFIG_KEY_IMAGES = "images";
     private static final String CONFIG_KEY_COMMENT_BLACKLIST = "comment_blacklist";
+    private static final String CONFIG_KEY_G_RECAPTCHA_SECRET_KEY = "g_recaptcha_sercret_key";
 
     private final Map<String, String> configs;
 
@@ -37,5 +38,9 @@ public class ConfigFile {
 
     String getCommentBlacklistFilePath() {
         return this.configs.get(CONFIG_KEY_COMMENT_BLACKLIST);
+    }
+
+    String getGoogleReCaptchaSecretKey() {
+        return this.configs.get(CONFIG_KEY_G_RECAPTCHA_SECRET_KEY);
     }
 }

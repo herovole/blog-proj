@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,6 +23,13 @@ import java.time.LocalDateTime;
 @Table(name = "e_public_user")
 @Data
 public class EPublicUser implements Serializable {
+
+    public static EPublicUser fromUuId(UniversallyUniqueId uuId) {
+        if (uuId.isEmpty()) throw new IllegalArgumentException();
+        EPublicUser entity = new EPublicUser();
+        entity.setUuId(uuId.memorySignature());
+        return entity;
+    }
 
     @Id
     @EqualsAndHashCode.Include

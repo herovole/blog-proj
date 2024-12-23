@@ -9,11 +9,13 @@ import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.EUserComment;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasourceMySql implements UserCommentTransactionalDatasource {
     private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override

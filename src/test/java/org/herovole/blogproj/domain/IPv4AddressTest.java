@@ -17,7 +17,7 @@ class IPv4AddressTest {
         assertTrue(IPv4Address.valueOf((Long) null).isEmpty());
         assertTrue(IPv4Address.valueOf("").isEmpty());
         assertTrue(IPv4Address.valueOf((String) null).isEmpty());
-        assertFalse(IPv4Address.valueOf(256 ^ 2L).isEmpty());
+        assertFalse(IPv4Address.valueOf(256L * 256).isEmpty());
         assertFalse(IPv4Address.valueOf("123.123.123.123").isEmpty());
     }
 
@@ -31,8 +31,8 @@ class IPv4AddressTest {
 
     @Test
     void aton() {
-        assertEquals(256 ^ 2L, IPv4Address.valueOf(256 ^ 2L).aton());
-        assertEquals(256 ^ 4L, IPv4Address.valueOf(256 ^ 4L).aton());
+        assertEquals(256L * 256, IPv4Address.valueOf(256L * 256).aton());
+        assertEquals(256L * 256 * 256 * 256 - 1, IPv4Address.valueOf(256L * 256 * 256 * 256 - 1).aton());
         assertEquals(0L, IPv4Address.valueOf(0L).aton());
         assertEquals(0L, IPv4Address.valueOf((Long) null).aton());
     }

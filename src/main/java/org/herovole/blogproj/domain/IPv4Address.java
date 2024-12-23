@@ -10,11 +10,11 @@ import java.net.InetAddress;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IPv4Address {
 
-    private static final long MAX_ADDRESS = 256 ^ 4 - 1;
+    private static final long MAX_ADDRESS = 256L * 256 * 256 * 256 - 1;
 
     public static IPv4Address valueOf(Long aton) {
         if (aton == null || aton == 0) return empty();
-        if (0 < aton && aton < MAX_ADDRESS) {
+        if (0L < aton && aton <= MAX_ADDRESS) {
             return new IPv4Address(aton);
         }
         throw new IllegalArgumentException("Invalid IPv4 address: " + aton);

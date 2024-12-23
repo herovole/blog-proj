@@ -4,6 +4,7 @@ import lombok.Data;
 import org.herovole.blogproj.domain.comment.CommentBlackList;
 import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.infra.datasource.CommentBlackListLocalFile;
+import org.herovole.blogproj.infra.datasource.GoogleReCaptchaResultServer;
 import org.herovole.blogproj.infra.datasource.ImageDatasourceLocalFs;
 import org.herovole.blogproj.infra.filesystem.HazardousFileSystemNodeException;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
@@ -56,5 +57,10 @@ public class LocalProperty {
                 localFileSystem
         );
         return CommentBlackListLocalFile.of(commentBlacklistFile);
+    }
+
+    @Bean
+    public GoogleReCaptchaResultServer buildGoogleReCaptchaResultServer() throws IOException {
+        return GoogleReCaptchaResultServer.of(this.getConfigFile().getGoogleReCaptchaSecretKey());
     }
 }
