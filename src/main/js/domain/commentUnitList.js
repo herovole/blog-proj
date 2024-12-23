@@ -1,18 +1,14 @@
-
-import { SourceCommentUnit } from '../admin/fragment/articleeditingpage/commenteditor/sourceCommentUnit'
-import { UserCommentUnit } from '../public/fragment/usercomment/userCommentUnit'
-
 export class CommentUnitList {
 
     static fromHash(array) {
         console.log("comment unit list : " + JSON.stringify(array));
-        var arrayListOfComments = array.map(child => CommentUnit.fromHash(child));
+        const arrayListOfComments = array.map(child => CommentUnit.fromHash(child));
         return new CommentUnitList(arrayListOfComments);
     }
 
     static fromHashAsUserCommentUnits(array) {
         console.log("user comment unit list : " + JSON.stringify(array));
-        var arrayListOfComments = array.map(child => UserCommentUnit.fromHash(child));
+        const arrayListOfComments = array.map(child => UserCommentUnit.fromHash(child));
         return new CommentUnitList(arrayListOfComments);
     }
 
@@ -22,7 +18,7 @@ export class CommentUnitList {
     }
 
     constructor(arrayListOfComments) {
-        this.arrayListOfComments = arrayListOfComments ? arrayListOfComments : [];
+        this.arrayListOfComments = arrayListOfComments || [];
     }
 
     getElementNumber() {
@@ -34,21 +30,21 @@ export class CommentUnitList {
     }
 
     sort() {
-        var newList = new CommentUnitList();
-        for(var i = 0; i < this.arrayListOfComments.length; i++) {
-            var unit = this.arrayListOfComments[i];
-            var refId = unit.getLatestReferringId();
-            if(refId < 0) {
+        let newList = new CommentUnitList();
+        for (const element of this.arrayListOfComments) {
+            const unit = element;
+            const refId = unit.getLatestReferringId();
+            if (refId < 0) {
                 newList = newList.appendUnit(unit);
                 console.log("added : " + unit.commentId);
                 console.log("comments : " + newList.getElementNumber());
             } else {
-                var referredUnit = newList.getById(refId);
-                if(!referredUnit) {
+                const referredUnit = newList.getById(refId);
+                if (!referredUnit) {
                     newList = newList.appendUnit(unit);
                     continue;
                 }
-                var appendedUnit = unit.applyDepth(referredUnit.depth + 1);
+                const appendedUnit = unit.applyDepth(referredUnit.depth + 1);
                 newList = newList.insertRightBeforeNextConversation(refId, appendedUnit);
             }
 
@@ -58,7 +54,7 @@ export class CommentUnitList {
     }
 
     appendUnit(unit) {
-        var newArray = this.arrayListOfComments.slice();
+        let newArray = this.arrayListOfComments.slice();
         console.log("slice length before : " + newArray.length);
         newArray.push(unit);
         console.log("slice length after : " + newArray.length);
@@ -67,33 +63,35 @@ export class CommentUnitList {
 
     getByInArticleCommentId(commentId) {
         console.log("finding :" + commentId);
-        for(var u of this.arrayListOfComments) {
+        for (let u of this.arrayListOfComments) {
             console.log("looking :" + u.getInArticleCommentId());
-            if(u.getInArticleCommentId() == commentId) { return u; }
+            if (u.getInArticleCommentId() === commentId) {
+                return u;
+            }
         }
         return null;
     }
 
     insertRightBeforeNextConversation(commentId, unit) {
-        var originIndex = -1;
-        var originUnit;
+        let originIndex = -1;
+        let originUnit;
         console.log("insertRightBeforeNextConversation referring to " + commentId + " by " + unit.getInArticleCommentId());
-        for(var i = 0; i < this.arrayListOfComments.length; i++) {
-            if(this.arrayListOfComments[i].getInArticleCommentId() == commentId) {
+        for (let i = 0; i < this.arrayListOfComments.length; i++) {
+            if (this.arrayListOfComments[i].getInArticleCommentId() === commentId) {
                 originIndex = i;
                 originUnit = this.arrayListOfComments[i];
             }
         }
         console.log("originIndex " + originIndex);
-        if(originIndex < 0) {
+        if (originIndex < 0) {
             console.log("originIndex not found");
             return this;
         }
 
-        var newArray = this.arrayListOfComments.slice();
-        for(var i = originIndex + 1; i < this.arrayListOfComments.length; i++) {
+        let newArray = this.arrayListOfComments.slice();
+        for (let i = originIndex + 1; i < this.arrayListOfComments.length; i++) {
             console.log("index " + i + " depth " + this.arrayListOfComments[i].depth);
-            if(this.arrayListOfComments[i].depth <= originUnit.depth) {
+            if (this.arrayListOfComments[i].depth <= originUnit.depth) {
                 newArray.splice(i, 0, unit);
                 return new CommentUnitList(newArray);
             }

@@ -1,79 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { BasicClass } from './basicclass';
-import { DateSelectingForm } from './fragment/atomic/dateSelectingForm';
-import { TagSelectingForm } from './fragment/atomic/tagselectingform/tagSelectingForm';
-import { TagUnitList } from './fragment/atomic/tagselectingform/tagUnitList';
-import { ArticleEditingPageBody } from './fragment/articleeditingpage/articleEditingPageBody';
-import { ElementId } from '../domain/elementId';
-import { SourceCommentUnit } from './fragment/articleeditingpage/commenteditor/sourceCommentUnit';
-import { CommentUnitList } from '../domain/commentUnitList';
-import { Article } from './fragment/articleeditingpage/article';
-import { ImageSelectingModal } from './fragment/image/imageSelectingModal';
-import { ArticleListBody } from './fragment/articlelist/articleListBody';
+import {DateSelectingForm} from './fragment/atomic/dateSelectingForm';
+import {TagSelectingForm} from './fragment/atomic/tagselectingform/tagSelectingForm';
+import {TagUnitList} from './fragment/atomic/tagselectingform/tagUnitList';
+import {ArticleEditingPageBody} from './fragment/articleeditingpage/articleEditingPageBody';
+import {ElementId} from '../domain/elementId';
+import {CommentUnitList} from '../domain/commentUnitList';
+import {ImageSelectingModal} from './fragment/image/imageSelectingModal';
+import {ArticleListBody} from './fragment/articlelist/articleListBody';
+import {SourceCommentUnit} from "../domain/sourceCommentUnit";
 
 console.log("sandbox.js");
 
-var rootId = new ElementId("root");
-var first = rootId.append("1stLevel");
-var second = first.append("2ndLevel");
-var another = rootId.append("another");
+const rootId = new ElementId("root");
+const first = rootId.append("1stLevel");
+const second = first.append("2ndLevel");
+const another = rootId.append("another");
 
 console.log(rootId.toStringKey());
 console.log(first.toStringKey());
 console.log(second.toStringKey());
 console.log(another.toStringKey());
 
-var comment1 = new SourceCommentUnit(
+const comment1 = new SourceCommentUnit(
     1,
     "This is comment1.",
     "us",
     false,
     []
 );
-var comment2 = new SourceCommentUnit(
+const comment2 = new SourceCommentUnit(
     2,
     "This is comment2.",
     "us",
     false,
     []
 );
-var comment3 = new SourceCommentUnit(
+const comment3 = new SourceCommentUnit(
     3,
     "This is comment3.",
     "us",
     false,
     []
 );
-var comment4 = new SourceCommentUnit(
+const comment4 = new SourceCommentUnit(
     4,
     "This is comment4.",
     "us",
     false,
     [1]
 );
-var comment5 = new SourceCommentUnit(
+const comment5 = new SourceCommentUnit(
     5,
     "This is comment5.",
     "us",
     false,
     [4]
 );
-var comment6 = new SourceCommentUnit(
+const comment6 = new SourceCommentUnit(
     6,
     "This is comment6.",
     "us",
     false,
-    [2,3]
+    [2, 3]
 );
-var comment7 = new SourceCommentUnit(
+const comment7 = new SourceCommentUnit(
     7,
     "This is comment7.",
     "us",
     false,
     []
 );
-var comment8 = new SourceCommentUnit(
+const comment8 = new SourceCommentUnit(
     8,
     "This is comment8.",
     "us",
@@ -82,15 +80,15 @@ var comment8 = new SourceCommentUnit(
 );
 
 
-var testCommentUnitList = new CommentUnitList(
-    [comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8]
+const testCommentUnitList = new CommentUnitList(
+    [comment1, comment2, comment3, comment4, comment5, comment6, comment7, comment8]
 );
 /*
-var testCommentUnitList = new CommentUnitList(
+const testCommentUnitList = new CommentUnitList(
     [comment1,comment2,comment3,comment4]
 );
 */
-var testArticle = new Article(
+const testArticle = new Article(
     14,
     "",
     "Title123",
@@ -99,13 +97,13 @@ var testArticle = new Article(
     "source title123",
     "2024/11/06",
     true,
-    [1,2,3],
+    [1, 2, 3],
     testCommentUnitList,
     new CommentUnitList()
 );
 
 
-export const Sandbox = () =>{
+export const Sandbox = () => {
     const [topicTagsOptions, setTopicTagsOptions] = useState(null);
     const [countryTagsOptions, setCountryTagsOptions] = useState(null);
 
@@ -114,15 +112,15 @@ export const Sandbox = () =>{
             try {
 
                 const topicResponse = await axios.get("/api/v1/topicTags", {
-                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
-                    headers: { Accept: "application/json" },
+                    params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
+                    headers: {Accept: "application/json"},
                 });
                 const topicUnitList = TagUnitList.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
-                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
-                    headers: { Accept: "application/json" },
+                    params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
+                    headers: {Accept: "application/json"},
                 });
                 const countryUnitList = TagUnitList.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
@@ -134,7 +132,7 @@ export const Sandbox = () =>{
         fetchTagsOptions();
     }, []);
 
-    var selectedTags = ["af"];
+    const selectedTags = ["af"];
 
     return <div>
         <div>
@@ -150,15 +148,15 @@ export const Sandbox = () =>{
         <div>
             test3:
             <DateSelectingForm
-              postKey={new ElementId("dsf")}
+                postKey={new ElementId("dsf")}
             />
         </div>
         <div>
             test4:
             <TagSelectingForm
-              postKey={new ElementId("tsf")}
-              candidates={countryTagsOptions ? countryTagsOptions : new TagUnitList()}
-              selectedTagIds={selectedTags}
+                postKey={new ElementId("tsf")}
+                candidates={countryTagsOptions || new TagUnitList()}
+                selectedTagIds={selectedTags}
             />
         </div>
         <div>
@@ -172,7 +170,7 @@ export const Sandbox = () =>{
                 content={testArticle}
                 topicTagOptions={topicTagsOptions}
                 countryTagOptions={countryTagsOptions}
-                />
+            />
         </div>
 
     </div>

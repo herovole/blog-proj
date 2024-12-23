@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-bootstrap/Pagination';
@@ -10,7 +10,7 @@ import {SearchArticlesOutput} from "./searchArticlesOutput"
 export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
     const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const LETTERS_PICKUP = 50;
-    const PAGES_VISIBLE = 15;
+    //const PAGES_VISIBLE = 15;
     const [inputCached, setInputCached] = useState(SearchArticlesInput.byDefault(formKey));
     const [inputFixed, setInputFixed] = useState(SearchArticlesInput.byDefault(formKey));
     const [output, setOutput] = useState(SearchArticlesOutput.empty());
@@ -33,7 +33,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
         // Trigger the form submission manually
         inputCached.appendPage(page);
         const form = document.querySelector('form');
-        if (form) form.dispatchEvent(new Event('submit', { cancelable: true }));
+        if (form) form.dispatchEvent(new Event('submit', {cancelable: true}));
     }
 
     const handleSubmit = async (event) => {
@@ -42,7 +42,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
         // submitter exists if normal submit button is invoked.
         // submitter is absent if pager is invoked.
         var input;
-        if(event.nativeEvent.submitter) {
+        if (event.nativeEvent.submitter) {
             input = inputCached;
             setInputFixed({...inputCached});
         } else {
@@ -56,7 +56,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
         try {
             const response = await axios.get("/api/v1/articles", {
                 params: input.toUrlSearchParams(),
-                headers: { Accept: "application/json" },
+                headers: {Accept: "application/json"},
             });
 
             console.log(response);
@@ -76,7 +76,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
     }
 
     const totalPages = () => {
-        return output.totalArticles % inputFixed.itemsPerPage == 0
+        return output.totalArticles % inputFixed.itemsPerPage === 0
             ? output.totalArticles / inputFixed.itemsPerPage
             : Math.floor(output.totalArticles / inputFixed.itemsPerPage) + 1;
     }
@@ -95,9 +95,10 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
                 </button>
 
                 <Pagination size="sm" className="pull-right">
-                    <Pagination.First onClick={() => handlePageChanged(1)} />
-                    <Pagination.Prev onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)} />
-                    {Array.from({ length: totalPages() }, (_, i) => (
+                    <Pagination.First onClick={() => handlePageChanged(1)}/>
+                    <Pagination.Prev
+                        onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
+                    {Array.from({length: totalPages()}, (_, i) => (
                         <Pagination.Item
                             key={i + 1}
                             active={i + 1 === inputCached.page}
@@ -106,48 +107,49 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
                             {i + 1}
                         </Pagination.Item>
                     ))}
-                    <Pagination.Next onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())} />
-                    <Pagination.Last onClick={() => handlePageChanged(totalPages())} />
+                    <Pagination.Next
+                        onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
+                    <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
                 </Pagination>
             </form>
             <p>ページ当たり表示数 :
                 <input
-                  type="number"
-                  max="100"
-                  min="10"
-                  step="5"
-                  class="editable-text-activated scale-large-flexible"
-                  placeholder="items per page"
-                  onChange={handleItemsPerPage}
-                  value={inputCached.itemsPerPage}
+                    type="number"
+                    max="100"
+                    min="10"
+                    step="5"
+                    className="editable-text-activated scale-large-flexible"
+                    placeholder="items per page"
+                    onChange={handleItemsPerPage}
+                    value={inputCached.itemsPerPage}
                 />
             </p>
             <p>キーワード :
                 <input
-                  class="editable-text-activated scale-large-flexible"
-                  placeholder="space-separated search keywords"
-                  onChange={handleKeywords}
-                  value={inputCached.keywords}
+                    className="editable-text-activated scale-large-flexible"
+                    placeholder="space-separated search keywords"
+                    onChange={handleKeywords}
+                    value={inputCached.keywords}
                 />
             </p>
             <p>日付範囲 :
                 <DatePicker
-                  dateFormat="yyyy/MM/dd"
-                  placeholderText="date from"
-                  onChange={handleDateFrom}
-                  selected={inputCached.dateFrom}
-                />
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText="date from"
+                    onChange={handleDateFrom}
+                    selected={inputCached.dateFrom}
+                    showMonthYearDropdown/>
                 ～
                 <DatePicker
-                  dateFormat="yyyy/MM/dd"
-                  placeholderText="date to"
-                  onChange={handleDateTo}
-                  selected={inputCached.dateTo}
-                />
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText="date to"
+                    onChange={handleDateTo}
+                    selected={inputCached.dateTo}
+                    showMonthYearDropdown/>
             </p>
             {output.articleSummaries.list.map((article) => (
-                <div class="flex-container">
-                    <img class="image-sample" src={LOCAL_DIR + article.image} />
+                <div className="flex-container">
+                    <img className="image-sample" src={LOCAL_DIR + article.image} alt={"dot.jpg"}/>
                     <div>
                         <button onClick={() => goToIndividualPage(article.articleId)}>Open</button>
                         <p>ID : {article.articleId}</p>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import {GoogleReCaptcha} from 'react-google-recaptcha-v3';
 
-export const UserCommentViewer = ({postKey, articleId, evokerFunc}) => {
+export const UserCommentForm = ({postKey, articleId, evokerFunc}) => {
     const [refresh, setRefresh] = React.useState(false);
     const [token, setToken] = React.useState(null);
 
@@ -11,10 +11,10 @@ export const UserCommentViewer = ({postKey, articleId, evokerFunc}) => {
         const formData = new FormData(event.target);
         const postData = Object.fromEntries(formData.entries());
         try {
-            const response = await axios.post("/api/v1/articles/" + articleId + "/usercomments", postData, {
-                headers: { 'Content-Type': 'application/json', },
-            });
-            const data = await response.json();
+            //const response = await axios.post("/api/v1/articles/" + articleId + "/usercomments", postData, {
+            //    headers: {'Content-Type': 'application/json',},
+            //});
+            //const data = await response.json();
         } catch (error) {
             console.error('Error submitting form:', error);
         }
@@ -31,20 +31,20 @@ export const UserCommentViewer = ({postKey, articleId, evokerFunc}) => {
     return (
         <>
             <form onSubmit={this.handleSubmit}>
-                <div class="frame-unit">
-                    <hidden name={postKey.append("articleId").toStringKey()} value={articleId} />
+                <div className="frame-unit">
+                    <hidden name={postKey.append("articleId").toStringKey()} value={articleId}/>
                     <textarea
-                      class="editable-text-activated scale-large-flexible"
-                      placeholder="Comment here..."
-                      name={{postKey.append("text").toStringKey()}}
+                        className="editable-text-activated scale-large-flexible"
+                        placeholder="Comment here..."
+                        name={postKey.append("text").toStringKey()}
                     />
-                    <input type="hidden" name="token" value={token} />
+                    <input type="hidden" name="token" value={token}/>
                 </div>
                 <button type="submit">投稿</button>
             </form>
             <GoogleReCaptcha
-              onVerify={onVerify}
-              refreshReCaptcha={refreshReCaptcha}
+                onVerify={onVerify}
+                refreshReCaptcha={refreshReCaptcha}
             />
         </>
     );

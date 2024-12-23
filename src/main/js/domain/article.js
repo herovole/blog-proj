@@ -1,4 +1,4 @@
-import {CommentUnitList} from '../../../domain/commentUnitList'
+import {CommentUnitList} from "./commentUnitList";
 
 export class Article {
 

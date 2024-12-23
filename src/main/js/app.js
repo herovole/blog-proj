@@ -1,56 +1,56 @@
+import {PageArticleView} from "./public/pageArticleView";
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 //const client = require('./client');
 const textForm = require('./textForm');
 
-import { Routes, Route } from "react-router-dom"; // 追加
-import { Home } from "./home";
-import { About } from "./about";
-import { Contact } from "./contact";
-import { NotFound } from "./notfound";
-import { Footer } from "./footer";
-import { TextForm } from './textForm';
+import {Route, Routes} from "react-router-dom"; // 追加
+import {Home} from "./home";
+import {About} from "./about";
+import {Contact} from "./contact";
+import {NotFound} from "./notfound";
+import {Footer} from "./footer";
 
-import { AdminEntrance } from './admin/adminEntrance';
-import { Sandbox } from './admin/sandbox';
-import { PageArticleList } from './admin/pageArticleList';
-import { PageArticle } from './admin/pageArticle';
-import { PageTopicTagList } from './admin/pageTopicTagList';
-import { ArticleView } from './public/pageArticleView';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import {AdminEntrance} from './admin/adminEntrance';
+import {Sandbox} from './admin/sandbox';
+import {PageArticleList} from './admin/pageArticleList';
+import {PageArticle} from './admin/pageArticle';
+import {PageTopicTagList} from './admin/pageTopicTagList';
+import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
 
 
 console.log("app.js");
+const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
 
-function App () {
+function App() {
 
-    static googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
 
     return (
         <div className="App">
             <h1>これはRoutesの外側のエレメント</h1>
 
             <Routes> {/*Routesで囲む*/}
-                <Route path="/" element={ <Home /> } /> {}
-                <Route path="/about" element={ <About /> } /> {}
-                <Route path="/contact" element={ <Contact  message="Hello" /> } /> {}
-                <Route path="/*" element={ <NotFound /> } /> {}
+                <Route path="/" element={<Home/>}/> {}
+                <Route path="/about" element={<About/>}/> {}
+                <Route path="/contact" element={<Contact message="Hello"/>}/> {}
+                <Route path="/*" element={<NotFound/>}/> {}
 
-                <Route path="/about" element={ <About /> } /> {}
-                <Route path="/admin" element={ <AdminEntrance /> } /> {}
-                <Route path="/admin/newarticle" element={ <Sandbox/> } /> {}
-                <Route path="/admin/sandbox" element={ <Sandbox/> } /> {}
+                <Route path="/about" element={<About/>}/> {}
+                <Route path="/admin" element={<AdminEntrance/>}/> {}
+                <Route path="/admin/newarticle" element={<Sandbox/>}/> {}
+                <Route path="/admin/sandbox" element={<Sandbox/>}/> {}
 
 
-                <Route path="/admin/articles/:articleId" element={ <PageArticle/> } /> {}
-                <Route path="/admin/articles" element={ <PageArticleList/> } /> {}
-                <Route path="/admin/topictags" element={ <PageTopicTagList/> } /> {}
+                <Route path="/admin/articles/:articleId" element={<PageArticle/>}/> {}
+                <Route path="/admin/articles" element={<PageArticleList/>}/> {}
+                <Route path="/admin/topictags" element={<PageTopicTagList/>}/> {}
 
                 <Route path="/articles/:articleId" element={
                     <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                        <ArticleView/>
+                        <PageArticleView/>
                     </GoogleReCaptchaProvider>
-                } /> {}
+                }/> {}
 
             </Routes>
 
@@ -81,25 +81,25 @@ class App extends React.Component {
 		this.state = {employees: []};
 	}*/
 
-	//componentDidMount() {
-	//
-	//	client({method: 'GET', path: '/api/employees'}).done(response => {
-	//		this.setState({employees: response.entity._embedded.employees});
-	//	});
-	//
-	//}
+//componentDidMount() {
+//
+//	client({method: 'GET', path: '/api/employees'}).done(response => {
+//		this.setState({employees: response.entity._embedded.employees});
+//	});
+//
+//}
 
 //	render() {
-	    /*
-		return (
-			<EmployeeList employees={this.state.employees}/>
-		)
-		*/
+/*
+return (
+    <EmployeeList employees={this.state.employees}/>
+)
+*/
 
 //		return (
 //		    <TextForm name="aaa" placeholder="this is a placeholder" />
 //		);
-		//return ("TEST STRING on app.js")
+//return ("TEST STRING on app.js")
 //	}
 //}
 /*
