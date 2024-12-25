@@ -47,7 +47,7 @@ public class CheckUser {
         if (!uuId.isEmpty()) {
             userId = publicUserDatasource.findIdByUuId(uuId);
             if (userId.isEmpty()) {
-                logger.warn("Uncanny UUID : {} hasn't been issued yet.", uuId.letterSignature());
+                logger.warn("Uncanny UUID : {} hasn't been issued yet.", uuId);
             }
         }
 
@@ -55,13 +55,14 @@ public class CheckUser {
         if (uuId.isEmpty() || userId.isEmpty()) {
             uuId = UniversallyUniqueId.generate();
             publicUserTransactionalDatasource.insert(uuId);
+            logger.info("new UUID has been issued : {}", uuId);
 
             // If the user has been registered, check whether he is banned or not.
         } else {
             Timestamp uuIdBannedUntil = publicUserDatasource.isBannedUntil(uuId);
             if (!uuIdBannedUntil.isEmpty() && Timestamp.now().precedes(uuIdBannedUntil)) {
                 logger.info("This user {} is banned until {}",
-                        uuId.letterSignature(),
+                        uuId,
                         uuIdBannedUntil);
                 // Status Code : 403
                 // You are banned until ...

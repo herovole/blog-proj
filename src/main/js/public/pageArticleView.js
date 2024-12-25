@@ -54,7 +54,7 @@ export const PageArticleView = () => {
     if (article) {
         return <ArticleViewBody
             postKey={new ElementId("article")}
-            content={article}
+            article={article}
             topicTagOptions={topicTagsOptions}
             countryTagOptions={countryTagsOptions}
         />

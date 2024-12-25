@@ -8,10 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
@@ -37,7 +37,7 @@ public class EUserComment implements Serializable {
 
     @EqualsAndHashCode.Include
     @Column(name = "comment_id")
-    private long commentId;
+    private int commentId;
 
     @EqualsAndHashCode.Include
     @Column(name = "article_id")
@@ -82,7 +82,7 @@ public class EUserComment implements Serializable {
     public static EUserComment fromInsertDomainObj(IntegerId inArticleCommentId, CommentUnit commentUnit) {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         EUserComment eUserComment = fromDomainObj(commentUnit);
-        eUserComment.setCommentId(inArticleCommentId.longMemorySignature());
+        eUserComment.setCommentId(inArticleCommentId.intMemorySignature());
         eUserComment.setArticleId(commentUnit.getArticleId().longMemorySignature());
         eUserComment.setDeleteFlag(false);
         return eUserComment;
@@ -93,7 +93,7 @@ public class EUserComment implements Serializable {
         RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
         EUserComment userComment = fromDomainObj(commentUnit);
         userComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
-        userComment.setCommentId(commentUnit1.getCommentId().longMemorySignature());
+        userComment.setCommentId(commentUnit1.getCommentId().intMemorySignature());
         userComment.setArticleId(commentUnit.getArticleId().longMemorySignature());
         userComment.setDeleteFlag(false);
         return userComment;

@@ -3,12 +3,17 @@ import axios from 'axios';
 import {TagSelectingForm} from "../../../admin/fragment/atomic/tagselectingform/tagSelectingForm";
 import {CommentEditor} from "../../../admin/fragment/articleeditingpage/commenteditor/commentEditor";
 import {UserCommentForm} from "./usercomment/userCommentForm";
+import {IdsEditingForm} from "../../../admin/fragment/atomic/idsEditingForm";
+import {ImageSelectingModal} from "../../../admin/fragment/image/imageSelectingModal";
+import {UserCommentViewer} from "./usercomment/userCommentViewer";
+import {TagUnitList} from "../../../admin/fragment/atomic/tagselectingform/tagUnitList";
 
 //  postKey : ElementId
 //  article : Article
 //  topicTagOptions, : TagUnitList
 //  countryTagOptions : TagUnitList
 export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
+    const [refresh, setRefresh] = React.useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent page reload
@@ -26,6 +31,10 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
         }
     };
 
+    const reRender = () => {
+        setRefresh(r => !r);
+    }
+
     return (
         <div className="flex-container">
             <div>
@@ -41,7 +50,7 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
                 <div className="flex-container">
                     <p className="item-title">Article ID</p>
                     <IdsEditingForm
-                        postKey={this.props.postKey.append("id")}
+                        postKey={postKey.append("id")}
                         ids={article.articleId}
                         isFixed={true}
                     />
@@ -65,8 +74,8 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
                     <p className="item-title">Topic Tags</p>
                     <TagSelectingForm
                         allowsMultipleOptions={true}
-                        postKey={this.props.postKey.append("topicTags")}
-                        candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
+                        postKey={postKey.append("topicTags")}
+                        candidates={topicTagOptions || new TagUnitList()}
                         selectedTagIds={article.topicTags}
                         isFixed={true}
                     />
@@ -75,8 +84,8 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
                     <p className="item-title">Countries</p>
                     <TagSelectingForm
                         allowsMultipleOptions={true}
-                        postKey={this.props.postKey.append("countries")}
-                        candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
+                        postKey={postKey.append("countries")}
+                        candidates={countryTagOptions || new TagUnitList()}
                         selectedTagIds={article.countries}
                         isFixed={true}
                     />
@@ -87,21 +96,22 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
                 <div>
                     <p className="item-title-large">Original Comments</p>
                     <CommentEditor
-                        postKey={this.props.postKey.append("originalComments")}
+                        postKey={postKey.append("originalComments")}
                         content={article.originalComments}
-                        countryTagOptions={this.props.countryTagOptions}
+                        countryTagOptions={countryTagOptions}
                     />
                 </div>
                 <div>
                     <UserCommentViewer
-                        postKey={this.props.postKey.append("userComments")}
+                        postKey={postKey.append("userComments")}
                         commentUnitList={article.userComments}
                     />
                 </div>
                 <div>
                     <UserCommentForm
-                        postKey={this.props.postKey.append("userCommentForm")}
+                        postKey={postKey.append("userCommentForm")}
                         articleId={article.articleId}
+                        functionToRerenderParent={reRender}
                     />
                 </div>
             </div>

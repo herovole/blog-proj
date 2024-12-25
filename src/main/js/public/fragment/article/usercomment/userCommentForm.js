@@ -1,23 +1,24 @@
 import React from 'react';
 import {GoogleReCaptcha} from 'react-google-recaptcha-v3';
+import axios from "axios";
 
-export const UserCommentForm = ({postKey, articleId, evokerFunc}) => {
+export const UserCommentForm = ({postKey, articleId, functionToRerenderParent}) => {
     const [refresh, setRefresh] = React.useState(false);
     const [token, setToken] = React.useState(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        evokerFunc();
         const formData = new FormData(event.target);
         const postData = Object.fromEntries(formData.entries());
         try {
-            //const response = await axios.post("/api/v1/articles/" + articleId + "/usercomments", postData, {
-            //    headers: {'Content-Type': 'application/json',},
-            //});
-            //const data = await response.json();
+            const response = await axios.post("/api/v1/usercomments", postData, {
+                headers: {'Content-Type': 'application/json',},
+            });
+            const data = await response.json();
         } catch (error) {
             console.error('Error submitting form:', error);
         }
+        functionToRerenderParent();
 
     }
 
@@ -30,7 +31,7 @@ export const UserCommentForm = ({postKey, articleId, evokerFunc}) => {
 
     return (
         <>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className="frame-unit">
                     <hidden name={postKey.append("articleId").toStringKey()} value={articleId}/>
                     <textarea

@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class VerifyOrganicity {
 
@@ -19,14 +21,14 @@ public class VerifyOrganicity {
         this.thirdpartyBotDetection = thirdpartyBotDetection;
     }
 
-    public VerifyOrganicityOutput process(VerifyOrganicityInput input) throws Exception {
+    public VerifyOrganicityOutput process(VerifyOrganicityInput input) throws IOException, InterruptedException {
         logger.info("interpreted post : {}", input);
 
         Float probabilityOfBeingHuman = thirdpartyBotDetection.receiveProbabilityOfBeingHuman(
                 input.getVerificationToken(),
                 input.getIPv4Address()
         );
-        logger.info("User {} score {}", input.getUuId().letterSignature(), probabilityOfBeingHuman);
+        logger.info("User {} score {}", input.getUuId(), probabilityOfBeingHuman);
 
         return new VerifyOrganicityOutput(probabilityOfBeingHuman == null ? null : THRESHOLD < probabilityOfBeingHuman);
     }

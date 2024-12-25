@@ -1,5 +1,6 @@
 package org.herovole.blogproj.infra.datasource;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
@@ -80,7 +81,7 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
             String action,
             LocalDateTime challenge_ts,
             String hostname,
-            String[] errorCodes
+            @JsonProperty("error-codes") String[] errorCodes
     ) {
     }
 }

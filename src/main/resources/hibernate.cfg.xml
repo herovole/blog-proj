@@ -24,6 +24,10 @@
         <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.ASourceComment"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.ATopicTag"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EPublicIp"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EPublicUser"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserComment"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserCommentReport"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.MCountry"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.MEditor"/>
 
