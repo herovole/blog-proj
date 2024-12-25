@@ -1,9 +1,4 @@
 import {PageArticleView} from "./public/pageArticleView";
-
-const React = require('react');
-const ReactDOM = require('react-dom');
-//const client = require('./client');
-
 import {Route, Routes} from "react-router-dom"; // 追加
 import {Home} from "./home";
 import {About} from "./about";
@@ -17,6 +12,11 @@ import {PageArticleList} from './admin/pageArticleList';
 import {PageArticle} from './admin/pageArticle';
 import {PageTopicTagList} from './admin/pageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
+import {PageNewArticle} from "./admin/pageNewArticle";
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+//const client = require('./client');
 
 
 console.log("app.js");
@@ -37,12 +37,13 @@ function App() {
 
                 <Route path="/about" element={<About/>}/> {}
                 <Route path="/admin" element={<AdminEntrance/>}/> {}
-                <Route path="/admin/newarticle" element={<Sandbox/>}/> {}
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}
 
 
-                <Route path="/admin/articles/:articleId" element={<PageArticle/>}/> {}
                 <Route path="/admin/articles" element={<PageArticleList/>}/> {}
+                <Route path="/admin/articles/:articleId" element={<PageArticle/>}/> {}
+                <Route path="/admin/articles/new" element={<PageNewArticle/>}/> {}
+
                 <Route path="/admin/topictags" element={<PageTopicTagList/>}/> {}
 
                 <Route path="/articles/:articleId" element={
