@@ -23,7 +23,7 @@ export class Article {
         console.log("ARTICLE DATA" + JSON.stringify(hash));
         const content = hash[Article.API_KEY_ROOT];
         console.log("ARTICLE ID " + content[Article.API_KEY_ID]);
-        return new Article (
+        return new Article(
             content[Article.API_KEY_ID],
             content[Article.API_KEY_IMAGE],
             content[Article.API_KEY_TITLE],
@@ -35,8 +35,8 @@ export class Article {
             content[Article.API_KEY_COUNTRIES],
             content[Article.API_KEY_TOPIC_TAGS],
             content[Article.API_KEY_EDITORS],
-            CommentUnitList.fromHash(content[Article.API_KEY_ORIGINAL_COMMENTS]),
-            CommentUnitList.fromHash(content[Article.API_KEY_USER_COMMENTS]),
+            CommentUnitList.fromHashAsSourceCommentUnits(content[Article.API_KEY_ORIGINAL_COMMENTS]),
+            CommentUnitList.fromHashAsUserCommentUnits(content[Article.API_KEY_USER_COMMENTS]),
             content[Article.API_KEY_REGISTRATION_TIMESTAMP],
             content[Article.API_KEY_LATEST_EDIT_TIMESTAMP]
         );
@@ -47,11 +47,11 @@ export class Article {
         imageName, title, text,
         sourceUrl, sourceTitle, sourceDate,
         isPublished,
-        countries=[],
-        topicTags=[],
-        editors=[],
-        originalComments = new CommentUnitList(),
-        userComments = new CommentUnitList(),
+        countries = [],
+        topicTags = [],
+        editors = [],
+        originalComments = CommentUnitList.empty(),
+        userComments = CommentUnitList.empty(),
         registrationTimestamp,
         latestEditTimestamp
     ) {

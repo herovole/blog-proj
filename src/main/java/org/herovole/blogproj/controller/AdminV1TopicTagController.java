@@ -70,7 +70,7 @@ public class AdminV1TopicTagController {
     public ResponseEntity<String> searchTopicTags(
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : topicTags (Get) ");
-
+        System.out.println(request);
         try {
             FormContent formContent = FormContent.of(request);
             SearchTopicTagsInput input = SearchTopicTagsInput.fromFormContent(formContent);

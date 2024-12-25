@@ -1,14 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnitList} from "./fragment/atomic/tagselectingform/tagUnitList";
 import {ArticleEditingPageBody} from "./fragment/articleeditingpage/articleEditingPageBody";
 import {Article} from "../domain/article";
 import {ElementId} from "../domain/elementId";
+import {AdminHeader} from "./adminHeader";
 
 export const PageArticle = () => {
-    const { articleId } = useParams();
+    const {articleId} = useParams();
     const [topicTagsOptions, setTopicTagsOptions] = useState(null);
     const [countryTagsOptions, setCountryTagsOptions] = useState(null);
     const [article, setArticle] = useState(null);
@@ -19,24 +20,24 @@ export const PageArticle = () => {
                 const topicTagsKey = new ElementId("topicTags");
                 const topicResponse = await axios.get("/api/v1/topicTags", {
                     params: {
-                        [topicTagsKey.append("page").toStringKey()] :1,
-                        [topicTagsKey.append("itemsPerPage").toStringKey()] :10000,
-                        [topicTagsKey.append("isDetailed").toStringKey()] :false
+                        [topicTagsKey.append("page").toStringKey()]: 1,
+                        [topicTagsKey.append("itemsPerPage").toStringKey()]: 10000,
+                        [topicTagsKey.append("isDetailed").toStringKey()]: false
                     },
-                    headers: { Accept: "application/json" },
+                    headers: {Accept: "application/json"},
                 });
                 const topicUnitList = TagUnitList.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
-                    params: {"page":1, "itemsPerPage":10000, "isDetailed":false},
-                    headers: { Accept: "application/json" },
+                    params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
+                    headers: {Accept: "application/json"},
                 });
                 const countryUnitList = TagUnitList.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
                 const articleResponse = await axios.get("/api/v1/articles/" + articleId, {
-                    headers: { Accept: "application/json" },
+                    headers: {Accept: "application/json"},
                 });
                 const article = Article.fromHash(articleResponse.data);
                 setArticle(article);
@@ -49,15 +50,21 @@ export const PageArticle = () => {
         };
         console.log("pageArticle");
         fetchTagsOptions();
+
     }, []);
 
-    if(article) {
-        return <ArticleEditingPageBody
-          postKey={new ElementId("articleEditingPage")}
-          content={article}
-          topicTagOptions={topicTagsOptions}
-          countryTagOptions={countryTagsOptions}
-        />
+    if (article) {
+        return (
+            <div>
+                <AdminHeader/>
+                <ArticleEditingPageBody
+                    postKey={new ElementId("articleEditingPage")}
+                    content={article}
+                    topicTagOptions={topicTagsOptions}
+                    countryTagOptions={countryTagsOptions}
+                />
+            </div>
+        );
     } else {
         return <div>Loading...</div>
     }

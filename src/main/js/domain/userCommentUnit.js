@@ -1,7 +1,7 @@
-import { CommentUnit } from '../../../domain/commentUnit';
+import {CommentUnit} from "./commentUnit"
 
 
-export class UserCommentUnit extends CommentUnit  {
+export class UserCommentUnit extends CommentUnit {
 
     static API_KEY_ID = "id";
     static API_KEY_COMMENT_ID = "commentId";
@@ -15,19 +15,29 @@ export class UserCommentUnit extends CommentUnit  {
 
     static fromHash(hash) {
         return new UserCommentUnit(
-            hash[CommentUnit.API_KEY_ID],
-            hash[CommentUnit.API_KEY_COMMENT_ID],
-            hash[CommentUnit.API_KEY_TEXT],
-            hash[CommentUnit.API_KEY_IS_HIDDEN],
-            hash[CommentUnit.API_KEY_REFERRING_IDS],
-            hash[CommentUnit.API_KEY_LIKES],
-            hash[CommentUnit.API_KEY_DISLIKES],
-            hash[CommentUnit.API_KEY_DAILY_ID],
-            hash[CommentUnit.API_KEY_POST_TIMESTAMP],
+            hash[UserCommentUnit.API_KEY_ID],
+            hash[UserCommentUnit.API_KEY_COMMENT_ID],
+            hash[UserCommentUnit.API_KEY_TEXT],
+            hash[UserCommentUnit.API_KEY_IS_HIDDEN],
+            hash[UserCommentUnit.API_KEY_REFERRING_IDS],
+            hash[UserCommentUnit.API_KEY_LIKES],
+            hash[UserCommentUnit.API_KEY_DISLIKES],
+            hash[UserCommentUnit.API_KEY_DAILY_ID],
+            hash[UserCommentUnit.API_KEY_POST_TIMESTAMP],
         );
     }
 
-    constructor(id, commentId, text, country, isHidden, referringIds=[], depth=0, likes, dislikes, dailyId, postTimestamp) {
+    constructor(id,
+                commentId,
+                text,
+                isHidden,
+                referringIds = [],
+                depth = 0,
+                likes,
+                dislikes,
+                dailyId,
+                postTimestamp) {
+        super();
         this.id = id;
         this.commentId = commentId;
         this.text = text;
@@ -40,9 +50,18 @@ export class UserCommentUnit extends CommentUnit  {
         this.postTimestamp = postTimestamp;
     }
 
-    getInArticleCommentId() { return this.commentId; };
-    getReferringCommentIds() { return this.referringIds; };
-    getDepth() { return this.depth; };
+    getInArticleCommentId() {
+        return this.commentId;
+    };
+
+    getReferringCommentIds() {
+        return this.referringIds;
+    };
+
+    getDepth() {
+        return this.depth;
+    };
+
     applyDepth(depth) {
         return new UserCommentUnit(
             this.id,

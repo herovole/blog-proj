@@ -1,11 +1,13 @@
 import React from 'react';
-import { AdminFooter } from './adminFooter';
+import {AdminFooter} from './adminFooter';
+import {AdminHeader} from "./adminHeader";
 
-export const AdminEntrance = () =>{
+export const AdminEntrance = () => {
     return (
         <div>
-          <h1>AdminEntrance</h1>
-          <AdminFooter/>
+            <h1>AdminEntrance</h1>
+            <AdminHeader/>
+            <AdminFooter/>
         </div>
     )
 }

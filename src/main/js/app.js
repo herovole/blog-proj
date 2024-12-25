@@ -3,7 +3,6 @@ import {PageArticleView} from "./public/pageArticleView";
 const React = require('react');
 const ReactDOM = require('react-dom');
 //const client = require('./client');
-const textForm = require('./textForm');
 
 import {Route, Routes} from "react-router-dom"; // 追加
 import {Home} from "./home";

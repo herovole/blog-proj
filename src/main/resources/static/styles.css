@@ -1,5 +1,4 @@
 
-
 .editable-text-fixed {
     cursor: pointer;
     border: 1px solid black;
@@ -13,18 +12,25 @@
 }
 
 .scale-minimum {
-    width: 20px
-    height: 20px
+    width: 20px;
+    height: auto;
+}
+
+.scale-span {
+    min-width: 40%;
+    resize: horizontal;
+    width: auto;
+    height: auto;
 }
 
 .scale-large {
-    width: 100%
-    height: 100px
+    width: 100%;
+    height: 100px;
 }
 
 .scale-large-flexible {
     resize: vertical; /* Enable resizing in both directions */
-    width: 100%
+    width: 100%;
     min-height: 100px; /* Minimum height */
     max-height: 500px; /* Optional: cap the height */
 }
@@ -54,14 +60,14 @@
 .grid-container {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 0px; /* Adds space between the divs */
+    gap: 0; /* Adds space between the divs */
 }
 
 .flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0px;
-  max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 1000px;
 }
 
 .frame-unit {

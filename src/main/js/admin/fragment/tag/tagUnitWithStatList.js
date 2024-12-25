@@ -3,7 +3,7 @@ import {TagUnitWithStat} from './tagUnitWithStat.js'
 export class TagUnitWithStatList {
 
     static fromHash(hash) {
-        var arrayListOfTagUnits = hash.map(hash => TagUnitWithStat.fromHash(hash));
+        const arrayListOfTagUnits = hash.map(hash => TagUnitWithStat.fromHash(hash));
         return new TagUnitWithStatList(arrayListOfTagUnits);
     }
 
@@ -12,6 +12,6 @@ export class TagUnitWithStatList {
     }
 
     constructor(arrayListOfTagUnits) {
-        this.tagUnits = arrayListOfTagUnits ? arrayListOfTagUnits : [];
+        this.tagUnits = arrayListOfTagUnits || [];
     }
 }

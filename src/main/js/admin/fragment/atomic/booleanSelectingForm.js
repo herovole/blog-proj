@@ -24,7 +24,7 @@ export class BooleanSelectingForm extends React.Component {
 
     edit = () => {
         this.setState(prevState => ({
-            isBeingEdited: true && !this.props.isFixed
+            isBeingEdited: !this.props.isFixed
         }));
     }
 
@@ -70,7 +70,7 @@ export class BooleanSelectingForm extends React.Component {
         } else {
             return (
                 <div onClick={this.edit} >
-                    <span class="editable-text-fixed scale-minimum">
+                    <span className="editable-text-fixed scale-minimum">
                         {this.state.fixedCheck ? "On" : "Off"}
                     </span>
                     <input type="hidden"

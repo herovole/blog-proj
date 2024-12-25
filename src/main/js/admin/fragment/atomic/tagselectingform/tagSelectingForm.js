@@ -1,7 +1,5 @@
 import React from 'react';
 import Select from 'react-select';
-import {TagUnitList} from './tagUnitList.js';
-import {ElementId} from '../../../../domain/elementId'
 
 export class TagSelectingForm extends React.Component {
     constructor(props) {
@@ -11,17 +9,18 @@ export class TagSelectingForm extends React.Component {
             //this.props.candidates, // :TagUnitList
             //this.props.allowsMultipleOptions
             //this.props.isFixed
-            selectedTags : this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
-            fixedSelectedTags : this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
-            isBeingEdited : false
+            selectedTags: this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
+            fixedSelectedTags: this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],
+            isBeingEdited: false
         };
         console.log("state / " + this.props.candidates);
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+    }
 
     edit = () => {
-        if(this.props.isFixed) return;
+        if (this.props.isFixed) return;
         this.setState(prevState => ({
             isBeingEdited: true
         }));
@@ -52,34 +51,34 @@ export class TagSelectingForm extends React.Component {
     };
 
     render() {
-        if(this.state.isBeingEdited) {
+        if (this.state.isBeingEdited) {
             console.log("render-active :" + JSON.stringify(this.props.candidates.getTagOptionsJapanese()));
             console.log("selected :" + JSON.stringify(this.state.selectedTags));
             return (
                 <div>
                     <Select
-                      isMulti={this.props.allowsMultipleOptions}
-                      options={this.props.candidates.getTagOptionsJapanese()}
-                      value={this.props.candidates.getTagOptionsJapaneseSelected(this.state.selectedTags)}
-                      onChange={this.handleChange}
-                      placeholder="Select or type to add tags"
+                        isMulti={this.props.allowsMultipleOptions}
+                        options={this.props.candidates.getTagOptionsJapanese()}
+                        value={this.props.candidates.getTagOptionsJapaneseSelected(this.state.selectedTags)}
+                        onChange={this.handleChange}
+                        placeholder="Select or type to add tags"
                     />
                     <Select
-                      isMulti={this.props.allowsMultipleOptions}
-                      options={this.props.candidates.getTagOptionsEnglish()}
-                      value={this.props.candidates.getTagOptionsEnglishSelected(this.state.selectedTags)}
-                      onChange={this.handleChange}
-                      placeholder="Select or type to add tags"
+                        isMulti={this.props.allowsMultipleOptions}
+                        options={this.props.candidates.getTagOptionsEnglish()}
+                        value={this.props.candidates.getTagOptionsEnglishSelected(this.state.selectedTags)}
+                        onChange={this.handleChange}
+                        placeholder="Select or type to add tags"
                     />
                     <button
-                      type="button"
-                      onClick={this.fix}
+                        type="button"
+                        onClick={this.fix}
                     >
                         Fix
                     </button>
                     <button
-                      type="button"
-                      onClick={this.cancel}
+                        type="button"
+                        onClick={this.cancel}
                     >
                         Cancel
                     </button>
@@ -90,17 +89,17 @@ export class TagSelectingForm extends React.Component {
             const tagsInJapanese = this.props.candidates.getJapaneseNamesByIdsForDisplay(this.state.fixedSelectedTags);
             const tagsInEnglish = this.props.candidates.getEnglishNamesByIdsForDisplay(this.state.fixedSelectedTags);
             return (
-                <div onClick={this.edit} >
-                    <div class="editable-text-fixed">
+                <div onClick={this.edit}>
+                    <div className="editable-text-fixed">
                         {tagsInJapanese ? tagsInJapanese : "(None)"}
                     </div>
-                    <div class="editable-text-fixed">
+                    <div className="editable-text-fixed">
                         {tagsInEnglish ? tagsInEnglish : "(None)"}
                     </div>
                     {this.state.fixedSelectedTags.map((v, i) => (
                         <input type="hidden"
-                          name={this.props.postKey.append(i).toStringKey()}
-                          value={v} />
+                               name={this.props.postKey.append(i).toStringKey()}
+                               value={v}/>
                     ))}
                 </div>
             );

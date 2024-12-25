@@ -1,8 +1,11 @@
+import {UserCommentUnit} from "./userCommentUnit"
+import {SourceCommentUnit} from "./sourceCommentUnit"
+
 export class CommentUnitList {
 
-    static fromHash(array) {
+    static fromHashAsSourceCommentUnits(array) {
         console.log("comment unit list : " + JSON.stringify(array));
-        const arrayListOfComments = array.map(child => CommentUnit.fromHash(child));
+        const arrayListOfComments = array.map(child => SourceCommentUnit.fromHash(child));
         return new CommentUnitList(arrayListOfComments);
     }
 
@@ -39,7 +42,7 @@ export class CommentUnitList {
                 console.log("added : " + unit.commentId);
                 console.log("comments : " + newList.getElementNumber());
             } else {
-                const referredUnit = newList.getById(refId);
+                const referredUnit = newList.getByInArticleCommentId(refId);
                 if (!referredUnit) {
                     newList = newList.appendUnit(unit);
                     continue;

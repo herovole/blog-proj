@@ -41,7 +41,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
 
         // submitter exists if normal submit button is invoked.
         // submitter is absent if pager is invoked.
-        var input;
+        let input;
         if (event.nativeEvent.submitter) {
             input = inputCached;
             setInputFixed({...inputCached});
@@ -118,7 +118,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
                     max="100"
                     min="10"
                     step="5"
-                    className="editable-text-activated scale-large-flexible"
+                    className="editable-text-activated scale-span"
                     placeholder="items per page"
                     onChange={handleItemsPerPage}
                     value={inputCached.itemsPerPage}
@@ -126,7 +126,7 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
             </p>
             <p>キーワード :
                 <input
-                    className="editable-text-activated scale-large-flexible"
+                    className="editable-text-activated scale-span"
                     placeholder="space-separated search keywords"
                     onChange={handleKeywords}
                     value={inputCached.keywords}

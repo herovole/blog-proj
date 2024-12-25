@@ -26,7 +26,7 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
     @Query(value = "Select * " +
             "From e_user_comment " +
             "Where " +
-            "  article_id = :articleId" +
+            "  article_id = :articleId " +
             "Order By comment_id", nativeQuery = true)
     List<EUserComment> findByArticleId(@Param("articleId") long articleId);
 
