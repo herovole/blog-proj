@@ -20,7 +20,8 @@ const ReactDOM = require('react-dom');
 
 
 console.log("app.js");
-const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
+//const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt"; //PROD
+const googleReCaptchaSiteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; //TEST
 
 function App() {
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.comment.ThirdpartyBotDetection;
 import org.slf4j.Logger;
@@ -75,13 +77,16 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
         }
     }
 
-    private record ResponsePayloadModel(
-            boolean success,
-            float score,
-            String action,
-            LocalDateTime challenge_ts,
-            String hostname,
-            @JsonProperty("error-codes") String[] errorCodes
-    ) {
+    @ToString
+    @Data
+    private static class ResponsePayloadModel {
+        boolean success;
+        float score;
+        String action;
+        @JsonProperty("challenge_ts")
+        LocalDateTime challengeTimestamp;
+        String hostname;
+        @JsonProperty("error-codes")
+        String[] errorCodes;
     }
 }
