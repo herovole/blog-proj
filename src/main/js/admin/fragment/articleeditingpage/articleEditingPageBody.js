@@ -57,7 +57,7 @@ export class ArticleEditingPageBody extends React.Component {
                         <div className="flex-container">
                             <p className="item-title">Article ID</p>
                             <IdsEditingForm
-                                postKey={this.props.postKey.append("id")}
+                                postKey={this.props.postKey.append("articleId")}
                                 ids={this.props.content.articleId}
                                 isFixed={true}
                             />

@@ -11,7 +11,7 @@ import lombok.ToString;
 public class IntegerId implements Comparable<IntegerId> {
 
     private static final String EMPTY = "-";
-    private static final String API_KEY_ARTICLE_ID = "id";
+    private static final String API_KEY_ARTICLE_ID = "articleId";
     private static final String API_KEY_COMMENT_ID = "commentId";
 
     public static IntegerId fromFormContentArticleId(FormContent formContent) {
@@ -63,7 +63,7 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public Integer intMemorySignature() {
-        return Math.toIntExact(this.id);
+        return isEmpty() ? null : Math.toIntExact(this.id);
     }
 
 

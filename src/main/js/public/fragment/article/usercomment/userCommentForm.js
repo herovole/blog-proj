@@ -15,6 +15,12 @@ export const UserCommentForm = ({postKey, articleId, functionToRerenderParent}) 
             return;
         }
         const recaptchaToken = await executeRecaptcha(googleReCaptchaActionLabel);
+        /*
+        if (!recaptchaToken) {
+            console.error('verification failed');
+            return;
+        }
+         */
         setToken(recaptchaToken);
 
         const formData = new FormData(event.target);
@@ -35,7 +41,12 @@ export const UserCommentForm = ({postKey, articleId, functionToRerenderParent}) 
     return (
         <form onSubmit={handleSubmit}>
             <div className="frame-unit">
-                <hidden name={postKey.append("articleId").toStringKey()} value={articleId}/>
+                <input type="hidden" name={postKey.append("articleId").toStringKey()} value={articleId}/>
+                <input
+                    type="text"
+                    className="scale-span"
+                    name={postKey.append("handleName").toStringKey()}
+                />
                 <textarea
                     className="editable-text-activated scale-large-flexible"
                     placeholder="Comment here..."

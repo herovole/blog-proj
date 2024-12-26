@@ -61,7 +61,7 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
 
     @Override
     public void insert(CommentUnit commentUnit) {
-        if (commentUnit instanceof RealUserCommentUnit) throw new IllegalArgumentException();
+        if (!(commentUnit instanceof RealUserCommentUnit)) throw new IllegalArgumentException();
         IntegerId commentId = this.incrementAndGetInArticleCommentId(commentUnit.getArticleId());
         EUserComment eUserComment = EUserComment.fromInsertDomainObj(commentId, commentUnit);
         cacheInsert.add(eUserComment);

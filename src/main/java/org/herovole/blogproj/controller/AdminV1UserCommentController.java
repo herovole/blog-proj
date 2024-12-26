@@ -74,6 +74,7 @@ public class AdminV1UserCommentController {
             }
 
             // Check if a User is not BOT
+            /*
             VerifyOrganicityInput verifyOrganicityInput = VerifyOrganicityInput.builder()
                     .iPv4Address(servletRequest.getUserIp())
                     .uuId(UniversallyUniqueId.valueOf(uuId))
@@ -86,10 +87,11 @@ public class AdminV1UserCommentController {
             if (!verifyOrganicityOutput.isHuman()) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new Gson().toJson(verifyOrganicityOutput.toJsonModel()));
             }
-
+             */
 
             // Post user comment
             FormContent formContent = FormContent.of(request);
+            formContent.println("comment post : ");
             PostUserCommentInput input = new PostUserCommentInput.Builder()
                     .setiPv4Address(servletRequest.getUserIp())
                     .setUuId(checkUserOutput.getUuId())

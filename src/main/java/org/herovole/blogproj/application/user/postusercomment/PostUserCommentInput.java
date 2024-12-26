@@ -46,7 +46,8 @@ public class PostUserCommentInput {
             if (iPv4Address == null || uuId == null || formContent == null) {
                 throw new IllegalStateException(PostUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
-            FormContent children = formContent.getChildren(API_KEY_PREFIX);
+            FormContent children = formContent.getGrandchildren(API_KEY_PARENT_PREFIX, API_KEY_PREFIX);
+            children.println("comment post (parse 2)");
             return new PostUserCommentInput(
                     iPv4Address,
                     uuId,
@@ -57,7 +58,8 @@ public class PostUserCommentInput {
         }
     }
 
-    private static final String API_KEY_PREFIX = "userComment";
+    private static final String API_KEY_PARENT_PREFIX = "article";
+    private static final String API_KEY_PREFIX = "userCommentForm";
 
     private final IPv4Address iPv4Address;
     private final UniversallyUniqueId uuId;

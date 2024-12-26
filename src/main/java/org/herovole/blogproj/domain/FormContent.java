@@ -41,6 +41,11 @@ public class FormContent {
         return new FormContent(field);
     }
 
+    public FormContent getGrandchildren(String keyRoot, String keyChild) {
+        FormContent child = this.getChildren(keyRoot);
+        return child.getChildren(keyChild);
+    }
+
     public String getValue() {
         return this.hash.entrySet().stream().findFirst().map(Map.Entry::getValue).orElse(null);
     }
