@@ -53,7 +53,7 @@ public class RealUserCommentUnit implements CommentUnit {
 
     @Override
     public boolean isEmpty() {
-        return this.commentId.isEmpty();
+        return this.handleName.isEmpty() && this.commentText.isEmpty();
     }
 
     @Override

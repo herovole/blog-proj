@@ -2,7 +2,9 @@ package org.herovole.blogproj.domain.comment;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentBlackUnit {
 
@@ -24,6 +26,7 @@ public class CommentBlackUnit {
     }
 
     public boolean appliesTo(String text) {
+        if (text == null) return false;
         for (String word : words) {
             if (!text.toLowerCase().contains(word.toLowerCase())) return false;
         }

@@ -27,6 +27,9 @@ public interface CommentUnit {
 
     IntegerId getArticleId();
 
+    HandleName getHandleName();
+    CommentText getCommentText();
+
     boolean hasSameCommentId(CommentUnit that);
 
     boolean hasSameContent(CommentUnit that);

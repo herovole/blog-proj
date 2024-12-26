@@ -49,6 +49,11 @@ public class RealSourceCommentUnit implements CommentUnit {
     }
 
     @Override
+    public HandleName getHandleName() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean hasSameCommentId(CommentUnit that) {
         if (that.isEmpty()) return false;
         return this.commentId.equals(((RealSourceCommentUnit) that).commentId);

@@ -10,5 +10,17 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class PostUserCommentOutput { }
+public class PostUserCommentOutput {
+    boolean isValid;
+
+    Json toJson() {
+        return new Json(isValid);
+    }
+
+    @RequiredArgsConstructor
+    record Json(
+            boolean isValid
+    ) {
+    }
+}
 

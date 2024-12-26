@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.comment.CommentBlackList;
 import org.herovole.blogproj.domain.comment.CommentBlackUnit;
 import org.herovole.blogproj.domain.comment.CommentText;
+import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentBlackListLocalFile implements CommentBlackList {
 
@@ -19,10 +22,18 @@ public class CommentBlackListLocalFile implements CommentBlackList {
 
     private final CommentBlackUnit[] blacklist;
 
-    public CommentBlackUnit detect(CommentText text) {
+    private CommentBlackUnit detect(String text) {
         for (CommentBlackUnit unit : blacklist) {
-            if (unit.appliesTo(text.memorySignature())) return unit;
+            if (unit.appliesTo(text)) return unit;
         }
         return CommentBlackUnit.empty();
+    }
+
+    public CommentBlackUnit detect(CommentText text) {
+        return this.detect(text.memorySignature());
+    }
+
+    public CommentBlackUnit detect(HandleName text) {
+        return this.detect(text.memorySignature());
     }
 }
