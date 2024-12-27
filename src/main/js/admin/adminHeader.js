@@ -33,6 +33,11 @@ export const AdminHeader = () => {
             </div>
             <div className="flex-container">
                 <span>
+                    <Link to="/articles">articles</Link>
+                    <NavLink style={({active}) => (active ? {color: 'red'} : undefined)}
+                             to="/articles">articles</NavLink>
+                </span>
+                <span>
                     <Link to="/articles/1">article_view 0</Link>
                     <NavLink style={({active}) => (active ? {color: 'red'} : undefined)}
                              to="/articles/1">article_view 0</NavLink>

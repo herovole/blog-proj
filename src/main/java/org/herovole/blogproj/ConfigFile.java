@@ -29,6 +29,7 @@ public class ConfigFile {
     private static final String CONFIG_KEY_IMAGES = "images";
     private static final String CONFIG_KEY_COMMENT_BLACKLIST = "comment_blacklist";
     private static final String CONFIG_KEY_G_RECAPTCHA_SECRET_KEY = "g_recaptcha_sercret_key";
+    private static final String CONFIG_KEY_DAILY_USER_ID_KEY0 = "daily_user_id_key0";
 
     private final Map<String, String> configs;
 
@@ -42,5 +43,9 @@ public class ConfigFile {
 
     String getGoogleReCaptchaSecretKey() {
         return this.configs.get(CONFIG_KEY_G_RECAPTCHA_SECRET_KEY);
+    }
+
+    String getDailyUserIdKey0() {
+        return this.configs.get(CONFIG_KEY_DAILY_USER_ID_KEY0);
     }
 }

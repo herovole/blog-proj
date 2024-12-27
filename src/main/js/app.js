@@ -13,6 +13,7 @@ import {AdminPageArticle} from './admin/adminPageArticle';
 import {AdminPageTopicTagList} from './admin/adminPageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
 import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
+import {PublicPageArticleList} from "./public/publicPageArticleList";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -47,6 +48,7 @@ function App() {
 
                 <Route path="/admin/topictags" element={<AdminPageTopicTagList/>}/> {}
 
+                <Route path="/articles" element={<PublicPageArticleList/>}/> {}
                 <Route path="/articles/:articleId" element={
                     <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
                         <PublicPageArticleView/>

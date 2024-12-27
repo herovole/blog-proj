@@ -52,29 +52,4 @@ public class ServletRequest {
     }
 
 
-    // Generate hash with specified length based on multiple keys
-    public static String generateHash(String[] keys, int length) throws NoSuchAlgorithmException {
-        // Step 1: Combine keys into a single string
-        StringBuilder combinedKeys = new StringBuilder();
-        for (String key : keys) {
-            combinedKeys.append(key);
-        }
-
-        // Step 2: Use SHA-256 to hash the combined string
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = digest.digest(combinedKeys.toString().getBytes(StandardCharsets.UTF_8));
-
-        // Step 3: Convert the hash bytes to a hex string
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hashBytes) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-
-        // Step 4: Truncate or adjust the hash to the specified length
-        String hash = hexString.toString();
-        return (length > 0 && length < hash.length()) ? hash.substring(0, length) : hash;
-    }
-
 }

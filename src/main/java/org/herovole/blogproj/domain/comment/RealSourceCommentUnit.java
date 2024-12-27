@@ -9,6 +9,7 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.user.DailyUserIdFactory;
 import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 @ToString
@@ -84,6 +85,11 @@ public class RealSourceCommentUnit implements CommentUnit {
 
     @Override
     public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) {
         throw new UnsupportedOperationException();
     }
 

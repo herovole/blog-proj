@@ -3,7 +3,10 @@ package org.herovole.blogproj.domain.comment;
 
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.user.DailyUserIdFactory;
 import org.herovole.blogproj.domain.user.PublicUserDatasource;
+
+import java.security.NoSuchAlgorithmException;
 
 public interface CommentUnit {
 
@@ -42,6 +45,8 @@ public interface CommentUnit {
     }
 
     CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource);
+
+    CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException;
 
     CommentUnit maskPrivateItems();
 }

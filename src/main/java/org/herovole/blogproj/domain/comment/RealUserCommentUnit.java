@@ -9,12 +9,16 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
+import org.herovole.blogproj.domain.user.DailyUserIdFactory;
 import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.domain.user.PublicUserDatasource;
 import org.herovole.blogproj.domain.user.PublicUserId;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+
+import java.security.NoSuchAlgorithmException;
 
 @ToString
 @Builder
@@ -130,6 +134,25 @@ public class RealUserCommentUnit implements CommentUnit {
         UniversallyUniqueId uuId = (UniversallyUniqueId) this.publicUserId;
         IntegerPublicUserId userId = publicUserDatasource.findIdByUuId(uuId);
         return this.appendPublicUserId(userId);
+    }
+
+    @Override
+    public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException {
+        return RealUserCommentUnit.builder()
+                .commentSerialNumber(this.commentSerialNumber)
+                .commentId(this.commentId)
+                .articleId(this.articleId)
+                .handleName(this.handleName)
+                .commentText(this.commentText)
+                .isHidden(this.isHidden)
+                .referringCommentIds(this.referringCommentIds)
+                .likes(this.likes)
+                .dislikes(this.dislikes)
+                .dailyUserId(algorithm.generate(this.ip, Date.today()))
+                .publicUserId(this.publicUserId)
+                .ip(this.ip)
+                .postTimestamp(this.postTimestamp)
+                .build();
     }
 
     @Override
