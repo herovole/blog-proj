@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.comment;
 
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 public interface CommentUnit {
 
@@ -28,6 +29,7 @@ public interface CommentUnit {
     IntegerId getArticleId();
 
     HandleName getHandleName();
+
     CommentText getCommentText();
 
     boolean hasSameCommentId(CommentUnit that);
@@ -38,4 +40,8 @@ public interface CommentUnit {
 
     interface Json {
     }
+
+    CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource);
+
+    CommentUnit maskPrivateItems();
 }

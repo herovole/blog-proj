@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class UniversallyUniqueId {
+public class UniversallyUniqueId implements PublicUserId {
 
     private static final Pattern FORMAT = Pattern.compile("[\\da-f]{8}-[\\da-f]{4}-[\\da-f]{4}-[\\da-f]{4}-[\\da-f]{12}");
 
@@ -41,5 +41,10 @@ public class UniversallyUniqueId {
 
     public String memorySignature() {
         return this.isEmpty() ? null : this.id;
+    }
+
+    @Override
+    public Long longMemorySignature() {
+        throw new UnsupportedOperationException();
     }
 }

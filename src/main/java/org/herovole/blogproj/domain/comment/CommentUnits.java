@@ -66,6 +66,10 @@ public class CommentUnits {
                 .toArray(CommentUnit[]::new));
     }
 
+    public CommentUnits maskPrivateItems() {
+        return CommentUnits.of(this.stream().map(CommentUnit::maskPrivateItems).toArray(CommentUnit[]::new));
+    }
+
     public CommentUnit.Json[] toJson() {
         return stream().map(CommentUnit::toJson).toArray(CommentUnit.Json[]::new);
     }

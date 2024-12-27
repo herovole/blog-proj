@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 
 @ToString
@@ -11,9 +13,13 @@ import org.herovole.blogproj.domain.IntegerId;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class FindArticleInput {
 
-    public static FindArticleInput of(int id) {
-        return new FindArticleInput(IntegerId.valueOf(id));
+    public static FindArticleInput of(int articleId, FormContent formContent) {
+        return new FindArticleInput(
+                IntegerId.valueOf(articleId),
+                GenericSwitch.fromFormContentIsPublished(formContent)
+        );
     }
 
     private final IntegerId articleId;
+    private final GenericSwitch isForPublic;
 }

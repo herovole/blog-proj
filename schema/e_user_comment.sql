@@ -3,7 +3,8 @@ CREATE TABLE e_user_comment (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   comment_id INT not null,
   article_id BIGINT not null,
-  comment_text TEXT,
+  handle_name VARCHAR(63) not null,
+  comment_text TEXT not null,
   is_hidden TINYINT(1) NOT NULL DEFAULT 0,
   referring_comment_ids VARCHAR(127),
 

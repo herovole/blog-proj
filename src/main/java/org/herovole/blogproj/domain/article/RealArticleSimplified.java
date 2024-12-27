@@ -66,6 +66,11 @@ public class RealArticleSimplified implements Article {
     }
 
     @Override
+    public Article maskPrivateItems() {
+        return this;
+    }
+
+    @Override
     public Json toJsonRecord() {
         return Json.builder()
                 .articleId(articleId.longMemorySignature())

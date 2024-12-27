@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -51,8 +51,8 @@ public class EPublicUser implements Serializable {
     @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
-    public IntegerId getUserId() {
-        return IntegerId.valueOf(id);
+    public IntegerPublicUserId getUserId() {
+        return IntegerPublicUserId.valueOf(id);
     }
 
     public Timestamp getBannedUntil() {

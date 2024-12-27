@@ -9,6 +9,7 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 @ToString
 @Builder
@@ -79,6 +80,16 @@ public class RealSourceCommentUnit implements CommentUnit {
                 this.isHidden.memorySignature(),
                 this.referringCommentIds.toIntMemorySignature()
         );
+    }
+
+    @Override
+    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommentUnit maskPrivateItems() {
+        return this;
     }
 
     record Json(

@@ -7,6 +7,7 @@ import org.herovole.blogproj.domain.comment.CommentBlackUnit;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
+import org.herovole.blogproj.domain.user.PublicUserDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,19 @@ public class PostUserComment {
     private final AppSessionFactory sessionFactory;
     private final UserCommentDatasource userCommentDatasource;
     private final UserCommentTransactionalDatasource userCommentTransactionalDatasource;
+    private final PublicUserDatasource publicUserDatasource;
     private final CommentBlackList commentBlackList;
 
     @Autowired
     public PostUserComment(AppSessionFactory sessionFactory,
                            @Qualifier("userCommentDatasource") UserCommentDatasource userCommentDatasource,
                            UserCommentTransactionalDatasource userCommentTransactionalDatasource,
+                           PublicUserDatasource publicUserDatasource,
                            CommentBlackList commentBlackList) {
         this.sessionFactory = sessionFactory;
         this.userCommentDatasource = userCommentDatasource;
         this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
+        this.publicUserDatasource = publicUserDatasource;
         this.commentBlackList = commentBlackList;
     }
 
@@ -43,11 +47,13 @@ public class PostUserComment {
         CommentBlackUnit detectionCommentText = commentBlackList.detect(comment.getCommentText());
         if (!detectionHandleName.isEmpty() || !detectionCommentText.isEmpty()) {
             logger.info("caught to black list pattern(s) : {}, {}", detectionHandleName, detectionCommentText);
-            return PostUserCommentOutput.builder().isValid(false).build();
+            return PostUserCommentOutput.of(false);
         }
 
-        logger.info("insert user comment : {}", comment);
-        this.userCommentTransactionalDatasource.insert(comment);
+        CommentUnit comment1 = comment.convertUuIdToIntegerId(this.publicUserDatasource);
+
+        logger.info("insert user comment : {}", comment1);
+        this.userCommentTransactionalDatasource.insert(comment1);
         logger.info("total transaction number : {}", userCommentTransactionalDatasource.amountOfCachedTransactions());
 
         try (AppSession session = sessionFactory.createSession()) {
@@ -57,7 +63,7 @@ public class PostUserComment {
         }
         logger.info("job successful.");
 
-        return PostUserCommentOutput.builder().isValid(true).build();
+        return PostUserCommentOutput.of(true);
 
     }
 }

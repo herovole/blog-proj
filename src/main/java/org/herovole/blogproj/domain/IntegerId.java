@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class IntegerId implements Comparable<IntegerId> {
 
     private static final String EMPTY = "-";
@@ -48,7 +48,7 @@ public class IntegerId implements Comparable<IntegerId> {
         return new IntegerId(null);
     }
 
-    private final Long id;
+    protected final Long id;
 
     public boolean isEmpty() {
         return null == id;

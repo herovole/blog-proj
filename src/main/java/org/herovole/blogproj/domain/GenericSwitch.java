@@ -19,7 +19,7 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
     private static final String API_KEY_IS_HIDDEN = "isHidden";
     private static final String API_KEY_IS_DETAILED = "isDetailed";
 
-    public static GenericSwitch fromPostContentIsPublished(FormContent formContent) {
+    public static GenericSwitch fromFormContentIsPublished(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_PUBLISHED);
         return valueOf(child.getValue());
     }

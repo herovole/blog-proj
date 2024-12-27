@@ -7,11 +7,9 @@ import org.herovole.blogproj.domain.comment.CommentBlackUnit;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentBlackListLocalFile implements CommentBlackList {
 

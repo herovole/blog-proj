@@ -31,7 +31,7 @@ public class RealArticle implements Article {
                 .text(ArticleText.fromPostContent(children))
                 .image(ImageName.fromPostContentImageName(children))
                 .sourcePage(SourcePage.fromPostContent(children))
-                .isPublished(GenericSwitch.fromPostContentIsPublished(children))
+                .isPublished(GenericSwitch.fromFormContentIsPublished(children))
                 .countries(CountryCodes.fromPostContent(children))
                 .topicTags(IntegerIds.fromPostContentTopicTags(children))
                 .editors(IntegerIds.fromPostContentEditors(children))
@@ -95,6 +95,25 @@ public class RealArticle implements Article {
                           int countSourceComments,
                           int countUserComments) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Article maskPrivateItems() {
+        return builder()
+                .articleId(this.articleId)
+                .title(this.title)
+                .text(this.text)
+                .image(this.image)
+                .sourcePage(this.sourcePage)
+                .isPublished(this.isPublished)
+                .countries(this.countries)
+                .topicTags(this.topicTags)
+                .editors(this.editors)
+                .originalComments(this.originalComments)
+                .userComments(this.userComments.maskPrivateItems())
+                .registrationTimestamp(this.registrationTimestamp)
+                .latestEditTimestamp(this.latestEditTimestamp)
+                .build();
     }
 
     @Override

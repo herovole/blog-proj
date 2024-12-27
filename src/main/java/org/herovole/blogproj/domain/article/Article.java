@@ -39,6 +39,7 @@ public interface Article {
             IntegerIds editors,
             int countSourceComments, int countUserComments);
 
+    Article maskPrivateItems();
 
     Json toJsonRecord();
 

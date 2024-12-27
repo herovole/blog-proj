@@ -1,7 +1,7 @@
 package org.herovole.blogproj.infra.datasource;
 
-import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.domain.user.PublicUserDatasource;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 import org.herovole.blogproj.infra.jpa.entity.EPublicUser;
@@ -19,10 +19,10 @@ public class PublicUserDatasourceMySql implements PublicUserDatasource {
     }
 
     @Override
-    public IntegerId findIdByUuId(UniversallyUniqueId uuId) {
+    public IntegerPublicUserId findIdByUuId(UniversallyUniqueId uuId) {
         if (uuId.isEmpty()) throw new IllegalArgumentException(uuId.memorySignature());
         EPublicUser ePublicUser = ePublicUserRepository.findByUuId(uuId.memorySignature());
-        return ePublicUser == null ? IntegerId.empty() : ePublicUser.getUserId();
+        return ePublicUser == null ? IntegerPublicUserId.empty() : ePublicUser.getUserId();
     }
 
     @Override

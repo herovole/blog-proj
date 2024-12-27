@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.comment;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 @ToString
 @EqualsAndHashCode
@@ -23,6 +24,16 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
+    public HandleName getHandleName() {
+        return HandleName.empty();
+    }
+
+    @Override
+    public CommentText getCommentText() {
+        return CommentText.empty();
+    }
+
+    @Override
     public boolean hasSameCommentId(CommentUnit that) {
         return false;
     }
@@ -35,5 +46,15 @@ public class EmptyCommentUnit implements CommentUnit {
     @Override
     public Json toJson() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommentUnit maskPrivateItems() {
+        return this;
     }
 }

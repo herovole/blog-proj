@@ -9,13 +9,16 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -43,6 +46,8 @@ public class EUserComment implements Serializable {
     @Column(name = "article_id")
     private long articleId;
 
+    @Column(name = "handle_name")
+    private String handleName;
     @Column(name = "comment_text")
     private String commentText;
 
@@ -103,13 +108,14 @@ public class EUserComment implements Serializable {
         if (commentUnit.isEmpty()) throw new EmptyRecordException();
         RealUserCommentUnit commentUnit1 = (RealUserCommentUnit) commentUnit;
         EUserComment userComment = new EUserComment();
+        userComment.setHandleName(commentUnit1.getHandleName().memorySignature());
         userComment.setCommentText(commentUnit1.getCommentText().memorySignature());
         userComment.setHidden(commentUnit1.getIsHidden().memorySignature());
         userComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
         userComment.setLikes(commentUnit1.getLikes());
         userComment.setDislikes(commentUnit1.getDislikes());
         userComment.setDailyUserId(commentUnit1.getDailyUserId().memorySignature());
-        //userComment.setUserId(commentUnit1.getUuId().letterSignature())
+        userComment.setUserId(commentUnit1.getPublicUserId().longMemorySignature());
         userComment.setAton(commentUnit1.getIp().aton());
         return userComment;
     }
@@ -123,12 +129,16 @@ public class EUserComment implements Serializable {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(IntegerId.valueOf(id))
                 .commentId(IntegerId.valueOf(commentId))
+                .articleId(IntegerId.valueOf(articleId))
+                .handleName(HandleName.valueOf(handleName))
                 .commentText(CommentText.valueOf(commentText))
                 .isHidden(GenericSwitch.valueOf(isHidden))
                 .referringCommentIds(IntegerIds.of(referringCommentIds))
                 .likes(likes)
                 .dislikes(dislikes)
                 .dailyUserId(DailyUserId.valueOf(dailyUserId))
+                .publicUserId(IntegerPublicUserId.valueOf(userId))
+                .ip(IPv4Address.valueOf(aton))
                 .postTimestamp(Timestamp.valueOf(insertTimestamp))
                 .build();
     }

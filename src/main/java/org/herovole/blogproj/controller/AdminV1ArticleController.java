@@ -89,11 +89,13 @@ public class AdminV1ArticleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> findArticle(
-            @PathVariable int id) {
+            @PathVariable int id,
+            @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) {}", id);
 
         try {
-            FindArticleInput input = FindArticleInput.of(id);
+            FormContent formContent = FormContent.of(request);
+            FindArticleInput input = FindArticleInput.of(id, formContent);
             FindArticleOutput output = this.findArticle.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
         } catch (DomainInstanceGenerationException e) {

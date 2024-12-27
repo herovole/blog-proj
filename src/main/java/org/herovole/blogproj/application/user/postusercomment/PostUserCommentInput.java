@@ -80,7 +80,7 @@ public class PostUserCommentInput {
                 .likes(0)
                 .dislikes(0)
                 .dailyUserId(DailyUserId.empty())
-                .uuId(uuId)
+                .publicUserId(uuId)
                 .ip(iPv4Address)
                 .postTimestamp(Timestamp.now())
                 .build();

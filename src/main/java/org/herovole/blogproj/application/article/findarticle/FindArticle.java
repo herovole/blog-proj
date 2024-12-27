@@ -27,6 +27,10 @@ public class FindArticle {
         Article article = articleDatasource.findById(articleId);
         logger.info("job successful.");
 
+        if (input.getIsForPublic().isTrue()) {
+            article = article.maskPrivateItems();
+        }
+
         return new FindArticleOutput(article);
     }
 }

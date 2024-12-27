@@ -11,6 +11,9 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.user.PublicUserDatasource;
+import org.herovole.blogproj.domain.user.PublicUserId;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
@@ -47,7 +50,7 @@ public class RealUserCommentUnit implements CommentUnit {
     private final int likes;
     private final int dislikes;
     private final DailyUserId dailyUserId;
-    private final UniversallyUniqueId uuId;
+    private final PublicUserId publicUserId;
     private final IPv4Address ip;
     private final Timestamp postTimestamp;
 
@@ -101,6 +104,51 @@ public class RealUserCommentUnit implements CommentUnit {
             String dailyUserId,
             String postTimestamp
     ) implements CommentUnit.Json {
+    }
+
+    private CommentUnit appendPublicUserId(PublicUserId publicUserId) {
+        return RealUserCommentUnit.builder()
+                .commentSerialNumber(this.commentSerialNumber)
+                .commentId(this.commentId)
+                .articleId(this.articleId)
+                .handleName(this.handleName)
+                .commentText(this.commentText)
+                .isHidden(this.isHidden)
+                .referringCommentIds(this.referringCommentIds)
+                .likes(this.likes)
+                .dislikes(this.dislikes)
+                .dailyUserId(this.dailyUserId)
+                .publicUserId(publicUserId)
+                .ip(this.ip)
+                .postTimestamp(this.postTimestamp)
+                .build();
+    }
+
+    @Override
+    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
+        if (this.publicUserId instanceof IntegerPublicUserId) return this;
+        UniversallyUniqueId uuId = (UniversallyUniqueId) this.publicUserId;
+        IntegerPublicUserId userId = publicUserDatasource.findIdByUuId(uuId);
+        return this.appendPublicUserId(userId);
+    }
+
+    @Override
+    public CommentUnit maskPrivateItems() {
+        return RealUserCommentUnit.builder()
+                .commentSerialNumber(this.commentSerialNumber)
+                .commentId(this.commentId)
+                .articleId(this.articleId)
+                .handleName(this.handleName)
+                .commentText(this.commentText)
+                .isHidden(this.isHidden)
+                .referringCommentIds(this.referringCommentIds)
+                .likes(this.likes)
+                .dislikes(this.dislikes)
+                .dailyUserId(this.dailyUserId)
+                .publicUserId(IntegerPublicUserId.empty())
+                .ip(IPv4Address.empty())
+                .postTimestamp(this.postTimestamp)
+                .build();
     }
 
 }
