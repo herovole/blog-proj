@@ -4,10 +4,10 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {SearchArticlesInput} from "./searchArticlesInput"
-import {SearchArticlesOutput} from "./searchArticlesOutput"
+import {SearchArticlesInput} from "../../../domain/articlelist/searchArticlesInput";
+import {SearchArticlesOutput} from "../../../domain/articlelist/searchArticlesOutput";
 
-export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
+export const PublicArticleListBody = ({formKey, directoryToIndividualPage}) => {
     const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const LETTERS_PICKUP = 50;
     //const PAGES_VISIBLE = 15;
@@ -153,17 +153,14 @@ export const ArticleListBody = ({formKey, directoryToIndividualPage}) => {
                     <div>
                         <button onClick={() => goToIndividualPage(article.articleId)}>Open</button>
                         <p>ID : {article.articleId}</p>
-                        <p>Is Published : {article.isPublished}</p>
                         <p>Title : {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}</p>
                         <p>Text : {article.text ? article.text.slice(0, LETTERS_PICKUP) : ""}</p>
-                        <p>Editors : {article.editors}</p>
                         <p>Source URL : {article.sourceUrl}</p>
                         <p>Source Title : {article.sourceTitle}</p>
                         <p>Source Date : {article.sourceDate}</p>
                         <p>Source Comments Number : {article.countOriginalComments}</p>
                         <p>User Comments Number : {article.countUserComments}</p>
                         <p>Insert Date : {article.registrationTimestamp}</p>
-                        <p>Update Date : {article.latestEditTimestamp}</p>
                     </div>
                 </div>
             ))}

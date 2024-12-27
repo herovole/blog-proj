@@ -4,7 +4,7 @@ import {TopicTagListBody} from "./fragment/tag/topicTagListBody"
 import {ElementId} from "../domain/elementId"
 import {AdminHeader} from "./adminHeader";
 
-export const PageTopicTagList = () => {
+export const AdminPageTopicTagList = () => {
 
     return (
         <div>

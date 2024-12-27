@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnitList} from "./fragment/atomic/tagselectingform/tagUnitList";
-import {ArticleEditingPageBody} from "./fragment/articleeditingpage/articleEditingPageBody";
+import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
+import {Article} from "../domain/article";
 import {ElementId} from "../domain/elementId";
 import {AdminHeader} from "./adminHeader";
 
-export const PageNewArticle = () => {
+export const AdminPageArticle = () => {
+    const {articleId} = useParams();
     const [topicTagsOptions, setTopicTagsOptions] = useState(null);
     const [countryTagsOptions, setCountryTagsOptions] = useState(null);
+    const [article, setArticle] = useState(null);
 
     useEffect(() => {
         const fetchTagsOptions = async () => {
@@ -31,23 +35,37 @@ export const PageNewArticle = () => {
                 });
                 const countryUnitList = TagUnitList.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
+
+                const articleResponse = await axios.get("/api/v1/articles/" + articleId, {
+                    headers: {Accept: "application/json"},
+                });
+                const article = Article.fromHash(articleResponse.data);
+                setArticle(article);
+                console.log(JSON.stringify(articleResponse.data));
+                console.log(JSON.stringify(article));
+
             } catch (error) {
                 console.error("error : ", error);
             }
         };
+        console.log("pageArticle");
         fetchTagsOptions();
 
     }, []);
 
-    return (
-        <div>
-            <AdminHeader/>
-            <ArticleEditingPageBody
-                postKey={new ElementId("articleEditingPage")}
-                content={null}
-                topicTagOptions={topicTagsOptions}
-                countryTagOptions={countryTagsOptions}
-            />
-        </div>
-    );
+    if (article) {
+        return (
+            <div>
+                <AdminHeader/>
+                <AdminArticleBody
+                    postKey={new ElementId("articleEditingPage")}
+                    content={article}
+                    topicTagOptions={topicTagsOptions}
+                    countryTagOptions={countryTagsOptions}
+                />
+            </div>
+        );
+    } else {
+        return <div>Loading...</div>
+    }
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
 import axios from "axios";
 
-export const UserCommentForm = ({postKey, articleId, functionToRerenderParent}) => {
+export const PublicUserCommentForm = ({postKey, articleId, functionToRerenderParent}) => {
     const [refresh, setRefresh] = React.useState(false);
     const [token, setToken] = React.useState(null);
     const {executeRecaptcha} = useGoogleReCaptcha();

@@ -1,7 +1,7 @@
 import React from 'react';
-import {UserCommentViewerUnit} from './userCommentViewerUnit'
+import {PublicUserCommentViewerUnit} from './publicUserCommentViewerUnit'
 
-export const UserCommentViewer = ({postKey, commentUnitList}) => {
+export const PublicUserCommentViewer = ({postKey, commentUnitList}) => {
 
     return (
         <div>
@@ -12,7 +12,7 @@ export const UserCommentViewer = ({postKey, commentUnitList}) => {
                         {[...Array(depth)].map((_, j) => (
                             <span key={j} className="left-space"/>
                         ))}
-                        <UserCommentViewerUnit
+                        <PublicUserCommentViewerUnit
                             postKey={postKey.append(i.toString())}
                             content={commentUnit}
                         />

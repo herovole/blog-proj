@@ -5,7 +5,7 @@ import {BooleanSelectingForm} from '../../atomic/booleanSelectingForm';
 import {TagSelectingForm} from '../../atomic/tagselectingform/tagSelectingForm';
 import {TagUnitList} from '../../atomic/tagselectingform/tagUnitList';
 
-export class CommentEditorUnit extends React.Component {
+export class AdminCommentEditorUnit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

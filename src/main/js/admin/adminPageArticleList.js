@@ -1,18 +1,18 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {ArticleListBody} from "./fragment/articleList/articleListBody"
+import {AdminArticleListBody} from "./fragment/articlelist/adminArticleListBody"
 import {ElementId} from "../domain/elementId"
 import {AdminHeader} from "./adminHeader";
 
-export const PageArticleList = () => {
+export const AdminPageArticleList = () => {
 
     const {articleId} = useParams();
 
     return (
         <div>
             <AdminHeader/>
-            <ArticleListBody
+            <AdminArticleListBody
                 formKey={new ElementId("articleList")}
                 directoryToIndividualPage={"/admin/articles"}
             />

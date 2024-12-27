@@ -1,4 +1,4 @@
-import {PageArticleView} from "./public/pageArticleView";
+import {PublicPageArticleView} from "./public/publicPageArticleView";
 import {Route, Routes} from "react-router-dom"; // 追加
 import {Home} from "./home";
 import {About} from "./about";
@@ -8,11 +8,11 @@ import {Footer} from "./footer";
 
 import {AdminEntrance} from './admin/adminEntrance';
 import {Sandbox} from './admin/sandbox';
-import {PageArticleList} from './admin/pageArticleList';
-import {PageArticle} from './admin/pageArticle';
-import {PageTopicTagList} from './admin/pageTopicTagList';
+import {AdminPageArticleList} from './admin/adminPageArticleList';
+import {AdminPageArticle} from './admin/adminPageArticle';
+import {AdminPageTopicTagList} from './admin/adminPageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
-import {PageNewArticle} from "./admin/pageNewArticle";
+import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -41,15 +41,15 @@ function App() {
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}
 
 
-                <Route path="/admin/articles" element={<PageArticleList/>}/> {}
-                <Route path="/admin/articles/:articleId" element={<PageArticle/>}/> {}
-                <Route path="/admin/articles/new" element={<PageNewArticle/>}/> {}
+                <Route path="/admin/articles" element={<AdminPageArticleList/>}/> {}
+                <Route path="/admin/articles/:articleId" element={<AdminPageArticle/>}/> {}
+                <Route path="/admin/articles/new" element={<AdminPageNewArticle/>}/> {}
 
-                <Route path="/admin/topictags" element={<PageTopicTagList/>}/> {}
+                <Route path="/admin/topictags" element={<AdminPageTopicTagList/>}/> {}
 
                 <Route path="/articles/:articleId" element={
                     <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                        <PageArticleView/>
+                        <PublicPageArticleView/>
                     </GoogleReCaptchaProvider>
                 }/> {}
 

@@ -3,12 +3,12 @@ import axios from 'axios';
 import {DateSelectingForm} from './fragment/atomic/dateSelectingForm';
 import {TagSelectingForm} from './fragment/atomic/tagselectingform/tagSelectingForm';
 import {TagUnitList} from './fragment/atomic/tagselectingform/tagUnitList';
-import {ArticleEditingPageBody} from './fragment/articleeditingpage/articleEditingPageBody';
+import {AdminArticleBody} from './fragment/articleeditingpage/adminArticleBody';
 import {ElementId} from '../domain/elementId';
-import {CommentUnitList} from '../domain/commentUnitList';
+import {CommentUnitList} from '../domain/comment/commentUnitList';
 import {ImageSelectingModal} from './fragment/image/imageSelectingModal';
-import {ArticleListBody} from './fragment/articlelist/articleListBody';
-import {SourceCommentUnit} from "../domain/sourceCommentUnit";
+import {AdminArticleListBody} from './fragment/articlelist/adminArticleListBody';
+import {SourceCommentUnit} from "../domain/comment/sourceCommentUnit";
 import {Article} from "../domain/article";
 
 console.log("sandbox.js");
@@ -144,7 +144,7 @@ export const Sandbox = () => {
         </div>
         <div>
             test2: ArticleListBody
-            <ArticleListBody formKey={new ElementId("articleList")}/>
+            <AdminArticleListBody formKey={new ElementId("articleList")}/>
         </div>
         <div>
             test3:
@@ -166,7 +166,7 @@ export const Sandbox = () => {
         </div>
         <div>
             test6:
-            <ArticleEditingPageBody
+            <AdminArticleBody
                 postKey={new ElementId("articleEditingPage")}
                 content={testArticle}
                 topicTagOptions={topicTagsOptions}

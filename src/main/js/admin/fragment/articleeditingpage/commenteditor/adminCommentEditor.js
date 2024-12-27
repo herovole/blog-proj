@@ -1,7 +1,7 @@
 import React from 'react';
-import {CommentEditorUnit} from './commentEditorUnit'
+import {AdminCommentEditorUnit} from './adminCommentEditorUnit'
 
-export class CommentEditor extends React.Component {
+export class AdminCommentEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +37,7 @@ export class CommentEditor extends React.Component {
                                 {[...Array(depth)].map((_, j) => (
                                     <span key={j} className="left-space"/>
                                 ))}
-                                <CommentEditorUnit
+                                <AdminCommentEditorUnit
                                     postKey={this.props.postKey.append(i.toString())}
                                     countryTagOptions={this.props.countryTagOptions}
                                     content={commentUnit}
@@ -47,7 +47,7 @@ export class CommentEditor extends React.Component {
                     })}
 
                     {Array.from({length: this.state.countAddedComments}).map((_, index) => (
-                        <CommentEditorUnit
+                        <AdminCommentEditorUnit
                             postKey={this.props.postKey.append((elementNumber + index).toString())}
                             countryTagOptions={this.props.countryTagOptions}
                             content=""

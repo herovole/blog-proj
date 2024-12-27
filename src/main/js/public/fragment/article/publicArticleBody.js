@@ -1,18 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import {TagSelectingForm} from "../../../admin/fragment/atomic/tagselectingform/tagSelectingForm";
-import {CommentEditor} from "../../../admin/fragment/articleeditingpage/commenteditor/commentEditor";
-import {UserCommentForm} from "./usercomment/userCommentForm";
+import {AdminCommentEditor} from "../../../admin/fragment/articleeditingpage/commenteditor/adminCommentEditor";
+import {PublicUserCommentForm} from "./usercomment/publicUserCommentForm";
 import {IdsEditingForm} from "../../../admin/fragment/atomic/idsEditingForm";
 import {ImageSelectingModal} from "../../../admin/fragment/image/imageSelectingModal";
-import {UserCommentViewer} from "./usercomment/userCommentViewer";
+import {PublicUserCommentViewer} from "./usercomment/publicUserCommentViewer";
 import {TagUnitList} from "../../../admin/fragment/atomic/tagselectingform/tagUnitList";
 
 //  postKey : ElementId
 //  article : Article
 //  topicTagOptions, : TagUnitList
 //  countryTagOptions : TagUnitList
-export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
+export const PublicArticleBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
     const [refresh, setRefresh] = React.useState(false);
 
     const handleSubmit = async (event) => {
@@ -95,20 +95,20 @@ export const ArticleViewBody = ({postKey, article, topicTagOptions, countryTagOp
                 </div>
                 <div>
                     <p className="item-title-large">Original Comments</p>
-                    <CommentEditor
+                    <AdminCommentEditor
                         postKey={postKey.append("originalComments")}
                         content={article.originalComments}
                         countryTagOptions={countryTagOptions}
                     />
                 </div>
                 <div>
-                    <UserCommentViewer
+                    <PublicUserCommentViewer
                         postKey={postKey.append("userComments")}
                         commentUnitList={article.userComments}
                     />
                 </div>
                 <div>
-                    <UserCommentForm
+                    <PublicUserCommentForm
                         postKey={postKey.append("userCommentForm")}
                         articleId={article.articleId}
                         functionToRerenderParent={reRender}

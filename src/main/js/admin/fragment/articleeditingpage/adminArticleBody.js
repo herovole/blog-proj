@@ -6,11 +6,11 @@ import {TextEditingForm} from '../atomic/textEditingForm';
 import {ImageSelectingModal} from '../image/imageSelectingModal';
 import {DateSelectingForm} from '../atomic/dateSelectingForm';
 import {BooleanSelectingForm} from '../atomic/booleanSelectingForm';
-import {CommentEditor} from './commentEditor/commentEditor';
+import {AdminCommentEditor} from './commenteditor/adminCommentEditor';
 import {TagSelectingForm} from '../atomic/tagselectingform/tagSelectingForm';
 import {TagUnitList} from '../atomic/tagselectingform/tagUnitList';
 
-export class ArticleEditingPageBody extends React.Component {
+export class AdminArticleBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -139,7 +139,7 @@ export class ArticleEditingPageBody extends React.Component {
                         </div>
                         <div>
                             <p className="item-title-large">Original Comments</p>
-                            <CommentEditor
+                            <AdminCommentEditor
                                 postKey={this.props.postKey.append("originalComments")}
                                 content={this.props.content.originalComments}
                                 countryTagOptions={this.props.countryTagOptions}

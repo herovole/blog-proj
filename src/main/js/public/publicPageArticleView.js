@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {TagUnitList} from "./fragment/atomic/tagselectingform/tagUnitList";
-import {ArticleEditingPageBody} from "./fragment/articleeditingpage/articleEditingPageBody";
 import {Article} from "../domain/article";
 import {ElementId} from "../domain/elementId";
-import {AdminHeader} from "./adminHeader";
+import {PublicArticleBody} from "./fragment/article/publicArticleBody";
+import {TagUnitList} from "../admin/fragment/atomic/tagselectingform/tagUnitList";
 
-export const PageArticle = () => {
+export const PublicPageArticleView = () => {
     const {articleId} = useParams();
     const [topicTagsOptions, setTopicTagsOptions] = useState(null);
     const [countryTagsOptions, setCountryTagsOptions] = useState(null);
@@ -50,21 +49,15 @@ export const PageArticle = () => {
         };
         console.log("pageArticle");
         fetchTagsOptions();
-
     }, []);
 
     if (article) {
-        return (
-            <div>
-                <AdminHeader/>
-                <ArticleEditingPageBody
-                    postKey={new ElementId("articleEditingPage")}
-                    content={article}
-                    topicTagOptions={topicTagsOptions}
-                    countryTagOptions={countryTagsOptions}
-                />
-            </div>
-        );
+        return <PublicArticleBody
+            postKey={new ElementId("article")}
+            article={article}
+            topicTagOptions={topicTagsOptions}
+            countryTagOptions={countryTagsOptions}
+        />
     } else {
         return <div>Loading...</div>
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const UserCommentViewerUnit = ({postKey, content}) => {
+export const PublicUserCommentViewerUnit = ({postKey, content}) => {
 
     const handleReport = () => {
     }
