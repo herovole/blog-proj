@@ -27,14 +27,15 @@ import java.security.NoSuchAlgorithmException;
 public class RealUserCommentUnit implements CommentUnit {
 
     public static RealUserCommentUnit fromFormContent(FormContent formContent) {
+        CommentText commentText = CommentText.fromFormContentCommentText(formContent);
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(IntegerId.empty())
                 .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .articleId(IntegerId.fromFormContentArticleId(formContent))
                 .handleName(HandleName.fromFormContentHandleName(formContent))
-                .commentText(CommentText.fromFormContentCommentText(formContent))
+                .commentText(commentText)
                 .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
-                .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
+                .referringCommentIds(commentText.scanReferringCommentIds())
                 .build();
     }
 

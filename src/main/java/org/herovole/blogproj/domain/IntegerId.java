@@ -39,6 +39,10 @@ public class IntegerId implements Comparable<IntegerId> {
         return new IntegerId(field);
     }
 
+    public static IntegerId valueOf(int field) {
+        return valueOf(Long.valueOf(field));
+    }
+
     public static IntegerId valueOf(String field) {
         if (null == field || field.isEmpty() || EMPTY.equals(field)) return empty();
         return new IntegerId(Long.parseLong(field, 10));

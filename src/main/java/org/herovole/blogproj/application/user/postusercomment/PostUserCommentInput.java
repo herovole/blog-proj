@@ -8,7 +8,6 @@ import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.HandleName;
@@ -76,7 +75,7 @@ public class PostUserCommentInput {
                 .handleName(handleName)
                 .commentText(commentText)
                 .isHidden(GenericSwitch.negative())
-                .referringCommentIds(IntegerIds.empty())
+                .referringCommentIds(commentText.scanReferringCommentIds())
                 .likes(0)
                 .dislikes(0)
                 .dailyUserId(DailyUserId.empty())

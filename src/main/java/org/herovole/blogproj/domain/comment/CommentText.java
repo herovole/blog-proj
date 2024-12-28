@@ -5,6 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.IntegerIds;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @ToString
 @EqualsAndHashCode
@@ -13,6 +19,9 @@ public class CommentText {
 
     private static final String API_KEY_COMMENT_TEXT = "text";
     private static final String EMPTY = "-";
+
+    private static final Pattern REFERRING_FORMAT1 = Pattern.compile("[※米]\\d+");
+    private static final Pattern REFERRING_FORMAT2 = Pattern.compile("(>>|＞＞)[\\d０-９]+");
 
     public static CommentText fromFormContentCommentText(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_TEXT);
@@ -39,6 +48,21 @@ public class CommentText {
 
     public String memorySignature() {
         return this.isEmpty() ? "" : this.text;
+    }
+
+    public IntegerIds scanReferringCommentIds() {
+        List<String> referredNumbers = new ArrayList<>();
+        Matcher matcher1 = REFERRING_FORMAT1.matcher(this.text);
+        while (matcher1.find()) {
+            String match = matcher1.group();
+            referredNumbers.add(match.substring(1));
+        }
+        Matcher matcher2 = REFERRING_FORMAT2.matcher(this.text);
+        while (matcher2.find()) {
+            String match = matcher2.group();
+            referredNumbers.add(match.substring(2));
+        }
+        return IntegerIds.of(referredNumbers.toArray(String[]::new));
     }
 
 }

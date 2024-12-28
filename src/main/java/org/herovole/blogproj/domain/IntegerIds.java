@@ -40,6 +40,10 @@ public class IntegerIds implements Iterable<IntegerId> {
         return of(ids);
     }
 
+    public static IntegerIds of(int... ids) {
+        return of(Arrays.stream(ids).mapToObj(IntegerId::valueOf).toArray(IntegerId[]::new));
+    }
+
     public static IntegerIds of(String commaSeparatedIds) {
         if (commaSeparatedIds == null || commaSeparatedIds.isEmpty()) return empty();
         return of(commaSeparatedIds.split(SEP));
