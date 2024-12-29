@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
@@ -14,6 +15,7 @@ import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 @Builder
 public class CheckUserOutput {
 
+    private final IntegerPublicUserId userId;
     private final UniversallyUniqueId uuId;
     private final Timestamp timestampBannedUntil;
 

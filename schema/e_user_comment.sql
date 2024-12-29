@@ -8,9 +8,6 @@ CREATE TABLE e_user_comment (
   is_hidden TINYINT(1) NOT NULL DEFAULT 0,
   referring_comment_ids VARCHAR(127),
 
-  likes INT NOT NULL DEFAULT 0,
-  dislikes INT NOT NULL DEFAULT 0,
-
   daily_user_id CHAR(9),
   user_id BIGINT NOT NULL,
   aton BIGINT,

@@ -70,8 +70,8 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         List<ASourceComment> jpaSourceComments = aSourceCommentRepository.findByArticleId(articleId.longMemorySignature());
         CommentUnits sourceComments = CommentUnits.of(jpaSourceComments.stream().map(ASourceComment::toDomainObj).toArray(CommentUnit[]::new));
 
-        List<EUserComment> jpaUserComments = eUserCommentRepository.findByArticleId(articleId.longMemorySignature());
-        CommentUnits userComments = CommentUnits.of(jpaUserComments.stream().map(EUserComment::toDomainObj).toArray(CommentUnit[]::new));
+        List<EUserComment.EUserCommentWithRating> jpaUserComments = eUserCommentRepository.findByArticleId(articleId.longMemorySignature());
+        CommentUnits userComments = CommentUnits.of(jpaUserComments.stream().map(EUserComment.EUserCommentWithRating::toDomainObj).toArray(CommentUnit[]::new));
 
         return article.append(topicTags, coutryCodes, editors, sourceComments, userComments);
     }

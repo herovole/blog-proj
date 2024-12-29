@@ -23,12 +23,28 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "limit 1", nativeQuery = true)
     Integer findMaxCommentId(@Param("articleId") int articleId);
 
-    @Query(value = "Select * " +
-            "From e_user_comment " +
-            "Where " +
-            "  article_id = :articleId " +
-            "Order By comment_id", nativeQuery = true)
-    List<EUserComment> findByArticleId(@Param("articleId") long articleId);
+    @Query(value = "Select c.*, count(rn.id) as dislikes, count(rp.id) as likes " +
+            " From " +
+            "   e_user_comment c " +
+
+            " Left Join " +
+            "   e_user_comment_rating rn " +
+            " On " +
+            "   c.id = rn.comment_serial_number " +
+            " Left Join " +
+            "   e_user_comment_rating rp " +
+            " On " +
+            "   c.id = rp.comment_serial_number " +
+
+            " Where " +
+            "   c.article_id = :articleId " +
+            " And " +
+            "   rn.rating < 0 And rn.delete_flag = 0 " +
+            " And " +
+            "   rp.rating > 0 And rp.delete_flag = 0 " +
+            " Group By c.id " +
+            " Order By c.comment_id ", nativeQuery = true)
+    List<EUserComment.EUserCommentWithRating> findByArticleId(@Param("articleId") long articleId);
 
     @Query(value = "Select COUNT(*) From e_user_comment Where article_id = :articleId", nativeQuery = true)
     int countByArticleId(@Param("articleId") long articleId);

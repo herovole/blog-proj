@@ -4,7 +4,6 @@ package org.herovole.blogproj.domain.comment;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -39,14 +38,12 @@ public interface CommentUnit {
 
     boolean hasSameContent(CommentUnit that);
 
+    CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException;
+
+    CommentUnit maskPrivateItems();
+
     CommentUnit.Json toJson();
 
     interface Json {
     }
-
-    CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource);
-
-    CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException;
-
-    CommentUnit maskPrivateItems();
 }

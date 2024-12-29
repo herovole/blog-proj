@@ -57,12 +57,6 @@ public class EUserComment implements Serializable {
     @Column(name = "referring_comment_ids")
     private String referringCommentIds;
 
-    @Column(name = "likes")
-    private int likes;
-
-    @Column(name = "dislikes")
-    private int dislikes;
-
     @Column(name = "daily_user_id", columnDefinition = "CHAR")
     private String dailyUserId;
 
@@ -112,8 +106,6 @@ public class EUserComment implements Serializable {
         userComment.setCommentText(commentUnit1.getCommentText().memorySignature());
         userComment.setHidden(commentUnit1.getIsHidden().memorySignature());
         userComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
-        userComment.setLikes(commentUnit1.getLikes());
-        userComment.setDislikes(commentUnit1.getDislikes());
         userComment.setDailyUserId(commentUnit1.getDailyUserId().memorySignature());
         userComment.setUserId(commentUnit1.getPublicUserId().longMemorySignature());
         userComment.setAton(commentUnit1.getIp().aton());
@@ -134,12 +126,60 @@ public class EUserComment implements Serializable {
                 .commentText(CommentText.valueOf(commentText))
                 .isHidden(GenericSwitch.valueOf(isHidden))
                 .referringCommentIds(IntegerIds.of(referringCommentIds))
-                .likes(likes)
-                .dislikes(dislikes)
                 .dailyUserId(DailyUserId.valueOf(dailyUserId))
                 .publicUserId(IntegerPublicUserId.valueOf(userId))
                 .ip(IPv4Address.valueOf(aton))
                 .postTimestamp(Timestamp.valueOf(insertTimestamp))
                 .build();
+    }
+
+    public interface EUserCommentWithRating {
+        long getId();
+
+        int getCommentId();
+
+        long getArticleId();
+
+        String getHandleName();
+
+        String getCommentText();
+
+        boolean getIsHidden();
+
+        String getReferringCommentIds();
+
+        String getDailyUserId();
+
+        long getUserId();
+
+        long getAton();
+
+        LocalDateTime getUpdateTimestamp();
+
+        LocalDateTime getInsertTimestamp();
+
+        boolean getDeleteFlag();
+
+        int getLikes();
+
+        int getDisLikes();
+
+        default CommentUnit toDomainObj() {
+            return RealUserCommentUnit.builder()
+                    .commentSerialNumber(IntegerId.valueOf(this.getId()))
+                    .commentId(IntegerId.valueOf(this.getCommentId()))
+                    .articleId(IntegerId.valueOf(this.getArticleId()))
+                    .handleName(HandleName.valueOf(this.getHandleName()))
+                    .commentText(CommentText.valueOf(this.getCommentText()))
+                    .isHidden(GenericSwitch.valueOf(this.getIsHidden()))
+                    .referringCommentIds(IntegerIds.of(this.getReferringCommentIds()))
+                    .dailyUserId(DailyUserId.valueOf(this.getDailyUserId()))
+                    .publicUserId(IntegerPublicUserId.valueOf(this.getUserId()))
+                    .ip(IPv4Address.valueOf(this.getAton()))
+                    .postTimestamp(Timestamp.valueOf(this.getInsertTimestamp()))
+                    .likes(this.getLikes())
+                    .dislikes(this.getDisLikes())
+                    .build();
+        }
     }
 }

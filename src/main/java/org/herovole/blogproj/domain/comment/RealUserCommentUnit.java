@@ -14,9 +14,7 @@ import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
 import org.herovole.blogproj.domain.user.DailyUserIdFactory;
 import org.herovole.blogproj.domain.user.IntegerPublicUserId;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
 import org.herovole.blogproj.domain.user.PublicUserId;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -80,64 +78,6 @@ public class RealUserCommentUnit implements CommentUnit {
     }
 
     @Override
-    public CommentUnit.Json toJson() {
-        return new Json(
-                this.commentSerialNumber.longMemorySignature(),
-                this.commentId.intMemorySignature(),
-                this.articleId.intMemorySignature(),
-                this.handleName.memorySignature(),
-                this.commentText.memorySignature(),
-                this.isHidden.memorySignature(),
-                this.referringCommentIds.toIntMemorySignature(),
-                this.likes,
-                this.dislikes,
-                this.dailyUserId.memorySignature(),
-                this.postTimestamp.letterSignatureFrontendDisplay()
-        );
-    }
-
-    record Json(
-            long commentSerialNumber,
-            Integer commentId,
-            Integer articleId,
-            String handleName,
-            String commentText,
-            boolean isHidden,
-            int[] referringCommentIds,
-            int likes,
-            int dislikes,
-            String dailyUserId,
-            String postTimestamp
-    ) implements CommentUnit.Json {
-    }
-
-    private CommentUnit appendPublicUserId(PublicUserId publicUserId) {
-        return RealUserCommentUnit.builder()
-                .commentSerialNumber(this.commentSerialNumber)
-                .commentId(this.commentId)
-                .articleId(this.articleId)
-                .handleName(this.handleName)
-                .commentText(this.commentText)
-                .isHidden(this.isHidden)
-                .referringCommentIds(this.referringCommentIds)
-                .likes(this.likes)
-                .dislikes(this.dislikes)
-                .dailyUserId(this.dailyUserId)
-                .publicUserId(publicUserId)
-                .ip(this.ip)
-                .postTimestamp(this.postTimestamp)
-                .build();
-    }
-
-    @Override
-    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
-        if (this.publicUserId instanceof IntegerPublicUserId) return this;
-        UniversallyUniqueId uuId = (UniversallyUniqueId) this.publicUserId;
-        IntegerPublicUserId userId = publicUserDatasource.findIdByUuId(uuId);
-        return this.appendPublicUserId(userId);
-    }
-
-    @Override
     public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(this.commentSerialNumber)
@@ -175,4 +115,35 @@ public class RealUserCommentUnit implements CommentUnit {
                 .build();
     }
 
+    @Override
+    public CommentUnit.Json toJson() {
+        return new Json(
+                this.commentSerialNumber.longMemorySignature(),
+                this.commentId.intMemorySignature(),
+                this.articleId.intMemorySignature(),
+                this.handleName.memorySignature(),
+                this.commentText.memorySignature(),
+                this.isHidden.memorySignature(),
+                this.referringCommentIds.toIntMemorySignature(),
+                this.likes,
+                this.dislikes,
+                this.dailyUserId.memorySignature(),
+                this.postTimestamp.letterSignatureFrontendDisplay()
+        );
+    }
+
+    record Json(
+            long commentSerialNumber,
+            Integer commentId,
+            Integer articleId,
+            String handleName,
+            String commentText,
+            boolean isHidden,
+            int[] referringCommentIds,
+            int likes,
+            int dislikes,
+            String dailyUserId,
+            String postTimestamp
+    ) implements CommentUnit.Json {
+    }
 }

@@ -5,6 +5,7 @@ import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.domain.user.PublicIpDatasource;
 import org.herovole.blogproj.domain.user.PublicUserDatasource;
 import org.herovole.blogproj.domain.user.PublicUserTransactionalDatasource;
@@ -54,12 +55,12 @@ public class CheckUser {
         // If the user hasn't been registered, register his info.
         if (uuId.isEmpty() || userId.isEmpty()) {
             uuId = UniversallyUniqueId.generate();
-            publicUserTransactionalDatasource.insert(uuId);
+            this.publicUserTransactionalDatasource.insert(uuId);
             logger.info("new UUID has been issued : {}", uuId);
 
             // If the user has been registered, check whether he is banned or not.
         } else {
-            Timestamp uuIdBannedUntil = publicUserDatasource.isBannedUntil(uuId);
+            Timestamp uuIdBannedUntil = this.publicUserDatasource.isBannedUntil(uuId);
             if (!uuIdBannedUntil.isEmpty() && Timestamp.now().precedes(uuIdBannedUntil)) {
                 logger.info("This user {} is banned until {}",
                         uuId,
@@ -96,8 +97,11 @@ public class CheckUser {
             session.flushAndClear();
             session.commit();
         }
+
+        IntegerPublicUserId fixedUserId = this.publicUserDatasource.findIdByUuId(uuId);
         logger.info("job successful.");
         return CheckUserOutput.builder()
+                .userId(fixedUserId)
                 .uuId(uuId)
                 .timestampBannedUntil(Timestamp.empty())
                 .build();

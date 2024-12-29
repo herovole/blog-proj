@@ -36,9 +36,6 @@ public class EUserCommentReport implements Serializable {
     @Column(name = "aton")
     private long aton;
 
-    @Column(name = "classifications")
-    private String classifications;
-
     @Column(name = "report_text")
     private String reportText;
 

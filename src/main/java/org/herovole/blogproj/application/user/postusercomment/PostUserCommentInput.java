@@ -14,7 +14,7 @@ import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.user.DailyUserId;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 
 @ToString
 @Getter
@@ -23,7 +23,7 @@ public class PostUserCommentInput {
 
     public static class Builder {
         private IPv4Address iPv4Address;
-        private UniversallyUniqueId uuId;
+        private IntegerPublicUserId userId;
         private FormContent formContent;
 
         public Builder setiPv4Address(IPv4Address iPv4Address) {
@@ -31,8 +31,8 @@ public class PostUserCommentInput {
             return this;
         }
 
-        public Builder setUuId(UniversallyUniqueId uuId) {
-            this.uuId = uuId;
+        public Builder setUserId(IntegerPublicUserId userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -42,14 +42,14 @@ public class PostUserCommentInput {
         }
 
         public PostUserCommentInput build() {
-            if (iPv4Address == null || uuId == null || formContent == null) {
+            if (iPv4Address == null || userId == null || formContent == null) {
                 throw new IllegalStateException(PostUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
             FormContent children = formContent.getGrandchildren(API_KEY_PARENT_PREFIX, API_KEY_PREFIX);
             children.println("comment post (parse 2)");
             return new PostUserCommentInput(
                     iPv4Address,
-                    uuId,
+                    userId,
                     IntegerId.fromFormContentArticleId(children),
                     HandleName.fromFormContentHandleName(children),
                     CommentText.fromFormContentCommentText(children)
@@ -61,7 +61,7 @@ public class PostUserCommentInput {
     private static final String API_KEY_PREFIX = "userCommentForm";
 
     private final IPv4Address iPv4Address;
-    private final UniversallyUniqueId uuId;
+    private final IntegerPublicUserId userId;
 
     private final IntegerId articleId;
     private final HandleName handleName;
@@ -79,7 +79,7 @@ public class PostUserCommentInput {
                 .likes(0)
                 .dislikes(0)
                 .dailyUserId(DailyUserId.empty())
-                .publicUserId(uuId)
+                .publicUserId(userId)
                 .ip(iPv4Address)
                 .postTimestamp(Timestamp.now())
                 .build();

@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 @ToString
 @EqualsAndHashCode
@@ -49,10 +48,6 @@ public class EmptyCommentUnit implements CommentUnit {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) {

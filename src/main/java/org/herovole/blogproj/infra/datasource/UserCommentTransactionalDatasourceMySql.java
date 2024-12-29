@@ -5,8 +5,11 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
+import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.EUserComment;
+import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,8 +46,10 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
     }
 
     @Autowired
-    public UserCommentTransactionalDatasourceMySql(EUserCommentRepository eUserCommentRepository) {
-        super(eUserCommentRepository);
+    public UserCommentTransactionalDatasourceMySql(
+            EUserCommentRepository eUserCommentRepository,
+            EUserCommentRatingRepository eUserCommentRatingRepository) {
+        super(eUserCommentRepository, eUserCommentRatingRepository);
     }
 
     @Override
@@ -65,5 +70,19 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
         IntegerId commentId = this.incrementAndGetInArticleCommentId(commentUnit.getArticleId());
         EUserComment eUserComment = EUserComment.fromInsertDomainObj(commentId, commentUnit);
         cacheInsert.add(eUserComment);
+    }
+
+    @Override
+    public void insertRating(RatingLog ratingLog) {
+        if (ratingLog.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentRating eUserCommentRating = EUserCommentRating.fromDomainObjectInsert(ratingLog);
+        cacheInsert.add(eUserCommentRating);
+    }
+
+    @Override
+    public void updateRating(RatingLog before, RatingLog after) {
+        if (after.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentRating eUserCommentRating = EUserCommentRating.fromDomainObjectUpdate(before.getId(), after);
+        cacheUpdate.add(eUserCommentRating);
     }
 }

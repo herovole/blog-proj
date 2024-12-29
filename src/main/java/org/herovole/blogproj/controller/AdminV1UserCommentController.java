@@ -10,8 +10,6 @@ import org.herovole.blogproj.application.user.postusercomment.PostUserComment;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentInput;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentOutput;
 import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicity;
-import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicityInput;
-import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicityOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
@@ -94,7 +92,7 @@ public class AdminV1UserCommentController {
             formContent.println("comment post : ");
             PostUserCommentInput input = new PostUserCommentInput.Builder()
                     .setiPv4Address(servletRequest.getUserIp())
-                    .setUuId(checkUserOutput.getUuId())
+                    .setUserId(checkUserOutput.getUserId())
                     .setFormContent(formContent)
                     .build();
             PostUserCommentOutput output = this.postUserComment.process(input);

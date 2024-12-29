@@ -10,7 +10,6 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
 
 @ToString
 @Builder
@@ -71,6 +70,17 @@ public class RealSourceCommentUnit implements CommentUnit {
                 && this.referringCommentIds.equals(it.referringCommentIds);
     }
 
+
+    @Override
+    public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommentUnit maskPrivateItems() {
+        return this;
+    }
+
     @Override
     public CommentUnit.Json toJson() {
         return new Json(
@@ -81,21 +91,6 @@ public class RealSourceCommentUnit implements CommentUnit {
                 this.isHidden.memorySignature(),
                 this.referringCommentIds.toIntMemorySignature()
         );
-    }
-
-    @Override
-    public CommentUnit convertUuIdToIntegerId(PublicUserDatasource publicUserDatasource) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CommentUnit maskPrivateItems() {
-        return this;
     }
 
     record Json(

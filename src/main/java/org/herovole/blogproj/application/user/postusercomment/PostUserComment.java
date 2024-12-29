@@ -55,8 +55,7 @@ public class PostUserComment {
             return PostUserCommentOutput.of(false);
         }
 
-        CommentUnit comment1 = comment.convertUuIdToIntegerId(this.publicUserDatasource);
-        CommentUnit comment2 = comment1.appendDailyUserId(this.dailyUserIdFactory);
+        CommentUnit comment2 = comment.appendDailyUserId(this.dailyUserIdFactory);
 
         logger.info("insert user comment : {}", comment2);
         this.userCommentTransactionalDatasource.insert(comment2);
