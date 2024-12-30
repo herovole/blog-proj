@@ -117,6 +117,25 @@ public class RealArticle implements Article {
     }
 
     @Override
+    public Article filterOutHiddenComments() {
+        return builder()
+                .articleId(this.articleId)
+                .title(this.title)
+                .text(this.text)
+                .image(this.image)
+                .sourcePage(this.sourcePage)
+                .isPublished(this.isPublished)
+                .countries(this.countries)
+                .topicTags(this.topicTags)
+                .editors(this.editors)
+                .originalComments(this.originalComments.filterOutHiddenComments())
+                .userComments(this.userComments.filterOutHiddenComments())
+                .registrationTimestamp(this.registrationTimestamp)
+                .latestEditTimestamp(this.latestEditTimestamp)
+                .build();
+    }
+
+    @Override
     public Json toJsonRecord() {
         return Json.builder()
                 .articleId(articleId.longMemorySignature())

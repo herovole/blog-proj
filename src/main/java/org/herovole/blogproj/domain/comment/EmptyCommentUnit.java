@@ -58,4 +58,9 @@ public class EmptyCommentUnit implements CommentUnit {
     public CommentUnit maskPrivateItems() {
         return this;
     }
+
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
 }

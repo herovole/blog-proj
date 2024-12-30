@@ -42,6 +42,8 @@ public interface CommentUnit {
 
     CommentUnit maskPrivateItems();
 
+    boolean isHidden();
+
     CommentUnit.Json toJson();
 
     interface Json {

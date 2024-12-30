@@ -116,6 +116,11 @@ public class RealUserCommentUnit implements CommentUnit {
     }
 
     @Override
+    public boolean isHidden() {
+        return this.isHidden.isTrue();
+    }
+
+    @Override
     public CommentUnit.Json toJson() {
         return new Json(
                 this.commentSerialNumber.longMemorySignature(),

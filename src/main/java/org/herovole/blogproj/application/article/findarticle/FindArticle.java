@@ -28,7 +28,9 @@ public class FindArticle {
         logger.info("job successful.");
 
         if (input.getIsForPublic().isTrue()) {
-            article = article.maskPrivateItems();
+            article = article
+                    .filterOutHiddenComments()
+                    .maskPrivateItems();
         }
 
         return new FindArticleOutput(article);

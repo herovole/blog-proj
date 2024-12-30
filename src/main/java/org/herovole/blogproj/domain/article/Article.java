@@ -1,8 +1,8 @@
 package org.herovole.blogproj.domain.article;
 
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
 
@@ -41,7 +41,10 @@ public interface Article {
 
     Article maskPrivateItems();
 
+    Article filterOutHiddenComments();
+
     Json toJsonRecord();
 
-    interface Json{}
+    interface Json {
+    }
 }

@@ -71,6 +71,11 @@ public class RealArticleSimplified implements Article {
     }
 
     @Override
+    public Article filterOutHiddenComments() {
+        return this;
+    }
+
+    @Override
     public Json toJsonRecord() {
         return Json.builder()
                 .articleId(articleId.longMemorySignature())
