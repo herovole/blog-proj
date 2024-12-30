@@ -6,7 +6,6 @@ CREATE TABLE e_user_comment_report (
   reporter_user_id BIGINT NOT NULL,
   aton BIGINT,
 
-  classifications VARCHAR(127) NOT NULL,
   report_text TEXT,
 
   update_timestamp timestamp default current_timestamp on update current_timestamp,

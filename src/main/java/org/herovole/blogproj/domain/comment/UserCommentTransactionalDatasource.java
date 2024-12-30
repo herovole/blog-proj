@@ -2,6 +2,7 @@ package org.herovole.blogproj.domain.comment;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
+import org.herovole.blogproj.domain.comment.reporting.Reporting;
 
 public interface UserCommentTransactionalDatasource {
 
@@ -14,5 +15,7 @@ public interface UserCommentTransactionalDatasource {
     void insertRating(RatingLog ratingLog);
 
     void updateRating(RatingLog before, RatingLog after);
+
+    void insertReport(Reporting report);
 
 }

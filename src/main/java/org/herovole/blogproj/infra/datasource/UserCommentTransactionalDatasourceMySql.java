@@ -6,10 +6,13 @@ import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
+import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.EUserComment;
 import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
+import org.herovole.blogproj.infra.jpa.entity.EUserCommentReport;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,8 +51,9 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
     @Autowired
     public UserCommentTransactionalDatasourceMySql(
             EUserCommentRepository eUserCommentRepository,
-            EUserCommentRatingRepository eUserCommentRatingRepository) {
-        super(eUserCommentRepository, eUserCommentRatingRepository);
+            EUserCommentRatingRepository eUserCommentRatingRepository,
+            EUserCommentReportRepository eUserCommentReportRepository) {
+        super(eUserCommentRepository, eUserCommentRatingRepository, eUserCommentReportRepository);
     }
 
     @Override
@@ -84,5 +88,12 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
         if (after.isEmpty()) throw new IllegalArgumentException();
         EUserCommentRating eUserCommentRating = EUserCommentRating.fromDomainObjectUpdate(before.getId(), after);
         cacheUpdate.add(eUserCommentRating);
+    }
+
+    @Override
+    public void insertReport(Reporting report) {
+        if (report.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentReport eUserCommentReport = EUserCommentReport.fromDomainObjectInsert(report);
+        cacheInsert.add(eUserCommentReport);
     }
 }

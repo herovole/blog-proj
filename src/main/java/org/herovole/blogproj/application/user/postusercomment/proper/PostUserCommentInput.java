@@ -22,9 +22,6 @@ import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostUserCommentInput {
 
-    private static final String API_KEY_PARENT_PREFIX = "article";
-    private static final String API_KEY_PREFIX = "userCommentForm";
-
     private final IPv4Address iPv4Address;
     private final IntegerPublicUserId userId;
 

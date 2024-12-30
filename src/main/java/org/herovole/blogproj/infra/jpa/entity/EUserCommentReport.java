@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.herovole.blogproj.domain.comment.reporting.RealReporting;
+import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +22,17 @@ import java.time.LocalDateTime;
 @Table(name = "e_user_comment_report")
 @Data
 public class EUserCommentReport implements Serializable {
+    public static EUserCommentReport fromDomainObjectInsert(Reporting report) {
+        RealReporting report1 = (RealReporting) report;
+
+        EUserCommentReport entity = new EUserCommentReport();
+        entity.setCommentSerialNumber(report1.getCommentSerialNumber().longMemorySignature());
+        entity.setReporterUserId(report1.getPublicUserId().longMemorySignature());
+        entity.setAton(report1.getIp().aton());
+        entity.setReportText(report1.getReportingText().memorySignature());
+        entity.setDeleteFlag(false);
+        return entity;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

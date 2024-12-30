@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.rateusercomment;
+package org.herovole.blogproj.application.user.reportusercomment;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,13 +8,13 @@ import org.herovole.blogproj.application.user.checkuser.CheckUserInput;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.comment.rating.Rating;
+import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProcessRateUserCommentInput {
+public class ProcessReportUserCommentInput {
 
     public static class Builder {
         private IPv4Address iPv4Address;
@@ -42,31 +42,31 @@ public class ProcessRateUserCommentInput {
             return this;
         }
 
-        public ProcessRateUserCommentInput build() {
+        public ProcessReportUserCommentInput build() {
             if (iPv4Address == null || uuId == null || verificationToken == null || formContent == null) {
-                throw new IllegalStateException(ProcessRateUserCommentInput.class.getSimpleName() + "Invalid building process.");
+                throw new IllegalStateException(ProcessReportUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
             FormContent children = formContent.getGrandchildren(API_KEY_PARENT_PREFIX, API_KEY_PREFIX);
             children.println("comment post (parse 2)");
-            return new ProcessRateUserCommentInput(
+            return new ProcessReportUserCommentInput(
                     iPv4Address,
                     uuId,
                     verificationToken,
-                    IntegerId.fromFormContentCommentSerialNumber(children),
-                    Rating.fromFormRating(children)
+                    IntegerId.fromFormContentArticleId(children),
+                    CommentText.fromFormContentCommentText(children)
             );
         }
     }
 
     private static final String API_KEY_PARENT_PREFIX = "article";
-    private static final String API_KEY_PREFIX = "userCommentRating";
+    private static final String API_KEY_PREFIX = "userCommentReporting";
 
     private final IPv4Address iPv4Address;
     private final UniversallyUniqueId uuId;
     private final String verificationToken;
 
     private final IntegerId commentSerialNumber;
-    private final Rating rating;
+    private final CommentText reportingText;
 
     CheckUserInput buildCheckUserInput() {
         return CheckUserInput.builder()

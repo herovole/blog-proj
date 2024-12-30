@@ -8,6 +8,7 @@ import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,15 @@ import java.util.List;
 public class UserCommentDatasourceMySql implements UserCommentDatasource {
     protected final EUserCommentRepository eUserCommentRepository;
     protected final EUserCommentRatingRepository eUserCommentRatingRepository;
+    protected final EUserCommentReportRepository eUserCommentReportRepository;
 
     @Autowired
     public UserCommentDatasourceMySql(EUserCommentRepository eUserCommentRepository,
-                                      EUserCommentRatingRepository eUserCommentRatingRepository) {
+                                      EUserCommentRatingRepository eUserCommentRatingRepository,
+                                      EUserCommentReportRepository eUserCommentReportRepository) {
         this.eUserCommentRepository = eUserCommentRepository;
         this.eUserCommentRatingRepository = eUserCommentRatingRepository;
+        this.eUserCommentReportRepository = eUserCommentReportRepository;
     }
 
     @Override
