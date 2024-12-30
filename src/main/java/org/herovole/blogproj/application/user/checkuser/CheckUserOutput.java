@@ -23,13 +23,5 @@ public class CheckUserOutput {
         return timestampBannedUntil.isEmpty();
     }
 
-    record Json(
-            String timestampBannedUntil
-    ) {
-    }
-
-    public Json toJsonModel() {
-        return new Json(timestampBannedUntil.letterSignatureFrontendDisplay());
-    }
 }
 

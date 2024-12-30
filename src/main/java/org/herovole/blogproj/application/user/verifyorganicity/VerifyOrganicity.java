@@ -28,8 +28,9 @@ public class VerifyOrganicity {
                 input.getVerificationToken(),
                 input.getIPv4Address()
         );
+        if (probabilityOfBeingHuman == null) throw new IllegalStateException();
         logger.info("User {} score {}", input.getUuId(), probabilityOfBeingHuman);
 
-        return new VerifyOrganicityOutput(probabilityOfBeingHuman == null ? null : THRESHOLD < probabilityOfBeingHuman);
+        return new VerifyOrganicityOutput(THRESHOLD < probabilityOfBeingHuman);
     }
 }

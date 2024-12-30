@@ -1,12 +1,10 @@
-package org.herovole.blogproj.application.user.rateusercomment;
+package org.herovole.blogproj.application.user.rateusercomment.proper;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @ToString
-@Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RateUserCommentOutput {
 
@@ -14,15 +12,11 @@ public class RateUserCommentOutput {
         return new RateUserCommentOutput(isValid);
     }
 
-    private final boolean isValid;
+    private final boolean hasValidOperation;
 
-    Json toJson() {
-        return new Json(isValid);
+    public boolean hasValidOperation() {
+        return hasValidOperation;
     }
 
-    record Json(
-            boolean isValid
-    ) {
-    }
 }
 

@@ -4,31 +4,36 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.herovole.blogproj.application.user.checkuser.CheckUserInput;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.rating.Rating;
-import org.herovole.blogproj.domain.comment.rating.RatingLog;
-import org.herovole.blogproj.domain.comment.rating.RealRatingLog;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.user.UniversallyUniqueId;
 
 @ToString
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class RateUserCommentInput {
+public class ProcessRateUserCommentInput {
 
     public static class Builder {
         private IPv4Address iPv4Address;
-        private IntegerPublicUserId userId;
+        private UniversallyUniqueId uuId;
+        private String verificationToken;
         private FormContent formContent;
 
-        public Builder setIpV4Address(IPv4Address iPv4Address) {
+        public Builder setiPv4Address(IPv4Address iPv4Address) {
             this.iPv4Address = iPv4Address;
             return this;
         }
 
-        public Builder setUuId(IntegerPublicUserId userId) {
-            this.userId = userId;
+        public Builder setUuId(UniversallyUniqueId uuId) {
+            this.uuId = uuId;
+            return this;
+        }
+
+        public Builder setVerificationToken(String verificationToken) {
+            this.verificationToken = verificationToken;
             return this;
         }
 
@@ -37,15 +42,16 @@ public class RateUserCommentInput {
             return this;
         }
 
-        public RateUserCommentInput build() {
-            if (iPv4Address == null || userId == null || formContent == null) {
-                throw new IllegalStateException(RateUserCommentInput.class.getSimpleName() + "Invalid building process.");
+        public ProcessRateUserCommentInput build() {
+            if (iPv4Address == null || uuId == null || verificationToken == null || formContent == null) {
+                throw new IllegalStateException(ProcessRateUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
             FormContent children = formContent.getGrandchildren(API_KEY_PARENT_PREFIX, API_KEY_PREFIX);
             children.println("comment post (parse 2)");
-            return new RateUserCommentInput(
+            return new ProcessRateUserCommentInput(
                     iPv4Address,
-                    userId,
+                    uuId,
+                    verificationToken,
                     IntegerId.fromFormContentCommentSerialNumber(children),
                     Rating.fromFormRating(children)
             );
@@ -53,22 +59,21 @@ public class RateUserCommentInput {
     }
 
     private static final String API_KEY_PARENT_PREFIX = "article";
-    private static final String API_KEY_PREFIX = "userComment";
+    private static final String API_KEY_PREFIX = "userCommentForm";
 
     private final IPv4Address iPv4Address;
-    private final IntegerPublicUserId userId;
+    private final UniversallyUniqueId uuId;
+    private final String verificationToken;
 
     private final IntegerId commentSerialNumber;
     private final Rating rating;
 
-    RatingLog buildRatingLog() {
-        return RealRatingLog.builder()
-                .logId(IntegerId.empty())
-                .commentSerialNumber(commentSerialNumber)
-                .publicUserId(userId)
-                .ip(iPv4Address)
-                .rating(rating)
+    CheckUserInput buildCheckUserInput() {
+        return CheckUserInput.builder()
+                .iPv4Address(this.iPv4Address)
+                .uuId(this.uuId)
                 .build();
     }
+
 }
 

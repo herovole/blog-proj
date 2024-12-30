@@ -8,24 +8,9 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 public class VerifyOrganicityOutput {
-    private final Boolean isHuman;
+    private final boolean isHuman;
 
     public boolean isHuman() {
-        return isHuman != null && isHuman;
-    }
-
-    public boolean isSuccessful() {
-        return isHuman != null;
-    }
-
-    record Json(
-            boolean isHuman,
-            boolean isSuccessful
-    ) {
-    }
-
-    public VerifyOrganicityOutput.Json toJsonModel() {
-        return new VerifyOrganicityOutput.Json(isHuman(), isSuccessful());
+        return this.isHuman;
     }
 }
-

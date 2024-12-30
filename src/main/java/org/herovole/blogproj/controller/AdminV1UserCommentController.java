@@ -3,13 +3,14 @@ package org.herovole.blogproj.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.user.checkuser.CheckUser;
 import org.herovole.blogproj.application.user.checkuser.CheckUserInput;
 import org.herovole.blogproj.application.user.checkuser.CheckUserOutput;
-import org.herovole.blogproj.application.user.postusercomment.PostUserComment;
-import org.herovole.blogproj.application.user.postusercomment.PostUserCommentInput;
-import org.herovole.blogproj.application.user.postusercomment.PostUserCommentOutput;
-import org.herovole.blogproj.application.user.verifyorganicity.VerifyOrganicity;
+import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserComment;
+import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserCommentInput;
+import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserCommentOutput;
+import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserComment;
+import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserCommentInput;
+import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserCommentOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.user.UniversallyUniqueId;
@@ -33,23 +34,52 @@ public class AdminV1UserCommentController {
 
     private static final String KEY_UUID = "uuId";
     private static final String KEY_BOT_DETECTION_TOKEN = "token";
-    private final CheckUser checkUser;
-    private final VerifyOrganicity verifyOrganicity;
-    private final PostUserComment postUserComment;
+    private final ProcessPostUserComment processPostUserComment;
+    private final RateUserComment rateUserComment;
 
     @Autowired
     AdminV1UserCommentController(
-            CheckUser checkUser,
-            VerifyOrganicity verifyOrganicity,
-            PostUserComment postUserComment
+            ProcessPostUserComment processPostUserComment,
+            RateUserComment rateUserComment
     ) {
-        this.checkUser = checkUser;
-        this.verifyOrganicity = verifyOrganicity;
-        this.postUserComment = postUserComment;
+        this.processPostUserComment = processPostUserComment;
+        this.rateUserComment = rateUserComment;
     }
 
     @PostMapping
     public ResponseEntity<String> postComment(
+            @RequestBody Map<String, String> request,
+            @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        logger.info("Endpoint : userComments (Post) ");
+
+        try {
+            // Check user status
+            ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
+            ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
+            FormContent formContent = FormContent.of(request);
+            ProcessPostUserCommentInput input = new ProcessPostUserCommentInput.Builder()
+                    .setiPv4Address(servletRequest.getUserIp())
+                    .setUuId(UniversallyUniqueId.valueOf(uuId))
+                    .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
+                    .setFormContent(formContent)
+                    .build();
+            ProcessPostUserCommentOutput output = this.processPostUserComment.process(input);
+            servletResponse.setCookie(KEY_UUID, output.getUuId().letterSignature());
+            return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<String> rateComment(
             @RequestBody Map<String, String> request,
             @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
             HttpServletRequest httpServletRequest,
@@ -89,13 +119,13 @@ public class AdminV1UserCommentController {
 
             // Post user comment
             FormContent formContent = FormContent.of(request);
-            formContent.println("comment post : ");
-            PostUserCommentInput input = new PostUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIp())
-                    .setUserId(checkUserOutput.getUserId())
+            formContent.println("rate post : ");
+            RateUserCommentInput input = new RateUserCommentInput.Builder()
+                    .setIpV4Address(servletRequest.getUserIp())
+                    .setUuId(checkUserOutput.getUserId())
                     .setFormContent(formContent)
                     .build();
-            PostUserCommentOutput output = this.postUserComment.process(input);
+            RateUserCommentOutput output = this.rateUserComment.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
