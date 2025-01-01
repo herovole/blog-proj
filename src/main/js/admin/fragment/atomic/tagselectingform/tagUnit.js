@@ -13,6 +13,10 @@ export class TagUnit {
         );
     }
 
+    static empty() {
+        return new TagUnit(null, null, null);
+    }
+
     constructor(id, nameJp, nameEn) {
         this.id = id;
         this.nameJp = nameJp;

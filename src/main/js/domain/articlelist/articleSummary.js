@@ -1,4 +1,3 @@
-
 export class ArticleSummary {
 
     static API_KEY_ID = "articleId";
@@ -16,7 +15,7 @@ export class ArticleSummary {
     static API_KEY_LATEST_EDIT_TIMESTAMP = "latestEditTimestamp";
 
     static fromHash(hash) {
-        return new ArticleSummary (
+        return new ArticleSummary(
             hash[ArticleSummary.API_KEY_ID],
             hash[ArticleSummary.API_KEY_IMAGE],
             hash[ArticleSummary.API_KEY_TITLE],
@@ -38,7 +37,7 @@ export class ArticleSummary {
         imageName, title, text,
         sourceUrl, sourceTitle, sourceDate,
         isPublished,
-        editors=[],
+        editors = [],
         countOriginalComments,
         countUserComments,
         registrationTimestamp,
@@ -57,6 +56,10 @@ export class ArticleSummary {
         this.countUserComments = countUserComments;
         this.registrationTimestamp = registrationTimestamp;
         this.latestEditTimestamp = latestEditTimestamp;
+    }
+
+    getSlicedTitle(lettersToPickUp) {
+        return article.title ? article.title.slice(0, lettersToPickUp) : "";
     }
 
 }

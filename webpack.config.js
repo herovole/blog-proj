@@ -1,6 +1,8 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
+    resolve: {extensions: ['.js', '.jsx', '.ts', '.tsx'],},
     entry: './src/main/js/app.js',
     devtool: "source-map",
     cache: true,
@@ -14,6 +16,7 @@ module.exports = {
             {
                 test: /\.css$/,         // Target CSS files
                 use: [
+                    'ts-loader',
                     'style-loader',      // Injects CSS into the DOM
                     'css-loader'         // Interprets CSS as modules
                 ]
@@ -29,5 +32,12 @@ module.exports = {
                 }]
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+        }),
+    ]
 };

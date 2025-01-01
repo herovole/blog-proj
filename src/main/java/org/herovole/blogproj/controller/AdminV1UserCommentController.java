@@ -82,7 +82,7 @@ public class AdminV1UserCommentController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/rate")
     public ResponseEntity<String> rateComment(
             @RequestBody Map<String, String> request,
             @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
@@ -114,7 +114,7 @@ public class AdminV1UserCommentController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/report")
     public ResponseEntity<String> reportComment(
             @RequestBody Map<String, String> request,
             @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,

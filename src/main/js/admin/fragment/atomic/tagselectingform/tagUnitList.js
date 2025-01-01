@@ -17,6 +17,11 @@ export class TagUnitList {
         this.tagUnits = arrayListOfTagUnits ? arrayListOfTagUnits : [];
     }
 
+    getTagUnit(id) {
+        const candidate = this.tagUnits.filter(e => e.id === id)[0];
+        return candidate || TagUnit.empty();
+    }
+
     getTagOptionsJapanese() {
         return this.tagUnits.map(e => e.getTagOptionJapanese());
     }
@@ -35,8 +40,8 @@ export class TagUnitList {
 
     getJapaneseNamesByIdsForDisplay(ids) {
         var result = [];
-        for(const e of this.tagUnits) {
-            if(ids.includes(e.id)) {
+        for (const e of this.tagUnits) {
+            if (ids.includes(e.id)) {
                 result.push(e.nameJp);
             }
         }
@@ -45,8 +50,8 @@ export class TagUnitList {
 
     getEnglishNamesByIdsForDisplay(ids) {
         var result = [];
-        for(const e of this.tagUnits) {
-            if(ids.includes(e.id)) {
+        for (const e of this.tagUnits) {
+            if (ids.includes(e.id)) {
                 result.push(e.nameEn);
             }
         }

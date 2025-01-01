@@ -88,3 +88,27 @@
     width: 600px;
     height: 600px;
 }
+
+.headlines-section {
+    background-color: #DDDD99;
+    border: 2px solid #AAAAAA;
+    padding-top:-20px;
+    margin-top:0px;
+}
+
+.headline-item {
+    border: 1px outset #AAAAAA;
+    background-color: #CCCC88;
+    padding:5px;
+    margin-left:10px;
+}
+
+.small-memo {
+    font-size:0.8em;
+}
+
+.clickable-topic-tag {
+    border: 1px outset #AAAAAA;
+    background-color: #CCCC88;
+    padding:2px;
+}

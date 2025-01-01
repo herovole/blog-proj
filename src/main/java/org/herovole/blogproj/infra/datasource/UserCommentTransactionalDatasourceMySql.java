@@ -42,7 +42,7 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
         if (!mapMaxCommentIdByArticleId.containsKey(articleId)) {
             Integer maxId = eUserCommentRepository.findMaxCommentId(articleId.intMemorySignature());
             mapMaxCommentIdByArticleId.put(articleId,
-                    maxId == null ? new AtomicInteger(0) : new AtomicInteger(maxId)
+                    maxId == null ? new AtomicInteger(1000) : new AtomicInteger(maxId)
             );
         }
         return IntegerId.valueOf(mapMaxCommentIdByArticleId.get(articleId).incrementAndGet());

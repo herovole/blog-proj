@@ -10,6 +10,7 @@ import {ImageSelectingModal} from './fragment/image/imageSelectingModal';
 import {AdminArticleListBody} from './fragment/articlelist/adminArticleListBody';
 import {SourceCommentUnit} from "../domain/comment/sourceCommentUnit";
 import {Article} from "../domain/article";
+import {TagButton} from "./fragment/atomic/tagselectingform/tagButton.tsx";
 
 console.log("sandbox.js");
 
@@ -105,15 +106,15 @@ const testArticle = new Article(
 
 
 export const Sandbox = () => {
-    const [topicTagsOptions, setTopicTagsOptions] = useState(null);
-    const [countryTagsOptions, setCountryTagsOptions] = useState(null);
+    const [topicTagsOptions, setTopicTagsOptions] = useState(TagUnitList.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = useState(TagUnitList.empty());
 
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
 
                 const topicResponse = await axios.get("/api/v1/topicTags", {
-                    params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
+                    params: {"topicTags.page": 1, "topicTags.itemsPerPage": 10000, "topicTags.isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
                 const topicUnitList = TagUnitList.fromHash(topicResponse.data);
@@ -131,6 +132,7 @@ export const Sandbox = () => {
             }
         };
         fetchTagsOptions();
+        console.log("TagUnit:", topicTagsOptions.getTagUnit(1));
     }, []);
 
     const selectedTags = ["af"];
@@ -161,7 +163,12 @@ export const Sandbox = () => {
             />
         </div>
         <div>
-            test5: (none)
+            test5:
+            <TagButton
+                unit={topicTagsOptions.getTagUnit(1)}
+                searchBaseUrl={"ccc"}
+                searchKey={"aaa"}
+            />
 
         </div>
         <div>
