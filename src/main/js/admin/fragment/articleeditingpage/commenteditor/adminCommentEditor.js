@@ -7,7 +7,7 @@ export class AdminCommentEditor extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : CommentUnitList
-            //this.props.countryTagOptions : TagUnitList
+            //this.props.countryTagOptions : TagUnits
             countAddedComments: 0
         };
     }

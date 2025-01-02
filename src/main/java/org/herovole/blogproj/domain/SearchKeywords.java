@@ -12,7 +12,7 @@ public class SearchKeywords {
 
     public static SearchKeywords fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(SearchKeywords.API_KEY_KEYWORDS);
-        String[] keywords = child.getValue().split(" ");
+        String[] keywords = child.getValue() == null ? new String[0] : child.getValue().split(" ");
         SearchKeyword[] searchKeywords = Arrays.stream(keywords).filter(e -> !e.isEmpty()).map(SearchKeyword::valueOf).toArray(SearchKeyword[]::new);
         return of(searchKeywords);
     }

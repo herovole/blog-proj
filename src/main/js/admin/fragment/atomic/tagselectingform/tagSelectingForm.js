@@ -6,7 +6,7 @@ export class TagSelectingForm extends React.Component {
         super(props);
         this.state = {
             //this.props.postKey : form component name
-            //this.props.candidates, // :TagUnitList
+            //this.props.candidates, // :TagUnits
             //this.props.allowsMultipleOptions
             //this.props.isFixed
             selectedTags: this.props.selectedTagIds ? Array.isArray(this.props.selectedTagIds) ? this.props.selectedTagIds : [this.props.selectedTagIds] : [],

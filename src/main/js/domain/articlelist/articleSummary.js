@@ -8,6 +8,8 @@ export class ArticleSummary {
     static API_KEY_SOURCE_TITLE = "sourceTitle";
     static API_KEY_SOURCE_DATE = "sourceDate";
     static API_KEY_IS_PUBLISHED = "isPublished";
+    static API_KEY_COUNTRIES = "countries";
+    static API_KEY_TOPIC_TAGS = "topicTags";
     static API_KEY_EDITORS = "editors";
     static API_KEY_COUNT_ORIGINAL_COMMENTS = "sourceComments";
     static API_KEY_COUNT_USER_COMMENTS = "userComments";
@@ -24,6 +26,8 @@ export class ArticleSummary {
             hash[ArticleSummary.API_KEY_SOURCE_TITLE],
             hash[ArticleSummary.API_KEY_SOURCE_DATE],
             hash[ArticleSummary.API_KEY_IS_PUBLISHED],
+            hash[ArticleSummary.API_KEY_COUNTRIES],
+            hash[ArticleSummary.API_KEY_TOPIC_TAGS],
             hash[ArticleSummary.API_KEY_EDITORS],
             hash[ArticleSummary.API_KEY_COUNT_ORIGINAL_COMMENTS],
             hash[ArticleSummary.API_KEY_COUNT_USER_COMMENTS],
@@ -37,6 +41,8 @@ export class ArticleSummary {
         imageName, title, text,
         sourceUrl, sourceTitle, sourceDate,
         isPublished,
+        countries = [],
+        topicTags = [],
         editors = [],
         countOriginalComments,
         countUserComments,
@@ -51,6 +57,8 @@ export class ArticleSummary {
         this.sourceTitle = sourceTitle;
         this.sourceDate = sourceDate;
         this.isPublished = isPublished;
+        this.countries = countries;
+        this.topicTags = topicTags;
         this.editors = editors;
         this.countOriginalComments = countOriginalComments;
         this.countUserComments = countUserComments;

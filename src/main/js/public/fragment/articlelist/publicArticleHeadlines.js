@@ -1,35 +1,13 @@
-import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 //articles : ArticleSummaryList
-export const PublicArticleListBody = ({articles, directoryToIndividualPage}) => {
-
+export const PublicArticleHeadlines = ({ articles, directoryToIndividualPage }) => {
     const LETTERS_PICKUP = 30;
     const navigate = useNavigate();
     const goToIndividualPage = (articleId) => {
-        console.log("link invoked")
+        console.log("link invoked");
         navigate(directoryToIndividualPage + "/" + articleId);
-    }
-
-    return (
-        <div className="headlines-section"><span>Headlines</span>
-            {
-                articles.list.map((article) => (
-                    <div key="" className="headline-item">
-                        <span className="article-title" onClick={() => goToIndividualPage(article.articleId)}>
-                            {article.getSlicedTitle(LETTERS_PICKUP)}
-                        </span>
-                        <br/>
-                        <span className="small-memo">
-                            <span>{article.countUserComments} Comments</span>
-                            {article.topicTags.map((topic) => (
-                                <span key="" className="clickable-topic-tag">{topic}</span>))}
-                            {article.countries.map((country) => (
-                                <span key="" className="clickable-topic-tag">{country}</span>))}
-                        </span>
-                    </div>
-                ))}
-        </div>
-    );
+    };
+    return (_jsxs("div", { className: "headlines-section", children: [_jsx("span", { children: "Headlines" }), articles.list.map((article) => (_jsxs("div", { className: "headline-item", children: [_jsx("button", { className: "article-title", onClick: () => goToIndividualPage(article.articleId), children: article.getSlicedTitle(LETTERS_PICKUP) }), _jsx("br", {}), _jsxs("span", { className: "small-memo", children: [_jsxs("span", { children: [article.countUserComments, " Comments"] }), article.topicTags.map((topic) => (_jsx("span", { className: "clickable-topic-tag", children: topic }, ""))), article.countries.map((country) => (_jsx("span", { className: "clickable-topic-tag", children: country }, "")))] })] }, "")))] }));
 };

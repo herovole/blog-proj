@@ -10,8 +10,8 @@ import {TagUnitList} from "../../../admin/fragment/atomic/tagselectingform/tagUn
 
 //  postKey : ElementId
 //  article : Article
-//  topicTagOptions, : TagUnitList
-//  countryTagOptions : TagUnitList
+//  topicTagOptions, : TagUnits
+//  countryTagOptions : TagUnits
 export const PublicArticleBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
     const [refresh, setRefresh] = React.useState(false);
 

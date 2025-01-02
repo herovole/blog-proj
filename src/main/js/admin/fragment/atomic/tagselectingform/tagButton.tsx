@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {TagUnit} from "./tagUnitTemp"
+import {TagUnit} from "./tagUnit"
 
 type TagButtonProps = {
     unit: TagUnit;
@@ -14,7 +14,7 @@ export const TagButton: React.FC<TagButtonProps> = ({unit, searchBaseUrl, search
     const navigate = useNavigate();
     const handleOnClick = () => {
         console.log("tag click : " + unit.id + " " + unit.nameJp)
-        const hash = {[searchKey]: unit.id};
+        const hash = {[searchKey]: unit.id.toString()};
         const urlSearchParams = new URLSearchParams(Object.entries(hash));
         navigate(`${searchBaseUrl}?${urlSearchParams.toString()}`);
     }

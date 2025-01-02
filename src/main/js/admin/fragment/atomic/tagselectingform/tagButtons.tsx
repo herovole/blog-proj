@@ -1,11 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagButton} from "./tagButton";
-import {TagUnit} from "./tagUnitTemp"
-
-export interface TagUnitList {
-    getTagById: (id: number) => TagUnit;
-}
+import {TagUnitList} from "./tagUnitList"
 
 type TagButtonProps = {
     tagUnitList: TagUnitList;
@@ -13,14 +9,13 @@ type TagButtonProps = {
     searchBaseUrl: string;
 };
 
-
 export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searchBaseUrl}) => {
 
     return (
         <span>
             {tagIds.map(id => {
                 return <span key="">
-                    <TagButton unit={tagUnitList.getTagById(id)}
+                    <TagButton unit={tagUnitList.getTagUnit(id)}
                                searchBaseUrl={searchBaseUrl}
                                searchKey={""}
                     /></span>

@@ -16,8 +16,8 @@ export class AdminArticleBody extends React.Component {
         this.state = {
             //this.props.postKey : form component name
             //this.props.content : Article
-            //this.props.topicTagOptions, : TagUnitList
-            //this.props.countryTagOptions : TagUnitList
+            //this.props.topicTagOptions, : TagUnits
+            //this.props.countryTagOptions : TagUnits
         };
     }
 
