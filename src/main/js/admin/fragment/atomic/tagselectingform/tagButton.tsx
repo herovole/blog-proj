@@ -1,11 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-export interface TagUnit {
-    id: string;
-    nameJp: string;
-}
+import {TagUnit} from "./tagUnitTemp"
 
 type TagButtonProps = {
     unit: TagUnit;

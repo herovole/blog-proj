@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {TagButton, TagUnit} from "./tagButton";
+import {TagButton} from "./tagButton";
+import {TagUnit} from "./tagUnitTemp"
 
 export interface TagUnitList {
     getTagById: (id: number) => TagUnit;

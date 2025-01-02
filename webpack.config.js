@@ -16,10 +16,16 @@ module.exports = {
             {
                 test: /\.css$/,         // Target CSS files
                 use: [
-                    'ts-loader',
                     'style-loader',      // Injects CSS into the DOM
                     'css-loader'         // Interprets CSS as modules
                 ]
+            },
+            {
+                test: /\.tsx?$/,        // Target TypeScript files
+                use: [
+                    'ts-loader'          // Compiles TypeScript to JavaScript
+                ],
+                exclude: /node_modules/ // Exclude node_modules directory
             },
             {
                 test: path.join(__dirname, '.'),
