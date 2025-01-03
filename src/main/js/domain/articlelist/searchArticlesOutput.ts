@@ -2,13 +2,13 @@ import {ArticleSummaryList} from './articleSummaryList'
 
 export class SearchArticlesOutput {
 
-    static API_KEY_ARTICLES = "articles";
-    static API_KEY_TOTAL_ARTICLES = "totalArticles";
+    static readonly API_KEY_ARTICLES: string = "articles";
+    static readonly API_KEY_TOTAL_ARTICLES: string = "totalArticles";
 
-    static fromHash(hash) {
+    static fromHash(hash: { [key: string]: string }) {
         return new SearchArticlesOutput(
             ArticleSummaryList.fromHash(hash[SearchArticlesOutput.API_KEY_ARTICLES]),
-            hash[SearchArticlesOutput.API_KEY_TOTAL_ARTICLES]
+            Number(hash[SearchArticlesOutput.API_KEY_TOTAL_ARTICLES])
         )
     }
 
@@ -16,9 +16,12 @@ export class SearchArticlesOutput {
         return new SearchArticlesOutput(ArticleSummaryList.empty(), 0);
     }
 
+    articleSummaries: ArticleSummaryList;
+    totalArticles: number;
+
     constructor(
-        articleSummaries,
-        totalArticles
+        articleSummaries: ArticleSummaryList,
+        totalArticles: number
     ) {
         this.articleSummaries = articleSummaries;
         this.totalArticles = totalArticles;

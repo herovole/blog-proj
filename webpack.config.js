@@ -21,7 +21,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.tsx?$/,        // Target TypeScript files
+                test: /\.tsx\?$/,        // Target TypeScript files
                 use: [
                     'ts-loader'          // Compiles TypeScript to JavaScript
                 ],

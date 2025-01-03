@@ -40,7 +40,7 @@
     "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production --config webpack.config.js"
+    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack.js --mode production --config webpack.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",

@@ -26,21 +26,21 @@ export const Sandbox: React.FC = () => {
                     params: {"topicTags.page": 1, "topicTags.itemsPerPage": 10000, "topicTags.isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const topicUnitList = TagUnitList.fromHash(topicResponse.data);
+                const topicUnitList: TagUnitList = TagUnitList.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
                     params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const countryUnitList = TagUnitList.fromHash(countryResponse.data);
+                const countryUnitList: TagUnitList = TagUnitList.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
                 const articleSummariesResponse = await axios.get("/api/v1/articles", {
                     params: {"articleList.itemsPerPage": 10000, "articleList.page": 1,},
                     headers: {Accept: "application/json"},
                 });
-                const searchArticlesOutput = SearchArticlesOutput.fromHash(articleSummariesResponse.data);
+                const searchArticlesOutput: SearchArticlesOutput = SearchArticlesOutput.fromHash(articleSummariesResponse.data);
                 setArticles(searchArticlesOutput.articleSummaries);
 
             } catch (error) {

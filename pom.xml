@@ -195,7 +195,8 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <!-- Specify the desired Node.js version -->
-                            <nodeVersion>v20.5.0</nodeVersion> <!-- Change this to the version you want -->
+                            <nodeVersion>v20.10.0</nodeVersion> <!-- Change this to the version you want -->
+                            <npmVersion>9.8.1</npmVersion>
                         </configuration>
                     </execution>
                     <!-- Add an execution for the npm install task -->
