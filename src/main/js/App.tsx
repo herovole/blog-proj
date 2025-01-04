@@ -1,6 +1,6 @@
 import React from 'react';
 import {PublicPageArticleView} from "./public/publicPageArticleView";
-import {Route, Routes} from "react-router-dom"; // 追加
+import { Route, Routes } from "react-router-dom";
 import {Home} from "./home";
 import {About} from "./about";
 import {Contact} from "./contact";
@@ -17,7 +17,7 @@ import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 import {PublicPageArticleList} from "./public/publicPageArticleList";
 
 
-console.log("app.js");
+console.log("App.js");
 const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
 
 
@@ -59,5 +59,6 @@ const App = () => {
         </div>
     );
 }
+
 
 export default App;

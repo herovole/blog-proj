@@ -11,10 +11,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "noImplicitAny": false,
-    "noImplicitThis": true,
-    "rootDir": "./src"
+    "noImplicitThis": true
   },
-  "include": ["src/**/*.{ts,tsx}"],
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules"
   ]

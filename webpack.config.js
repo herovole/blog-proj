@@ -3,14 +3,14 @@ const webpack = require('webpack');
 
 module.exports = {
     resolve: {extensions: ['.js', '.jsx', '.ts', '.tsx'],},
-    entry: './src/main/js/app.js',
+    entry: './src/main/js/index.tsx',
+    output: {
+        path: path.resolve(__dirname, './src/main/resources/static/dist'),
+        filename: 'bundle.js',
+    },
     devtool: "source-map",
     cache: true,
     mode: 'development',
-    output: {
-        path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
-    },
     module: {
         rules: [
             {
