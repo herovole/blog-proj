@@ -12,12 +12,9 @@
     "allowJs": true,
     "noImplicitAny": false,
     "noImplicitThis": true,
-    "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*.{ts,tsx}"],
   "exclude": [
     "node_modules"
   ]

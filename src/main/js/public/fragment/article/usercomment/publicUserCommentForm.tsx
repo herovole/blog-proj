@@ -1,35 +1,42 @@
 import React from 'react';
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
+import {ElementId} from "../../../../domain/elementId";
 
-export const PublicUserCommentForm = ({postKey, articleId, functionToRerenderParent}) => {
-    const [refresh, setRefresh] = React.useState(false);
-    const [token, setToken] = React.useState(null);
+type PublicUserCommentFormProps = {
+    postKey: ElementId;
+    articleId: string;
+    functionToRerenderParent: () => void;
+}
+
+export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
+    {postKey, articleId, functionToRerenderParent}: PublicUserCommentFormProps) => {
+    const [refresh, setRefresh] = React.useState<boolean>(false);
+    const [token, setToken] = React.useState<string>("");
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_comment";
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
             return;
         }
-        const recaptchaToken = await executeRecaptcha(googleReCaptchaActionLabel);
-        /*
+        const recaptchaToken: string = await executeRecaptcha(googleReCaptchaActionLabel);
         if (!recaptchaToken) {
             console.error('verification failed');
             return;
         }
-         */
         setToken(recaptchaToken);
 
-        const formData = new FormData(event.target);
-        const postData = Object.fromEntries(formData.entries());
+        const formData: FormData = new FormData(event.currentTarget);
+        const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
         try {
-            const response = await axios.post("/api/v1/usercomments", postData, {
+            const response: AxiosResponse<string> = await axios.post("/api/v1/usercomments", postData, {
                 headers: {'Content-Type': 'application/json',},
             });
-            const data = await response.json();
+            const responseBody: string = response.data;
+            console.log(responseBody);
             functionToRerenderParent();
         } catch (error) {
             console.error('Error submitting form:', error);

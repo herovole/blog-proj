@@ -11,3 +11,5 @@ app_utility/
 yarn.lock
 package.json
 .eslintrc.json
+tsconfig.tsbuildinfo
+dist

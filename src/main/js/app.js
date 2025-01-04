@@ -1,3 +1,4 @@
+import React from 'react';
 import {PublicPageArticleView} from "./public/publicPageArticleView";
 import {Route, Routes} from "react-router-dom"; // 追加
 import {Home} from "./home";
@@ -15,23 +16,19 @@ import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
 import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 import {PublicPageArticleList} from "./public/publicPageArticleList";
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-//const client = require('./client');
-
 
 console.log("app.js");
-//const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt"; //PROD
-const googleReCaptchaSiteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; //TEST
+const googleReCaptchaSiteKey = "6Lf8kaIqAAAAAHFHNP-9SMGywt4klnqx3VBOTULt";
 
-function App() {
+
+const App = () => {
 
 
     return (
         <div className="App">
             <h1>これはRoutesの外側のエレメント</h1>
 
-            <Routes> {/*Routesで囲む*/}
+            <Routes>
                 <Route path="/" element={<Home/>}/> {}
                 <Route path="/about" element={<About/>}/> {}
                 <Route path="/contact" element={<Contact message="Hello"/>}/> {}
@@ -64,82 +61,3 @@ function App() {
 }
 
 export default App;
-
-const index = require('./index');
-
-/*
-class App extends React.Component {
-
-  return (
-    <div className="App">
-      <h1>
-        react-router-V6
-      </h1>
-    </div>
-  );
-}*/
-/*
-	constructor(props) {
-		super(props);
-		this.state = {employees: []};
-	}*/
-
-//componentDidMount() {
-//
-//	client({method: 'GET', path: '/api/employees'}).done(response => {
-//		this.setState({employees: response.entity._embedded.employees});
-//	});
-//
-//}
-
-//	render() {
-/*
-return (
-    <EmployeeList employees={this.state.employees}/>
-)
-*/
-
-//		return (
-//		    <TextForm name="aaa" placeholder="this is a placeholder" />
-//		);
-//return ("TEST STRING on app.js")
-//	}
-//}
-/*
-class EmployeeList extends React.Component{
-	render() {
-		const employees = this.props.employees.map(employee =>
-			<Employee key={employee._links.self.href} employee={employee}/>
-		);
-		return (
-			<table>
-				<tbody>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Description</th>
-					</tr>
-					{employees}
-				</tbody>
-			</table>
-		)
-	}
-}
-
-class Employee extends React.Component{
-	render() {
-		return (
-			<tr>
-				<td>{this.props.employee.firstName}</td>
-				<td>{this.props.employee.lastName}</td>
-				<td>{this.props.employee.description}</td>
-			</tr>
-		)
-	}
-}*/
-
-/*
-ReactDOM.render(
-	<App />,
-	document.getElementById('react')
-)*/
