@@ -1,17 +1,17 @@
-import {Person} from "../admin/person";
-
-
 export class GenericSwitch {
-    private _field: boolean;
 
-    constructor(field: string) {
-        const p:Person = new Person("f", "l", 99);
-        console.log(p.getFullName());
+    static valueOf(field: string): GenericSwitch {
         if (field === "true" || field === "1") {
-            this._field = true;
+            return new GenericSwitch(true);
         } else {
-            this._field = false;
+            return new GenericSwitch(false);
         }
+    }
+
+    private readonly _field: boolean;
+
+    constructor(field: boolean) {
+        this._field = field;
     }
 
     isTrue(): boolean {

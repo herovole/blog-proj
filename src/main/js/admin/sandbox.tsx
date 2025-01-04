@@ -48,7 +48,7 @@ export const Sandbox: React.FC = () => {
             }
         };
         fetchTagsOptions();
-        console.log("TagUnit:", topicTagsOptions.getTagUnit(1));
+        console.log("TagUnit:", topicTagsOptions.getTagUnit("1"));
     }, []);
 
     const selectedTags = ["af"];
@@ -65,6 +65,8 @@ export const Sandbox: React.FC = () => {
             <PublicArticleHeadlines
                 articles={articles}
                 directoryToIndividualPage={""}
+                topicTagList={topicTagsOptions}
+                countryTagList={countryTagsOptions}
             />
         </div>
         <div>
@@ -84,7 +86,7 @@ export const Sandbox: React.FC = () => {
         <div>
             test5:
             <TagButton
-                unit={topicTagsOptions.getTagUnit(1)}
+                unit={topicTagsOptions.getTagUnit("1")}
                 searchBaseUrl={"ccc"}
                 searchKey={"aaa"}
             />

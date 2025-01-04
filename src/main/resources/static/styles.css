@@ -103,6 +103,11 @@
     margin-left:10px;
 }
 
+.headline-clickable {
+    border: none;
+    background-color: #CCCC88;
+}
+
 .small-memo {
     font-size:0.8em;
 }

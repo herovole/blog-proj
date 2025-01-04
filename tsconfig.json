@@ -11,7 +11,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "noImplicitAny": false,
-    "noImplicitThis": false
+    "noImplicitThis": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"

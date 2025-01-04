@@ -5,7 +5,7 @@ import {TagUnitList} from "./tagUnitList"
 
 type TagButtonProps = {
     tagUnitList: TagUnitList;
-    tagIds: number[];
+    tagIds: string[];
     searchBaseUrl: string;
 };
 

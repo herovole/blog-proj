@@ -27,7 +27,7 @@ export class ArticleSummary {
             hash[ArticleSummary.API_KEY_SOURCE_URL],
             hash[ArticleSummary.API_KEY_SOURCE_TITLE],
             hash[ArticleSummary.API_KEY_SOURCE_DATE],
-            new GenericSwitch(hash[ArticleSummary.API_KEY_IS_PUBLISHED]),
+            GenericSwitch.valueOf(hash[ArticleSummary.API_KEY_IS_PUBLISHED]).isTrue(),
             hash[ArticleSummary.API_KEY_COUNTRIES],
             hash[ArticleSummary.API_KEY_TOPIC_TAGS],
             hash[ArticleSummary.API_KEY_EDITORS],
@@ -45,9 +45,9 @@ export class ArticleSummary {
     sourceUrl: string;
     sourceTitle: string;
     sourceDate: string;
-    isPublished: GenericSwitch;
+    isPublished: boolean;
     countries: Array<string>;
-    topicTags: Array<number>;
+    topicTags: Array<string>;
     editors: Array<number>;
     countOriginalComments: number;
     countUserComments: number;
@@ -58,9 +58,9 @@ export class ArticleSummary {
         articleId: number,
         imageName: string, title: string, text: string,
         sourceUrl: string, sourceTitle: string, sourceDate: string,
-        isPublished: GenericSwitch,
+        isPublished: boolean,
         countries: Array<string>,
-        topicTags: Array<number>,
+        topicTags: Array<string>,
         editors: Array<number>,
         countOriginalComments: number,
         countUserComments: number,

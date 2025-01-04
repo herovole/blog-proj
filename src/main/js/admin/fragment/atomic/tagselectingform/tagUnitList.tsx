@@ -19,7 +19,7 @@ export class TagUnitList {
         this.tagUnits = arrayListOfTagUnits || [];
     }
 
-    getTagUnit(id: number): TagUnit {
+    getTagUnit(id: string): TagUnit {
         const candidate: TagUnit = this.tagUnits.filter(e => e.id === id)[0];
         return candidate || TagUnit.empty();
     }
@@ -28,7 +28,7 @@ export class TagUnitList {
         return this.tagUnits.map(e => e.getTagOptionJapanese());
     }
 
-    getTagOptionsJapaneseSelected(arrayIds: ReadonlyArray<number>): ReadonlyArray<{ [key: string]: string }> {
+    getTagOptionsJapaneseSelected(arrayIds: ReadonlyArray<string>): ReadonlyArray<{ [key: string]: string }> {
         return this.tagUnits.filter(e => arrayIds.includes(e.id)).map(e => e.getTagOptionJapanese());
     }
 
@@ -36,11 +36,11 @@ export class TagUnitList {
         return this.tagUnits.map(e => e.getTagOptionEnglish());
     }
 
-    getTagOptionsEnglishSelected(arrayIds: ReadonlyArray<number>): ReadonlyArray<{ [key: string]: string }> {
+    getTagOptionsEnglishSelected(arrayIds: ReadonlyArray<string>): ReadonlyArray<{ [key: string]: string }> {
         return this.tagUnits.filter(e => arrayIds.includes(e.id)).map(e => e.getTagOptionEnglish());
     }
 
-    getJapaneseNamesByIdsForDisplay(ids: ReadonlyArray<number>): string {
+    getJapaneseNamesByIdsForDisplay(ids: ReadonlyArray<string>): string {
         const result: Array<string> = [];
         for (const e of this.tagUnits) {
             if (ids.includes(e.id)) {
@@ -50,7 +50,7 @@ export class TagUnitList {
         return result.join(",");
     }
 
-    getEnglishNamesByIdsForDisplay(ids: ReadonlyArray<number>): string {
+    getEnglishNamesByIdsForDisplay(ids: ReadonlyArray<string>): string {
         const result: Array<string> = [];
         for (const e of this.tagUnits) {
             if (ids.includes(e.id)) {

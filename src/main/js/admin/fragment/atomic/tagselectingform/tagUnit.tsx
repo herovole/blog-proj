@@ -6,21 +6,21 @@ export class TagUnit {
 
     static fromHash(hash: { [key: string]: string }) {
         return new TagUnit(
-            Number(hash[TagUnit.API_KEY_ID]),
+            hash[TagUnit.API_KEY_ID],
             hash[TagUnit.API_KEY_NAME_JP],
             hash[TagUnit.API_KEY_NAME_EN]
         );
     }
 
     static empty() {
-        return new TagUnit(-1, "", "");
+        return new TagUnit("", "", "");
     }
 
-    id: number;
+    id: string;
     nameJp: string;
     nameEn: string;
 
-    constructor(id: number, nameJp: string, nameEn: string) {
+    constructor(id: string, nameJp: string, nameEn: string) {
         this.id = id;
         this.nameJp = nameJp;
         this.nameEn = nameEn;
