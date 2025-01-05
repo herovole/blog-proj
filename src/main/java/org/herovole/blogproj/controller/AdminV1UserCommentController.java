@@ -70,6 +70,7 @@ public class AdminV1UserCommentController {
                     .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
                     .setFormContent(formContent)
                     .build();
+            logger.info("postComment input : {}", input);
             ProcessPostUserCommentOutput output = this.processPostUserComment.process(input);
             servletResponse.setCookie(KEY_UUID, output.getUuId().letterSignature());
             return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));

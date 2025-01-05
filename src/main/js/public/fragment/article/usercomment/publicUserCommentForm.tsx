@@ -12,12 +12,12 @@ type PublicUserCommentFormProps = {
 export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     {postKey, articleId, functionToRerenderParent}: PublicUserCommentFormProps) => {
     const [refresh, setRefresh] = React.useState<boolean>(false);
-    const [token, setToken] = React.useState<string>("");
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_comment";
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
+
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
             return;
@@ -27,10 +27,11 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             console.error('verification failed');
             return;
         }
-        setToken(recaptchaToken);
 
-        const formData: FormData = new FormData(event.currentTarget);
+        const form = event.target as HTMLFormElement;
+        const formData: FormData = new FormData(form);
         const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
+        Object.assign(postData, {"token": recaptchaToken});
         try {
             const response: AxiosResponse<string> = await axios.post("/api/v1/usercomments", postData, {
                 headers: {'Content-Type': 'application/json',},
@@ -59,7 +60,6 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                     placeholder="Comment here..."
                     name={postKey.append("text").toStringKey()}
                 />
-                <input type="hidden" name="token" value={token}/>
             </div>
             <button type="submit">投稿</button>
         </form>

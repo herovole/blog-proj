@@ -9,7 +9,7 @@ public class DailyUserId {
     private static final int LENGTH = 9;
 
     public static DailyUserId empty() {
-        return valueOf(null);
+        return new DailyUserId(null);
     }
 
     public static DailyUserId valueOf(String id) {
