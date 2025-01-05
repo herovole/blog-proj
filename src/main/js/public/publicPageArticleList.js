@@ -1,8 +1,9 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {ElementId} from "../domain/elementId"
+import {ElementId} from "../domain/elementId/elementId"
 import {PublicArticleListBody} from "./fragment/articlelist/publicArticleListBody";
+import {RootElementId} from "../domain/elementId/rootElementId";
 
 export const PublicPageArticleList = () => {
 
@@ -11,7 +12,7 @@ export const PublicPageArticleList = () => {
     return (
         <div>
             <PublicArticleListBody
-                formKey={new ElementId("articleList")}
+                formKey={RootElementId.valueOf("articleList")}
                 directoryToIndividualPage={"/articles"}
             />
         </div>

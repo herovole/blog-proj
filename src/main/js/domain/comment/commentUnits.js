@@ -1,23 +1,23 @@
 import {UserCommentUnit} from "./userCommentUnit"
 import {SourceCommentUnit} from "./sourceCommentUnit"
 
-export class CommentUnitList {
+export class CommentUnits {
 
     static fromHashAsSourceCommentUnits(array) {
         console.log("comment unit list : " + JSON.stringify(array));
         const arrayListOfComments = array.map(child => SourceCommentUnit.fromHash(child));
-        return new CommentUnitList(arrayListOfComments);
+        return new CommentUnits(arrayListOfComments);
     }
 
     static fromHashAsUserCommentUnits(array) {
         console.log("user comment unit list : " + JSON.stringify(array));
         const arrayListOfComments = array.map(child => UserCommentUnit.fromHash(child));
-        return new CommentUnitList(arrayListOfComments);
+        return new CommentUnits(arrayListOfComments);
     }
 
 
     static empty() {
-        return new CommentUnitList([]);
+        return new CommentUnits([]);
     }
 
     constructor(arrayListOfComments) {
@@ -33,7 +33,7 @@ export class CommentUnitList {
     }
 
     sort() {
-        let newList = new CommentUnitList();
+        let newList = new CommentUnits();
         for (const element of this.arrayListOfComments) {
             const unit = element;
             const refId = unit.getLatestReferringId();
@@ -61,7 +61,7 @@ export class CommentUnitList {
         console.log("slice length before : " + newArray.length);
         newArray.push(unit);
         console.log("slice length after : " + newArray.length);
-        return new CommentUnitList(newArray);
+        return new CommentUnits(newArray);
     }
 
     getByInArticleCommentId(commentId) {
@@ -96,11 +96,11 @@ export class CommentUnitList {
             console.log("index " + i + " depth " + this.arrayListOfComments[i].depth);
             if (this.arrayListOfComments[i].depth <= originUnit.depth) {
                 newArray.splice(i, 0, unit);
-                return new CommentUnitList(newArray);
+                return new CommentUnits(newArray);
             }
         }
         newArray.push(unit);
-        return new CommentUnitList(newArray);
+        return new CommentUnits(newArray);
 
     }
 

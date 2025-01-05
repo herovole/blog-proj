@@ -2,19 +2,20 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {DateSelectingForm} from './fragment/atomic/dateSelectingForm';
 import {TagSelectingForm} from './fragment/atomic/tagselectingform/tagSelectingForm';
-import {ElementId} from '../domain/elementId';
+import {ElementId} from '../domain/elementId/elementId';
 import {ImageSelectingModal} from './fragment/image/imageSelectingModal';
 import {TagButton} from "./fragment/atomic/tagselectingform/tagButton";
 import {ArticleSummaryList} from "../domain/articlelist/articleSummaryList";
 import {PublicArticleHeadlines} from "../public/fragment/articlelist/publicArticleHeadlines";
-import {TagUnitList} from "./fragment/atomic/tagselectingform/tagUnitList";
+import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
 import {SearchArticlesOutput} from "../domain/articlelist/searchArticlesOutput";
+import {RootElementId} from "../domain/elementId/rootElementId";
 
 console.log("sandbox.js");
 
 export const Sandbox: React.FC = () => {
-    const [topicTagsOptions, setTopicTagsOptions] = useState(TagUnitList.empty());
-    const [countryTagsOptions, setCountryTagsOptions] = useState(TagUnitList.empty());
+    const [topicTagsOptions, setTopicTagsOptions] = useState(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = useState(TagUnits.empty());
     const [articles, setArticles] = useState(ArticleSummaryList.empty());
 
     useEffect(() => {
@@ -26,14 +27,14 @@ export const Sandbox: React.FC = () => {
                     params: {"topicTags.page": 1, "topicTags.itemsPerPage": 10000, "topicTags.isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const topicUnitList: TagUnitList = TagUnitList.fromHash(topicResponse.data);
+                const topicUnitList: TagUnits = TagUnits.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
                     params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const countryUnitList: TagUnitList = TagUnitList.fromHash(countryResponse.data);
+                const countryUnitList: TagUnits = TagUnits.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
                 const articleSummariesResponse = await axios.get("/api/v1/articles", {
@@ -57,7 +58,7 @@ export const Sandbox: React.FC = () => {
         <div>
             test1: imageSelectingModal
             <ImageSelectingModal
-                postKey={new ElementId("test")}
+                postKey={RootElementId.valueOf("test")}
             />
         </div>
         <div>
@@ -72,14 +73,14 @@ export const Sandbox: React.FC = () => {
         <div>
             test3:
             <DateSelectingForm
-                postKey={new ElementId("dsf")}
+                postKey={RootElementId.valueOf("dsf")}
             />
         </div>
         <div>
             test4:
             <TagSelectingForm
-                postKey={new ElementId("tsf")}
-                candidates={countryTagsOptions || TagUnitList.empty()}
+                postKey={RootElementId.valueOf("tsf")}
+                candidates={countryTagsOptions || TagUnits.empty()}
                 selectedTagIds={selectedTags}
             />
         </div>

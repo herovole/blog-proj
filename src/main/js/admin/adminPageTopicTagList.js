@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TopicTagListBody} from "./fragment/tag/topicTagListBody"
-import {ElementId} from "../domain/elementId"
 import {AdminHeader} from "./adminHeader";
+import {RootElementId} from "../domain/elementId/rootElementId";
 
 export const AdminPageTopicTagList = () => {
 
@@ -10,7 +10,7 @@ export const AdminPageTopicTagList = () => {
         <div>
             <AdminHeader/>
             <TopicTagListBody
-                formKey={new ElementId("topicTags")}
+                formKey={RootElementId.valueOf("topicTags")}
             />
         </div>
     );

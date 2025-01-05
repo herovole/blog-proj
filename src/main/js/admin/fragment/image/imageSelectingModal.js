@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import {ElementId} from '../../../domain/elementId'
+import {ElementId} from '../../../domain/elementId/elementId'
 
 const customStyles = {
   content: {

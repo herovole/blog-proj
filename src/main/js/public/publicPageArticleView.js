@@ -3,9 +3,10 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Article} from "../domain/article";
-import {ElementId} from "../domain/elementId";
+import {ElementId} from "../domain/elementId/elementId";
 import {PublicArticleBody} from "./fragment/article/publicArticleBody";
-import {TagUnitList} from "../admin/fragment/atomic/tagselectingform/tagUnitList";
+import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
+import {RootElementId} from "../domain/elementId/rootElementId";
 
 export const PublicPageArticleView = () => {
     const {articleId} = useParams();
@@ -16,7 +17,7 @@ export const PublicPageArticleView = () => {
     useEffect(() => {
         const fetchTagsOptions = async () => {
             try {
-                const topicTagsKey = new ElementId("topicTags");
+                const topicTagsKey = RootElementId.valueOf("topicTags");
                 const topicResponse = await axios.get("/api/v1/topicTags", {
                     params: {
                         [topicTagsKey.append("page").toStringKey()]: 1,
@@ -25,14 +26,14 @@ export const PublicPageArticleView = () => {
                     },
                     headers: {Accept: "application/json"},
                 });
-                const topicUnitList = TagUnitList.fromHash(topicResponse.data);
+                const topicUnitList = TagUnits.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
                     params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const countryUnitList = TagUnitList.fromHash(countryResponse.data);
+                const countryUnitList = TagUnits.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
                 const articleResponse = await axios.get("/api/v1/articles/" + articleId, {
@@ -53,7 +54,7 @@ export const PublicPageArticleView = () => {
 
     if (article) {
         return <PublicArticleBody
-            postKey={new ElementId("article")}
+            postKey={RootElementId.valueOf("article")}
             article={article}
             topicTagOptions={topicTagsOptions}
             countryTagOptions={countryTagsOptions}

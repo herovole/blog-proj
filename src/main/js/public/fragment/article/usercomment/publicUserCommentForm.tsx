@@ -1,11 +1,11 @@
 import React from 'react';
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
 import axios, {AxiosResponse} from "axios";
-import {ElementId} from "../../../../domain/elementId";
+import {ElementId} from "../../../../domain/elementId/elementId";
 
 type PublicUserCommentFormProps = {
     postKey: ElementId;
-    articleId: string;
+    articleId: number;
     functionToRerenderParent: () => void;
 }
 

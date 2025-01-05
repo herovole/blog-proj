@@ -1,35 +1,29 @@
 import React from 'react';
-import axios from 'axios';
 import {TagSelectingForm} from "../../../admin/fragment/atomic/tagselectingform/tagSelectingForm";
 import {AdminCommentEditor} from "../../../admin/fragment/articleeditingpage/commenteditor/adminCommentEditor";
 import {PublicUserCommentForm} from "./usercomment/publicUserCommentForm";
 import {IdsEditingForm} from "../../../admin/fragment/atomic/idsEditingForm";
 import {ImageSelectingModal} from "../../../admin/fragment/image/imageSelectingModal";
 import {PublicUserCommentViewer} from "./usercomment/publicUserCommentViewer";
-import {TagUnitList} from "../../../admin/fragment/atomic/tagselectingform/tagUnitList";
+import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
+import {ElementId} from "../../../domain/elementId/elementId";
+import {Article} from "../../../domain/article";
 
-//  postKey : ElementId
-//  article : Article
-//  topicTagOptions, : TagUnits
-//  countryTagOptions : TagUnits
-export const PublicArticleBody = ({postKey, article, topicTagOptions, countryTagOptions}) => {
+
+type PublicArticleBodyProps = {
+    postKey: ElementId;
+    article: Article;
+    topicTagOptions: TagUnits;
+    countryTagOptions: TagUnits;
+}
+
+export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
+                                                                        postKey,
+                                                                        article,
+                                                                        topicTagOptions,
+                                                                        countryTagOptions
+                                                                    }) => {
     const [refresh, setRefresh] = React.useState(false);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent page reload
-        const formData = new FormData(event.target);
-        const postData = Object.fromEntries(formData.entries());
-
-        try {
-            const response = await axios.post("/api/v1/articles", postData, {
-                headers: {'Content-Type': 'application/json',},
-            });
-
-            const data = await response.json();
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-    };
 
     const reRender = () => {
         setRefresh(r => !r);
@@ -75,7 +69,7 @@ export const PublicArticleBody = ({postKey, article, topicTagOptions, countryTag
                     <TagSelectingForm
                         allowsMultipleOptions={true}
                         postKey={postKey.append("topicTags")}
-                        candidates={topicTagOptions || new TagUnitList()}
+                        candidates={topicTagOptions || TagUnits.empty()}
                         selectedTagIds={article.topicTags}
                         isFixed={true}
                     />
@@ -85,7 +79,7 @@ export const PublicArticleBody = ({postKey, article, topicTagOptions, countryTag
                     <TagSelectingForm
                         allowsMultipleOptions={true}
                         postKey={postKey.append("countries")}
-                        candidates={countryTagOptions || new TagUnitList()}
+                        candidates={countryTagOptions || TagUnits.empty()}
                         selectedTagIds={article.countries}
                         isFixed={true}
                     />

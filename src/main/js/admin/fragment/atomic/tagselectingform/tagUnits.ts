@@ -1,16 +1,16 @@
 import {TagUnit} from './tagUnit'
 
-export class TagUnitList {
+export class TagUnits {
 
     static readonly API_KEY: string = "tagUnits";
 
-    static fromHash(hash: { [key: string]: ReadonlyArray<{ [key: string]: string }> }): TagUnitList {
-        const arrayListOfTagUnits: ReadonlyArray<TagUnit> = hash[TagUnitList.API_KEY].map(hash => TagUnit.fromHash(hash));
-        return new TagUnitList(arrayListOfTagUnits);
+    static fromHash(hash: { [key: string]: ReadonlyArray<{ [key: string]: string }> }): TagUnits {
+        const arrayListOfTagUnits: ReadonlyArray<TagUnit> = hash[TagUnits.API_KEY].map(hash => TagUnit.fromHash(hash));
+        return new TagUnits(arrayListOfTagUnits);
     }
 
-    static empty(): TagUnitList {
-        return new TagUnitList([]);
+    static empty(): TagUnits {
+        return new TagUnits([]);
     }
 
     tagUnits: ReadonlyArray<TagUnit>;

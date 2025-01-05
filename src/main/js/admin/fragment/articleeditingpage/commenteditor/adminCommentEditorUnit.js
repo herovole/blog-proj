@@ -3,7 +3,7 @@ import {IdsEditingForm} from '../../atomic/idsEditingForm';
 import {TextEditingForm} from '../../atomic/textEditingForm';
 import {BooleanSelectingForm} from '../../atomic/booleanSelectingForm';
 import {TagSelectingForm} from '../../atomic/tagselectingform/tagSelectingForm';
-import {TagUnitList} from '../../atomic/tagselectingform/tagUnitList';
+import {TagUnits} from '../../atomic/tagselectingform/tagUnits';
 
 export class AdminCommentEditorUnit extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ export class AdminCommentEditorUnit extends React.Component {
                     <p className="item-title">Country</p>
                     <TagSelectingForm
                         postKey={this.props.postKey.append("country")}
-                        candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
+                        candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnits()}
                         selectedTagIds={this.props.content.country}
                     />
                 </div>

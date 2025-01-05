@@ -4,13 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {ArticleSummaryList} from "../../../domain/articlelist/articleSummaryList";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
-import {TagUnitList} from "../../../admin/fragment/atomic/tagselectingform/tagUnitList";
+import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 
 type PublicArticleHeadlinesProps = {
     articles: ArticleSummaryList;
     directoryToIndividualPage: string;
-    topicTagList: TagUnitList;
-    countryTagList: TagUnitList;
+    topicTagList: TagUnits;
+    countryTagList: TagUnits;
 }
 
 

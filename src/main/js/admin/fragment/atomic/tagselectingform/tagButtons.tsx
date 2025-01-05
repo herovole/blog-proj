@@ -1,10 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagButton} from "./tagButton";
-import {TagUnitList} from "./tagUnitList"
+import {TagUnits} from "./tagUnits"
 
 type TagButtonProps = {
-    tagUnitList: TagUnitList;
+    tagUnitList: TagUnits;
     tagIds: string[];
     searchBaseUrl: string;
 };

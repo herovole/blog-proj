@@ -8,7 +8,7 @@ import {DateSelectingForm} from '../atomic/dateSelectingForm';
 import {BooleanSelectingForm} from '../atomic/booleanSelectingForm';
 import {AdminCommentEditor} from './commenteditor/adminCommentEditor';
 import {TagSelectingForm} from '../atomic/tagselectingform/tagSelectingForm';
-import {TagUnitList} from '../atomic/tagselectingform/tagUnitList';
+import {TagUnits} from '../atomic/tagselectingform/tagUnits';
 
 export class AdminArticleBody extends React.Component {
     constructor(props) {
@@ -98,7 +98,7 @@ export class AdminArticleBody extends React.Component {
                             <TagSelectingForm
                                 allowsMultipleOptions={true}
                                 postKey={this.props.postKey.append("editors")}
-                                candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
+                                candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnits()}
                                 isFixed={true}
                                 selectedTagIds={[]}
                             />
@@ -108,7 +108,7 @@ export class AdminArticleBody extends React.Component {
                             <TagSelectingForm
                                 allowsMultipleOptions={true}
                                 postKey={this.props.postKey.append("topicTags")}
-                                candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnitList()}
+                                candidates={this.props.topicTagOptions ? this.props.topicTagOptions : new TagUnits()}
                                 selectedTagIds={this.props.content.topicTags}
                             />
                         </div>
@@ -117,7 +117,7 @@ export class AdminArticleBody extends React.Component {
                             <TagSelectingForm
                                 allowsMultipleOptions={true}
                                 postKey={this.props.postKey.append("countries")}
-                                candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnitList()}
+                                candidates={this.props.countryTagOptions ? this.props.countryTagOptions : new TagUnits()}
                                 selectedTagIds={this.props.content.countries}
                             />
                         </div>
