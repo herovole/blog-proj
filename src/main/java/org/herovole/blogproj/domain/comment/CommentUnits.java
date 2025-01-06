@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.FormContents;
+import org.herovole.blogproj.domain.IntegerId;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 @ToString
@@ -30,9 +32,14 @@ public class CommentUnits {
         return of(comments);
     }
 
+    public static CommentUnits of(List<CommentUnit> units) {
+        return new CommentUnits(units.toArray(CommentUnit[]::new));
+    }
+
     public static CommentUnits of(CommentUnit[] units) {
         return new CommentUnits(units);
     }
+
 
     public static CommentUnits empty() {
         return of(new CommentUnit[0]);
@@ -64,6 +71,61 @@ public class CommentUnits {
                                 !this.getBySameId(e).hasSameContent(e)
                 )
                 .toArray(CommentUnit[]::new));
+    }
+
+    private CommentUnit getByInArticleCommentId(IntegerId commentId) {
+        CommentUnit[] commentOfSameId = this.stream().filter(e -> !e.isEmpty() && e.getCommentId().equals(commentId)).toArray(CommentUnit[]::new);
+        if (commentOfSameId.length == 0) return CommentUnit.empty();
+        return commentOfSameId[0];
+    }
+
+    private CommentUnits appendUnit(CommentUnit commentUnit) {
+        CommentUnit[] newUnits = new CommentUnit[this.units.length + 1];
+        System.arraycopy(this.units, 0, newUnits, 0, this.units.length);
+        newUnits[this.units.length] = commentUnit;
+        return CommentUnits.of(newUnits);
+    }
+
+    private CommentUnits appendUnitBelowReferredId(IntegerId refId, CommentUnit unit) {
+        int referredUnitIndex = -1;
+        CommentUnit referredUnit = CommentUnit.empty();
+        for (int i = 0; i < this.units.length; i++) {
+            if (this.units[i].getCommentId().equals(refId)) {
+                referredUnitIndex = i;
+                referredUnit = this.units[i];
+            }
+        }
+        if (referredUnitIndex < 0) {
+            return this;
+        }
+        List<CommentUnit> newUnits = Arrays.asList(this.units);
+        for (int i = referredUnitIndex + 1; i < this.units.length; i++) {
+            if (this.units[i].getDepth() <= referredUnit.getDepth()) {
+                newUnits.add(i, unit);
+                return CommentUnits.of(newUnits);
+            }
+        }
+        newUnits.add(unit);
+        return CommentUnits.of(newUnits);
+    }
+
+    public CommentUnits sort() {
+        CommentUnits newUnits = CommentUnits.empty();
+        for (CommentUnit unit : this.units) {
+            IntegerId refId = unit.getLatestReferredId();
+            if (refId.isEmpty()) {
+                newUnits = newUnits.appendUnit(unit);
+            } else {
+                CommentUnit referredUnit = newUnits.getByInArticleCommentId(refId);
+                if (!referredUnit.isEmpty()) {
+                    newUnits = newUnits.appendUnit(unit);
+                    continue;
+                }
+                CommentUnit unitWithDepth = unit.appendDepth(referredUnit.getDepth());
+                newUnits = newUnits.appendUnitBelowReferredId(refId, unitWithDepth);
+            }
+        }
+        return newUnits;
     }
 
     public CommentUnits maskPrivateItems() {

@@ -34,6 +34,11 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getLatestReferredId() {
+        return IntegerId.empty();
+    }
+
+    @Override
     public boolean hasSameCommentId(CommentUnit that) {
         return false;
     }
@@ -56,6 +61,16 @@ public class EmptyCommentUnit implements CommentUnit {
 
     @Override
     public CommentUnit maskPrivateItems() {
+        return this;
+    }
+
+    @Override
+    public int getDepth() {
+        return 0;
+    }
+
+    @Override
+    public CommentUnit appendDepth(int depth) {
         return this;
     }
 

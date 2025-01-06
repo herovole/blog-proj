@@ -1,5 +1,14 @@
 import {CommentUnit} from "./commentUnit";
 
+export interface SourceCommentUnitInterface {
+    commentSerialNumber:number;
+    commentId:number;
+    commentText:string;
+    country:string;
+    isHidden:boolean
+    referringCommentIds:ReadonlyArray<number>;
+}
+
 export class SourceCommentUnit extends CommentUnit {
 
     static API_KEY_ID = "commentId";

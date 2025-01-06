@@ -55,6 +55,11 @@ public class RealSourceCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getLatestReferredId() {
+        return this.referringCommentIds.getLargest();
+    }
+
+    @Override
     public boolean hasSameCommentId(CommentUnit that) {
         if (that.isEmpty()) return false;
         return this.commentId.equals(((RealSourceCommentUnit) that).commentId);
@@ -79,6 +84,16 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public CommentUnit maskPrivateItems() {
         return this;
+    }
+
+    @Override
+    public int getDepth() {
+        return 0;
+    }
+
+    @Override
+    public CommentUnit appendDepth(int depth) {
+        return new CommentUnitWithDepth(this, depth);
     }
 
     @Override

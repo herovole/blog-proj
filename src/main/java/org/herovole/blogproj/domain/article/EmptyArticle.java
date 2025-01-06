@@ -29,6 +29,11 @@ public class EmptyArticle implements Article {
     }
 
     @Override
+    public Article sortComments() {
+        return this;
+    }
+
+    @Override
     public Article maskPrivateItems() {
         return this;
     }

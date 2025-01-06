@@ -78,6 +78,11 @@ public class RealUserCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getLatestReferredId() {
+        return this.referringCommentIds.getLargest();
+    }
+
+    @Override
     public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(this.commentSerialNumber)
@@ -113,6 +118,16 @@ public class RealUserCommentUnit implements CommentUnit {
                 .ip(IPv4Address.empty())
                 .postTimestamp(this.postTimestamp)
                 .build();
+    }
+
+    @Override
+    public int getDepth() {
+        return 0;
+    }
+
+    @Override
+    public CommentUnit appendDepth(int depth) {
+        return new CommentUnitWithDepth(this, depth);
     }
 
     @Override

@@ -66,6 +66,11 @@ public class RealArticleSimplified implements Article {
     }
 
     @Override
+    public Article sortComments() {
+        return this;
+    }
+
+    @Override
     public Article maskPrivateItems() {
         return this;
     }

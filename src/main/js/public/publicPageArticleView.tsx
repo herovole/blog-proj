@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Article} from "../domain/article";
-import {ElementId} from "../domain/elementId/elementId";
 import {PublicArticleBody} from "./fragment/article/publicArticleBody";
 import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
 import {RootElementId} from "../domain/elementId/rootElementId";
+import {ElementId} from "../domain/elementId/elementId";
+import {FindArticleOutput} from "../domain/findArticleOutput";
 
-export const PublicPageArticleView = () => {
+export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
-    const [topicTagsOptions, setTopicTagsOptions] = useState(null);
-    const [countryTagsOptions, setCountryTagsOptions] = useState(null);
-    const [article, setArticle] = useState(null);
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [article, setArticle] = React.useState<Article>();
 
     useEffect(() => {
-        const fetchTagsOptions = async () => {
+        const fetchTagsOptions = async (): Promise<void> => {
             try {
-                const topicTagsKey = RootElementId.valueOf("topicTags");
+                const topicTagsKey: ElementId = RootElementId.valueOf("topicTags");
                 const topicResponse = await axios.get("/api/v1/topicTags", {
                     params: {
                         [topicTagsKey.append("page").toStringKey()]: 1,
@@ -26,21 +27,21 @@ export const PublicPageArticleView = () => {
                     },
                     headers: {Accept: "application/json"},
                 });
-                const topicUnitList = TagUnits.fromHash(topicResponse.data);
+                const topicUnitList: TagUnits = TagUnits.fromHash(topicResponse.data);
                 setTopicTagsOptions(topicUnitList);
 
                 const countryResponse = await axios.get("/api/v1/countries", {
                     params: {"page": 1, "itemsPerPage": 10000, "isDetailed": false},
                     headers: {Accept: "application/json"},
                 });
-                const countryUnitList = TagUnits.fromHash(countryResponse.data);
+                const countryUnitList: TagUnits = TagUnits.fromHash(countryResponse.data);
                 setCountryTagsOptions(countryUnitList);
 
                 const articleResponse = await axios.get("/api/v1/articles/" + articleId, {
                     headers: {Accept: "application/json"},
                 });
-                const article = Article.fromHash(articleResponse.data);
-                setArticle(article);
+                const findArticleOutput: FindArticleOutput = articleResponse.data;
+                setArticle(findArticleOutput.article);
                 console.log(JSON.stringify(articleResponse.data));
                 console.log(JSON.stringify(article));
 

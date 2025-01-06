@@ -33,6 +33,7 @@ public interface CommentUnit {
     HandleName getHandleName();
 
     CommentText getCommentText();
+    IntegerId getLatestReferredId();
 
     boolean hasSameCommentId(CommentUnit that);
 
@@ -42,10 +43,16 @@ public interface CommentUnit {
 
     CommentUnit maskPrivateItems();
 
+    int getDepth();
+    CommentUnit appendDepth(int depth);
+
     boolean isHidden();
 
     CommentUnit.Json toJson();
 
     interface Json {
+        default Json appendDepth(int depth) {
+            return this;
+        }
     }
 }

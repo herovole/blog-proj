@@ -24,15 +24,21 @@ public class FindArticle {
     public FindArticleOutput process(FindArticleInput input) {
         logger.info("interpreted post : {}", input);
         IntegerId articleId = input.getArticleId();
-        Article article = articleDatasource.findById(articleId);
-        logger.info("job successful.");
 
+        logger.info("retrieving article : {}", articleId);
+        Article article = articleDatasource.findById(articleId);
+
+        logger.info("masking private info...");
         if (input.getIsForPublic().isTrue()) {
             article = article
                     .filterOutHiddenComments()
                     .maskPrivateItems();
         }
 
+        logger.info("sorting comments...");
+        article = article.sortComments();
+
+        logger.info("job successful.");
         return new FindArticleOutput(article);
     }
 }

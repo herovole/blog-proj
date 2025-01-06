@@ -98,6 +98,11 @@ public class RealArticle implements Article {
     }
 
     @Override
+    public Article sortComments() {
+        return this.append(this.topicTags, this.countries, this.editors, this.originalComments.sort(), this.userComments.sort());
+    }
+
+    @Override
     public Article maskPrivateItems() {
         return builder()
                 .articleId(this.articleId)

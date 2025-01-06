@@ -1,5 +1,6 @@
 import {UserCommentUnit} from "./userCommentUnit"
 import {SourceCommentUnit} from "./sourceCommentUnit"
+import {CommentUnit} from "./commentUnit";
 
 export class CommentUnits {
 
@@ -19,6 +20,8 @@ export class CommentUnits {
     static empty() {
         return new CommentUnits([]);
     }
+
+    private readonly arrayListOfComments: ReadonlyArray<CommentUnit>;
 
     constructor(arrayListOfComments) {
         this.arrayListOfComments = arrayListOfComments || [];

@@ -1,5 +1,19 @@
 import {CommentUnit} from "./commentUnit"
 
+export interface UserCommentUnitInterface {
+    commentSerialNumber:number;
+    commentId:number;
+    articleId:number;
+    handleName:string;
+    commentText:string;
+    isHidden:boolean;
+    referringCommentIds:ReadonlyArray<number>;
+    likes:number;
+    dislikes:number;
+    dailyUserId:string;
+    postTimestamp:string
+}
+
 
 export class UserCommentUnit extends CommentUnit {
 

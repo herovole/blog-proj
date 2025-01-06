@@ -39,6 +39,8 @@ public interface Article {
             IntegerIds editors,
             int countSourceComments, int countUserComments);
 
+    Article sortComments();
+
     Article maskPrivateItems();
 
     Article filterOutHiddenComments();

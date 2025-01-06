@@ -1,10 +1,10 @@
 
-export class CommentUnit {
+export interface CommentUnit {
 
-    getInArticleCommentId(){};
-    getReferringCommentIds(){};
-    getDepth(){};
-    applyDepth(depth){};
+    getInArticleCommentId();
+    getReferringCommentIds();
+    getDepth();
+    applyDepth(depth);
 
     getLatestReferringId() {
         if(this.getReferringCommentIds().length == 0) {
