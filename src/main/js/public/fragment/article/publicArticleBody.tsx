@@ -98,7 +98,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                 <div>
                     <PublicUserCommentViewer
                         postKey={postKey.append("userComments")}
-                        commentUnitList={article.userComments}
+                        commentUnits={article.userComments}
                     />
                 </div>
                 <div>
