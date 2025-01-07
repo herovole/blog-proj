@@ -1,4 +1,4 @@
-import {CommentUnits} from "./comment/commentUnits";
+import {CommentUnit} from "./comment/commentUnit";
 
 export interface Article {
     articleId: number;
@@ -12,8 +12,8 @@ export interface Article {
     countries: ReadonlyArray<string>;
     topicTags: ReadonlyArray<string>;
     editors: ReadonlyArray<number>;
-    originalComments: CommentUnits;
-    userComments: CommentUnits;
+    sourceComments: ReadonlyArray<CommentUnit>;
+    userComments: ReadonlyArray<CommentUnit>;
     registrationTimestamp: string;
     latestEditTimestamp: string;
 }

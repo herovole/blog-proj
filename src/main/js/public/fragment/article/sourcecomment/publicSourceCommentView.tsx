@@ -1,22 +1,25 @@
 import React from 'react';
 import {PublicSourceCommentViewUnit} from './publicSourceCommentViewUnit'
 import {ElementId} from "../../../../domain/elementId/elementId";
-import {CommentUnits} from "../../../../domain/comment/commentUnits";
 import {CommentUnit} from "../../../../domain/comment/commentUnit";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 import {TagUnits} from "../../../../admin/fragment/atomic/tagselectingform/tagUnits";
 
 type PublicSourceCommentViewProps = {
     postKey: ElementId;
-    commentUnits: CommentUnits;
+    commentUnits: ReadonlyArray<CommentUnit>;
     countryTagsOptions: TagUnits;
 }
 
-export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = ({postKey, commentUnits, countryTagsOptions}) => {
+export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = ({
+                                                                                    postKey,
+                                                                                    commentUnits,
+                                                                                    countryTagsOptions
+                                                                                }) => {
 
     return (
         <div>
-            {commentUnits.commentUnits.map((commentUnit: CommentUnit, i: number) => {
+            {commentUnits.map((commentUnit: CommentUnit, i: number) => {
                 const unit = commentUnit as SourceCommentUnit;
                 const depth: number = unit.depth;
                 return (

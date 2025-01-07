@@ -7,6 +7,7 @@ import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.FormContents;
 import org.herovole.blogproj.domain.IntegerId;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -49,6 +50,10 @@ public class CommentUnits {
 
     public Stream<CommentUnit> stream() {
         return Arrays.stream(units);
+    }
+
+    public boolean isEmpty() {
+        return this.units.length == 0;
     }
 
     public boolean hasInId(CommentUnit commentUnit) {
@@ -98,7 +103,7 @@ public class CommentUnits {
         if (referredUnitIndex < 0) {
             return this;
         }
-        List<CommentUnit> newUnits = Arrays.asList(this.units);
+        List<CommentUnit> newUnits = new ArrayList<>(Arrays.asList(this.units)); // This way breaks the immutability of the list.
         for (int i = referredUnitIndex + 1; i < this.units.length; i++) {
             if (this.units[i].getDepth() <= referredUnit.getDepth()) {
                 newUnits.add(i, unit);
@@ -114,14 +119,16 @@ public class CommentUnits {
         for (CommentUnit unit : this.units) {
             IntegerId refId = unit.getLatestReferredId();
             if (refId.isEmpty()) {
-                newUnits = newUnits.appendUnit(unit);
+                CommentUnit unitWithDepth = unit.appendDepth(0);
+                newUnits = newUnits.appendUnit(unitWithDepth);
             } else {
                 CommentUnit referredUnit = newUnits.getByInArticleCommentId(refId);
-                if (!referredUnit.isEmpty()) {
-                    newUnits = newUnits.appendUnit(unit);
+                if (referredUnit.isEmpty()) {
+                    CommentUnit unitWithDepth = unit.appendDepth(0);
+                    newUnits = newUnits.appendUnit(unitWithDepth);
                     continue;
                 }
-                CommentUnit unitWithDepth = unit.appendDepth(referredUnit.getDepth());
+                CommentUnit unitWithDepth = unit.appendDepth(referredUnit.getDepth() + 1);
                 newUnits = newUnits.appendUnitBelowReferredId(refId, unitWithDepth);
             }
         }

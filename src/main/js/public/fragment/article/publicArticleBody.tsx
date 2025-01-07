@@ -91,7 +91,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                     <p className="item-title-large">Original Comments</p>
                     <PublicSourceCommentView
                         postKey={postKey.append("originalComments")}
-                        commentUnits={article.originalComments}
+                        commentUnits={article.sourceComments}
                         countryTagsOptions={countryTagOptions}
                     />
                 </div>
