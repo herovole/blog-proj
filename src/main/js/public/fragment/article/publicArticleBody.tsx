@@ -1,13 +1,13 @@
 import React from 'react';
 import {TagSelectingForm} from "../../../admin/fragment/atomic/tagselectingform/tagSelectingForm";
-import {AdminCommentEditor} from "../../../admin/fragment/articleeditingpage/commenteditor/adminCommentEditor";
 import {PublicUserCommentForm} from "./usercomment/publicUserCommentForm";
 import {IdsEditingForm} from "../../../admin/fragment/atomic/idsEditingForm";
 import {ImageSelectingModal} from "../../../admin/fragment/image/imageSelectingModal";
-import {PublicUserCommentViewer} from "./usercomment/publicUserCommentViewer";
+import {PublicUserCommentView} from "./usercomment/publicUserCommentView";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {ElementId} from "../../../domain/elementId/elementId";
 import {Article} from "../../../domain/article";
+import {PublicSourceCommentView} from "./sourcecomment/publicSourceCommentView";
 
 
 type PublicArticleBodyProps = {
@@ -89,14 +89,14 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                 </div>
                 <div>
                     <p className="item-title-large">Original Comments</p>
-                    <AdminCommentEditor
+                    <PublicSourceCommentView
                         postKey={postKey.append("originalComments")}
-                        content={article.originalComments}
-                        countryTagOptions={countryTagOptions}
+                        commentUnits={article.originalComments}
+                        countryTagsOptions={countryTagOptions}
                     />
                 </div>
                 <div>
-                    <PublicUserCommentViewer
+                    <PublicUserCommentView
                         postKey={postKey.append("userComments")}
                         commentUnits={article.userComments}
                     />

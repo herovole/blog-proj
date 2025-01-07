@@ -1,0 +1,39 @@
+.comment-section {
+    border: 2px solid #AAAAAA;
+
+}
+
+.source-comment-individual {
+    background-color: #D0CCAA;
+    padding:5px;
+    margin:2px;
+}
+
+.source-comment-text {
+    background-color: #D0CCAA;
+    padding: 10px;
+}
+
+.user-comment-individual {
+    background-color: #DDCCAA;
+    padding:5px;
+    margin:2px;
+}
+
+.user-comment-text {
+    background-color: #DDCCAA;
+    padding: 10px;
+}
+
+.comment-handle {
+    color: #007744;
+}
+
+.comment-anchor {
+    color: #2222FF
+}
+
+.report-button {
+    background-color: #444444;
+    color: #999999
+}
