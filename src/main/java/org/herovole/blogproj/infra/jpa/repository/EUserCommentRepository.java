@@ -31,17 +31,17 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "   e_user_comment_rating rn " +
             " On " +
             "   c.id = rn.comment_serial_number " +
+            " And " +
+            "   rn.rating < 0 And rn.delete_flag = 0 " +
             " Left Join " +
             "   e_user_comment_rating rp " +
             " On " +
             "   c.id = rp.comment_serial_number " +
+            " And " +
+            "   rp.rating > 0 And rp.delete_flag = 0 " +
 
             " Where " +
             "   c.article_id = :articleId " +
-            " And " +
-            "   rn.rating < 0 And rn.delete_flag = 0 " +
-            " And " +
-            "   rp.rating > 0 And rp.delete_flag = 0 " +
             " Group By c.id " +
             " Order By c.comment_id ", nativeQuery = true)
     List<EUserComment.EUserCommentWithRating> findByArticleId(@Param("articleId") long articleId);

@@ -1,7 +1,7 @@
 import React from "react";
 import {Link, NavLink} from "react-router-dom"; // 追加
 
-export const AdminHeader = () => {
+export const AdminHeader: React.FC = () => {
     return (
         <div>
             <div className="flex-container">
@@ -38,9 +38,9 @@ export const AdminHeader = () => {
                              to="/articles">articles</NavLink>
                 </span>
                 <span>
-                    <Link to="/articles/1">article_view 0</Link>
+                    <Link to="/articles/1">article_view 1</Link>
                     <NavLink style={({active}) => (active ? {color: 'red'} : undefined)}
-                             to="/articles/1">article_view 0</NavLink>
+                             to="/articles/1">article_view 1</NavLink>
                 </span>
             </div>
         </div>

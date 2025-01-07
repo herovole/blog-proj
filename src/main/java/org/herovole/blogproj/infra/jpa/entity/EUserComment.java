@@ -21,6 +21,7 @@ import org.herovole.blogproj.domain.user.DailyUserId;
 import org.herovole.blogproj.domain.user.IntegerPublicUserId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -134,34 +135,50 @@ public class EUserComment implements Serializable {
     }
 
     public interface EUserCommentWithRating {
+        @Value("#{target.id}")
         long getId();
 
+        @Value("#{target.comment_id}")
         int getCommentId();
 
+        @Value("#{target.article_id}")
         long getArticleId();
 
+        @Value("#{target.handle_name}")
         String getHandleName();
 
+        @Value("#{target.comment_text}")
         String getCommentText();
 
+        @Value("#{target.is_hidden}")
         boolean getIsHidden();
 
+        @Value("#{target.referring_comment_ids}")
         String getReferringCommentIds();
 
+        @Value("#{target.daily_user_id}")
         String getDailyUserId();
 
+        @Value("#{target.user_id}")
         long getUserId();
 
+        @Value("#{target.aton}")
         long getAton();
 
+        @Value("#{target.update_timestamp}")
         LocalDateTime getUpdateTimestamp();
 
+        @Value("#{target.insert_timestamp}")
         LocalDateTime getInsertTimestamp();
 
+
+        @Value("#{target.delete_flag}")
         boolean getDeleteFlag();
 
+        @Value("#{target.likes}")
         int getLikes();
 
+        @Value("#{target.dislikes}")
         int getDisLikes();
 
         default CommentUnit toDomainObj() {
