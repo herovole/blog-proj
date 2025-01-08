@@ -14,6 +14,11 @@ export const PublicPageArticleView: React.FC = () => {
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [article, setArticle] = React.useState<Article>();
+    const [refresh, setRefresh] = React.useState(false);
+    const reRender = () => {
+        console.log("reload the page, flag:" + refresh);
+        setRefresh(r => !r);
+    }
 
     useEffect(() => {
         const fetchTagsOptions = async (): Promise<void> => {
@@ -51,7 +56,7 @@ export const PublicPageArticleView: React.FC = () => {
         };
         console.log("pageArticle");
         fetchTagsOptions();
-    }, []);
+    }, [refresh]);
 
     if (article) {
         return <PublicArticleBody
@@ -59,6 +64,7 @@ export const PublicPageArticleView: React.FC = () => {
             article={article}
             topicTagOptions={topicTagsOptions}
             countryTagOptions={countryTagsOptions}
+            reRender={reRender}
         />
     } else {
         return <div>Loading...</div>

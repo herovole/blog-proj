@@ -8,11 +8,11 @@ type PublicUserCommentFormProps = {
     articleId: number;
     articleTitle: string;
     refText: RefObject<HTMLTextAreaElement | null>;
-    functionToRerenderParent: () => void;
+    reRender: () => void;
 }
 
 export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
-    {postKey, articleId, articleTitle, refText, functionToRerenderParent}: PublicUserCommentFormProps) => {
+    {postKey, articleId, articleTitle, refText, reRender}: PublicUserCommentFormProps) => {
     const [refresh, setRefresh] = React.useState<boolean>(false);
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_comment";
@@ -40,7 +40,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             });
             const responseBody: string = response.data;
             console.log(responseBody);
-            functionToRerenderParent();
+            reRender();
         } catch (error) {
             console.error('Error submitting form:', error);
         }

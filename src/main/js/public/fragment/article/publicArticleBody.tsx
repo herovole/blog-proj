@@ -15,20 +15,18 @@ type PublicArticleBodyProps = {
     article: Article;
     topicTagOptions: TagUnits;
     countryTagOptions: TagUnits;
+    reRender: () => void;
 }
 
 export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         postKey,
                                                                         article,
                                                                         topicTagOptions,
-                                                                        countryTagOptions
+                                                                        countryTagOptions,
+                                                                        reRender
                                                                     }) => {
-    const [refresh, setRefresh] = React.useState(false);
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
 
-    const reRender = () => {
-        setRefresh(r => !r);
-    }
 
     const handleReference = (commentIdReferred: number) => {
         if (refText.current) {
@@ -104,7 +102,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                         handleReference={handleReference}
                     />
                 </div>
-                <div>:
+                <div>
                     <PublicUserCommentView
                         postKey={postKey.append("userComments")}
                         commentUnits={article.userComments}
@@ -117,7 +115,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                         articleId={article.articleId}
                         articleTitle={article.title}
                         refText={refText}
-                        functionToRerenderParent={reRender}
+                        reRender={reRender}
                     />
                 </div>
             </div>
