@@ -7,12 +7,13 @@ import {CommentUnit} from "../../../../domain/comment/commentUnit";
 type PublicUserCommentViewProps = {
     postKey: ElementId;
     commentUnits: ReadonlyArray<CommentUnit>;
+    handleReference: (commentIdReferred: number) => void;
 }
 
-export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({postKey, commentUnits}) => {
+export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({postKey, commentUnits, handleReference}) => {
 
     return (
-        <div>
+        <div className="comment-section">
             {commentUnits.map((commentUnit: CommentUnit, i: number) => {
                 const unit = commentUnit as UserCommentUnit;
                 const depth: number = unit.depth;
@@ -24,6 +25,7 @@ export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({pos
                         <PublicUserCommentViewUnit
                             postKey={postKey.append(i.toString())}
                             content={unit}
+                            handleReference={handleReference}
                         />
                     </div>
                 );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {RefObject} from 'react';
 import {TagSelectingForm} from "../../../admin/fragment/atomic/tagselectingform/tagSelectingForm";
 import {PublicUserCommentForm} from "./usercomment/publicUserCommentForm";
 import {IdsEditingForm} from "../../../admin/fragment/atomic/idsEditingForm";
@@ -24,9 +24,17 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         countryTagOptions
                                                                     }) => {
     const [refresh, setRefresh] = React.useState(false);
+    const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
 
     const reRender = () => {
         setRefresh(r => !r);
+    }
+
+    const handleReference = (commentIdReferred: number) => {
+        if (refText.current) {
+            refText.current.focus();
+            refText.current.value += ">>" + commentIdReferred.toString();
+        }
     }
 
     return (
@@ -93,18 +101,22 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                         postKey={postKey.append("originalComments")}
                         commentUnits={article.sourceComments}
                         countryTagsOptions={countryTagOptions}
+                        handleReference={handleReference}
                     />
                 </div>
-                <div>
+                <div>:
                     <PublicUserCommentView
                         postKey={postKey.append("userComments")}
                         commentUnits={article.userComments}
+                        handleReference={handleReference}
                     />
                 </div>
                 <div>
                     <PublicUserCommentForm
                         postKey={postKey.append("userCommentForm")}
                         articleId={article.articleId}
+                        articleTitle={article.title}
+                        refText={refText}
                         functionToRerenderParent={reRender}
                     />
                 </div>

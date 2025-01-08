@@ -9,16 +9,18 @@ type PublicSourceCommentViewProps = {
     postKey: ElementId;
     commentUnits: ReadonlyArray<CommentUnit>;
     countryTagsOptions: TagUnits;
+    handleReference: (commentIdReferred: number) => void;
 }
 
 export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = ({
                                                                                     postKey,
                                                                                     commentUnits,
-                                                                                    countryTagsOptions
+                                                                                    countryTagsOptions,
+                                                                                    handleReference
                                                                                 }) => {
 
     return (
-        <div>
+        <div className="comment-section">
             {commentUnits.map((commentUnit: CommentUnit, i: number) => {
                 const unit = commentUnit as SourceCommentUnit;
                 const depth: number = unit.depth;
@@ -31,6 +33,7 @@ export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = (
                             postKey={postKey.append(i.toString())}
                             content={unit}
                             countryTagsOptions={countryTagsOptions}
+                            handleReference={handleReference}
                         />
                     </div>
                 );
