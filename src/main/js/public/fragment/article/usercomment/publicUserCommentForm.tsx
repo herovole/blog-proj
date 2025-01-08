@@ -40,6 +40,9 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             });
             const responseBody: string = response.data;
             console.log(responseBody);
+            if(refText.current != null) {
+                refText.current.value = "";
+            }
             reRender();
         } catch (error) {
             console.error('Error submitting form:', error);
