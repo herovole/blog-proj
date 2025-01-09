@@ -2,9 +2,11 @@ import React, {RefObject} from 'react';
 import {ElementId} from "../../../../domain/elementId/elementId";
 import {UserCommentUnit} from "../../../../domain/comment/userCommentUnit";
 import Modal from "react-modal/lib";
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
 import {ReportUserCommentInput} from "./reportUserCommentInput";
+import {ReportUserCommentOutput, ReportUserCommentOutputFields} from "./reportUserCommentOutput";
+import {Zurvan} from "../../../../domain/zurvan";
 
 const customStyles = {
     content: {
@@ -32,6 +34,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
 
     const [open, setOpen] = React.useState<boolean>(false);
     const refReport: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
+    const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
+    const [messageWarning, setMessageWarning] = React.useState<string>("");
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_report";
 
@@ -52,31 +56,45 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const afterModal = () => {
     }
     const handleReport = async () => {
+        setMessageOrdinary("送信中: しばらくお待ちください。");
+        setMessageWarning("");
 
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
+            setMessageOrdinary("");
+            setMessageWarning("送信失敗: Webサイト保護機能にトラブル。ページ更新後に再度お試しください。");
             return;
         }
         const recaptchaToken: string = await executeRecaptcha(googleReCaptchaActionLabel);
         if (!recaptchaToken) {
             console.error('verification failed');
+            setMessageOrdinary("");
+            setMessageWarning("送信失敗: Webサイト保護機能にトラブル。通信状況をご確認後にに再度お試しください。");
             return;
         }
         const input: ReportUserCommentInput = new ReportUserCommentInput(
             content.body.commentSerialNumber,
-            refReport?.current?.textContent?.toString(),
+            refReport?.current?.value?.toString(),
             recaptchaToken
         );
         try {
-            const response: AxiosResponse<string> = await axios.post(input.buildUrl(), input.toPayloadHash(), {
+            const response = await axios.post(input.buildUrl(), input.toPayloadHash(), {
                 headers: {'Content-Type': 'application/json',},
             });
-            const responseBody: string = response.data;
-            console.log(responseBody);
-            if (refReport.current != null) {
-                refReport.current.value = "";
+            const output: ReportUserCommentOutput = new ReportUserCommentOutput(response.data as ReportUserCommentOutputFields);
+            if (output.isSuccessful()) {
+                setMessageOrdinary(output.getMessage());
+                setMessageWarning("");
+                await Zurvan.delay(2);
+                if (refReport.current != null) {
+                    refReport.current.value = "";
+                    setMessageOrdinary("");
+                }
+                closeModal();
+            } else {
+                setMessageOrdinary("");
+                setMessageWarning(output.getMessage());
             }
-            closeModal();
         } catch (error) {
             console.error('Error submitting form:', error);
         }
@@ -118,8 +136,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
                             <textarea className="report-form-text" ref={refReport}></textarea>
                             <br/>
                             <button className="report-form-submit" type="button" onClick={handleReport}>報告</button>
-                            <span className="report-form-process"> 投稿中です。しばらくお待ちください。</span><span
-                            className="comment-form-err"> 投稿失敗:サイト管理上問題のある表現を含んでいます。</span>
+                            <span className="comment-form-process">{messageOrdinary}</span>
+                            <span className="comment-form-err">{messageWarning}</span>
                         </div>
                     </div>
                 </Modal>

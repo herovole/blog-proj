@@ -43,6 +43,7 @@ public class ProcessReportUserCommentInput {
         }
 
         public ProcessReportUserCommentInput build() {
+            System.out.println(iPv4Address.toRegularFormat() + " [" + uuId + "] " + verificationToken);
             if (iPv4Address == null || uuId == null || verificationToken == null || formContent == null) {
                 throw new IllegalStateException(ProcessReportUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }

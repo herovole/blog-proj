@@ -15,7 +15,7 @@ export class ReportUserCommentInput {
         return {
             "article.userCommentReporting.commentSerialNumber": this.commentSerialNumber.toString(),
             "article.userCommentReporting.text": this.reportingText ? this.reportingText : "",
-            "article.userCommentReporting.token": this.verificationToken
+            "token": this.verificationToken
         };
     };
 

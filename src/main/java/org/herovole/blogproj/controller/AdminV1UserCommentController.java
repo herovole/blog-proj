@@ -131,6 +131,7 @@ public class AdminV1UserCommentController {
             ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
             ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
+            formContent.println("reporting : ");
             ProcessReportUserCommentInput input = new ProcessReportUserCommentInput.Builder()
                     .setiPv4Address(servletRequest.getUserIp())
                     .setUuId(UniversallyUniqueId.valueOf(uuId))
