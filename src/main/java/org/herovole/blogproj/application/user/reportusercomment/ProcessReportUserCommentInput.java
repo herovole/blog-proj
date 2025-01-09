@@ -52,7 +52,7 @@ public class ProcessReportUserCommentInput {
                     iPv4Address,
                     uuId,
                     verificationToken,
-                    IntegerId.fromFormContentArticleId(children),
+                    IntegerId.fromFormContentCommentSerialNumber(children),
                     CommentText.fromFormContentCommentText(children)
             );
         }

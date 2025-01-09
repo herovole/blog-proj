@@ -1,0 +1,35 @@
+
+.report-form-exterior {
+    border: 2px solid #AAAAAA;
+}
+.report-form-interior {
+    background-color: #7799AA;
+    padding:5px;
+    margin:2px;
+}
+.report-form-header {
+    background-color: #CCCC88;
+}
+
+.report-form-label {
+    display: inline-block;
+    width:80px;
+    vertical-align:top;
+}
+.report-reference-text {
+    margin: 10px;
+    width:70%;
+}
+.report-form-text {
+    margin: 2px;
+    width:70%;
+    height: 72px;
+}
+.report-form-submit {
+    border: 2px outset #CCCC88;
+    background-color: #CCCC88;
+    width:50px;
+}
+.report-form-cancel {
+    text-align:right;
+}

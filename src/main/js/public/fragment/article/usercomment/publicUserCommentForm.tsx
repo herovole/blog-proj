@@ -40,7 +40,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             });
             const responseBody: string = response.data;
             console.log(responseBody);
-            if(refText.current != null) {
+            if (refText.current != null) {
                 refText.current.value = "";
             }
             reRender();
@@ -52,9 +52,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-
-            <div className="comment-form-exterior">
+        <div className="comment-form-exterior">
+            <form onSubmit={handleSubmit}>
                 <div className="comment-form-interior">
                     <div className="comment-form-header">記事「{articleTitle}」へ投稿</div>
                     <input type="hidden" name={postKey.append("articleId").toStringKey()} value={articleId}/>
@@ -84,8 +83,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                     <span className="comment-form-process"> 投稿中です。しばらくお待ちください。</span>
                     <span className="comment-form-err"> 投稿失敗:サイト管理上問題のある表現を含んでいます。</span>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     );
 }
 
