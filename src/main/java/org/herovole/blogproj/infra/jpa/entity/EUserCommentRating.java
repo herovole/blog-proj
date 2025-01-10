@@ -67,7 +67,7 @@ public class EUserCommentRating implements Serializable {
     private long aton;
 
     @Column(name = "rating")
-    private int rating;
+    private short rating;
 
     @UpdateTimestamp
     @Column(name = "update_timestamp")

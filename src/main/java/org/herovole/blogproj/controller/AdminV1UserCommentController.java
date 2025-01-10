@@ -84,7 +84,7 @@ public class AdminV1UserCommentController {
         }
     }
 
-    @PostMapping("/rate")
+    @PostMapping("/{commentSerialNumber}/rate")
     public ResponseEntity<String> rateComment(
             @RequestBody Map<String, String> request,
             @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,

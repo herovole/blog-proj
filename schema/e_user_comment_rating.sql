@@ -6,7 +6,7 @@ CREATE TABLE e_user_comment_rating (
   public_user_id BIGINT NOT NULL,
   aton BIGINT,
 
-  rating TINYINT(1) NOT NULL,
+  rating SMALLINT NOT NULL,
 
   update_timestamp timestamp default current_timestamp on update current_timestamp,
   insert_timestamp timestamp default current_timestamp,

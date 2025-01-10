@@ -7,6 +7,8 @@ import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
 import {ReportUserCommentInput} from "./reportUserCommentInput";
 import {ReportUserCommentOutput, ReportUserCommentOutputFields} from "./reportUserCommentOutput";
 import {Zurvan} from "../../../../domain/zurvan";
+import {RateUserCommentInput} from "./rateUserCommentInput";
+import {RateUserCommentOutput, RateUserCommentOutputFields} from "./rateUserCommentOutput";
 
 const customStyles = {
     content: {
@@ -34,15 +36,74 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
 
     const [open, setOpen] = React.useState<boolean>(false);
     const refReport: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
+
     const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
     const [messageWarning, setMessageWarning] = React.useState<string>("");
+
+    const BTN_CLASS_OFF: string = "user-comment-rate-off";
+    const BTN_CLASS_ON: string = "user-comment-rate-on";
+    const [btnGoodClass, setBtnGoodClass] = React.useState<string>(BTN_CLASS_OFF);
+    const [btnBadClass, setBtnBadClass] = React.useState<string>(BTN_CLASS_OFF);
+    const [likes, setLikes] = React.useState<number>(content.body.likes);
+    const [dislikes, setDislikes] = React.useState<number>(content.body.dislikes);
+
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_report";
 
-    const handleLikes = () => {
+    const handleGood = async () => {
+        if (btnBadClass == BTN_CLASS_ON) { return; }
+        const isSuccessful = await handleRate(1);
+        if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
+            setBtnGoodClass(BTN_CLASS_ON);
+            setLikes(likes + 1);
+        }
+        if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
+            if (btnGoodClass == BTN_CLASS_ON) { return; }
+            setBtnGoodClass(BTN_CLASS_OFF);
+            setLikes(likes);
+        }
     }
-    const handleDislikes = () => {
+    const handleBad = async () => {
+        const isSuccessful = await handleRate(-1);
+        if (isSuccessful && btnBadClass == BTN_CLASS_OFF) {
+            setBtnBadClass(BTN_CLASS_ON);
+            setDislikes(likes + 1);
+        }
+        if (isSuccessful && btnBadClass == BTN_CLASS_ON) {
+            setBtnBadClass(BTN_CLASS_OFF);
+            setDislikes(likes);
+        }
     }
+    const handleRate = async (rating: number): Promise<boolean> => {
+
+        if (!executeRecaptcha) {
+            console.error('reCAPTCHA not yet available');
+            return false;
+        }
+        const recaptchaToken: string = await executeRecaptcha(googleReCaptchaActionLabel);
+        if (!recaptchaToken) {
+            console.error('verification failed');
+            return false;
+        }
+        const input: RateUserCommentInput = new RateUserCommentInput(
+            content.body.commentSerialNumber,
+            rating,
+            recaptchaToken
+        );
+        try {
+            const response = await axios.post(input.buildUrl(), input.toPayloadHash(), {
+                headers: {'Content-Type': 'application/json',},
+            });
+            const output: RateUserCommentOutput = new RateUserCommentOutput(response.data as RateUserCommentOutputFields);
+            return output.isSuccessful();
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            return false;
+        }
+
+    }
+
+
     const handleOnClickReference = () => {
         handleReference(content.body.commentId);
     }
@@ -110,11 +171,11 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             <button type="button" onClick={handleOnClickReference}>このコメントへ返信</button>
             <div className="user-comment-text">{content.body.commentText}
                 <div>
-                    <button type="button">+</button>
-                    <span> {content.body.likes}</span></div>
+                    <button type="button" className={btnGoodClass} onClick={handleGood}>Good</button>
+                    <span> {likes}</span></div>
                 <div>
-                    <button type="button">-</button>
-                    <span> {content.body.dislikes}</span></div>
+                    <button type="button" className={btnBadClass} onClick={handleBad}>Bad</button>
+                    <span> {dislikes}</span></div>
             </div>
             <div>
                 <Modal

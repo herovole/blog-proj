@@ -37,3 +37,16 @@
     background-color: #444444;
     color: #999999
 }
+
+.user-comment-rate-off {
+    border: 2px outset #CCCCCC;
+    width: 50px;
+}
+
+.user-comment-rate-on {
+    border: 2px inset #CCCCCC;
+    background-color: #666666;
+    color:#FFFFFF;
+    width: 50px;
+}
+

@@ -12,6 +12,10 @@ public class Rating {
         return valueOf(Integer.parseInt(child.getValue()));
     }
 
+    public static Rating valueOf(Short value) {
+        return valueOf(Integer.valueOf(value));
+    }
+
     public static Rating valueOf(Integer value) {
         if (value == null) return new Rating(null);
         if (value < 0) return new Rating(false);
@@ -20,7 +24,7 @@ public class Rating {
     }
 
     public static Rating none() {
-        return valueOf(null);
+        return valueOf((Integer) null);
     }
 
     private static final String API_KEY_RATING = "rating";
@@ -31,7 +35,7 @@ public class Rating {
         return value == null;
     }
 
-    public int memorySignature() {
+    public short memorySignature() {
         if (this.isNone()) return 0;
         if (Boolean.TRUE.equals(this.value)) {
             return 1;
