@@ -2,6 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+    devServer:{
+        historyApiFallback: true,
+        port: 3000,
+        open: true,
+    },
     resolve: {extensions: ['.js', '.jsx', '.ts', '.tsx'],},
     entry: './src/main/js/index.tsx',
     output: {

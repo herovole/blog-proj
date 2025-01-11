@@ -1,0 +1,35 @@
+.header-frame {
+    width:100%;
+    border: 1px solid #000000;
+    background-color: #EEEEEE;
+}
+
+.header-alignment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px;
+    width:500px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+.header-unit {
+    border: 4px outset #AAAAAA;
+    background-color: #EEEEEE;
+    padding:5px;
+    width:120px;
+    text-align:center;
+    color:#000000;
+    text-decoration: none;
+}
+
+.header-unit-active {
+    border: 4px outset #AAAAAA;
+    background-color: #CCDDEE;
+    padding:5px;
+    width:120px;
+    text-align:center;
+    color:#000000;
+    text-decoration: none;
+}

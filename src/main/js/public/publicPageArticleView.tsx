@@ -8,6 +8,7 @@ import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {ElementId} from "../domain/elementId/elementId";
 import {FindArticleOutput} from "../domain/findArticleOutput";
+import {PublicHeader} from "./fragment/publicHeader";
 
 export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
@@ -59,18 +60,24 @@ export const PublicPageArticleView: React.FC = () => {
     }, [refresh]);
 
     if (article) {
-        return <div className="main-area-frame">
-            <div className="main-area">
-                <PublicArticleBody
-                    postKey={RootElementId.valueOf("article")}
-                    article={article}
-                    topicTagOptions={topicTagsOptions}
-                    countryTagOptions={countryTagsOptions}
-                    reRender={reRender}
-                />
+        return <div>
+            <PublicHeader/>
+            <div className="main-area-frame">
+                <div className="main-area">
+                    <PublicArticleBody
+                        postKey={RootElementId.valueOf("article")}
+                        article={article}
+                        topicTagOptions={topicTagsOptions}
+                        countryTagOptions={countryTagsOptions}
+                        reRender={reRender}
+                    />
+                </div>
             </div>
         </div>
     } else {
-        return <div>Loading...</div>
+        return <div>
+            <PublicHeader/>
+            <div>Loading...</div>
+        </div>
     }
 };
