@@ -164,9 +164,9 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     return (
         <div className="user-comment-individual">
             <span>{content.body.commentId}:</span>
-            <span className="comment-handle">{content.body.handleName}</span>
-            <span>{content.body.postTimestamp}</span>
-            <span>ID:{content.body.dailyUserId}</span>
+            <span className="comment-handle">{content.body.handleName} </span>
+            <span>{content.body.postTimestamp} </span>
+            <span>ID:{content.body.dailyUserId} </span>
             <button className="report-button" type="button" onClick={openModal}>管理者へ報告</button>
             <button type="button" onClick={handleOnClickReference}>このコメントへ返信</button>
             <div className="user-comment-text">{content.body.commentText}

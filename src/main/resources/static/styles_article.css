@@ -1,0 +1,46 @@
+
+.main-area-frame {
+    border: 2px solid #AAAAAA;
+    padding: 2px;
+    width: 70%;
+}
+.main-area {
+    background-color: #D0CCAA;
+
+}
+.article-title {
+    color:#444444;
+    font-size:28px;
+    border-bottom:1px solid #AAAAAA;
+}
+.article-image {
+    width: 512px;
+    height: 512px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.article-text {
+    font-size:20px;
+}
+
+.article-timestamp {
+    text-align:right;
+    color:#997777;
+    font-style:italic;
+}
+
+.article-source-url {
+    text-align:right;
+    color:#997777;
+    font-style:italic;
+}
+
+.article-tag-alignment {
+    text-align:right;
+}
+
+.section-title {
+    border-bottom: 2px solid black;
+    margin-top: 5px;
+    color:#888888;
+}

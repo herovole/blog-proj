@@ -59,13 +59,17 @@ export const PublicPageArticleView: React.FC = () => {
     }, [refresh]);
 
     if (article) {
-        return <PublicArticleBody
-            postKey={RootElementId.valueOf("article")}
-            article={article}
-            topicTagOptions={topicTagsOptions}
-            countryTagOptions={countryTagsOptions}
-            reRender={reRender}
-        />
+        return <div className="main-area-frame">
+            <div className="main-area">
+                <PublicArticleBody
+                    postKey={RootElementId.valueOf("article")}
+                    article={article}
+                    topicTagOptions={topicTagsOptions}
+                    countryTagOptions={countryTagsOptions}
+                    reRender={reRender}
+                />
+            </div>
+        </div>
     } else {
         return <div>Loading...</div>
     }

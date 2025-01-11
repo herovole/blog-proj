@@ -14,6 +14,7 @@ export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({pos
 
     return (
         <div className="comment-section">
+            <p className="section-title">コメント欄</p>
             {commentUnits.map((commentUnit: CommentUnit, i: number) => {
                 const unit = commentUnit as UserCommentUnit;
                 const depth: number = unit.depth;
