@@ -1,30 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
+import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {Article} from "../domain/article";
-import {PublicArticleBody} from "./fragment/article/publicArticleBody";
-import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
+import {ElementId} from "../domain/elementId/elementId";
+import {AdminHeader} from "./adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
-import {FindArticleOutput} from "../service/articles/findArticleOutput";
-import {PublicHeader} from "./fragment/publicHeader";
-import {TagService} from "../service/tags/tagService";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
 import {FindArticleInput} from "../service/articles/findArticleInput";
+import {FindArticleOutput} from "../service/articles/findArticleOutput";
 import {ArticleService} from "../service/articles/articleService";
+import {TagService} from "../service/tags/tagService";
 
-export const PublicPageArticleView: React.FC = () => {
+export const AdminPageArticle:React.FC = () => {
     const {articleId} = useParams();
     const articleService: ArticleService = new ArticleService();
     const tagService: TagService = new TagService();
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [article, setArticle] = React.useState<Article>();
-    const [refresh, setRefresh] = React.useState(false);
-    const reRender = () => {
-        console.log("reload the page, flag:" + refresh);
-        setRefresh(r => !r);
-    }
+
     const load = async (): Promise<void> => {
         try {
 
@@ -45,27 +43,21 @@ export const PublicPageArticleView: React.FC = () => {
     };
     useEffect(() => {
         load().then(r => {console.log(r);});
-    }, [refresh]);
+    }, []);
 
     if (article) {
-        return <div>
-            <PublicHeader/>
-            <div className="main-area-frame">
-                <div className="main-area">
-                    <PublicArticleBody
-                        postKey={RootElementId.valueOf("article")}
-                        article={article}
-                        topicTagOptions={topicTagsOptions}
-                        countryTagOptions={countryTagsOptions}
-                        reRender={reRender}
-                    />
-                </div>
+        return (
+            <div>
+                <AdminHeader/>
+                <AdminArticleBody
+                    postKey={RootElementId.valueOf("articleEditingPage")}
+                    content={article}
+                    topicTagOptions={topicTagsOptions}
+                    countryTagOptions={countryTagsOptions}
+                />
             </div>
-        </div>
+        );
     } else {
-        return <div>
-            <PublicHeader/>
-            <div>Loading...</div>
-        </div>
+        return <div>Loading...</div>
     }
 };
