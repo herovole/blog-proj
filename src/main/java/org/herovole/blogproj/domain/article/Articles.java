@@ -19,10 +19,8 @@ public class Articles {
 
     private final Article[] arrayOfArticles;
 
-    public Json toJsonRecord() {
-        return new Json(Arrays.stream(arrayOfArticles).map(Article::toJsonRecord).toArray(Article.Json[]::new));
+    public Article.Json[] toJsonRecord() {
+        return Arrays.stream(arrayOfArticles).map(Article::toJsonRecord).toArray(Article.Json[]::new);
     }
 
-    public record Json(Article.Json[] articles) {
-    }
 }

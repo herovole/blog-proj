@@ -94,8 +94,8 @@ public class RealArticleSimplified implements Article {
                 .countries(countries.toMemorySignature())
                 .topicTags(topicTags.toIntMemorySignature())
                 .editors(editors.toIntMemorySignature())
-                .sourceComments(sourceComments)
-                .userComments(userComments)
+                .countSourceComments(sourceComments)
+                .countUserComments(userComments)
                 .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
                 .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
                 .build();
@@ -113,8 +113,8 @@ public class RealArticleSimplified implements Article {
                 String[] countries,
                 int[] topicTags,
                 int[] editors,
-                int sourceComments,
-                int userComments,
+                int countSourceComments,
+                int countUserComments,
                 String registrationTimestamp,
                 String latestEditTimestamp) implements Article.Json {
     }

@@ -13,14 +13,12 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchTopicTagsInput {
 
-    private static final String API_KEY = "topicTags";
 
     //?page=...&itemsPerPage=...&isDetailed=...
     public static SearchTopicTagsInput fromFormContent(FormContent formContent) {
-        FormContent contents = formContent.getChildren(API_KEY);
         return new SearchTopicTagsInput(
-                PagingRequest.fromFormContent(contents),
-                GenericSwitch.fromFormContentIsDetailed(contents)
+                PagingRequest.fromFormContent(formContent),
+                GenericSwitch.fromFormContentIsDetailed(formContent)
         );
     }
 

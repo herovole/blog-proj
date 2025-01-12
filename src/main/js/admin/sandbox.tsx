@@ -8,7 +8,7 @@ import {TagButton} from "./fragment/atomic/tagselectingform/tagButton";
 import {ArticleSummaryList} from "../domain/articlelist/articleSummaryList";
 import {PublicArticleHeadlines} from "../public/fragment/articlelist/publicArticleHeadlines";
 import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
-import {SearchArticlesOutput} from "../domain/articlelist/searchArticlesOutput";
+import {SearchArticlesOutput} from "../service/articles/searchArticlesOutput";
 import {RootElementId} from "../domain/elementId/rootElementId";
 
 console.log("sandbox.js");

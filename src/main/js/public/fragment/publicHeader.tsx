@@ -8,7 +8,7 @@ export const PublicHeader: React.FC = () => {
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/">トップページ</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
-                         to="/">検索</NavLink>
+                         to="/articles">検索</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/">サイト情報</NavLink>
             </div>

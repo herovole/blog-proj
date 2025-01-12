@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ArticleSummaryList} from "../../../domain/articlelist/articleSummaryList";
@@ -11,14 +11,25 @@ type PublicArticleHeadlinesProps = {
     directoryToIndividualPage: string;
     topicTagList: TagUnits;
     countryTagList: TagUnits;
+    reRender:boolean;
 }
 
 
 //articles : ArticleSummaryList
-export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({articles, directoryToIndividualPage, topicTagList, countryTagList}) => {
+export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({articles, directoryToIndividualPage, topicTagList, countryTagList, reRender}) => {
 
     const LETTERS_PICKUP = 30;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("DAT " + JSON.stringify(articles));
+        console.log("AAAAAA " + JSON.stringify(topicTagList));
+        console.log("AAAAAA " + JSON.stringify(topicTagList.getTagUnit("1")));
+        console.log("AAAAAA " + JSON.stringify(countryTagList));
+        console.log("AAAAAA " + JSON.stringify(countryTagList.getTagUnit("ad")));
+    }, [reRender]);
+
+
     const goToIndividualPage = (articleId: number) => {
         console.log("link invoked")
         navigate(directoryToIndividualPage + "/" + articleId);
@@ -27,10 +38,10 @@ export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({a
     return (
         <div className="headlines-section"><span>Headlines</span>
             {
-                articles.list.map((article: ArticleSummary) => (
+                articles.getElements().map((article: ArticleSummary) => (
                     <div key="" className="headline-item">
                         <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
-                            {article.getSlicedTitle(LETTERS_PICKUP)}
+                            {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
                         </button>
                         <br/>
                         <span className="small-memo">
@@ -40,6 +51,7 @@ export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({a
                         </span>
                     </div>
                 ))}
+            <input type="hidden" value={reRender ? 1 : 0}/>
         </div>
     );
 };

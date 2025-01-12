@@ -1,36 +1,27 @@
+export interface TagUnitFields {
+    id: string;
+    tagJapanese: string;
+    tagEnglish: string;
+}
+
 export class TagUnit {
 
-    static readonly API_KEY_ID: string = "id";
-    static readonly API_KEY_NAME_JP: string = "tagJapanese";
-    static readonly API_KEY_NAME_EN: string = "tagEnglish";
-
-    static fromHash(hash: { [key: string]: string }) {
-        return new TagUnit(
-            hash[TagUnit.API_KEY_ID],
-            hash[TagUnit.API_KEY_NAME_JP],
-            hash[TagUnit.API_KEY_NAME_EN]
-        );
+    static empty(): TagUnit {
+        return new TagUnit({["id"]: "", ["tagJapanese"]: "", ["tagEnglish"]: ""})
     }
 
-    static empty() {
-        return new TagUnit("", "", "");
-    }
+    fields: TagUnitFields;
 
-    id: string;
-    nameJp: string;
-    nameEn: string;
-
-    constructor(id: string, nameJp: string, nameEn: string) {
-        this.id = id;
-        this.nameJp = nameJp;
-        this.nameEn = nameEn;
+    constructor(fields: TagUnitFields) {
+        this.fields = fields;
     }
 
     getTagOptionJapanese(): { [key: string]: string } {
-        return {value: this.id.toString(), label: this.nameJp};
+        return {value: this.fields.id.toString(), label: this.fields.tagJapanese};
     }
 
     getTagOptionEnglish(): { [key: string]: string } {
-        return {value: this.id.toString(), label: this.nameEn};
+        return {value: this.fields.id.toString(), label: this.fields.tagEnglish};
     }
+
 }

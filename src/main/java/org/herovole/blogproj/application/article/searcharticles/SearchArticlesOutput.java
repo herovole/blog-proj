@@ -1,6 +1,7 @@
 package org.herovole.blogproj.application.article.searcharticles;
 
 import lombok.Builder;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.Articles;
 
 @Builder
@@ -12,7 +13,7 @@ public class SearchArticlesOutput {
         return new Json(articles.toJsonRecord(), totalArticles);
     }
 
-    record Json(Articles.Json articles,
+    record Json(Article.Json[] articles,
                 long totalArticles) {
     }
 }

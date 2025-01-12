@@ -11,15 +11,12 @@ import org.herovole.blogproj.domain.time.DateRange;
 @Builder
 public class ArticleListSearchOption {
 
-    private static final String API_KEY = "articleList";
 
     public static ArticleListSearchOption fromPostContent(FormContent formContent) {
-        FormContent children = formContent.getChildren(API_KEY);
-        children.println("articleListSearchOption");
         return ArticleListSearchOption.builder()
-                .pagingRequest(PagingRequest.fromFormContent(children))
-                .dateRange(DateRange.fromComplementedPostContent(children))
-                .keywords(SearchKeywords.fromPostContent(children))
+                .pagingRequest(PagingRequest.fromFormContent(formContent))
+                .dateRange(DateRange.fromComplementedPostContent(formContent))
+                .keywords(SearchKeywords.fromPostContent(formContent))
                 .build();
     }
 
