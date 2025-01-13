@@ -13,7 +13,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.rating.Rating;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.comment.rating.RealRatingLog;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

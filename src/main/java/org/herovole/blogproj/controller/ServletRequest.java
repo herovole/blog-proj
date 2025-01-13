@@ -5,11 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.springframework.http.ResponseCookie;
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServletRequest {
@@ -35,21 +32,13 @@ public class ServletRequest {
         return IPv4Address.valueOf(ipAddress);
     }
 
-    public String setCookie(HttpServletResponse response) {
-        // Create a new cookie
-        ResponseCookie cookie = ResponseCookie.from("myCookie", "cookieValue")
-                .httpOnly(true) // Cookie can't be accessed by JavaScript
-                .secure(true)   // Send over HTTPS only
-                .path("/")      // Scope of the cookie
-                .maxAge(7 * 24 * 60 * 60) // Expiration in seconds (7 days)
-                .sameSite("Strict") // Prevent CSRF attacks
-                .build();
-
-        // Add the cookie to the response header
-        response.addHeader("Set-Cookie", cookie.toString());
-
-        return "Cookie has been set!";
+    public AccessToken getAccessToken() {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7); // Remove "Bearer " prefix
+            return AccessToken.valueOf(token);
+        }
+        return AccessToken.empty();
     }
-
 
 }

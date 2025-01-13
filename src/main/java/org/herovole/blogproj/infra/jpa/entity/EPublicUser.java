@@ -9,8 +9,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

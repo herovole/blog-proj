@@ -2,7 +2,7 @@ package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.PublicIpDatasource;
+import org.herovole.blogproj.domain.publicuser.PublicIpDatasource;
 import org.herovole.blogproj.infra.jpa.entity.EPublicIp;
 import org.herovole.blogproj.infra.jpa.repository.EPublicIpRepository;
 import org.springframework.beans.factory.annotation.Autowired;

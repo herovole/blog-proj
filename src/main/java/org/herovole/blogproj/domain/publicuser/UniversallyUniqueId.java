@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain.user;
+package org.herovole.blogproj.domain.publicuser;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

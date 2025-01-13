@@ -10,7 +10,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.reporting.RealReporting;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 
 @ToString
 @Getter

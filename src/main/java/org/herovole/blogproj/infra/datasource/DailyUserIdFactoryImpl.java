@@ -3,9 +3,9 @@ package org.herovole.blogproj.infra.datasource;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.publicuser.DailyUserId;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.user.DailyUserId;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -53,5 +53,6 @@ public class DailyUserIdFactoryImpl implements DailyUserIdFactory {
         String[] keys = new String[]{key0, String.valueOf(address.aton()), date.letterSignature()};
         return DailyUserId.valueOf(generateHash(keys, HASH_LENGTH) + TRAIL);
     }
+
 
 }

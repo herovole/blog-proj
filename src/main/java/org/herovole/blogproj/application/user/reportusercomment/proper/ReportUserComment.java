@@ -2,8 +2,8 @@ package org.herovole.blogproj.application.user.reportusercomment.proper;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
-import org.herovole.blogproj.domain.comment.CommentBlackList;
-import org.herovole.blogproj.domain.comment.CommentBlackUnit;
+import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
+import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.slf4j.Logger;
@@ -18,16 +18,16 @@ public class ReportUserComment {
 
     private final AppSessionFactory sessionFactory;
     private final UserCommentTransactionalDatasource userCommentTransactionalDatasource;
-    private final CommentBlackList commentBlackList;
+    private final TextBlackList textBlackList;
 
     @Autowired
     public ReportUserComment(AppSessionFactory sessionFactory,
                              UserCommentTransactionalDatasource userCommentTransactionalDatasource,
-                             CommentBlackList commentBlackList
+                             TextBlackList textBlackList
     ) {
         this.sessionFactory = sessionFactory;
         this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
-        this.commentBlackList = commentBlackList;
+        this.textBlackList = textBlackList;
     }
 
     public ReportUserCommentOutput process(ReportUserCommentInput input) throws Exception {
@@ -35,7 +35,7 @@ public class ReportUserComment {
 
         Reporting reporting = input.buildReporting();
 
-        CommentBlackUnit detectionCommentText = commentBlackList.detect(reporting.getReportingText());
+        TextBlackUnit detectionCommentText = textBlackList.detect(reporting.getReportingText());
         if (!detectionCommentText.isEmpty()) {
             logger.info("caught to black list pattern(s) : {}", detectionCommentText);
             return ReportUserCommentOutput.of(false);

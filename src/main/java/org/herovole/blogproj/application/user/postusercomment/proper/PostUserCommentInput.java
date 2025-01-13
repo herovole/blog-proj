@@ -13,8 +13,8 @@ import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.DailyUserId;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.DailyUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 
 @ToString
 @Getter

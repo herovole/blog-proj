@@ -14,7 +14,7 @@ import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUse
 import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUserCommentOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

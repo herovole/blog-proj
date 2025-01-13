@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain.user;
+package org.herovole.blogproj.domain.publicuser;
 
 public interface PublicUserId {
     Long longMemorySignature();

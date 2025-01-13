@@ -1,8 +1,8 @@
 package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.application.AppSession;
-import org.herovole.blogproj.domain.user.PublicUserTransactionalDatasource;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.publicuser.PublicUserTransactionalDatasource;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.EPublicUser;
 import org.herovole.blogproj.infra.jpa.repository.EPublicUserRepository;

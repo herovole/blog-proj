@@ -6,7 +6,7 @@ import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
+import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

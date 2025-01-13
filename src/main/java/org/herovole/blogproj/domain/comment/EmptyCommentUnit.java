@@ -3,7 +3,7 @@ package org.herovole.blogproj.domain.comment;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 
 @ToString
 @EqualsAndHashCode

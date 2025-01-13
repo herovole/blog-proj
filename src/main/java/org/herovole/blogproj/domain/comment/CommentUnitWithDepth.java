@@ -2,7 +2,7 @@ package org.herovole.blogproj.domain.comment;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 
 import java.security.NoSuchAlgorithmException;
 

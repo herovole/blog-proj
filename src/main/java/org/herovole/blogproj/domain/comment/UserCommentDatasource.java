@@ -4,7 +4,7 @@ import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 
 public interface UserCommentDatasource {
 

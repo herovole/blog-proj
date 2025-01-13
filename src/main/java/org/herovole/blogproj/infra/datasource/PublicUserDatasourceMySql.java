@@ -1,9 +1,9 @@
 package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.herovole.blogproj.infra.jpa.entity.EPublicUser;
 import org.herovole.blogproj.infra.jpa.repository.EPublicUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

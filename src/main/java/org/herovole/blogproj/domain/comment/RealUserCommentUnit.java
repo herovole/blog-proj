@@ -11,10 +11,10 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.time.Timestamp;
-import org.herovole.blogproj.domain.user.DailyUserId;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
-import org.herovole.blogproj.domain.user.PublicUserId;
+import org.herovole.blogproj.domain.publicuser.DailyUserId;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.PublicUserId;
 
 import java.security.NoSuchAlgorithmException;
 

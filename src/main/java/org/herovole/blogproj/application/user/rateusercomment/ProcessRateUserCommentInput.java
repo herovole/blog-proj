@@ -9,7 +9,7 @@ import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.rating.Rating;
-import org.herovole.blogproj.domain.user.UniversallyUniqueId;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 
 @ToString
 @Getter

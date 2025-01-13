@@ -39,7 +39,7 @@ public class CommentText {
     private final String text;
 
     public boolean isEmpty() {
-        return null == text || text.isEmpty();
+        return null == text || text.isEmpty() || EMPTY.equals(text);
     }
 
     public String letterSignature() {

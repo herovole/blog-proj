@@ -6,17 +6,17 @@ import lombok.ToString;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommentBlackUnit {
+public class TextBlackUnit {
 
 
     private static final String SEPARATOR = " ";
 
-    public static CommentBlackUnit empty() {
-        return new CommentBlackUnit(new String[0]);
+    public static TextBlackUnit empty() {
+        return new TextBlackUnit(new String[0]);
     }
 
-    public static CommentBlackUnit fromLine(String line) {
-        return new CommentBlackUnit(line.split(SEPARATOR));
+    public static TextBlackUnit fromLine(String line) {
+        return new TextBlackUnit(line.split(SEPARATOR));
     }
 
     private final String[] words;

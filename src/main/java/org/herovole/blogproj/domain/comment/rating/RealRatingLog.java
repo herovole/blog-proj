@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 
 @Builder
 @Getter

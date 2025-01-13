@@ -30,7 +30,7 @@
         <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserCommentRating"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserCommentReport"/>
         <mapping class="org.herovole.blogproj.infra.jpa.entity.MCountry"/>
-        <mapping class="org.herovole.blogproj.infra.jpa.entity.MEditor"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.MAdminUser"/>
 
     </session-factory>
 

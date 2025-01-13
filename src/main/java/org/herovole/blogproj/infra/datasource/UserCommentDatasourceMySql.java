@@ -5,7 +5,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.user.IntegerPublicUserId;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;

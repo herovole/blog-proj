@@ -1,13 +1,15 @@
 package org.herovole.blogproj;
 
 import lombok.Data;
-import org.herovole.blogproj.domain.comment.CommentBlackList;
+import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
+import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.image.ImageDatasource;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.infra.datasource.CommentBlackListLocalFile;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.infra.datasource.AccessTokenFactoryJwt;
 import org.herovole.blogproj.infra.datasource.DailyUserIdFactoryImpl;
 import org.herovole.blogproj.infra.datasource.GoogleReCaptchaResultServer;
 import org.herovole.blogproj.infra.datasource.ImageDatasourceLocalFs;
+import org.herovole.blogproj.infra.datasource.TextBlackListLocalFile;
 import org.herovole.blogproj.infra.filesystem.HazardousFileSystemNodeException;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
@@ -52,13 +54,13 @@ public class LocalProperty {
     }
 
     @Bean
-    public CommentBlackList buildCommentBlacklist() throws IOException {
+    public TextBlackList buildCommentBlacklist() throws IOException {
         LocalFileSystem localFileSystem = this.buildLocalFileSystem();
         LocalFile commentBlacklistFile = LocalFile.of(
                 this.getConfigFile().getCommentBlacklistFilePath(),
                 localFileSystem
         );
-        return CommentBlackListLocalFile.of(commentBlacklistFile);
+        return TextBlackListLocalFile.of(commentBlacklistFile);
     }
 
     @Bean
@@ -69,5 +71,10 @@ public class LocalProperty {
     @Bean
     public DailyUserIdFactory buildDailyUserIdFactory() throws IOException {
         return DailyUserIdFactoryImpl.of(this.getConfigFile().getDailyUserIdKey0());
+    }
+
+    @Bean
+    public AccessTokenFactory buildAccessTokenFactory() throws IOException {
+        return AccessTokenFactoryJwt.of(this.getConfigFile().getHoursAdminTokenExpires());
     }
 }

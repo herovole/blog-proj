@@ -2,13 +2,13 @@ package org.herovole.blogproj.application.user.postusercomment.proper;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
-import org.herovole.blogproj.domain.comment.CommentBlackList;
-import org.herovole.blogproj.domain.comment.CommentBlackUnit;
+import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
+import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
-import org.herovole.blogproj.domain.user.DailyUserIdFactory;
-import org.herovole.blogproj.domain.user.PublicUserDatasource;
+import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class PostUserComment {
     private final UserCommentDatasource userCommentDatasource;
     private final UserCommentTransactionalDatasource userCommentTransactionalDatasource;
     private final PublicUserDatasource publicUserDatasource;
-    private final CommentBlackList commentBlackList;
+    private final TextBlackList textBlackList;
     private final DailyUserIdFactory dailyUserIdFactory;
 
     @Autowired
@@ -32,14 +32,14 @@ public class PostUserComment {
                            @Qualifier("userCommentDatasource") UserCommentDatasource userCommentDatasource,
                            UserCommentTransactionalDatasource userCommentTransactionalDatasource,
                            PublicUserDatasource publicUserDatasource,
-                           CommentBlackList commentBlackList,
+                           TextBlackList textBlackList,
                            DailyUserIdFactory dailyUserIdFactory
     ) {
         this.sessionFactory = sessionFactory;
         this.userCommentDatasource = userCommentDatasource;
         this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
         this.publicUserDatasource = publicUserDatasource;
-        this.commentBlackList = commentBlackList;
+        this.textBlackList = textBlackList;
         this.dailyUserIdFactory = dailyUserIdFactory;
     }
 
@@ -48,8 +48,8 @@ public class PostUserComment {
 
         CommentUnit comment = input.buildCommentUnit();
 
-        CommentBlackUnit detectionHandleName = commentBlackList.detect(comment.getHandleName());
-        CommentBlackUnit detectionCommentText = commentBlackList.detect(comment.getCommentText());
+        TextBlackUnit detectionHandleName = textBlackList.detect(comment.getHandleName());
+        TextBlackUnit detectionCommentText = textBlackList.detect(comment.getCommentText());
         if (!detectionHandleName.isEmpty() || !detectionCommentText.isEmpty()) {
             logger.info("caught to black list pattern(s) : {}, {}", detectionHandleName, detectionCommentText);
             return PostUserCommentOutput.of(false);
