@@ -15,7 +15,7 @@ public class Password {
     private static final String API_KEY_PASSWORD = "password";
     private static final String EMPTY = "-";
 
-    public static Password fromFormContentUserName(FormContent formContent) {
+    public static Password fromFormContentPassword(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_PASSWORD);
         return valueOf(child.getValue());
     }
@@ -28,18 +28,18 @@ public class Password {
         return new Password("");
     }
 
-    private final String password;
+    private final String phrase;
 
     public boolean isEmpty() {
-        return null == password || password.isEmpty() || EMPTY.equals(password);
+        return null == phrase || phrase.isEmpty() || EMPTY.equals(phrase);
     }
 
     public String letterSignature() {
-        return this.isEmpty() ? EMPTY : this.password;
+        return this.isEmpty() ? EMPTY : this.phrase;
     }
 
     public String memorySignature() {
-        return this.isEmpty() ? "" : this.password;
+        return this.isEmpty() ? "" : this.phrase;
     }
 
 }

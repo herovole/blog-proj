@@ -31,7 +31,7 @@ public class MAdminUser implements Serializable {
         MAdminUser entity = new MAdminUser();
         entity.setName(domainObj1.getUserName().memorySignature());
         entity.setRole(domainObj1.getRole().getCode());
-        entity.setCredentialEncode(domainObj1.getCredentialHash());
+        entity.setCredentialEncode(domainObj1.getCredentialEncode());
         entity.setAccessTokenAton(domainObj1.getAccessTokenIp().aton());
         entity.setAccessToken(domainObj1.getAccessToken().memorySignature());
         entity.setAccessTokenExpiry(domainObj1.getAccessTokenExpiry().toLocalDateTime());
@@ -72,7 +72,7 @@ public class MAdminUser implements Serializable {
         return RealAdminUser.builder()
                 .userName(UserName.valueOf(name))
                 .role(Role.valueOf(role))
-                .credentialHash(credentialEncode)
+                .credentialEncode(credentialEncode)
                 .accessToken(AccessToken.valueOf(accessToken))
                 .accessTokenIp(IPv4Address.valueOf(accessTokenAton))
                 .accessTokenExpiry(Timestamp.valueOf(accessTokenExpiry))

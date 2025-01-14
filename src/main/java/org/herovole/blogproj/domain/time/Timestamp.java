@@ -62,6 +62,11 @@ public class Timestamp implements Comparable<Timestamp> {
         return this.isEmpty() || that.isEmpty() || this.localDateTime.isBefore(that.localDateTime);
     }
 
+    public Timestamp shiftHours(int hours) {
+        if (this.isEmpty()) throw new IllegalStateException("Empty Timestamp");
+        return Timestamp.valueOf(this.localDateTime.plusHours(hours));
+    }
+
     public String letterSignatureYyyyMMddSpaceHHmmss() {
         if (this.isEmpty()) return EMPTY;
         return this.localDateTime.format(formatterYyyyMMddSpaceHHmmss);

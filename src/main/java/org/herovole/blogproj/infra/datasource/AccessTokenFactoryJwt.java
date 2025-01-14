@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -22,14 +23,20 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
     private static final String CLAIM_KEY_ROLE = "role";
 
     public static AccessTokenFactory of(int expirationHours) {
-        return new AccessTokenFactoryJwt(expirationHours * 3600 * 1000L);  // Convert hours to milliseconds
+        return new AccessTokenFactoryJwt(expirationHours);  // Convert hours to milliseconds
     }
 
-    private final long expirationTimeInMilliseconds;
+    private final int expirationTimeInHours;
 
+    @Override
+    public Timestamp getExpectedExpirationTime() {
+        return Timestamp.now().shiftHours(expirationTimeInHours);
+    }
+
+    @Override
     public AccessToken generateToken(AdminUser adminUser) {
         Date issuedAt = new Date();
-        Date expiration = new Date(issuedAt.getTime() + expirationTimeInMilliseconds);
+        Date expiration = new Date(issuedAt.getTime() + expirationTimeInHours * 3600 * 1000L);
 
         String accessToken = Jwts.builder()
                 .setSubject(adminUser.getUserName().memorySignature())            // Set the subject (user identifier)
@@ -42,6 +49,7 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
     }
 
 
+    @Override
     public void validateToken(AccessToken accessToken) throws SignatureException {
         if (accessToken.isEmpty()) throw new IllegalArgumentException("Access token must not be empty");
         // Parse the token and validate it

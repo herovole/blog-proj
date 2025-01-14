@@ -1,10 +1,20 @@
 package org.herovole.blogproj.domain.adminuser;
 
+import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.time.Timestamp;
+
 public interface AdminUser {
     static AdminUser empty() {
         return new EmptyAdminUser();
     }
 
+    boolean isEmpty();
+
     UserName getUserName();
+
     Role getRole();
+
+    String getCredentialEncode();
+
+    AdminUser appendTokenInfo(AccessToken accessToken, IPv4Address accessTokenIp, Timestamp accessTokenExpiry);
 }
