@@ -1,4 +1,4 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation.controller;
 
 import com.google.gson.Gson;
 import org.herovole.blogproj.application.article.editarticle.EditArticle;

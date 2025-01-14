@@ -1,18 +1,19 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IPv4Address;
-import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServletRequest {
     private static final String ATTRIBUTE_USER_ID = "userId";
     private static final String COOKIE_KEY_UUID = "uuId";
+    private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
 
     public static ServletRequest of(HttpServletRequest request) {
         return new ServletRequest(request);
@@ -20,7 +21,7 @@ public class ServletRequest {
 
     private final HttpServletRequest request;
 
-    public IPv4Address getUserIp() {
+    public IPv4Address getUserIpFromHeader() {
         String ipAddress = request.getHeader("X-Forwarded-For"); // For reverse proxy
         if (ipAddress == null || ipAddress.isEmpty()) {
             ipAddress = request.getHeader("X-Real-IP"); // Alternative proxy header
@@ -36,7 +37,7 @@ public class ServletRequest {
         return IPv4Address.valueOf(ipAddress);
     }
 
-    public UniversallyUniqueId getUniversalUniqueId() {
+    public UniversallyUniqueId getUniversalUniqueIdFromCookie() {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -49,7 +50,7 @@ public class ServletRequest {
         return UniversallyUniqueId.empty();
     }
 
-    public AccessToken getAccessToken() {
+    public AccessToken getAccessTokenFromHeader() {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // Remove "Bearer " prefix
@@ -58,12 +59,16 @@ public class ServletRequest {
         return AccessToken.empty();
     }
 
-    public void storeUserId(IntegerId userId) {
+    public void storeUserIdToAttribute(IntegerPublicUserId userId) {
         request.setAttribute(ATTRIBUTE_USER_ID, userId);
     }
 
-    public IntegerId getUserId() {
-        return (IntegerId) request.getAttribute(ATTRIBUTE_USER_ID);
+    public IntegerPublicUserId getUserIdFromAttribute() {
+        return (IntegerPublicUserId) request.getAttribute(ATTRIBUTE_USER_ID);
+    }
+
+    public String getBotDetectionTokenFromParameter() {
+        return request.getParameter(PARAM_KEY_BOT_DETECTION_TOKEN);
     }
 
 }

@@ -1,8 +1,9 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.springframework.http.ResponseCookie;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -11,15 +12,20 @@ public class ServletResponse {
         return new ServletResponse(response);
     }
 
+    private static final String COOKIE_KEY_UUID = "uuId";
     private final HttpServletResponse response;
 
-    public void setCookie(String key, String value) {
+    public void setUuId(UniversallyUniqueId uuId) {
+        this.setCookie(COOKIE_KEY_UUID, uuId.letterSignature());
+    }
+
+    private void setCookie(String key, String value) {
         // Create a new cookie
         ResponseCookie cookie = ResponseCookie.from(key, value)
                 .httpOnly(true) // Cookie can't be accessed by JavaScript
                 .secure(true)   // Send over HTTPS only
                 .path("/")      // Scope of the cookie
-                .maxAge(7 * 24 * 60 * 60) // Expiration in seconds (7 days)
+                .maxAge(Long.MAX_VALUE) // Expiration in seconds
                 .sameSite("Strict") // Prevent CSRF attacks
                 .build();
 

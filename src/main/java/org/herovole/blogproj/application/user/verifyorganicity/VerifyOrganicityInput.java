@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 
 @ToString
@@ -15,7 +16,7 @@ import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 public class VerifyOrganicityInput {
 
     private final IPv4Address iPv4Address;
-    private final UniversallyUniqueId uuId;
+    private final IntegerPublicUserId userId;
     private final String verificationToken;
 
 }

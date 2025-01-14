@@ -31,7 +31,7 @@ public class VerifyOrganicity {
         //FIXME : temporarily suppresses blocking the process for the testing purposes
         probabilityOfBeingHuman = 1.0f;
         //if (probabilityOfBeingHuman == null) throw new IllegalStateException();
-        logger.info("User {} score {}", input.getUuId(), probabilityOfBeingHuman);
+        logger.info("User {} score {}", input.getUserId(), probabilityOfBeingHuman);
 
         return new VerifyOrganicityOutput(THRESHOLD < probabilityOfBeingHuman);
     }

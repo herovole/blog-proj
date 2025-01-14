@@ -1,4 +1,4 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation.controller;
 
 import org.herovole.blogproj.LocalProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

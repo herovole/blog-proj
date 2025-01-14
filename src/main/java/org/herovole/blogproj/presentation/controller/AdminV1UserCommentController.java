@@ -1,4 +1,4 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation.controller;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +15,8 @@ import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUse
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
+import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +68,7 @@ public class AdminV1UserCommentController {
             ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
             ProcessPostUserCommentInput input = new ProcessPostUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIp())
+                    .setiPv4Address(servletRequest.getUserIpFromHeader())
                     .setUuId(UniversallyUniqueId.valueOf(uuId))
                     .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
                     .setFormContent(formContent)
@@ -99,7 +101,7 @@ public class AdminV1UserCommentController {
             ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
             ProcessRateUserCommentInput input = new ProcessRateUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIp())
+                    .setiPv4Address(servletRequest.getUserIpFromHeader())
                     .setUuId(UniversallyUniqueId.valueOf(uuId))
                     .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
                     .setFormContent(formContent)
@@ -133,7 +135,7 @@ public class AdminV1UserCommentController {
             FormContent formContent = FormContent.of(request);
             formContent.println("reporting : ");
             ProcessReportUserCommentInput input = new ProcessReportUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIp())
+                    .setiPv4Address(servletRequest.getUserIpFromHeader())
                     .setUuId(UniversallyUniqueId.valueOf(uuId))
                     .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
                     .setFormContent(formContent)

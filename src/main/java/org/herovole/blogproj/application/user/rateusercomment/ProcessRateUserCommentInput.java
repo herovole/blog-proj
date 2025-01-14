@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.herovole.blogproj.application.user.checkuser.CheckUserInput;
+import org.herovole.blogproj.application.user.checkuserban.CheckUserBanInput;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
@@ -68,8 +68,8 @@ public class ProcessRateUserCommentInput {
     private final IntegerId commentSerialNumber;
     private final Rating rating;
 
-    CheckUserInput buildCheckUserInput() {
-        return CheckUserInput.builder()
+    CheckUserBanInput buildCheckUserInput() {
+        return CheckUserBanInput.builder()
                 .iPv4Address(this.iPv4Address)
                 .uuId(this.uuId)
                 .build();

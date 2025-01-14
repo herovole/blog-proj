@@ -1,8 +1,8 @@
 package org.herovole.blogproj.application.user.rateusercomment;
 
-import org.herovole.blogproj.application.user.checkuser.CheckUser;
-import org.herovole.blogproj.application.user.checkuser.CheckUserInput;
-import org.herovole.blogproj.application.user.checkuser.CheckUserOutput;
+import org.herovole.blogproj.application.user.checkuserban.CheckUserBan;
+import org.herovole.blogproj.application.user.checkuserban.CheckUserBanInput;
+import org.herovole.blogproj.application.user.checkuserban.CheckUserBanOutput;
 import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserComment;
 import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserCommentInput;
 import org.herovole.blogproj.application.user.rateusercomment.proper.RateUserCommentOutput;
@@ -20,13 +20,13 @@ public class ProcessRateUserComment {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessRateUserComment.class.getSimpleName());
 
-    private final CheckUser checkUser;
+    private final CheckUserBan checkUserBan;
     private final VerifyOrganicity verifyOrganicity;
     private final RateUserComment rateUserComment;
 
     @Autowired
-    public ProcessRateUserComment(CheckUser checkUser, VerifyOrganicity verifyOrganicity, RateUserComment rateUserComment) {
-        this.checkUser = checkUser;
+    public ProcessRateUserComment(CheckUserBan checkUserBan, VerifyOrganicity verifyOrganicity, RateUserComment rateUserComment) {
+        this.checkUserBan = checkUserBan;
         this.verifyOrganicity = verifyOrganicity;
         this.rateUserComment = rateUserComment;
     }
@@ -34,13 +34,13 @@ public class ProcessRateUserComment {
     public ProcessRateUserCommentOutput process(ProcessRateUserCommentInput input) throws Exception {
 
         // Detect Or Recognize User
-        CheckUserInput checkUserInput = input.buildCheckUserInput();
-        CheckUserOutput checkUserOutput = this.checkUser.process(checkUserInput);
+        CheckUserBanInput checkUserBanInput = input.buildCheckUserInput();
+        CheckUserBanOutput checkUserBanOutput = this.checkUserBan.process(checkUserBanInput);
 
-        if (!checkUserOutput.hasPassed()) {
+        if (!checkUserBanOutput.hasPassed()) {
             return ProcessRateUserCommentOutput.builder()
-                    .uuId(checkUserOutput.getUuId())
-                    .timestampBannedUntil(checkUserOutput.getTimestampBannedUntil())
+                    .uuId(checkUserBanOutput.getUuId())
+                    .timestampBannedUntil(checkUserBanOutput.getTimestampBannedUntil())
                     .isHuman(null)
                     .hasValidOperation(null)
                     .isSuccessful(false)
@@ -50,14 +50,14 @@ public class ProcessRateUserComment {
         // Check if a User is not BOT
         VerifyOrganicityInput verifyOrganicityInput = VerifyOrganicityInput.builder()
                 .iPv4Address(input.getIPv4Address())
-                .uuId(checkUserOutput.getUuId())
+                .uuId(checkUserBanOutput.getUuId())
                 .verificationToken(input.getVerificationToken())
                 .build();
         VerifyOrganicityOutput verifyOrganicityOutput = this.verifyOrganicity.process(verifyOrganicityInput);
 
         if (!verifyOrganicityOutput.isHuman()) {
             return ProcessRateUserCommentOutput.builder()
-                    .uuId(checkUserOutput.getUuId())
+                    .uuId(checkUserBanOutput.getUuId())
                     .timestampBannedUntil(Timestamp.empty())
                     .isHuman(false)
                     .hasValidOperation(null)
@@ -68,7 +68,7 @@ public class ProcessRateUserComment {
         // Post user comment
         RateUserCommentInput rateUserCommentInput = RateUserCommentInput.builder()
                 .iPv4Address(input.getIPv4Address())
-                .userId(checkUserOutput.getUserId())
+                .userId(checkUserBanOutput.getUserId())
                 .commentSerialNumber(input.getCommentSerialNumber())
                 .rating(input.getRating())
                 .build();
@@ -76,7 +76,7 @@ public class ProcessRateUserComment {
         logger.info("job successful. {}", ProcessRateUserComment.class);
 
         return ProcessRateUserCommentOutput.builder()
-                .uuId(checkUserOutput.getUuId())
+                .uuId(checkUserBanOutput.getUuId())
                 .timestampBannedUntil(Timestamp.empty())
                 .isHuman(true)
                 .hasValidOperation(rateUserCommentOutput.hasValidOperation())

@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.checkuser;
+package org.herovole.blogproj.application.user.checkuserban;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,10 +13,9 @@ import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class CheckUserOutput {
+public class CheckUserBanOutput {
 
     private final IntegerPublicUserId userId;
-    private final UniversallyUniqueId uuId;
     private final Timestamp timestampBannedUntil;
 
     public boolean hasPassed() {

@@ -26,9 +26,9 @@ public class PublicUserDatasourceMySql implements PublicUserDatasource {
     }
 
     @Override
-    public Timestamp isBannedUntil(UniversallyUniqueId uuId) {
-        if (uuId.isEmpty()) throw new IllegalArgumentException(uuId.memorySignature());
-        EPublicUser ePublicUser = ePublicUserRepository.findByUuId(uuId.memorySignature());
+    public Timestamp isBannedUntil(IntegerPublicUserId userId) {
+        if (userId.isEmpty()) throw new IllegalArgumentException(userId.letterSignature());
+        EPublicUser ePublicUser = ePublicUserRepository.findByUuId(userId.longMemorySignature());
         return ePublicUser == null ? Timestamp.empty() : ePublicUser.getBannedUntil();
     }
 }

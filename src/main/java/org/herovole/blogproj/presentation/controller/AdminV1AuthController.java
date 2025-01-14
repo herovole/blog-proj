@@ -1,4 +1,4 @@
-package org.herovole.blogproj.controller;
+package org.herovole.blogproj.presentation.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

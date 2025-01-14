@@ -20,4 +20,5 @@ public class IntegerPublicUserId extends IntegerId implements PublicUserId {
     public Long longMemorySignature() {
         return this.id;
     }
+
 }
