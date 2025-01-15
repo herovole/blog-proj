@@ -13,7 +13,7 @@ import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommen
 import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommentOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class AdminV1UserCommentController {
 
         try {
             // Check user status
-            ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
+            AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
             PostUserCommentInput input = new PostUserCommentInput.Builder()
                     .iPv4Address(servletRequest.getUserIpFromHeader())
@@ -66,7 +66,7 @@ public class AdminV1UserCommentController {
 
             logger.info("postComment input : {}", input);
             PostUserCommentOutput output = this.postUserComment.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
+            return ResponseEntity.ok(output.toJsonModel().toJsonString());
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
@@ -86,7 +86,7 @@ public class AdminV1UserCommentController {
 
         try {
             // Check user status
-            ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
+            AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
             RateUserCommentInput input = new RateUserCommentInput.Builder()
                     .iPv4Address(servletRequest.getUserIpFromHeader())
@@ -94,7 +94,7 @@ public class AdminV1UserCommentController {
                     .formContent(formContent)
                     .build();
             RateUserCommentOutput output = this.rateUserComment.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
+            return ResponseEntity.ok(output.toJsonModel().toJsonString());
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
@@ -114,7 +114,7 @@ public class AdminV1UserCommentController {
 
         try {
             // Check user status
-            ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
+            AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
             formContent.println("reporting : ");
             ReportUserCommentInput input = new ReportUserCommentInput.Builder()
@@ -123,7 +123,7 @@ public class AdminV1UserCommentController {
                     .formContent(formContent)
                     .build();
             ReportUserCommentOutput output = this.reportUserComment.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
+            return ResponseEntity.ok(output.toJsonModel().toJsonString());
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());

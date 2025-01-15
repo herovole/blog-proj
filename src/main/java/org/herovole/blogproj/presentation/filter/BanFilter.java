@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBan;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanInput;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanOutput;
-import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -19,6 +19,9 @@ import java.io.IOException;
 public class BanFilter extends OncePerRequestFilter {
 
     private static final String FILTER_CODE = "BAN";
+    private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
+            "usercomments"
+    );
     private final CheckUserBan checkUserBan;
 
     @Autowired
@@ -28,7 +31,11 @@ public class BanFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        ServletRequest servletRequest = ServletRequest.of(request);
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS) || servletRequest.isGetRequest()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         CheckUserBanInput input = CheckUserBanInput.builder()
                 .userId(servletRequest.getUserIdFromAttribute())
                 .iPv4Address(servletRequest.getUserIpFromHeader())
@@ -49,12 +56,7 @@ public class BanFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
-                    .code(BlockedByFilterResponseBody.FILTER_CODE_SERVER_ERROR)
-                    .timestampBannedUntil(null)
-                    .message("Internal Server Error.")
-                    .build();
-            response.getWriter().write(errorResponseData.toJsonString());
+            response.getWriter().write(BlockedByFilterResponseBody.internalServerError().toJsonString());
             response.getWriter().flush();
             return;
         }

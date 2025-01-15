@@ -10,20 +10,34 @@ import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
+import org.herovole.blogproj.presentation.filter.EndpointPhrases;
 
 import java.util.Map;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ServletRequest {
+public class AppServletRequest {
     private static final String ATTRIBUTE_USER_ID = "userId";
     private static final String COOKIE_KEY_UUID = "uuId";
     private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
 
-    public static ServletRequest of(HttpServletRequest request) {
-        return new ServletRequest(request);
+    public static AppServletRequest of(HttpServletRequest request) {
+        return new AppServletRequest(request);
     }
 
     private final HttpServletRequest request;
+
+    public boolean hasUriContaining(EndpointPhrases endpointPhrases) {
+        String requestURI = request.getRequestURI();
+        return endpointPhrases.isContainedIn(requestURI);
+    }
+
+    public boolean isPostRequest() {
+        return request.getMethod().toLowerCase().contains("post");
+    }
+
+    public boolean isGetRequest() {
+        return request.getMethod().toLowerCase().contains("get");
+    }
 
     public IPv4Address getUserIpFromHeader() {
         String ipAddress = request.getHeader("X-Forwarded-For"); // For reverse proxy

@@ -4,10 +4,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.comment.TextBlackUnit;
-import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
-import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Order(3)
+@Order(1)
 public class ThreateningPhraseFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(ThreateningPhraseFilter.class.getSimpleName());
@@ -31,14 +31,14 @@ public class ThreateningPhraseFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        ServletRequest servletRequest = ServletRequest.of(request);
-        IntegerPublicUserId userId = servletRequest.getUserIdFromAttribute();
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        IPv4Address ip = servletRequest.getUserIpFromHeader();
 
         TextBlackUnit detection = servletRequest.detectThreateningPhrase(textBlackList);
         if (detection.isEmpty()) {
             filterChain.doFilter(request, response);
         }
-        itsLogger.warn("User {} attempts a malicious request with the pattern {}", userId, detection);
+        itsLogger.warn("IP {} attempts a malicious request with the pattern {}", ip, detection);
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
                 .code(FILTER_CODE)

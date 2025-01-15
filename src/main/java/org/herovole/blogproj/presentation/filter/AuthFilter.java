@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
-import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -18,6 +18,9 @@ import java.io.IOException;
 public class AuthFilter extends OncePerRequestFilter {
 
     private static final String FILTER_CODE = "AUT";
+    private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
+            "admin"
+    );
     private final AccessTokenFactory accessTokenFactory;
 
     @Autowired
@@ -27,7 +30,11 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        ServletRequest servletRequest = ServletRequest.of(request);
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         AccessToken accessToken = servletRequest.getAccessTokenFromHeader();
         try {
             accessTokenFactory.validateToken(accessToken);
@@ -45,10 +52,5 @@ public class AuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getRequestURI().toLowerCase();
-        return !path.contains("admin");
-    }
 }
 

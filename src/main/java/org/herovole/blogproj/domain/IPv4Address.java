@@ -3,10 +3,12 @@ package org.herovole.blogproj.domain;
 import com.google.common.net.InetAddresses;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IPv4Address {
 

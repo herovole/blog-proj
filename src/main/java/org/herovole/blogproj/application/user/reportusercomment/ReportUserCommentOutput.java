@@ -1,5 +1,6 @@
 package org.herovole.blogproj.application.user.reportusercomment;
 
+import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -22,9 +23,12 @@ public class ReportUserCommentOutput {
         return new Json(hasValidContent);
     }
 
-    record Json(
+    public record Json(
             boolean hasValidContent
     ) {
+        public String toJsonString() {
+            return new Gson().toJson(this);
+        }
     }
 }
 

@@ -7,9 +7,9 @@ import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.springframework.http.ResponseCookie;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ServletResponse {
-    public static ServletResponse of(HttpServletResponse response) {
-        return new ServletResponse(response);
+public class AppServletResponse {
+    public static AppServletResponse of(HttpServletResponse response) {
+        return new AppServletResponse(response);
     }
 
     private static final String COOKIE_KEY_UUID = "uuId";

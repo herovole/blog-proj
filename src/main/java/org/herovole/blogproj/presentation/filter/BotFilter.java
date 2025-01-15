@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicity;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicityInput;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicityOutput;
-import org.herovole.blogproj.presentation.ServletRequest;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -15,10 +15,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Order(2)
+@Order(3)
 public class BotFilter extends OncePerRequestFilter {
 
     private static final String FILTER_CODE = "BOT";
+    private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
+            "usercomments", "auth"
+    );
     private final VerifyOrganicity verifyOrganicity;
 
     @Autowired
@@ -28,7 +31,12 @@ public class BotFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        ServletRequest servletRequest = ServletRequest.of(request);
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS) || servletRequest.isGetRequest()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         VerifyOrganicityInput input = VerifyOrganicityInput.builder()
                 .userId(servletRequest.getUserIdFromAttribute())
                 .iPv4Address(servletRequest.getUserIpFromHeader())
@@ -49,12 +57,7 @@ public class BotFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
-                    .code(BlockedByFilterResponseBody.FILTER_CODE_SERVER_ERROR)
-                    .timestampBannedUntil(null)
-                    .message("Internal Server Error.")
-                    .build();
-            response.getWriter().write(errorResponseData.toJsonString());
+            response.getWriter().write(BlockedByFilterResponseBody.internalServerError().toJsonString());
             response.getWriter().flush();
             return;
         }
