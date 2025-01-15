@@ -35,7 +35,7 @@ public class ReportUserComment {
 
         Reporting reporting = input.buildReporting();
 
-        TextBlackUnit detectionCommentText = textBlackList.detect(reporting.getReportingText());
+        TextBlackUnit detectionCommentText = textBlackList.detectHumanThreat(reporting.getReportingText());
         if (!detectionCommentText.isEmpty()) {
             logger.info("caught to black list pattern(s) : {}", detectionCommentText);
             return ReportUserCommentOutput.of(false);

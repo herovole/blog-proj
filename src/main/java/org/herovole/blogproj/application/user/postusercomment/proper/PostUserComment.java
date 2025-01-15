@@ -48,8 +48,8 @@ public class PostUserComment {
 
         CommentUnit comment = input.buildCommentUnit();
 
-        TextBlackUnit detectionHandleName = textBlackList.detect(comment.getHandleName());
-        TextBlackUnit detectionCommentText = textBlackList.detect(comment.getCommentText());
+        TextBlackUnit detectionHandleName = textBlackList.detectHumanThreat(comment.getHandleName());
+        TextBlackUnit detectionCommentText = textBlackList.detectHumanThreat(comment.getCommentText());
         if (!detectionHandleName.isEmpty() || !detectionCommentText.isEmpty()) {
             logger.info("caught to black list pattern(s) : {}, {}", detectionHandleName, detectionCommentText);
             return PostUserCommentOutput.of(false);

@@ -5,9 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
+import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
+
+import java.util.Map;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServletRequest {
@@ -69,6 +73,18 @@ public class ServletRequest {
 
     public String getBotDetectionTokenFromParameter() {
         return request.getParameter(PARAM_KEY_BOT_DETECTION_TOKEN);
+    }
+
+    public TextBlackUnit detectThreateningPhrase(TextBlackList textBlackList) {
+        for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
+            TextBlackUnit detection = textBlackList.detectSystemThreat(e.getKey());
+            if (!detection.isEmpty()) return detection;
+            for (String v : e.getValue()) {
+                textBlackList.detectSystemThreat(v);
+                if (!detection.isEmpty()) return detection;
+            }
+        }
+        return TextBlackUnit.empty();
     }
 
 }

@@ -54,13 +54,20 @@ public class LocalProperty {
     }
 
     @Bean
-    public TextBlackList buildCommentBlacklist() throws IOException {
+    public TextBlackList buildBlacklists() throws IOException {
         LocalFileSystem localFileSystem = this.buildLocalFileSystem();
         LocalFile commentBlacklistFile = LocalFile.of(
                 this.getConfigFile().getCommentBlacklistFilePath(),
                 localFileSystem
         );
-        return TextBlackListLocalFile.of(commentBlacklistFile);
+        LocalFile systemBlacklistFile = LocalFile.of(
+                this.getConfigFile().getSystemBlacklistFilePath(),
+                localFileSystem
+        );
+        return new TextBlackListLocalFile.Builder()
+                .setHumanBlackListFile(commentBlacklistFile)
+                .setSystemBlackListFile(systemBlacklistFile)
+                .build();
     }
 
     @Bean

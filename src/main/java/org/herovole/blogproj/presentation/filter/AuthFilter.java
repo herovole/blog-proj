@@ -14,10 +14,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Order(3)
+@Order(5)
 public class AuthFilter extends OncePerRequestFilter {
 
-    private static final String FILTER_CODE = "AUTH";
+    private static final String FILTER_CODE = "AUT";
     private final AccessTokenFactory accessTokenFactory;
 
     @Autowired
