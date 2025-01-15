@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.checkuserban;
+package org.herovole.blogproj.application.auth.checkuserban;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;

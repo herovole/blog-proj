@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.rateusercomment.proper;
+package org.herovole.blogproj.application.user.rateusercomment;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +18,13 @@ public class RateUserCommentOutput {
         return hasValidOperation;
     }
 
+    public Json toJsonModel() {
+        return new Json(hasValidOperation);
+    }
+
+    record Json(
+            boolean hasValidContent
+    ) {
+    }
 }
 

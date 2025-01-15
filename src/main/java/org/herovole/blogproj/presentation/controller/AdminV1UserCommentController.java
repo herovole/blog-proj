@@ -2,27 +2,23 @@ package org.herovole.blogproj.presentation.controller;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserComment;
-import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserCommentInput;
-import org.herovole.blogproj.application.user.postusercomment.ProcessPostUserCommentOutput;
-import org.herovole.blogproj.application.user.rateusercomment.ProcessRateUserComment;
-import org.herovole.blogproj.application.user.rateusercomment.ProcessRateUserCommentInput;
-import org.herovole.blogproj.application.user.rateusercomment.ProcessRateUserCommentOutput;
-import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUserComment;
-import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUserCommentInput;
-import org.herovole.blogproj.application.user.reportusercomment.ProcessReportUserCommentOutput;
+import org.herovole.blogproj.application.user.postusercomment.PostUserComment;
+import org.herovole.blogproj.application.user.postusercomment.PostUserCommentInput;
+import org.herovole.blogproj.application.user.postusercomment.PostUserCommentOutput;
+import org.herovole.blogproj.application.user.rateusercomment.RateUserComment;
+import org.herovole.blogproj.application.user.rateusercomment.RateUserCommentInput;
+import org.herovole.blogproj.application.user.rateusercomment.RateUserCommentOutput;
+import org.herovole.blogproj.application.user.reportusercomment.ReportUserComment;
+import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommentInput;
+import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommentOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.herovole.blogproj.presentation.ServletRequest;
-import org.herovole.blogproj.presentation.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,46 +32,40 @@ import java.util.Map;
 public class AdminV1UserCommentController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1UserCommentController.class.getSimpleName());
 
-    private static final String KEY_UUID = "uuId";
-    private static final String KEY_BOT_DETECTION_TOKEN = "token";
-    private final ProcessPostUserComment processPostUserComment;
-    private final ProcessRateUserComment processRateUserComment;
-    private final ProcessReportUserComment processReportUserComment;
+    private final PostUserComment postUserComment;
+    private final RateUserComment rateUserComment;
+    private final ReportUserComment reportUserComment;
 
     @Autowired
     AdminV1UserCommentController(
-            ProcessPostUserComment processPostUserComment,
-            ProcessRateUserComment processRateUserComment,
-            ProcessReportUserComment processReportUserComment
+            PostUserComment postUserComment,
+            RateUserComment rateUserComment,
+            ReportUserComment reportUserComment
     ) {
-        this.processPostUserComment = processPostUserComment;
-        this.processRateUserComment = processRateUserComment;
-        this.processReportUserComment = processReportUserComment;
+        this.postUserComment = postUserComment;
+        this.rateUserComment = rateUserComment;
+        this.reportUserComment = reportUserComment;
     }
 
     @PostMapping
     public ResponseEntity<String> postComment(
             @RequestBody Map<String, String> request,
-            @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
-    ) {
+            HttpServletRequest httpServletRequest
+            ) {
         logger.info("Endpoint : userComments (Post) ");
 
         try {
             // Check user status
             ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
-            ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
-            ProcessPostUserCommentInput input = new ProcessPostUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIpFromHeader())
-                    .setUuId(UniversallyUniqueId.valueOf(uuId))
-                    .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
-                    .setFormContent(formContent)
+            PostUserCommentInput input = new PostUserCommentInput.Builder()
+                    .iPv4Address(servletRequest.getUserIpFromHeader())
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .formContent(formContent)
                     .build();
+
             logger.info("postComment input : {}", input);
-            ProcessPostUserCommentOutput output = this.processPostUserComment.process(input);
-            servletResponse.setCookie(KEY_UUID, output.getUuId().letterSignature());
+            PostUserCommentOutput output = this.postUserComment.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
@@ -88,26 +78,22 @@ public class AdminV1UserCommentController {
 
     @PostMapping("/{commentSerialNumber}/rate")
     public ResponseEntity<String> rateComment(
+            @PathVariable int commentSerialNumber,
             @RequestBody Map<String, String> request,
-            @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+            HttpServletRequest httpServletRequest
     ) {
         logger.info("Endpoint : rateComment (Post) ");
 
         try {
             // Check user status
             ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
-            ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
-            ProcessRateUserCommentInput input = new ProcessRateUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIpFromHeader())
-                    .setUuId(UniversallyUniqueId.valueOf(uuId))
-                    .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
-                    .setFormContent(formContent)
+            RateUserCommentInput input = new RateUserCommentInput.Builder()
+                    .iPv4Address(servletRequest.getUserIpFromHeader())
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .formContent(formContent)
                     .build();
-            ProcessRateUserCommentOutput output = this.processRateUserComment.process(input);
-            servletResponse.setCookie(KEY_UUID, output.getUuId().letterSignature());
+            RateUserCommentOutput output = this.rateUserComment.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
@@ -122,26 +108,21 @@ public class AdminV1UserCommentController {
     public ResponseEntity<String> reportComment(
             @PathVariable int commentSerialNumber,
             @RequestBody Map<String, String> request,
-            @CookieValue(name = KEY_UUID, defaultValue = "") String uuId,
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+            HttpServletRequest httpServletRequest
     ) {
         logger.info("Endpoint : reportComment (Post) ");
 
         try {
             // Check user status
             ServletRequest servletRequest = ServletRequest.of(httpServletRequest);
-            ServletResponse servletResponse = ServletResponse.of(httpServletResponse);
             FormContent formContent = FormContent.of(request);
             formContent.println("reporting : ");
-            ProcessReportUserCommentInput input = new ProcessReportUserCommentInput.Builder()
-                    .setiPv4Address(servletRequest.getUserIpFromHeader())
-                    .setUuId(UniversallyUniqueId.valueOf(uuId))
-                    .setVerificationToken(request.get(KEY_BOT_DETECTION_TOKEN))
-                    .setFormContent(formContent)
+            ReportUserCommentInput input = new ReportUserCommentInput.Builder()
+                    .iPv4Address(servletRequest.getUserIpFromHeader())
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .formContent(formContent)
                     .build();
-            ProcessReportUserCommentOutput output = this.processReportUserComment.process(input);
-            servletResponse.setCookie(KEY_UUID, output.getUuId().letterSignature());
+            ReportUserCommentOutput output = this.reportUserComment.process(input);
             return ResponseEntity.ok(new Gson().toJson(output.toJsonModel()));
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);

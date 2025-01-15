@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.rateusercomment.proper;
+package org.herovole.blogproj.application.user.rateusercomment;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;

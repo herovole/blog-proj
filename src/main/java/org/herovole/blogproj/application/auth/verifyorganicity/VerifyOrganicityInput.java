@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.checkuserban;
+package org.herovole.blogproj.application.auth.verifyorganicity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,10 +13,11 @@ import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class CheckUserBanInput {
+public class VerifyOrganicityInput {
 
     private final IPv4Address iPv4Address;
     private final IntegerPublicUserId userId;
+    private final String verificationToken;
 
 }
 

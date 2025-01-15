@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.verifyorganicity;
+package org.herovole.blogproj.application.auth.verifyorganicity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

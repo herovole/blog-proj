@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.user.postusercomment.proper;
+package org.herovole.blogproj.application.user.postusercomment;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,17 @@ public class PostUserCommentOutput {
     public boolean hasValidContent() {
         return hasValidContent;
     }
+
+    public Json toJsonModel() {
+        return new Json(hasValidContent);
+    }
+
+    record Json(
+            boolean hasValidContent
+    ) {
+    }
+
+    ;
 
 }
 

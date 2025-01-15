@@ -20,7 +20,7 @@ import java.io.IOException;
 @Order(3)
 public class ThreateningPhraseFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ThreateningPhraseFilter.class.getSimpleName());
+    private static final Logger itsLogger = LoggerFactory.getLogger(ThreateningPhraseFilter.class.getSimpleName());
     private static final String FILTER_CODE = "THR";
     private final TextBlackList textBlackList;
 
@@ -38,7 +38,7 @@ public class ThreateningPhraseFilter extends OncePerRequestFilter {
         if (detection.isEmpty()) {
             filterChain.doFilter(request, response);
         }
-        logger.warn("User {} attempts a malicious request with the pattern {}", userId, detection);
+        itsLogger.warn("User {} attempts a malicious request with the pattern {}", userId, detection);
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
                 .code(FILTER_CODE)
