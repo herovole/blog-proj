@@ -17,7 +17,7 @@ import java.io.IOException;
 @Order(5)
 public class AuthFilter extends OncePerRequestFilter {
 
-    private static final String FILTER_CODE = "AUT";
+    private static final String FILTER_CODE = "ATH";
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "admin"
     );

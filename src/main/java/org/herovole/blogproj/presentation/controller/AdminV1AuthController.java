@@ -33,7 +33,7 @@ public class AdminV1AuthController {
         this.loginAdmin = loginAdmin;
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<String> login(
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
