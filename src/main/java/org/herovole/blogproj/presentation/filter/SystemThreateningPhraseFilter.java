@@ -4,8 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.FilteringErrorType;
-import org.herovole.blogproj.application.FilteringResult;
+import org.herovole.blogproj.application.UseCaseErrorType;
+import org.herovole.blogproj.presentation.presenter.BasicResponseBody;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.comment.TextBlackUnit;
@@ -20,14 +20,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Order(1)
-public class ThreateningPhraseFilter extends OncePerRequestFilter {
+public class SystemThreateningPhraseFilter extends OncePerRequestFilter {
 
-    private static final Logger itsLogger = LoggerFactory.getLogger(ThreateningPhraseFilter.class.getSimpleName());
-    private static final FilteringErrorType FILTER_CODE = FilteringErrorType.THREATENING_PHRASE;
+    private static final Logger itsLogger = LoggerFactory.getLogger(SystemThreateningPhraseFilter.class.getSimpleName());
+    private static final UseCaseErrorType FILTER_CODE = UseCaseErrorType.SYSTEM_THREATENING_PHRASE;
     private final TextBlackList textBlackList;
 
     @Autowired
-    public ThreateningPhraseFilter(TextBlackList textBlackList) {
+    public SystemThreateningPhraseFilter(TextBlackList textBlackList) {
         this.textBlackList = textBlackList;
     }
 
@@ -42,13 +42,13 @@ public class ThreateningPhraseFilter extends OncePerRequestFilter {
         }
         itsLogger.warn("IP {} attempts a malicious request with the pattern {}", ip, detection);
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        FilteringResult errorResponseData = FilteringResult.builder()
+        BasicResponseBody errorResponseData = BasicResponseBody.builder()
                 .hasPassed(false)
                 .code(FILTER_CODE)
                 .timestampBannedUntil(null)
                 .message("One or more phrases potentially harmful to our system has been detected.")
                 .build();
-        response.getWriter().write(FilteredErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
+        response.getWriter().write(FilteringErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
         response.getWriter().flush();
     }
 

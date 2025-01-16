@@ -16,5 +16,11 @@ public interface AdminUser {
 
     String getCredentialEncode();
 
+    IPv4Address getAccessTokenIp();
+    AccessToken getAccessToken();
+    Timestamp getAccessTokenExpiry();
+
     AdminUser appendTokenInfo(AccessToken accessToken, IPv4Address accessTokenIp, Timestamp accessTokenExpiry);
+
+    boolean isCoherentTo(AdminUser user);
 }

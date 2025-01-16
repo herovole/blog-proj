@@ -2,6 +2,7 @@ package org.herovole.blogproj.application.auth.login;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
@@ -25,25 +26,28 @@ public class LoginAdmin {
     private final AccessTokenFactory accessTokenFactory;
     private final AdminUserDatasource adminUserDatasource;
     private final AdminUserTransactionalDatasource adminUserTransactionalDatasource;
+    private final GenericPresenter<AccessToken> presenter;
 
     @Autowired
     public LoginAdmin(AppSessionFactory sessionFactory,
                       CredentialsEncodingFactory credentialsEncodingFactory,
                       AccessTokenFactory accessTokenFactory,
                       @Qualifier("adminUserDatasource") AdminUserDatasource adminUserDatasource,
-                      AdminUserTransactionalDatasource adminUserTransactionalDatasource
+                      AdminUserTransactionalDatasource adminUserTransactionalDatasource,
+                      GenericPresenter<AccessToken> presenter
     ) {
         this.sessionFactory = sessionFactory;
         this.credentialsEncodingFactory = credentialsEncodingFactory;
         this.accessTokenFactory = accessTokenFactory;
         this.adminUserDatasource = adminUserDatasource;
         this.adminUserTransactionalDatasource = adminUserTransactionalDatasource;
+        this.presenter = presenter;
     }
 
-    public LoginAdminOutput process(LoginAdminInput input) throws Exception {
+    public void process(LoginAdminInput input) throws Exception {
         logger.info("interpreted post : {}", input);
         InitialAdminRequest request = input.getInitialAdminRequest();
-        AdminUser adminUser = this.adminUserDatasource.find(request);
+        AdminUser adminUser = this.adminUserDatasource.find(request.getUserName());
 
         // IP and Role aren't checked for User/Password logging in.
         if (!this.credentialsEncodingFactory.matches(request.getPassword(), adminUser.getCredentialEncode())) {
@@ -63,6 +67,7 @@ public class LoginAdmin {
             session.flushAndClear();
             session.commit();
         }
-        return new LoginAdminOutput(accessToken);
+
+        this.presenter.setContent(accessToken);
     }
 }

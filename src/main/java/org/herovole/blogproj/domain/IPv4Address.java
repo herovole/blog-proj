@@ -2,6 +2,7 @@ package org.herovole.blogproj.domain;
 
 import com.google.common.net.InetAddresses;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -9,6 +10,7 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 
 @ToString
+@EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IPv4Address {
 
@@ -46,4 +48,5 @@ public class IPv4Address {
     public long aton() {
         return this.isEmpty() ? 0 : aton;
     }
+
 }

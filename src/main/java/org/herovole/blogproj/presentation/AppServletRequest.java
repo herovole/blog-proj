@@ -18,6 +18,7 @@ import java.util.Map;
 public class AppServletRequest {
     private static final String ATTRIBUTE_USER_ID = "userId";
     private static final String COOKIE_KEY_UUID = "uuId";
+    private static final String COOKIE_KEY_ACCESS_TOKEN = "accessToken";
     private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
 
     public static AppServletRequest of(HttpServletRequest request) {
@@ -66,6 +67,19 @@ public class AppServletRequest {
             }
         }
         return UniversallyUniqueId.empty();
+    }
+
+    public AccessToken getAccessTokenFromCookie() {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (COOKIE_KEY_ACCESS_TOKEN.equals(cookie.getName())) {
+                    String cookieValue = cookie.getValue();
+                    return AccessToken.valueOf(cookieValue);
+                }
+            }
+        }
+        return AccessToken.empty();
     }
 
     public AccessToken getAccessTokenFromHeader() {

@@ -4,8 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.FilteringErrorType;
-import org.herovole.blogproj.application.FilteringResult;
+import org.herovole.blogproj.application.UseCaseErrorType;
+import org.herovole.blogproj.presentation.presenter.BasicResponseBody;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicity;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicityInput;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicityOutput;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @Order(3)
 public class BotFilter extends OncePerRequestFilter {
 
-    private static final FilteringErrorType FILTER_CODE = FilteringErrorType.BOT;
+    private static final UseCaseErrorType FILTER_CODE = UseCaseErrorType.BOT;
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "usercomments", "auth"
     );
@@ -48,19 +48,19 @@ public class BotFilter extends OncePerRequestFilter {
             VerifyOrganicityOutput output = verifyOrganicity.process(input);
             if (!output.isHuman()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                FilteringResult errorResponseData = FilteringResult.builder()
+                BasicResponseBody errorResponseData = BasicResponseBody.builder()
                         .hasPassed(false)
                         .code(FILTER_CODE)
                         .timestampBannedUntil(null)
                         .message("Potential Bot Request.")
                         .build();
-                response.getWriter().write(FilteredErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
+                response.getWriter().write(FilteringErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
                 response.getWriter().flush();
                 return;
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(FilteredErrorResponseBody.internalServerError().toJsonModel().toJsonString());
+            response.getWriter().write(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
             response.getWriter().flush();
             return;
         }

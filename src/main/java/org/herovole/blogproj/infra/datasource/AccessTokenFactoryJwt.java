@@ -8,9 +8,13 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
+import org.herovole.blogproj.domain.adminuser.RealAdminUserClaim;
+import org.herovole.blogproj.domain.adminuser.Role;
+import org.herovole.blogproj.domain.adminuser.UserName;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 import javax.crypto.SecretKey;
@@ -21,6 +25,7 @@ import java.util.Date;
 public class AccessTokenFactoryJwt implements AccessTokenFactory {
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final String CLAIM_KEY_ROLE = "role";
+    private static final String CLAIM_KEY_IP = "ip";
 
     public static AccessTokenFactory of(int expirationHours) {
         return new AccessTokenFactoryJwt(expirationHours);  // Convert hours to milliseconds
@@ -41,6 +46,7 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
         String accessToken = Jwts.builder()
                 .setSubject(adminUser.getUserName().memorySignature())            // Set the subject (user identifier)
                 .claim(CLAIM_KEY_ROLE, adminUser.getRole().getCode())             // Custom claim: user role
+                .claim(CLAIM_KEY_IP, adminUser.getAccessTokenIp().aton())
                 .setIssuedAt(issuedAt)           // Set the issued date
                 .setExpiration(expiration)       // Set the expiration date
                 .signWith(SECRET_KEY)            // Sign with the secret key
@@ -50,7 +56,7 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
 
 
     @Override
-    public void validateToken(AccessToken accessToken) throws SignatureException {
+    public AdminUser validateToken(AccessToken accessToken) throws SignatureException {
         if (accessToken.isEmpty()) throw new IllegalArgumentException("Access token must not be empty");
         // Parse the token and validate it
         Jws<Claims> claimsJws = Jwts.parserBuilder()
@@ -62,10 +68,16 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
         Claims claims = claimsJws.getBody();
         String username = claims.getSubject();
         String role = claims.get(CLAIM_KEY_ROLE, String.class);
+        long ip = claims.get(CLAIM_KEY_IP, Long.class);
 
-        // Print extracted claims
-        System.out.println("Username: " + username);
-        System.out.println("Role: " + role);
+
+        return RealAdminUserClaim.builder()
+                .userName(UserName.valueOf(username))
+                .role(Role.valueOf(role))
+                .accessToken(accessToken)
+                .accessTokenIp(IPv4Address.valueOf(ip))
+                .accessTokenExpiry(Timestamp.valueOf(claims.getExpiration()))
+                .build();
     }
 
 }

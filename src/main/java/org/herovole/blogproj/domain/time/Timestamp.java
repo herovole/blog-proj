@@ -36,6 +36,11 @@ public class Timestamp implements Comparable<Timestamp> {
         return new Timestamp(localDateTime);
     }
 
+    public static Timestamp valueOf(java.util.Date deprecatedDateInstance) {
+        LocalDateTime localDateTime= deprecatedDateInstance.toInstant().atZone(zoneIdTokyo).toLocalDateTime();
+        return valueOf(localDateTime);
+    }
+
     public static Timestamp valueOf(long unixTimestamp) {
         return valueOf(LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp), zoneIdTokyo));
     }

@@ -39,7 +39,7 @@ public class TrackPublicUserByFilter extends OncePerRequestFilter {
             servletResponse.setUuId(output.getUuId());
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(FilteredErrorResponseBody.internalServerError().toJsonModel().toJsonString());
+            response.getWriter().write(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
             response.getWriter().flush();
             return;
         }

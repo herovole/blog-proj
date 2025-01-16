@@ -1,9 +1,9 @@
 package org.herovole.blogproj.infra.datasource;
 
+import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.adminuser.AdminUserDatasource;
-import org.herovole.blogproj.domain.adminuser.ContinualAdminRequest;
-import org.herovole.blogproj.domain.adminuser.InitialAdminRequest;
+import org.herovole.blogproj.domain.adminuser.UserName;
 import org.herovole.blogproj.infra.jpa.entity.MAdminUser;
 import org.herovole.blogproj.infra.jpa.repository.MAdminUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,19 @@ public class AdminUserDatasourceMySql implements AdminUserDatasource {
     }
 
     @Override
-    public AdminUser find(InitialAdminRequest request) {
-        List<MAdminUser> users = mAdminUserRepository.findByUserName(request.getUserName().memorySignature());
+    public AdminUser find(UserName userName) {
+        if (userName.isEmpty()) throw new IllegalArgumentException("username is empty.");
+        List<MAdminUser> users = mAdminUserRepository.findByUserName(userName.memorySignature());
         if (users.isEmpty()) return AdminUser.empty();
-        if (users.size() > 1) throw new IllegalArgumentException("Multiple users found for the name " + request.getUserName().letterSignature());
+        if (users.size() > 1)
+            throw new IllegalArgumentException("Multiple users found for the name " + userName.letterSignature());
         return users.get(0).toDomainObj();
     }
 
     @Override
-    public AdminUser find(ContinualAdminRequest request) {
+    public AdminUser find(AccessToken accessToken) {
         List<MAdminUser> users = mAdminUserRepository.findByAccessToken(
-                request.getAccessToken().memorySignature()
+                accessToken.memorySignature()
         );
         if (users.isEmpty()) return AdminUser.empty();
         if (users.size() > 1) throw new IllegalArgumentException("Multiple users found for the same token");

@@ -1,8 +1,6 @@
-import {SearchTagsInput} from "./searchTagsInput";
-import {SearchTagsOutput, SearchTagsOutputFields} from "./searchTagsOutput";
 import axios from "axios";
-import {AdminLoginInput} from "../../admin/fragment/login/adminLoginInput";
-import {AdminLoginOutput} from "../../admin/fragment/login/adminLoginOutput";
+import {AdminLoginInput} from "./adminLoginInput";
+import {AdminLoginOutput, AdminLoginOutputFields} from "./adminLoginOutput";
 
 export class AuthService {
 
@@ -14,7 +12,7 @@ export class AuthService {
             }
         );
         console.log(response.data);
-        return new SearchTagsOutput(response.data as SearchTagsOutputFields);
+        return new AdminLoginOutput(response.data as AdminLoginOutputFields);
     }
 
 }

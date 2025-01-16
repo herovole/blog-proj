@@ -1,10 +1,10 @@
 package org.herovole.blogproj.presentation.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.auth.login.LoginAdmin;
 import org.herovole.blogproj.application.auth.login.LoginAdminInput;
-import org.herovole.blogproj.application.auth.login.LoginAdminOutput;
+import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
+import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.presentation.AppServletRequest;
@@ -25,20 +25,22 @@ import java.util.Map;
 public class AdminV1AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1AuthController.class.getSimpleName());
     private final LoginAdmin loginAdmin;
+    private final ValidateAccessToken validateAccessToken;
 
     @Autowired
     AdminV1AuthController(
-            LoginAdmin loginAdmin
+            LoginAdmin loginAdmin,
+            ValidateAccessToken validateAccessToken
     ) {
         this.loginAdmin = loginAdmin;
+        this.validateAccessToken = validateAccessToken;
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
             HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse,
             @RequestBody Map<String, String> request) {
-        logger.info("Endpoint : articles (Post) ");
+        logger.info("Endpoint : login (Post) ");
         System.out.println(request);
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
 
@@ -57,4 +59,27 @@ public class AdminV1AuthController {
 
     }
 
+    @PostMapping("/validate")
+    public ResponseEntity<String> validateAccessToken(
+            HttpServletRequest httpServletRequest,
+            @RequestBody Map<String, String> request) {
+        logger.info("Endpoint : validate (Post) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+
+        try {
+            ValidateAccessTokenInput input = ValidateAccessTokenInput.builder()
+                    .ip(servletRequest.getUserIpFromHeader())
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .accessToken(servletRequest.getAccessTokenFromCookie())
+                    .build();
+            PostOutput output = this.validateAccessToken.process(input);
+            return ResponseEntity.ok(output.toJsonModel().toJsonString());
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
+        }
+    }
 }

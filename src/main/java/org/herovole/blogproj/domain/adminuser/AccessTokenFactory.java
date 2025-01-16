@@ -8,5 +8,5 @@ public interface AccessTokenFactory {
     Timestamp getExpectedExpirationTime();
     AccessToken generateToken(AdminUser adminUser);
 
-    void validateToken(AccessToken accessToken) throws SignatureException;
+    AdminUser validateToken(AccessToken accessToken) throws SignatureException;
 }
