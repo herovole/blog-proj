@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.application.FilteringErrorType;
+import org.herovole.blogproj.application.FilteringResult;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBan;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanInput;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanOutput;
@@ -18,7 +20,7 @@ import java.io.IOException;
 @Order(4)
 public class BanFilter extends OncePerRequestFilter {
 
-    private static final String FILTER_CODE = "BAN";
+    private static final FilteringErrorType FILTER_CODE = FilteringErrorType.BAN;
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "usercomments"
     );
@@ -45,18 +47,19 @@ public class BanFilter extends OncePerRequestFilter {
             CheckUserBanOutput output = this.checkUserBan.process(input);
             if (!output.hasPassed()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
+                FilteringResult errorResponseData = FilteringResult.builder()
+                        .hasPassed(false)
                         .code(FILTER_CODE)
-                        .timestampBannedUntil(output.getTimestampBannedUntil().letterSignatureFrontendDisplay())
+                        .timestampBannedUntil(output.getTimestampBannedUntil())
                         .message("You have been banned until " + output.getTimestampBannedUntil().letterSignatureYyyyMMddSpaceHHmmss())
                         .build();
-                response.getWriter().write(errorResponseData.toJsonString());
+                response.getWriter().write(FilteredErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
                 response.getWriter().flush();
                 return;
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(BlockedByFilterResponseBody.internalServerError().toJsonString());
+            response.getWriter().write(FilteredErrorResponseBody.internalServerError().toJsonModel().toJsonString());
             response.getWriter().flush();
             return;
         }

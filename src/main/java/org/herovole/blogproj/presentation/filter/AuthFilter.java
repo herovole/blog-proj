@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.application.FilteringErrorType;
+import org.herovole.blogproj.application.FilteringResult;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.presentation.AppServletRequest;
@@ -17,7 +19,7 @@ import java.io.IOException;
 @Order(5)
 public class AuthFilter extends OncePerRequestFilter {
 
-    private static final String FILTER_CODE = "ATH";
+    private static final FilteringErrorType FILTER_CODE = FilteringErrorType.AUTH_FAILURE;
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "admin"
     );
@@ -40,12 +42,13 @@ public class AuthFilter extends OncePerRequestFilter {
             accessTokenFactory.validateToken(accessToken);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            BlockedByFilterResponseBody errorResponseData = BlockedByFilterResponseBody.builder()
+            FilteringResult errorResponseData = FilteringResult.builder()
+                    .hasPassed(false)
                     .code(FILTER_CODE)
                     .timestampBannedUntil(null)
                     .message("Valid token is absent.")
                     .build();
-            response.getWriter().write(errorResponseData.toJsonString());
+            response.getWriter().write(FilteredErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
             response.getWriter().flush();
             return;
         }
