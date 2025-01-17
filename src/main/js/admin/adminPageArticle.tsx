@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
 import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {Article} from "../domain/article";
-import {ElementId} from "../domain/elementId/elementId";
 import {AdminHeader} from "./adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
@@ -15,7 +13,7 @@ import {FindArticleOutput} from "../service/articles/findArticleOutput";
 import {ArticleService} from "../service/articles/articleService";
 import {TagService} from "../service/tags/tagService";
 
-export const AdminPageArticle:React.FC = () => {
+export const AdminPageArticle: React.FC = () => {
     const {articleId} = useParams();
     const articleService: ArticleService = new ArticleService();
     const tagService: TagService = new TagService();
@@ -36,13 +34,15 @@ export const AdminPageArticle:React.FC = () => {
 
             const articleInput: FindArticleInput = new FindArticleInput(articleId);
             const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
-            setArticle(findArticleOutput.article);
+            setArticle(findArticleOutput.getArticle());
         } catch (error) {
             console.error("error : ", error);
         }
     };
     useEffect(() => {
-        load().then(r => {console.log(r);});
+        load().then(r => {
+            console.log(r);
+        });
     }, []);
 
     if (article) {

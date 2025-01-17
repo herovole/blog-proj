@@ -1,6 +1,6 @@
 import axios from "axios";
 import {FindArticleInput} from "./findArticleInput";
-import {FindArticleOutput} from "./findArticleOutput";
+import {FindArticleOutput, FindArticleOutputFields} from "./findArticleOutput";
 import {SearchArticlesOutput, SearchArticlesOutputFields} from "./searchArticlesOutput";
 import {SearchArticlesInput} from "./searchArticlesInput";
 
@@ -12,7 +12,7 @@ export class ArticleService {
                 headers: {Accept: 'application/json',},
             }
         );
-        return response.data as FindArticleOutput;
+        return new FindArticleOutput(response.data as FindArticleOutputFields);
     }
 
     async searchArticles(input: SearchArticlesInput): Promise<SearchArticlesOutput> {

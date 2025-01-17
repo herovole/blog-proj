@@ -1,31 +1,34 @@
 import {ArticleSummaryList} from '../../domain/articlelist/articleSummaryList'
 import {ArticleSummary} from "../../domain/articlelist/articleSummary";
+import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 
-export interface SearchArticlesOutputFields {
-    articles: ReadonlyArray<ArticleSummary>;
-    totalArticles: number;
+export interface SearchArticlesOutputFields extends BasicApiResultFields {
+    content: {
+        articles: ReadonlyArray<ArticleSummary>;
+        totalArticles: number;
+    }
 }
 
 
-export class SearchArticlesOutput {
+export class SearchArticlesOutput extends BasicApiResult {
 
     static empty() {
         return new SearchArticlesOutput(null);
     }
 
-    fields: SearchArticlesOutputFields | null;
-
     constructor(
         fields: SearchArticlesOutputFields | null
     ) {
-        this.fields = fields;
+        super(fields);
     }
 
     getArticleSummaryList(): ArticleSummaryList {
-        return this.fields ? new ArticleSummaryList(this.fields.articles) : new ArticleSummaryList([]);
+        const fields: SearchArticlesOutputFields = this.fields as SearchArticlesOutputFields;
+        return fields ? new ArticleSummaryList(fields.content.articles) : new ArticleSummaryList([]);
     }
 
     getLength() {
-        return this.fields ? this.fields.totalArticles : 0;
+        const fields: SearchArticlesOutputFields = this.fields as SearchArticlesOutputFields;
+        return fields ? fields.content.totalArticles : 0;
     }
 }

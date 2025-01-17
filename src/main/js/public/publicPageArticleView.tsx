@@ -38,13 +38,15 @@ export const PublicPageArticleView: React.FC = () => {
 
             const articleInput: FindArticleInput = new FindArticleInput(articleId);
             const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
-            setArticle(findArticleOutput.article);
+            setArticle(findArticleOutput.getArticle());
         } catch (error) {
             console.error("error : ", error);
         }
     };
     useEffect(() => {
-        load().then(r => {console.log(r);});
+        load().then(r => {
+            console.log(r);
+        });
     }, [refresh]);
 
     if (article) {

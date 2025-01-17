@@ -15,17 +15,19 @@ export class BasicApiResult {
     private static readonly CODE_BANNED: string = "BAN";
     private static readonly CODE_AUTH_FAILURE: string = "ATH";
 
-    private readonly fields: BasicApiResultFields;
+    protected readonly fields: BasicApiResultFields | null;
 
-    constructor(fields: BasicApiResultFields) {
+    constructor(fields: BasicApiResultFields | null) {
         this.fields = fields;
     }
 
     isSuccessful(): boolean {
+        if (!this.fields) throw new Error("no data");
         return this.fields.code === BasicApiResult.CODE_NO_ERROR;
     }
 
     getMessage(prefix: string): string {
+        if (!this.fields) throw new Error("no data");
         switch (this.fields.code) {
             case BasicApiResult.CODE_NO_ERROR:
                 console.info("server response " + this.fields.message);
