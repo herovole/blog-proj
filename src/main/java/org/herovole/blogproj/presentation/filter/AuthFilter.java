@@ -4,9 +4,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
+import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
+import org.herovole.blogproj.application.error.AuthenticationFailureException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
-import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,12 @@ public class AuthFilter extends OncePerRequestFilter {
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "admin"
     );
-    private final AccessTokenFactory accessTokenFactory;
+    private final ValidateAccessToken validateAccessToken;
     private final BasicPresenter presenter;
 
     @Autowired
-    public AuthFilter(AccessTokenFactory accessTokenFactory, BasicPresenter presenter) {
-        this.accessTokenFactory = accessTokenFactory;
+    public AuthFilter(ValidateAccessToken validateAccessToken, BasicPresenter presenter) {
+        this.validateAccessToken = validateAccessToken;
         this.presenter = presenter;
     }
 
@@ -39,10 +41,18 @@ public class AuthFilter extends OncePerRequestFilter {
             return;
         }
         AccessToken accessToken = servletRequest.getAccessTokenFromCookie();
+        ValidateAccessTokenInput input = ValidateAccessTokenInput.builder()
+                .userId(servletRequest.getUserIdFromAttribute())
+                .ip(servletRequest.getUserIpFromHeader())
+                .accessToken(accessToken)
+                .build();
         try {
-            accessTokenFactory.validateToken(accessToken);
+            validateAccessToken.process(input);
+        } catch (AuthenticationFailureException e) {
+            this.presenter.addFilteringErrorInfo(response);
+            return;
         } catch (Exception e) {
-            this.presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE);
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
             this.presenter.addFilteringErrorInfo(response);
             return;
         }

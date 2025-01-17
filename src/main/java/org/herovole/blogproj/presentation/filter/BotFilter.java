@@ -4,11 +4,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.error.UseCaseErrorType;
-import org.herovole.blogproj.presentation.presenter.BasicResponseBody;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicity;
 import org.herovole.blogproj.application.auth.verifyorganicity.VerifyOrganicityInput;
+import org.herovole.blogproj.application.error.BotDetectionException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.presentation.AppServletRequest;
+import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -19,15 +20,16 @@ import java.io.IOException;
 @Order(3)
 public class BotFilter extends OncePerRequestFilter {
 
-    private static final UseCaseErrorType FILTER_CODE = UseCaseErrorType.BOT;
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "usercomments", "auth"
     );
     private final VerifyOrganicity verifyOrganicity;
+    private final BasicPresenter presenter;
 
     @Autowired
-    public BotFilter(VerifyOrganicity verifyOrganicity) {
+    public BotFilter(VerifyOrganicity verifyOrganicity, BasicPresenter presenter) {
         this.verifyOrganicity = verifyOrganicity;
+        this.presenter = presenter;
     }
 
     @Override
@@ -44,23 +46,13 @@ public class BotFilter extends OncePerRequestFilter {
                 .verificationToken(servletRequest.getBotDetectionTokenFromParameter())
                 .build();
         try {
-            VerifyOrganicityOutput output = verifyOrganicity.process(input);
-            if (!output.isHuman()) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                BasicResponseBody errorResponseData = BasicResponseBody.builder()
-                        .hasPassed(false)
-                        .code(FILTER_CODE)
-                        .timestampBannedUntil(null)
-                        .message("Potential Bot Request.")
-                        .build();
-                response.getWriter().write(FilteringErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
-                response.getWriter().flush();
-                return;
-            }
+            verifyOrganicity.process(input);
+        } catch (BotDetectionException e) {
+            this.presenter.addFilteringErrorInfo(response);
+            return;
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
-            response.getWriter().flush();
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+            this.presenter.addFilteringErrorInfo(response);
             return;
         }
         filterChain.doFilter(request, response);

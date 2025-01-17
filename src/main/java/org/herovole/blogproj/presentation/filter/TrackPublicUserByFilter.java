@@ -4,9 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.auth.trackuser.TrackUser;
 import org.herovole.blogproj.application.auth.trackuser.TrackUserInput;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
 import org.herovole.blogproj.presentation.presenter.TrackUserPresenter;
@@ -38,8 +38,8 @@ public class TrackPublicUserByFilter extends OncePerRequestFilter {
                 .build();
         try {
             this.trackUser.process(input);
-            servletRequest.storeUserIdToAttribute(this.presenter.getTrackUserOutput().getUserId());
-            servletResponse.setUuIdOnCookie(this.presenter.getTrackUserOutput().getUuId());
+            servletRequest.storeUserIdToAttribute(this.presenter.getContent().getUserId());
+            servletResponse.setUuIdOnCookie(this.presenter.getContent().getUuId());
 
         } catch (Exception e) {
             this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);

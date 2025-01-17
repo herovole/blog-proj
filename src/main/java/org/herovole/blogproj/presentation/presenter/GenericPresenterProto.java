@@ -1,6 +1,7 @@
 package org.herovole.blogproj.presentation.presenter;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 public abstract class GenericPresenterProto<T> implements GenericPresenter<T> {
 
+    @Getter
     protected T content;
     protected ControllerErrorType controllerErrorType = ControllerErrorType.NONE;
     protected Timestamp timestampBannedUntil = Timestamp.empty();

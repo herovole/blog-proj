@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 public class TrackUserPresenter extends GenericPresenterProto<TrackUserOutput> {
-
     @Override
     public String buildResponseBody() {
         return BasicResponseBody.<Boolean>builder()

@@ -33,7 +33,7 @@ public class VerifyOrganicity {
                 input.getVerificationToken(),
                 input.getIPv4Address()
         );
-        //FIXME : temporarily suppresses blocking the process for the testing purposes
+        //FIXME : temporarily suppresses to block the process for the testing purposes
         probabilityOfBeingHuman = 1.0f;
         //if (probabilityOfBeingHuman == null) throw new IllegalStateException();
         logger.info("User {} score {}", input.getUserId(), probabilityOfBeingHuman);
