@@ -2,6 +2,7 @@ package org.herovole.blogproj.application.auth.trackuser;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
@@ -21,18 +22,21 @@ public class TrackUser {
     private final AppSessionFactory sessionFactory;
     private final PublicUserDatasource publicUserDatasource;
     private final PublicUserTransactionalDatasource publicUserTransactionalDatasource;
+    private final GenericPresenter<TrackUserOutput> presenter;
 
     @Autowired
     public TrackUser(AppSessionFactory sessionFactory,
                      @Qualifier("publicUserDatasource") PublicUserDatasource publicUserDatasource,
-                     PublicUserTransactionalDatasource publicUserTransactionalDatasource) {
+                     PublicUserTransactionalDatasource publicUserTransactionalDatasource,
+                     GenericPresenter<TrackUserOutput> presenter) {
         this.sessionFactory = sessionFactory;
         this.publicUserDatasource = publicUserDatasource;
         this.publicUserTransactionalDatasource = publicUserTransactionalDatasource;
+        this.presenter = presenter;
     }
 
 
-    public TrackUserOutput process(TrackUserInput input) throws Exception {
+    public void process(TrackUserInput input) throws Exception {
         logger.info("interpreted post : {}", input);
 
         // Check if the user has already been registered.
@@ -60,9 +64,11 @@ public class TrackUser {
 
         IntegerPublicUserId fixedUserId = this.publicUserDatasource.findIdByUuId(uuId);
         logger.info("job successful.");
-        return TrackUserOutput.builder()
+
+        TrackUserOutput output = TrackUserOutput.builder()
                 .userId(fixedUserId)
                 .uuId(uuId)
                 .build();
+        this.presenter.setContent(output);
     }
 }

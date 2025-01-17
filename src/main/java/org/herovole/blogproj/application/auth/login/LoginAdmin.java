@@ -3,6 +3,7 @@ package org.herovole.blogproj.application.auth.login;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
@@ -51,7 +52,9 @@ public class LoginAdmin {
 
         // IP and Role aren't checked for User/Password logging in.
         if (!this.credentialsEncodingFactory.matches(request.getPassword(), adminUser.getCredentialEncode())) {
-            throw new SecurityException("Incoherent password");
+            this.presenter
+                    .setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+                    .interruptProcess();
         }
         AccessToken accessToken = this.accessTokenFactory.generateToken(adminUser);
 

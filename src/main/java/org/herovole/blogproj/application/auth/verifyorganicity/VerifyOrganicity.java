@@ -1,5 +1,8 @@
 package org.herovole.blogproj.application.auth.verifyorganicity;
 
+import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.comment.ThirdpartyBotDetection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +18,15 @@ public class VerifyOrganicity {
     private static final float THRESHOLD = 0.5f;
 
     private final ThirdpartyBotDetection thirdpartyBotDetection;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
-    public VerifyOrganicity(ThirdpartyBotDetection thirdpartyBotDetection) {
+    public VerifyOrganicity(ThirdpartyBotDetection thirdpartyBotDetection, GenericPresenter<Object> presenter) {
         this.thirdpartyBotDetection = thirdpartyBotDetection;
+        this.presenter = presenter;
     }
 
-    public VerifyOrganicityOutput process(VerifyOrganicityInput input) throws IOException, InterruptedException {
+    public void process(VerifyOrganicityInput input) throws IOException, InterruptedException, ApplicationProcessException {
         logger.info("interpreted post : {}", input);
 
         Float probabilityOfBeingHuman = thirdpartyBotDetection.receiveProbabilityOfBeingHuman(
@@ -33,6 +38,9 @@ public class VerifyOrganicity {
         //if (probabilityOfBeingHuman == null) throw new IllegalStateException();
         logger.info("User {} score {}", input.getUserId(), probabilityOfBeingHuman);
 
-        return new VerifyOrganicityOutput(THRESHOLD < probabilityOfBeingHuman);
+        if(probabilityOfBeingHuman < THRESHOLD) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.BOT).interruptProcess();
+        }
+
     }
 }

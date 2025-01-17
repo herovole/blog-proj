@@ -4,11 +4,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.auth.trackuser.TrackUser;
 import org.herovole.blogproj.application.auth.trackuser.TrackUserInput;
-import org.herovole.blogproj.application.auth.trackuser.TrackUserOutput;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
+import org.herovole.blogproj.presentation.presenter.TrackUserPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -20,10 +21,12 @@ import java.io.IOException;
 public class TrackPublicUserByFilter extends OncePerRequestFilter {
 
     private final TrackUser trackUser;
+    private final TrackUserPresenter presenter;
 
     @Autowired
-    public TrackPublicUserByFilter(TrackUser trackUser) {
+    public TrackPublicUserByFilter(TrackUser trackUser, TrackUserPresenter presenter) {
         this.trackUser = trackUser;
+        this.presenter = presenter;
     }
 
     @Override
@@ -34,13 +37,13 @@ public class TrackPublicUserByFilter extends OncePerRequestFilter {
                 .uuId(servletRequest.getUniversalUniqueIdFromCookie())
                 .build();
         try {
-            TrackUserOutput output = this.trackUser.process(input);
-            servletRequest.storeUserIdToAttribute(output.getUserId());
-            servletResponse.setUuId(output.getUuId());
+            this.trackUser.process(input);
+            servletRequest.storeUserIdToAttribute(this.presenter.getTrackUserOutput().getUserId());
+            servletResponse.setUuIdOnCookie(this.presenter.getTrackUserOutput().getUuId());
+
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
-            response.getWriter().flush();
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+            this.presenter.addFilteringErrorInfo(response);
             return;
         }
         filterChain.doFilter(request, response);

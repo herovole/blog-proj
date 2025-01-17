@@ -2,7 +2,7 @@ package org.herovole.blogproj.application.auth.validateaccesstoken;
 
 import io.jsonwebtoken.security.SignatureException;
 import org.herovole.blogproj.application.GenericPresenter;
-import org.herovole.blogproj.application.UseCaseErrorType;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.adminuser.AdminUserDatasource;
@@ -19,15 +19,15 @@ public class ValidateAccessToken {
 
     private final AccessTokenFactory accessTokenFactory;
     private final AdminUserDatasource adminUserDatasource;
-    private final GenericPresenter genericPresenter;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
     public ValidateAccessToken(AccessTokenFactory accessTokenFactory,
                                @Qualifier("adminUserDatasource") AdminUserDatasource adminUserDatasource,
-                               GenericPresenter genericPresenter) {
+                               GenericPresenter<Object> presenter) {
         this.accessTokenFactory = accessTokenFactory;
         this.adminUserDatasource = adminUserDatasource;
-        this.genericPresenter = genericPresenter;
+        this.presenter = presenter;
     }
 
     public void process(ValidateAccessTokenInput input) throws Exception {
@@ -36,13 +36,11 @@ public class ValidateAccessToken {
         try {
             AdminUser claim = accessTokenFactory.validateToken(input.getAccessToken());
             AdminUser adminUser = this.adminUserDatasource.find(input.getAccessToken());
-            if (claim.isCoherentTo(adminUser)) {
-                genericPresenter.setUseCaseErrorType(UseCaseErrorType.NONE);
-            } else {
-                genericPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE);
+            if (!claim.isCoherentTo(adminUser)) {
+                presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE).interruptProcess();
             }
         } catch (SignatureException e) {
-            genericPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE);
+            presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE).interruptProcess();
         }
     }
 }

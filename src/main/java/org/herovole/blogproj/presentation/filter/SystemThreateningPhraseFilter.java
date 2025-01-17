@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.UseCaseErrorType;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.presentation.presenter.BasicResponseBody;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;

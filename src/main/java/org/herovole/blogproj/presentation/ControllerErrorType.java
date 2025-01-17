@@ -3,7 +3,7 @@ package org.herovole.blogproj.presentation;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.herovole.blogproj.application.UseCaseErrorType;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

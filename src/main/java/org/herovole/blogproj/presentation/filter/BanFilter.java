@@ -4,12 +4,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.UseCaseErrorType;
-import org.herovole.blogproj.presentation.presenter.BasicResponseBody;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBan;
 import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanInput;
-import org.herovole.blogproj.application.auth.checkuserban.CheckUserBanOutput;
+import org.herovole.blogproj.application.error.SuspendedUserException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.presentation.AppServletRequest;
+import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -20,15 +20,16 @@ import java.io.IOException;
 @Order(4)
 public class BanFilter extends OncePerRequestFilter {
 
-    private static final UseCaseErrorType FILTER_CODE = UseCaseErrorType.BAN;
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
             "usercomments"
     );
     private final CheckUserBan checkUserBan;
+    private final BasicPresenter presenter;
 
     @Autowired
-    public BanFilter(CheckUserBan checkUserBan) {
+    public BanFilter(CheckUserBan checkUserBan, BasicPresenter presenter) {
         this.checkUserBan = checkUserBan;
+        this.presenter = presenter;
     }
 
     @Override
@@ -44,23 +45,13 @@ public class BanFilter extends OncePerRequestFilter {
                 .build();
 
         try {
-            CheckUserBanOutput output = this.checkUserBan.process(input);
-            if (!output.hasPassed()) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                BasicResponseBody errorResponseData = BasicResponseBody.builder()
-                        .hasPassed(false)
-                        .code(FILTER_CODE)
-                        .timestampBannedUntil(output.getTimestampBannedUntil())
-                        .message("You have been banned until " + output.getTimestampBannedUntil().letterSignatureYyyyMMddSpaceHHmmss())
-                        .build();
-                response.getWriter().write(FilteringErrorResponseBody.of(errorResponseData).toJsonModel().toJsonString());
-                response.getWriter().flush();
-                return;
-            }
+            this.checkUserBan.process(input);
+        } catch (SuspendedUserException e) {
+            this.presenter.addFilteringErrorInfo(response);
+            return;
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(FilteringErrorResponseBody.internalServerError().toJsonModel().toJsonString());
-            response.getWriter().flush();
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+            this.presenter.addFilteringErrorInfo(response);
             return;
         }
         filterChain.doFilter(request, response);

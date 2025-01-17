@@ -3,6 +3,7 @@ package org.herovole.blogproj.presentation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.springframework.http.ResponseCookie;
 
@@ -13,10 +14,15 @@ public class AppServletResponse {
     }
 
     private static final String COOKIE_KEY_UUID = "uuId";
+    private static final String COOKIE_KEY_ACCESS_TOKEN = "accessToken";
     private final HttpServletResponse response;
 
-    public void setUuId(UniversallyUniqueId uuId) {
+    public void setUuIdOnCookie(UniversallyUniqueId uuId) {
         this.setCookie(COOKIE_KEY_UUID, uuId.letterSignature());
+    }
+
+    public void setAccessTokenOnCookie(AccessToken accessToken) {
+        this.setCookie(COOKIE_KEY_ACCESS_TOKEN, accessToken.letterSignature());
     }
 
     private void setCookie(String key, String value) {

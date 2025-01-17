@@ -2,6 +2,8 @@ package org.herovole.blogproj.application.auth.checkuserban;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.PublicIpDatasource;
@@ -23,20 +25,23 @@ public class CheckUserBan {
     private final PublicUserDatasource publicUserDatasource;
     private final PublicUserTransactionalDatasource publicUserTransactionalDatasource;
     private final PublicIpDatasource publicIpDatasource;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
     public CheckUserBan(AppSessionFactory sessionFactory,
                         @Qualifier("publicUserDatasource") PublicUserDatasource publicUserDatasource,
                         PublicUserTransactionalDatasource publicUserTransactionalDatasource,
-                        @Qualifier("publicIpDatasource") PublicIpDatasource publicIpDatasource) {
+                        @Qualifier("publicIpDatasource") PublicIpDatasource publicIpDatasource,
+                        GenericPresenter<Object> presenter) {
         this.sessionFactory = sessionFactory;
         this.publicUserDatasource = publicUserDatasource;
         this.publicUserTransactionalDatasource = publicUserTransactionalDatasource;
         this.publicIpDatasource = publicIpDatasource;
+        this.presenter = presenter;
     }
 
 
-    public CheckUserBanOutput process(CheckUserBanInput input) throws Exception {
+    public void process(CheckUserBanInput input) throws Exception {
         logger.info("interpreted post : {}", input);
         IntegerPublicUserId userId = input.getUserId();
 
@@ -51,10 +56,9 @@ public class CheckUserBan {
                     uuIdBannedUntil);
             // Status Code : 403
             // You are banned until ...
-            return CheckUserBanOutput.builder()
-                    .userId(userId)
-                    .timestampBannedUntil(uuIdBannedUntil)
-                    .build();
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+                    .setTimestampBannedUntil(uuIdBannedUntil)
+                    .interruptProcess();
         }
 
         // Check suspension state by IPV4Address.
@@ -67,10 +71,9 @@ public class CheckUserBan {
                         ipBannedUntil);
                 // Status Code : 403
                 // You are banned until ...
-                return CheckUserBanOutput.builder()
-                        .userId(userId)
-                        .timestampBannedUntil(ipBannedUntil)
-                        .build();
+                this.presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+                        .setTimestampBannedUntil(ipBannedUntil)
+                        .interruptProcess();
             }
         }
 
@@ -80,9 +83,5 @@ public class CheckUserBan {
             session.commit();
         }
 
-        return CheckUserBanOutput.builder()
-                .userId(userId)
-                .timestampBannedUntil(Timestamp.empty())
-                .build();
     }
 }

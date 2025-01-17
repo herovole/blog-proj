@@ -1,11 +1,19 @@
 package org.herovole.blogproj.application;
 
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 public interface GenericPresenter<T> {
 
-    void setContent(T content);
-    void setUseCaseErrorType(UseCaseErrorType useCaseErrorType);
-    void setTimestampBannedUntil(Timestamp timestampBannedUntil);
-    void setMessage(String message);
+    GenericPresenter<T> setContent(T content);
+
+    GenericPresenter<T> setUseCaseErrorType(UseCaseErrorType useCaseErrorType);
+
+    GenericPresenter<T> setTimestampBannedUntil(Timestamp timestampBannedUntil);
+
+    GenericPresenter<T> setMessage(String message);
+
+    void interruptProcess() throws ApplicationProcessException;
+
 }
