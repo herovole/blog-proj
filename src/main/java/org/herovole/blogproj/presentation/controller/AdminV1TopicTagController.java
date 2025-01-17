@@ -1,16 +1,16 @@
 package org.herovole.blogproj.presentation.controller;
 
-import com.google.gson.Gson;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTags;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTagsInput;
 import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTags;
 import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsInput;
-import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsOutput;
 import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTags;
 import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsInput;
-import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsOutput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.presentation.presenter.SearchCountryTagsPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchTopicTagsPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +31,21 @@ public class AdminV1TopicTagController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1TopicTagController.class.getSimpleName());
 
     private final SearchCountryTags searchCountryTags;
+    private final SearchCountryTagsPresenter searchCountryTagsPresenter;
     private final SearchTopicTags searchTopicTags;
+    private final SearchTopicTagsPresenter searchTopicTagsPresenter;
 
     private final EditTopicTags editTopicTags;
 
     @Autowired
     public AdminV1TopicTagController(
             SearchCountryTags searchCountryTags,
-            SearchTopicTags searchTopicTags,
-            EditTopicTags editTopicTags) {
+            SearchCountryTagsPresenter searchCountryTagsPresenter, SearchTopicTags searchTopicTags,
+            SearchTopicTagsPresenter searchTopicTagsPresenter, EditTopicTags editTopicTags) {
         this.searchCountryTags = searchCountryTags;
+        this.searchCountryTagsPresenter = searchCountryTagsPresenter;
         this.searchTopicTags = searchTopicTags;
+        this.searchTopicTagsPresenter = searchTopicTagsPresenter;
         this.editTopicTags = editTopicTags;
     }
 
@@ -54,15 +58,15 @@ public class AdminV1TopicTagController {
         try {
             FormContent formContent = FormContent.of(request);
             SearchCountryTagsInput input = SearchCountryTagsInput.fromFormContent(formContent);
-            SearchCountryTagsOutput output = this.searchCountryTags.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
+            this.searchCountryTags.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("User Error ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            this.searchCountryTagsPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
         } catch (Exception e) {
             logger.error("Server Error", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.searchCountryTagsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
+        return this.searchCountryTagsPresenter.buildResponseEntity();
     }
 
     //?page=...&itemsPerPage=...&isDetailed=...
@@ -74,15 +78,15 @@ public class AdminV1TopicTagController {
         try {
             FormContent formContent = FormContent.of(request);
             SearchTopicTagsInput input = SearchTopicTagsInput.fromFormContent(formContent);
-            SearchTopicTagsOutput output = this.searchTopicTags.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
+            this.searchTopicTags.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("User Error ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            this.searchTopicTagsPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
         } catch (Exception e) {
             logger.error("Server Error", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.searchTopicTagsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
+        return this.searchCountryTagsPresenter.buildResponseEntity();
     }
 
     @PostMapping("/topicTags")

@@ -1,10 +1,10 @@
 import axios from "axios";
 import {AdminLoginInput} from "./adminLoginInput";
-import {AdminLoginOutput, AdminLoginOutputFields} from "./adminLoginOutput";
+import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 
 export class AuthService {
 
-    async loginAdmin(input: AdminLoginInput): Promise<AdminLoginOutput> {
+    async loginAdmin(input: AdminLoginInput): Promise<BasicApiResult> {
         const response = await axios.post(
             "/api/v1/auth/login", {
                 params: input.toPayloadHash(),
@@ -12,7 +12,7 @@ export class AuthService {
             }
         );
         console.log(response.data);
-        return new AdminLoginOutput(response.data as AdminLoginOutputFields);
+        return new BasicApiResult(response.data as BasicApiResultFields);
     }
 
 }

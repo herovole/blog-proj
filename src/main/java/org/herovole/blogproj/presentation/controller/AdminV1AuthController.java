@@ -2,13 +2,14 @@ package org.herovole.blogproj.presentation.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.auth.login.LoginAdmin;
 import org.herovole.blogproj.application.auth.login.LoginAdminInput;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
@@ -61,7 +62,8 @@ public class AdminV1AuthController {
             LoginAdminInput input = LoginAdminInput.of(servletRequest.getUserIpFromHeader(), formContent);
             this.loginAdmin.process(input);
 
-            servletResponse.setAccessTokenOnCookie(this.loginAdminPresenter.getAccessToken());
+            AccessToken accessToken = this.loginAdminPresenter.getContent();
+            servletResponse.setAccessTokenOnCookie(accessToken);
 
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);

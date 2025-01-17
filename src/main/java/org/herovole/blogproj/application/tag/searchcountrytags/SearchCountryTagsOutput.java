@@ -9,11 +9,11 @@ public class SearchCountryTagsOutput {
     private final CountryTagUnits tagUnits;
     private final long total;
 
-    public Json toJsonRecord() {
+    public Json toJsonModel() {
         return new Json(tagUnits.toJson(), total);
     }
 
-    record Json(CountryTagUnit.Json[] tagUnits,
-                long total) {
+    public record Json(CountryTagUnit.Json[] tagUnits,
+                       long total) {
     }
 }

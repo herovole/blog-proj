@@ -2,6 +2,7 @@ package org.herovole.blogproj.application.tag.edittopictags;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.tag.topic.TagUnit;
 import org.herovole.blogproj.domain.tag.topic.TagUnits;
 import org.herovole.blogproj.domain.tag.topic.TopicTagDatasource;
@@ -24,7 +25,7 @@ public class EditTopicTags {
     @Autowired
     public EditTopicTags(AppSessionFactory sessionFactory,
                          @Qualifier("topicTagDatasource") TopicTagDatasource topicTagDatasource,
-                         TopicTagTransactionalDatasource topicTagTransactionalDatasource) {
+                         TopicTagTransactionalDatasource topicTagTransactionalDatasource, GenericPresenter<Object> presenter) {
         this.sessionFactory = sessionFactory;
         this.topicTagDatasource = topicTagDatasource;
         this.topicTagTransactionalDatasource = topicTagTransactionalDatasource;

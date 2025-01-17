@@ -1,5 +1,6 @@
 package org.herovole.blogproj.application.tag.searchcountrytags;
 
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.tag.country.CountryTagDatasource;
 import org.herovole.blogproj.domain.tag.country.CountryTagUnits;
@@ -15,22 +16,25 @@ public class SearchCountryTags {
     private static final Logger logger = LoggerFactory.getLogger(SearchCountryTags.class.getSimpleName());
 
     private final CountryTagDatasource countryTagDatasource;
+    private final GenericPresenter<SearchCountryTagsOutput> presenter;
 
     @Autowired
-    public SearchCountryTags(@Qualifier("countryTagDatasource") CountryTagDatasource countryTagDatasource) {
+    public SearchCountryTags(@Qualifier("countryTagDatasource") CountryTagDatasource countryTagDatasource, GenericPresenter<SearchCountryTagsOutput> presenter) {
         this.countryTagDatasource = countryTagDatasource;
+        this.presenter = presenter;
     }
 
-    public SearchCountryTagsOutput process(SearchCountryTagsInput input) throws Exception {
+    public void process(SearchCountryTagsInput input) throws Exception {
         logger.info("interpreted post : {}", input);
         PagingRequest option = input.getPagingRequest();
         long total = countryTagDatasource.countAll();
         CountryTagUnits tagUnits = countryTagDatasource.search(input.isDetailed(), option);
         logger.info("job successful.");
 
-        return SearchCountryTagsOutput.builder()
+        SearchCountryTagsOutput output = SearchCountryTagsOutput.builder()
                 .tagUnits(tagUnits)
                 .total(total)
                 .build();
+        this.presenter.setContent(output);
     }
 }

@@ -1,8 +1,8 @@
 import React from "react";
-import {AuthService} from "./authService";
-import {AdminLoginInput} from "./adminLoginInput";
+import {AuthService} from "../../../service/auth/authService";
+import {AdminLoginInput} from "../../../service/auth/adminLoginInput";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import {AdminLoginOutput} from "./adminLoginOutput";
+import {BasicApiResult} from "../../../domain/basicApiResult";
 
 type AdminLoginInputProps = {
     refreshParent: () => void;
@@ -41,9 +41,9 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
             recaptchaToken
         )
 
-        const output: AdminLoginOutput = await authService.loginAdmin(input);
+        const output: BasicApiResult = await authService.loginAdmin(input);
         if (output.isSuccessful()) {
-            console.log("Token Granted.");
+            console.log(output.getMessage("ログイン"));
         } else {
             console.error(output.getMessage("ログイン"));
         }

@@ -9,11 +9,11 @@ public class SearchTopicTagsOutput {
     private final TagUnits tagUnits;
     private final long total;
 
-    public Json toJsonRecord() {
+    public Json toJsonModel() {
         return new Json(tagUnits.toJson(), total);
     }
 
-    record Json(TagUnit.Json[] tagUnits,
+    public record Json(TagUnit.Json[] tagUnits,
                 long total) {
     }
 }
