@@ -25,7 +25,11 @@ public abstract class GenericPresenterProto<T> implements GenericPresenter<T> {
     }
 
     public GenericPresenter<T> setUseCaseErrorType(UseCaseErrorType useCaseErrorType) {
-        this.controllerErrorType = ControllerErrorType.of(useCaseErrorType);
+        if (this.controllerErrorType.equals(ControllerErrorType.NONE)) {
+            this.controllerErrorType = ControllerErrorType.of(useCaseErrorType);
+        } else {
+            throw new IllegalStateException("Cannot change use case error type after it's been set");
+        }
         return this;
     }
 

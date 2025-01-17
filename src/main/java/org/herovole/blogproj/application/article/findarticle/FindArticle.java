@@ -1,5 +1,6 @@
 package org.herovole.blogproj.application.article.findarticle;
 
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
@@ -15,13 +16,15 @@ public class FindArticle {
     private static final Logger logger = LoggerFactory.getLogger(FindArticle.class.getSimpleName());
 
     private final ArticleDatasource articleDatasource;
+    private final GenericPresenter<Article> presenter;
 
     @Autowired
-    public FindArticle(@Qualifier("articleDatasource") ArticleDatasource articleDatasource) {
+    public FindArticle(@Qualifier("articleDatasource") ArticleDatasource articleDatasource, GenericPresenter<Article> presenter) {
         this.articleDatasource = articleDatasource;
+        this.presenter = presenter;
     }
 
-    public FindArticleOutput process(FindArticleInput input) {
+    public void process(FindArticleInput input) {
         logger.info("interpreted post : {}", input);
         IntegerId articleId = input.getArticleId();
 
@@ -39,6 +42,6 @@ public class FindArticle {
         article = article.sortComments();
 
         logger.info("job successful.");
-        return new FindArticleOutput(article);
+        this.presenter.setContent(article);
     }
 }

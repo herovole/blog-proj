@@ -3,6 +3,7 @@ package org.herovole.blogproj.application.auth.checkuserban;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
@@ -41,7 +42,7 @@ public class CheckUserBan {
     }
 
 
-    public void process(CheckUserBanInput input) throws Exception {
+    public void process(CheckUserBanInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         IntegerPublicUserId userId = input.getUserId();
 
@@ -81,6 +82,9 @@ public class CheckUserBan {
             publicUserTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
 
     }

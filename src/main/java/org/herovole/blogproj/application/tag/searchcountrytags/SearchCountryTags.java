@@ -24,7 +24,7 @@ public class SearchCountryTags {
         this.presenter = presenter;
     }
 
-    public void process(SearchCountryTagsInput input) throws Exception {
+    public void process(SearchCountryTagsInput input) {
         logger.info("interpreted post : {}", input);
         PagingRequest option = input.getPagingRequest();
         long total = countryTagDatasource.countAll();

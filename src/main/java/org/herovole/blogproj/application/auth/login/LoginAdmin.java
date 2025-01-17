@@ -3,6 +3,7 @@ package org.herovole.blogproj.application.auth.login;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
@@ -45,7 +46,7 @@ public class LoginAdmin {
         this.presenter = presenter;
     }
 
-    public void process(LoginAdminInput input) throws Exception {
+    public void process(LoginAdminInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         InitialAdminRequest request = input.getInitialAdminRequest();
         AdminUser adminUser = this.adminUserDatasource.find(request.getUserName());
@@ -69,6 +70,9 @@ public class LoginAdmin {
             this.adminUserTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
 
         this.presenter.setContent(accessToken);

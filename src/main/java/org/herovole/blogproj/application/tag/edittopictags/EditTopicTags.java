@@ -3,6 +3,8 @@ package org.herovole.blogproj.application.tag.edittopictags;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.tag.topic.TagUnit;
 import org.herovole.blogproj.domain.tag.topic.TagUnits;
 import org.herovole.blogproj.domain.tag.topic.TopicTagDatasource;
@@ -21,6 +23,7 @@ public class EditTopicTags {
     private final AppSessionFactory sessionFactory;
     private final TopicTagDatasource topicTagDatasource;
     private final TopicTagTransactionalDatasource topicTagTransactionalDatasource;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
     public EditTopicTags(AppSessionFactory sessionFactory,
@@ -29,9 +32,10 @@ public class EditTopicTags {
         this.sessionFactory = sessionFactory;
         this.topicTagDatasource = topicTagDatasource;
         this.topicTagTransactionalDatasource = topicTagTransactionalDatasource;
+        this.presenter = presenter;
     }
 
-    public void process(EditTopicTagsInput input) throws Exception {
+    public void process(EditTopicTagsInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         TagUnits topicTags = input.getTagUnits();
         for (TagUnit topicTag : topicTags) {
@@ -52,6 +56,9 @@ public class EditTopicTags {
             topicTagTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
         logger.info("job successful.");
 

@@ -1,5 +1,6 @@
 package org.herovole.blogproj.presentation.controller;
 
+import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTags;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTagsInput;
@@ -9,12 +10,12 @@ import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTags;
 import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchCountryTagsPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchTopicTagsPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,17 +37,19 @@ public class AdminV1TopicTagController {
     private final SearchTopicTagsPresenter searchTopicTagsPresenter;
 
     private final EditTopicTags editTopicTags;
+    private final BasicPresenter editTopicTagsPresenter;
 
     @Autowired
     public AdminV1TopicTagController(
             SearchCountryTags searchCountryTags,
             SearchCountryTagsPresenter searchCountryTagsPresenter, SearchTopicTags searchTopicTags,
-            SearchTopicTagsPresenter searchTopicTagsPresenter, EditTopicTags editTopicTags) {
+            SearchTopicTagsPresenter searchTopicTagsPresenter, EditTopicTags editTopicTags, BasicPresenter editTopicTagsPresenter) {
         this.searchCountryTags = searchCountryTags;
         this.searchCountryTagsPresenter = searchCountryTagsPresenter;
         this.searchTopicTags = searchTopicTags;
         this.searchTopicTagsPresenter = searchTopicTagsPresenter;
         this.editTopicTags = editTopicTags;
+        this.editTopicTagsPresenter = editTopicTagsPresenter;
     }
 
     //?page=...&itemsPerPage=...&isDetailed=...
@@ -86,7 +89,7 @@ public class AdminV1TopicTagController {
             logger.error("Server Error", e);
             this.searchTopicTagsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
-        return this.searchCountryTagsPresenter.buildResponseEntity();
+        return this.searchTopicTagsPresenter.buildResponseEntity();
     }
 
     @PostMapping("/topicTags")
@@ -101,13 +104,15 @@ public class AdminV1TopicTagController {
             this.editTopicTags.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            this.editTopicTagsPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+            this.editTopicTagsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
 
-        return ResponseEntity.ok("");
+        return this.editTopicTagsPresenter.buildResponseEntity();
     }
 
 }

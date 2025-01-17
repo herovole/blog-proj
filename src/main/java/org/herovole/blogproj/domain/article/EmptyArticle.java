@@ -44,7 +44,7 @@ public class EmptyArticle implements Article {
     }
 
     @Override
-    public Json toJsonRecord() {
+    public Json toJsonModel() {
         return null;
     }
 }

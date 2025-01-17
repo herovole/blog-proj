@@ -11,7 +11,7 @@ public class SearchTopicTagsPresenter extends GenericPresenterProto<SearchTopicT
     @Override
     public String buildResponseBody() {
         return BasicResponseBody.<SearchTopicTagsOutput.Json>builder()
-                .contentJsonModel(this.content.toJsonModel()) // Don't return Token to browser.
+                .contentJsonModel(this.content.toJsonModel())
                 .code(this.controllerErrorType)
                 .timestampBannedUntil(this.timestampBannedUntil)
                 .message(this.message == null ? this.controllerErrorType.getDefaultBrowserDebugMessage() : this.message)

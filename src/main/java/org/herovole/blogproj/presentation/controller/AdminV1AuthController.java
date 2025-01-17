@@ -6,6 +6,7 @@ import org.herovole.blogproj.application.auth.login.LoginAdmin;
 import org.herovole.blogproj.application.auth.login.LoginAdminInput;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
@@ -32,19 +33,19 @@ public class AdminV1AuthController {
     private final LoginAdmin loginAdmin;
     private final LoginAdminPresenter loginAdminPresenter;
     private final ValidateAccessToken validateAccessToken;
-    private final BasicPresenter basicPresenter;
+    private final BasicPresenter validateAccessTokenPresenter;
 
     @Autowired
     AdminV1AuthController(
             LoginAdmin loginAdmin,
             LoginAdminPresenter loginAdminPresenter,
             ValidateAccessToken validateAccessToken,
-            BasicPresenter basicPresenter
+            BasicPresenter validateAccessTokenPresenter
     ) {
         this.loginAdmin = loginAdmin;
         this.loginAdminPresenter = loginAdminPresenter;
         this.validateAccessToken = validateAccessToken;
-        this.basicPresenter = basicPresenter;
+        this.validateAccessTokenPresenter = validateAccessTokenPresenter;
     }
 
     @PostMapping("/login")
@@ -68,6 +69,8 @@ public class AdminV1AuthController {
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
             this.loginAdminPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
             this.loginAdminPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
@@ -92,11 +95,13 @@ public class AdminV1AuthController {
             this.validateAccessToken.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            this.basicPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+            this.validateAccessTokenPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            this.basicPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+            this.validateAccessTokenPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
-        return this.basicPresenter.buildResponseEntity();
+        return this.validateAccessTokenPresenter.buildResponseEntity();
     }
 }

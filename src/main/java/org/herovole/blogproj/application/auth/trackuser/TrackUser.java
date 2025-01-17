@@ -3,6 +3,8 @@ package org.herovole.blogproj.application.auth.trackuser;
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
@@ -36,7 +38,7 @@ public class TrackUser {
     }
 
 
-    public void process(TrackUserInput input) throws Exception {
+    public void process(TrackUserInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
 
         // Check if the user has already been registered.
@@ -60,6 +62,9 @@ public class TrackUser {
             publicUserTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
 
         IntegerPublicUserId fixedUserId = this.publicUserDatasource.findIdByUuId(uuId);

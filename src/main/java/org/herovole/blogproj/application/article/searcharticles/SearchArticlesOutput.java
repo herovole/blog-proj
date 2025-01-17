@@ -9,11 +9,11 @@ public class SearchArticlesOutput {
     private final Articles articles;
     private final long totalArticles;
 
-    public Json toJsonRecord() {
+    public Json toJsonModel() {
         return new Json(articles.toJsonRecord(), totalArticles);
     }
 
-    record Json(Article.Json[] articles,
+    public record Json(Article.Json[] articles,
                 long totalArticles) {
     }
 }

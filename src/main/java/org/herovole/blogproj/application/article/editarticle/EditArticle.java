@@ -2,9 +2,12 @@ package org.herovole.blogproj.application.article.editarticle;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.article.ArticleDatasource;
 import org.herovole.blogproj.domain.article.Article;
+import org.herovole.blogproj.domain.article.ArticleDatasource;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +23,17 @@ public class EditArticle {
     private final AppSessionFactory sessionFactory;
     private final ArticleDatasource articleDatasource;
     private final ArticleTransactionalDatasource articleTransactionalDatasource;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
-    public EditArticle(AppSessionFactory sessionFactory, @Qualifier("articleDatasource") ArticleDatasource articleDatasource, ArticleTransactionalDatasource articleTransactionalDatasource) {
+    public EditArticle(AppSessionFactory sessionFactory, @Qualifier("articleDatasource") ArticleDatasource articleDatasource, ArticleTransactionalDatasource articleTransactionalDatasource, GenericPresenter<Object> presenter) {
         this.sessionFactory = sessionFactory;
         this.articleDatasource = articleDatasource;
         this.articleTransactionalDatasource = articleTransactionalDatasource;
+        this.presenter = presenter;
     }
 
-    public void process(EditArticleInput input) throws Exception {
+    public void process(EditArticleInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         Article article = input.getArticle();
         IntegerId articleId = article.getArticleId();
@@ -45,6 +50,9 @@ public class EditArticle {
             articleTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
         logger.info("job successful.");
 

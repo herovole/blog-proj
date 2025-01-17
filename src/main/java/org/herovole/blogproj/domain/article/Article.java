@@ -45,7 +45,7 @@ public interface Article {
 
     Article filterOutHiddenComments();
 
-    Json toJsonRecord();
+    Json toJsonModel();
 
     interface Json {
     }

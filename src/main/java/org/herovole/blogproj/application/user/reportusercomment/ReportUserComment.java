@@ -2,8 +2,10 @@ package org.herovole.blogproj.application.user.reportusercomment;
 
 import org.herovole.blogproj.application.AppSession;
 import org.herovole.blogproj.application.AppSessionFactory;
+import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
-import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.slf4j.Logger;
@@ -18,40 +20,33 @@ public class ReportUserComment {
 
     private final AppSessionFactory sessionFactory;
     private final UserCommentTransactionalDatasource userCommentTransactionalDatasource;
-    private final TextBlackList textBlackList;
+    private final GenericPresenter<Object> presenter;
 
     @Autowired
     public ReportUserComment(AppSessionFactory sessionFactory,
                              UserCommentTransactionalDatasource userCommentTransactionalDatasource,
-                             TextBlackList textBlackList
-    ) {
+                             GenericPresenter<Object> presenter) {
         this.sessionFactory = sessionFactory;
         this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
-        this.textBlackList = textBlackList;
+        this.presenter = presenter;
     }
 
-    public ReportUserCommentOutput process(ReportUserCommentInput input) throws Exception {
+    public void process(ReportUserCommentInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
-
         Reporting reporting = input.buildReporting();
 
-        TextBlackUnit detectionCommentText = textBlackList.detectHumanThreat(reporting.getReportingText());
-        if (!detectionCommentText.isEmpty()) {
-            logger.info("caught to black list pattern(s) : {}", detectionCommentText);
-            return ReportUserCommentOutput.of(false);
-        }
         logger.info("inserting report : {}", reporting);
         this.userCommentTransactionalDatasource.insertReport(reporting);
-        logger.info("total transaction number : {}", userCommentTransactionalDatasource.amountOfCachedTransactions());
 
+        logger.info("total transaction number : {}", userCommentTransactionalDatasource.amountOfCachedTransactions());
         try (AppSession session = sessionFactory.createSession()) {
             userCommentTransactionalDatasource.flush(session);
             session.flushAndClear();
             session.commit();
+        } catch (Exception e) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
         logger.info("job successful.");
-
-        return ReportUserCommentOutput.of(true);
-
     }
 }

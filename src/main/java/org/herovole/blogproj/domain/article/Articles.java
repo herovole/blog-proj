@@ -20,7 +20,7 @@ public class Articles {
     private final Article[] arrayOfArticles;
 
     public Article.Json[] toJsonRecord() {
-        return Arrays.stream(arrayOfArticles).map(Article::toJsonRecord).toArray(Article.Json[]::new);
+        return Arrays.stream(arrayOfArticles).map(Article::toJsonModel).toArray(Article.Json[]::new);
     }
 
 }

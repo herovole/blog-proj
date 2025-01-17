@@ -1,16 +1,17 @@
 package org.herovole.blogproj.presentation.presenter;
 
 import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsOutput;
+import org.herovole.blogproj.domain.article.Article;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope("request")
-public class SearchCountryTagsPresenter extends GenericPresenterProto<SearchCountryTagsOutput> {
+public class FindArticlePresenter extends GenericPresenterProto<Article> {
 
     @Override
     public String buildResponseBody() {
-        return BasicResponseBody.<SearchCountryTagsOutput.Json>builder()
+        return BasicResponseBody.<Article.Json>builder()
                 .contentJsonModel(this.content.toJsonModel())
                 .code(this.controllerErrorType)
                 .timestampBannedUntil(this.timestampBannedUntil)

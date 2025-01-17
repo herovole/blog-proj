@@ -141,7 +141,7 @@ public class RealArticle implements Article {
     }
 
     @Override
-    public Json toJsonRecord() {
+    public Json toJsonModel() {
         return Json.builder()
                 .articleId(articleId.longMemorySignature())
                 .title(title.memorySignature())

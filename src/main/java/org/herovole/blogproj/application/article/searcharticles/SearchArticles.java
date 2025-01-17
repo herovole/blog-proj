@@ -1,5 +1,6 @@
 package org.herovole.blogproj.application.article.searcharticles;
 
+import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.Article;
@@ -21,13 +22,15 @@ public class SearchArticles {
     private static final Logger logger = LoggerFactory.getLogger(SearchArticles.class.getSimpleName());
 
     private final ArticleDatasource articleDatasource;
+    private final GenericPresenter<SearchArticlesOutput> presenter;
 
     @Autowired
-    public SearchArticles(@Qualifier("articleDatasource") ArticleDatasource articleDatasource) {
+    public SearchArticles(@Qualifier("articleDatasource") ArticleDatasource articleDatasource, GenericPresenter<SearchArticlesOutput> presenter) {
         this.articleDatasource = articleDatasource;
+        this.presenter = presenter;
     }
 
-    public SearchArticlesOutput process(SearchArticlesInput input) throws Exception {
+    public void process(SearchArticlesInput input) {
         logger.info("interpreted post : {}", input);
         ArticleListSearchOption searchOption = input.getSearchOption();
         long articleNumber = articleDatasource.countByOptions(searchOption);
@@ -40,9 +43,10 @@ public class SearchArticles {
         Articles articles = Articles.of(articles0);
         logger.info("job successful.");
 
-        return SearchArticlesOutput.builder()
+        SearchArticlesOutput output = SearchArticlesOutput.builder()
                 .articles(articles)
                 .totalArticles(articleNumber)
                 .build();
+        this.presenter.setContent(output);
     }
 }

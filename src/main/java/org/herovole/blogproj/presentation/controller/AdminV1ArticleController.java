@@ -1,20 +1,21 @@
 package org.herovole.blogproj.presentation.controller;
 
-import com.google.gson.Gson;
 import org.herovole.blogproj.application.article.editarticle.EditArticle;
 import org.herovole.blogproj.application.article.editarticle.EditArticleInput;
 import org.herovole.blogproj.application.article.findarticle.FindArticle;
 import org.herovole.blogproj.application.article.findarticle.FindArticleInput;
-import org.herovole.blogproj.application.article.findarticle.FindArticleOutput;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticles;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesInput;
-import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOutput;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.presentation.presenter.BasicPresenter;
+import org.herovole.blogproj.presentation.presenter.FindArticlePresenter;
+import org.herovole.blogproj.presentation.presenter.SearchArticlesPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,18 +32,24 @@ import java.util.Map;
 public class AdminV1ArticleController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1ArticleController.class.getSimpleName());
     private final EditArticle editArticle;
+    private final BasicPresenter editArticlePresenter;
     private final SearchArticles searchArticles;
+    private final SearchArticlesPresenter searchArticlesPresenter;
     private final FindArticle findArticle;
+    private final FindArticlePresenter findArticlePresenter;
 
     @Autowired
     AdminV1ArticleController(
             EditArticle editArticle,
-            SearchArticles searchArticles,
-            FindArticle findArticle
-    ) {
+            BasicPresenter editArticlePresenter, SearchArticles searchArticles,
+            SearchArticlesPresenter searchArticlesPresenter, FindArticle findArticle,
+            FindArticlePresenter findArticlePresenter) {
         this.editArticle = editArticle;
+        this.editArticlePresenter = editArticlePresenter;
         this.searchArticles = searchArticles;
+        this.searchArticlesPresenter = searchArticlesPresenter;
         this.findArticle = findArticle;
+        this.findArticlePresenter = findArticlePresenter;
     }
 
     @PostMapping
@@ -57,13 +64,15 @@ public class AdminV1ArticleController {
             this.editArticle.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+            this.editArticlePresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+            this.editArticlePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
 
-        return ResponseEntity.ok("");
+        return editArticlePresenter.buildResponseEntity();
     }
 
     @GetMapping
@@ -75,16 +84,15 @@ public class AdminV1ArticleController {
         try {
             FormContent formContent = FormContent.of(request);
             SearchArticlesInput input = SearchArticlesInput.fromPostContent(formContent);
-            SearchArticlesOutput output = this.searchArticles.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
+            this.searchArticles.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            this.searchArticlesPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.searchArticlesPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
-
+        return this.searchArticlesPresenter.buildResponseEntity();
     }
 
     @GetMapping("/{id}")
@@ -96,15 +104,14 @@ public class AdminV1ArticleController {
         try {
             FormContent formContent = FormContent.of(request);
             FindArticleInput input = FindArticleInput.of(id, formContent);
-            FindArticleOutput output = this.findArticle.process(input);
-            return ResponseEntity.ok(new Gson().toJson(output.toJsonRecord()));
+            this.findArticle.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            this.findArticlePresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            this.findArticlePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
-
+        return this.findArticlePresenter.buildResponseEntity();
     }
 }
