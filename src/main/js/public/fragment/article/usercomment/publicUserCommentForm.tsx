@@ -1,11 +1,11 @@
 import React, {RefObject} from 'react';
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
-import axios, {AxiosResponse} from "axios";
 import {ElementId} from "../../../../domain/elementId/elementId";
 import Modal from "react-modal";
-import {PostUserCommentInput} from "./postUserCommentInput";
-import {PostUserCommentOutput, PostUserCommentOutputFields} from "./postUserCommentOutput";
+import {PostUserCommentInput} from "../../../../service/user/postUserCommentInput";
 import {Zurvan} from "../../../../domain/zurvan";
+import {UserService} from "../../../../service/user/userService";
+import {BasicApiResult} from "../../../../domain/basicApiResult";
 
 
 const customStyles = {
@@ -29,15 +29,19 @@ type PublicUserCommentFormProps = {
 
 export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     {postKey, articleId, articleTitle, refText, reRender}: PublicUserCommentFormProps) => {
-    const DEFAULT_HANDLE:string="名無し";
+    const DEFAULT_HANDLE: string = "名無し";
     const [open, setOpen] = React.useState<boolean>(false);
     const [refresh, setRefresh] = React.useState<boolean>(false);
+
+    const userService: UserService = new UserService();
     const [handle, setHandle] = React.useState<string>(DEFAULT_HANDLE);
     const [text, setText] = React.useState<string>("");
-    const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
-    const [messageWarning, setMessageWarning] = React.useState<string>("");
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_comment";
+
+    const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
+    const [messageWarning, setMessageWarning] = React.useState<string>("");
+
 
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const currentHandle: string = e.target.value;
@@ -83,28 +87,22 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             recaptchaToken
         )
 
-        try {
-            const response: AxiosResponse<PostUserCommentOutputFields> = await axios.post(input.buildUrl(), input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
-            });
-            const output: PostUserCommentOutput = new PostUserCommentOutput(response.data);
-            if (output.isSuccessful()) {
-                setMessageOrdinary(output.getMessage());
-                setMessageWarning("");
-                await Zurvan.delay(2);
+        const output: BasicApiResult = await userService.postUserComment(input);
 
-                setHandle(DEFAULT_HANDLE);
-                setText("");
-                setMessageOrdinary("");
-                closeModal();
-                setRefresh(r => !r);
-                reRender();
-            } else {
-                setMessageOrdinary("");
-                setMessageWarning(output.getMessage());
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
+        if (output.isSuccessful()) {
+            setMessageOrdinary(output.getMessage("投稿成功"));
+            setMessageWarning("");
+            await Zurvan.delay(2);
+
+            setHandle(DEFAULT_HANDLE);
+            setText("");
+            setMessageOrdinary("");
+            closeModal();
+            setRefresh(r => !r);
+            reRender();
+        } else {
+            setMessageOrdinary("");
+            setMessageWarning(output.getMessage("投稿失敗"));
         }
 
     }

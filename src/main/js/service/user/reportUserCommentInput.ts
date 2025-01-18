@@ -13,9 +13,9 @@ export class ReportUserCommentInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "article.userCommentReporting.commentSerialNumber": this.commentSerialNumber.toString(),
-            "article.userCommentReporting.text": this.reportingText ? this.reportingText : "",
-            "token": this.verificationToken
+            "commentSerialNumber": this.commentSerialNumber.toString(),
+            "text": this.reportingText ? this.reportingText : "",
+            "botDetectionToken": this.verificationToken
         };
     };
 

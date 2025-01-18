@@ -2,13 +2,12 @@ import React, {RefObject} from 'react';
 import {ElementId} from "../../../../domain/elementId/elementId";
 import {UserCommentUnit} from "../../../../domain/comment/userCommentUnit";
 import Modal from "react-modal/lib";
-import axios from "axios";
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
-import {ReportUserCommentInput} from "./reportUserCommentInput";
-import {ReportUserCommentOutput, ReportUserCommentOutputFields} from "./reportUserCommentOutput";
+import {ReportUserCommentInput} from "../../../../service/user/reportUserCommentInput";
 import {Zurvan} from "../../../../domain/zurvan";
-import {RateUserCommentInput} from "./rateUserCommentInput";
-import {RateUserCommentOutput, RateUserCommentOutputFields} from "./rateUserCommentOutput";
+import {RateUserCommentInput} from "../../../../service/user/rateUserCommentInput";
+import {UserService} from "../../../../service/user/userService";
+import {BasicApiResult} from "../../../../domain/basicApiResult";
 
 const customStyles = {
     content: {
@@ -40,6 +39,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
     const [messageWarning, setMessageWarning] = React.useState<string>("");
 
+    const userService: UserService = new UserService();
+
     const BTN_CLASS_OFF: string = "user-comment-rate-off";
     const BTN_CLASS_ON: string = "user-comment-rate-on";
     const [btnGoodClass, setBtnGoodClass] = React.useState<string>(BTN_CLASS_OFF);
@@ -51,14 +52,18 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const googleReCaptchaActionLabel = "user_submitting_report";
 
     const handleGood = async () => {
-        if (btnBadClass == BTN_CLASS_ON) { return; }
+        if (btnBadClass == BTN_CLASS_ON) {
+            return;
+        }
         const isSuccessful = await handleRate(1);
         if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
             setBtnGoodClass(BTN_CLASS_ON);
             setLikes(likes + 1);
         }
         if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
-            if (btnGoodClass == BTN_CLASS_ON) { return; }
+            if (btnGoodClass == BTN_CLASS_ON) {
+                return;
+            }
             setBtnGoodClass(BTN_CLASS_OFF);
             setLikes(likes);
         }
@@ -90,11 +95,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             rating,
             recaptchaToken
         );
+        const output: BasicApiResult = await userService.rateUserComment(input);
         try {
-            const response = await axios.post(input.buildUrl(), input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
-            });
-            const output: RateUserCommentOutput = new RateUserCommentOutput(response.data as RateUserCommentOutputFields);
             return output.isSuccessful();
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -138,26 +140,20 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             refReport?.current?.value?.toString(),
             recaptchaToken
         );
-        try {
-            const response = await axios.post(input.buildUrl(), input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
-            });
-            const output: ReportUserCommentOutput = new ReportUserCommentOutput(response.data as ReportUserCommentOutputFields);
-            if (output.isSuccessful()) {
-                setMessageOrdinary(output.getMessage());
-                setMessageWarning("");
-                await Zurvan.delay(2);
-                if (refReport.current != null) {
-                    refReport.current.value = "";
-                    setMessageOrdinary("");
-                }
-                closeModal();
-            } else {
+
+        const output: BasicApiResult = await userService.reportUserComment(input);
+        if (output.isSuccessful()) {
+            setMessageOrdinary(output.getMessage("送信成功"));
+            setMessageWarning("");
+            await Zurvan.delay(2);
+            if (refReport.current != null) {
+                refReport.current.value = "";
                 setMessageOrdinary("");
-                setMessageWarning(output.getMessage());
             }
-        } catch (error) {
-            console.error('Error submitting form:', error);
+            closeModal();
+        } else {
+            setMessageOrdinary("");
+            setMessageWarning(output.getMessage("送信失敗"));
         }
     }
 

@@ -13,9 +13,9 @@ export class RateUserCommentInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "article.userCommentRating.commentSerialNumber": this.commentSerialNumber.toString(),
-            "article.userCommentRating.rating": this.rating.toString(),
-            "token": this.verificationToken
+            "commentSerialNumber": this.commentSerialNumber.toString(),
+            "rating": this.rating.toString(),
+            "botDetectionToken": this.verificationToken
         };
     };
 

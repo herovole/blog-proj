@@ -16,14 +16,11 @@ export class PostUserCommentInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "article.userCommentForm.articleId": this.articleId.toString(),
-            "article.userCommentForm.handleName": this.handleName ? this.handleName : "",
-            "article.userCommentForm.text": this.commentText ? this.commentText : "",
-            "token": this.verificationToken
+            "articleId": this.articleId.toString(),
+            "handleName": this.handleName ? this.handleName : "",
+            "text": this.commentText ? this.commentText : "",
+            "botDetectionToken": this.verificationToken
         };
     };
 
-    buildUrl(): string {
-        return "/api/v1/usercomments";
-    }
 }
