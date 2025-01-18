@@ -41,6 +41,7 @@ public class ValidateAccessToken {
                 presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE).interruptProcess();
             }
         } catch (SignatureException e) {
+            logger.error("auth failure", e);
             presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE).interruptProcess();
         }
     }

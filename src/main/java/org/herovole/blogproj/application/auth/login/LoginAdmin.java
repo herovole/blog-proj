@@ -71,6 +71,7 @@ public class LoginAdmin {
             session.flushAndClear();
             session.commit();
         } catch (Exception e) {
+            logger.error("transaction failure", e);
             this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
                     .interruptProcess();
         }

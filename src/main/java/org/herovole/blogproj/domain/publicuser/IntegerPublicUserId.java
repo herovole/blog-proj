@@ -1,7 +1,9 @@
 package org.herovole.blogproj.domain.publicuser;
 
+import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
 
+@ToString
 public class IntegerPublicUserId extends IntegerId implements PublicUserId {
 
     public static IntegerPublicUserId valueOf(Long id) {

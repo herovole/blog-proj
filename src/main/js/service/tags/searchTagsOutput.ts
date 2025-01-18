@@ -3,7 +3,10 @@ import {TagUnits} from "../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 
 export interface SearchTagsOutputFields extends BasicApiResultFields {
-    content: ReadonlyArray<TagUnitFields>;
+    content: {
+        tagUnits: ReadonlyArray<TagUnitFields>,
+        total: number
+    }
 }
 
 export class SearchTagsOutput extends BasicApiResult {
@@ -14,6 +17,6 @@ export class SearchTagsOutput extends BasicApiResult {
 
     getTagUnits(): TagUnits {
         const fields: SearchTagsOutputFields = this.fields as SearchTagsOutputFields;
-        return new TagUnits(fields.content.map(tagUnitFields => new TagUnit(tagUnitFields)));
+        return new TagUnits(fields.content.tagUnits.map(tagUnitFields => new TagUnit(tagUnitFields)));
     }
 }

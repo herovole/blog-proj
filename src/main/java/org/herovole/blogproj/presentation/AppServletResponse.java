@@ -31,7 +31,7 @@ public class AppServletResponse {
                 .httpOnly(true) // Cookie can't be accessed by JavaScript
                 .secure(true)   // Send over HTTPS only
                 .path("/")      // Scope of the cookie
-                .maxAge(Long.MAX_VALUE) // Expiration in seconds
+                .maxAge(Long.MAX_VALUE / 1024) // Expiration in seconds, internally involves milliseconds
                 .sameSite("Strict") // Prevent CSRF attacks
                 .build();
 

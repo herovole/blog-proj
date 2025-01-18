@@ -7,11 +7,15 @@ import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.presentation.ControllerErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 
 public abstract class GenericPresenterProto<T> implements GenericPresenter<T> {
+
+    private static final Logger logger = LoggerFactory.getLogger(GenericPresenterProto.class.getSimpleName());
 
     @Getter
     protected T content;
@@ -27,7 +31,9 @@ public abstract class GenericPresenterProto<T> implements GenericPresenter<T> {
     public GenericPresenter<T> setUseCaseErrorType(UseCaseErrorType useCaseErrorType) {
         if (this.controllerErrorType.equals(ControllerErrorType.NONE)) {
             this.controllerErrorType = ControllerErrorType.of(useCaseErrorType);
+            logger.info("Assigned {}", useCaseErrorType);
         } else {
+            logger.error("Reassigned {}", useCaseErrorType);
             throw new IllegalStateException("Cannot change use case error type after it's been set");
         }
         return this;

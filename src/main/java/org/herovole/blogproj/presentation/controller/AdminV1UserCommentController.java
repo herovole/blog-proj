@@ -62,6 +62,7 @@ public class AdminV1UserCommentController {
             // Check user status
             AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
+            System.out.println(servletRequest.getUserIdFromAttribute());
             PostUserCommentInput input = new PostUserCommentInput.Builder()
                     .iPv4Address(servletRequest.getUserIpFromHeader())
                     .userId(servletRequest.getUserIdFromAttribute())

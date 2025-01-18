@@ -13,14 +13,14 @@ public enum UseCaseErrorType {
     },
     SERVER_ERROR("SVR") {
         @Override
-        public void throwException(String message) {
-            throw new UnsupportedOperationException("Specific alert is not intended for this error.");
+        public void throwException(String message) throws GenericSeverErrorException {
+            throw new GenericSeverErrorException(message);
         }
     },
     GENERIC_USER_ERROR("GUE") {
         @Override
-        public void throwException(String message) {
-            throw new UnsupportedOperationException("Specific alert is not intended for this error.");
+        public void throwException(String message) throws GenericUserErrorException {
+            throw new GenericUserErrorException(message);
         }
     },
     HUMAN_THREATENING_PHRASE("HTH") {

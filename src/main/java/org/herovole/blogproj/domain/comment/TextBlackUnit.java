@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.util.stream.Stream;
+
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TextBlackUnit {
@@ -16,7 +18,9 @@ public class TextBlackUnit {
     }
 
     public static TextBlackUnit fromLine(String line) {
-        return new TextBlackUnit(line.split(SEPARATOR));
+        String[] words = line.split(SEPARATOR);
+        String[] words1 = Stream.of(words).filter(e -> !e.isEmpty() && !e.isBlank()).toArray(String[]::new);
+        return new TextBlackUnit(words1);
     }
 
     private final String[] words;
@@ -26,7 +30,7 @@ public class TextBlackUnit {
     }
 
     public boolean appliesTo(String text) {
-        if (text == null) return false;
+        if (text == null || this.isEmpty()) return false;
         for (String word : words) {
             if (!text.toLowerCase().contains(word.toLowerCase())) return false;
         }
