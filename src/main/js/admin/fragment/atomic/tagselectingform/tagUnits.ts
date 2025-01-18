@@ -12,6 +12,10 @@ export class TagUnits {
         this.tagUnits = arrayListOfTagUnits || [];
     }
 
+    isEmpty(): boolean {
+        return this.tagUnits.length === 0;
+    }
+
     getTagUnit(id: string): TagUnit {
         const candidate: TagUnit = this.tagUnits.filter(e => e.fields.id === id)[0];
         return candidate || TagUnit.empty();

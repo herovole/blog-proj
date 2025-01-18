@@ -26,6 +26,10 @@ import java.io.IOException;
 public class TrackPublicUserByFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(TrackPublicUserByFilter.class.getSimpleName());
+
+    private static final EndpointPhrases NOT_APPLIED_ENDPOINTS = EndpointPhrases.of(
+            "css", "bundle"
+    );
     private final TrackUser trackUser;
     private final TrackUserPresenter presenter;
 
@@ -59,6 +63,13 @@ public class TrackPublicUserByFilter extends OncePerRequestFilter {
             itsLogger.error("tracking failure", e);
         }
     }
+
+    @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        return servletRequest.hasUriContaining(NOT_APPLIED_ENDPOINTS);
+    }
+
 
 }
 

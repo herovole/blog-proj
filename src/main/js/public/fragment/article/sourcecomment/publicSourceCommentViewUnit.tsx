@@ -24,9 +24,10 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
     return (
         <div className="source-comment-individual">
             <span>{content.body.commentId}:</span>
-            <span
-                className="comment-handle">{countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}</span>
-            <button type="button" onClick={handleOnClickReference}>Reply</button>
+            <span className="comment-handle">
+                {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
+            </span>
+            <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
             <div className="source-comment-text">{content.body.commentText}</div>
         </div>
     );
