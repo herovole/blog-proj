@@ -25,8 +25,28 @@ public class EmptyAdminUser implements AdminUser {
     }
 
     @Override
+    public IPv4Address getAccessTokenIp() {
+        return IPv4Address.empty();
+    }
+
+    @Override
+    public AccessToken getAccessToken() {
+        return AccessToken.empty();
+    }
+
+    @Override
+    public Timestamp getAccessTokenExpiry() {
+        return Timestamp.empty();
+    }
+
+    @Override
     public AdminUser appendTokenInfo(AccessToken accessToken, IPv4Address accessTokenIp, Timestamp accessTokenExpiry) {
         throw new IllegalStateException("Empty Object");
+    }
+
+    @Override
+    public boolean isCoherentTo(AdminUser user) {
+        return false;
     }
 
 }

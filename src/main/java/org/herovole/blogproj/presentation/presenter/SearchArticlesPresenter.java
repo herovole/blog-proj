@@ -1,11 +1,11 @@
 package org.herovole.blogproj.presentation.presenter;
 
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOutput;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
-@Scope("request")
+@RequestScope
 public class SearchArticlesPresenter extends GenericPresenterProto<SearchArticlesOutput> {
 
     @Override

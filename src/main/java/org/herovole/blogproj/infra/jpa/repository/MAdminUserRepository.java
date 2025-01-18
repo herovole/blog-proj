@@ -24,5 +24,5 @@ public interface MAdminUserRepository extends JpaRepository<MAdminUser, Long> {
             "  Where " +
             "    access_token = :accessToken ",
             nativeQuery = true)
-    List<MAdminUser> findByAccessToken(@Param("access_token") String accessToken);
+    List<MAdminUser> findByAccessToken(@Param("accessToken") String accessToken);
 }

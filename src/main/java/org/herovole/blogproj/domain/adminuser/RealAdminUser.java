@@ -30,4 +30,9 @@ public class RealAdminUser implements AdminUser {
                 .accessTokenExpiry(accessTokenExpiry)
                 .build();
     }
+
+    @Override
+    public boolean isCoherentTo(AdminUser user) {
+        throw new UnsupportedOperationException();
+    }
 }

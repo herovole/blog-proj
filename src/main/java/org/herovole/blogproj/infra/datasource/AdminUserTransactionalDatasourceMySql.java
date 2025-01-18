@@ -6,9 +6,11 @@ import org.herovole.blogproj.domain.adminuser.AdminUserTransactionalDatasource;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.MAdminUser;
 import org.herovole.blogproj.infra.jpa.repository.MAdminUserRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMySql implements AdminUserTransactionalDatasource {
     private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
