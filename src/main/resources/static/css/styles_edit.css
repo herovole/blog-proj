@@ -1,3 +1,20 @@
+.article-edit-item-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 1000px;
+}
+
+.article-edit-title {
+    border-bottom: 0px solid black;
+    margin-top: 4px;
+}
+
+.article-edit-title-large {
+    border-bottom: 1px solid black;
+    margin-top: 4px;
+}
+
 .comment-edit-item-line {
     border: 2px solid #999999;
     background-color: #B0AA88;

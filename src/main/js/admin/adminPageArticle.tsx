@@ -49,15 +49,19 @@ export const AdminPageArticle: React.FC = () => {
         return (
             <div>
                 <AdminHeader/>
-                <div className="main-area-frame">
-                    <div className="main-area">
-                        <AdminArticleBody
-                            postKey={RootElementId.valueOf("articleEditingPage")}
-                            content={article}
-                            topicTagOptions={topicTagsOptions}
-                            countryTagOptions={countryTagsOptions}
-                        />
+                <div className="main-body">
+                    <div>ads here</div>
+                    <div className="main-area-frame">
+                        <div className="main-area">
+                            <AdminArticleBody
+                                postKey={RootElementId.valueOf("articleEditingPage")}
+                                content={article}
+                                topicTagsOptions={topicTagsOptions}
+                                countryTagsOptions={countryTagsOptions}
+                            />
+                        </div>
                     </div>
+                    <div>ads here</div>
                 </div>
             </div>
         );

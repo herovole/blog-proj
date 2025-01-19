@@ -21,7 +21,7 @@ export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({pos
                 return (
                     <div key={i} className="flex-container">
                         {[...Array(depth)].map((_, j) => (
-                            <span key={j} className="left-space"/>
+                            <span key={j} className="comment-left-space"/>
                         ))}
                         <PublicUserCommentViewUnit
                             postKey={postKey.append(i.toString())}

@@ -10,7 +10,7 @@
     background-color: #D0CCAA;
     padding:5px;
     margin:2px;
-    width:800px;
+    min-width:400px;
 }
 
 .source-comment-text {
