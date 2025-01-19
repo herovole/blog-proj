@@ -6,7 +6,12 @@ export interface FindArticleOutputFields extends BasicApiResultFields {
 }
 
 export class FindArticleOutput extends BasicApiResult {
-    constructor(fields: FindArticleOutputFields) {
+
+    static empty(): FindArticleOutput {
+        return new FindArticleOutput(null);
+    }
+
+    constructor(fields: FindArticleOutputFields | null) {
         super(fields);
     }
 

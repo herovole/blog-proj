@@ -1,12 +1,16 @@
 .comment-section {
     border: 2px solid #AAAAAA;
+}
 
+.comment-left-space {
+   padding-left: 19px
 }
 
 .source-comment-individual {
     background-color: #D0CCAA;
     padding:5px;
     margin:2px;
+    width:800px;
 }
 
 .source-comment-text {
@@ -49,4 +53,5 @@
     color:#FFFFFF;
     width: 50px;
 }
+
 

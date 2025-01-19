@@ -3,23 +3,56 @@ import {FindArticleInput} from "./findArticleInput";
 import {FindArticleOutput, FindArticleOutputFields} from "./findArticleOutput";
 import {SearchArticlesOutput, SearchArticlesOutputFields} from "./searchArticlesOutput";
 import {SearchArticlesInput} from "./searchArticlesInput";
+import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 
 export class ArticleService {
 
     async findArticle(input: FindArticleInput): Promise<FindArticleOutput> {
-        const response: AxiosResponse<FindArticleOutputFields> = await axios.get(
-            "/api/v1/articles/" + input.articleId, {
-                headers: {Accept: 'application/json',},
+        try {
+            const response: AxiosResponse<FindArticleOutputFields> = await axios.get(
+                "/api/v1/articles/" + input.articleId, {
+                    headers: {Accept: 'application/json',},
+                }
+            );
+            return new FindArticleOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error requesting data");
+            if (axios.isAxiosError(e) && e.response) {
+                return new FindArticleOutput(e.response.data);
             }
-        );
-        return new FindArticleOutput(response.data);
+        }
+        return FindArticleOutput.empty();
     }
 
     async searchArticles(input: SearchArticlesInput): Promise<SearchArticlesOutput> {
-        const response: AxiosResponse<SearchArticlesOutputFields> = await axios.get("/api/v1/articles", {
-            params: input.toPayloadHash(),
-            headers: {Accept: "application/json"},
-        });
-        return new SearchArticlesOutput(response.data);
+        try {
+            const response: AxiosResponse<SearchArticlesOutputFields> = await axios.get("/api/v1/articles", {
+                params: input.toPayloadHash(),
+                headers: {Accept: "application/json"},
+            });
+            return new SearchArticlesOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error requesting data");
+            if (axios.isAxiosError(e) && e.response) {
+                return new SearchArticlesOutput(e.response.data);
+            }
+        }
+        return SearchArticlesOutput.empty();
+    }
+
+    async editArticle(formData: FormData): Promise<BasicApiResult> {
+        const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/articles", postData, {
+                headers: {'Content-Type': 'application/json',},
+            });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
     }
 }

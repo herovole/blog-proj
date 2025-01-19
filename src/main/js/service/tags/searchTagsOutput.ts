@@ -11,7 +11,11 @@ export interface SearchTagsOutputFields extends BasicApiResultFields {
 
 export class SearchTagsOutput extends BasicApiResult {
 
-    constructor(fields: SearchTagsOutputFields) {
+    static empty(): SearchTagsOutput {
+        return new SearchTagsOutput(null);
+    }
+
+    constructor(fields: SearchTagsOutputFields | null) {
         super(fields);
     }
 

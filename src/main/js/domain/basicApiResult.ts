@@ -6,6 +6,10 @@ export interface BasicApiResultFields {
 
 export class BasicApiResult {
 
+    static empty(): BasicApiResult {
+        return new BasicApiResult(null);
+    }
+
     private static readonly CODE_NO_ERROR: string = "NNE";
     private static readonly CODE_SERVER_ERROR: string = "SVR";
     private static readonly CODE_GENERIC_USER_ERROR: string = "GUE";

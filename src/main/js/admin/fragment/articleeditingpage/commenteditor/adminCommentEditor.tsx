@@ -2,12 +2,12 @@ import React from 'react';
 import {AdminCommentEditorUnit} from './adminCommentEditorUnit'
 import {ElementId} from "../../../../domain/elementId/elementId";
 import {TagUnits} from "../../atomic/tagselectingform/tagUnits";
-import {CommentUnits} from "../../../../domain/comment/commentUnits";
+import {CommentUnit} from "../../../../domain/comment/commentUnit";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 
 type AdminCommentEditorProps = {
     postKey: ElementId;
-    content: CommentUnits;
+    content: ReadonlyArray<CommentUnit>;
     countryTagsOptions: TagUnits;
 }
 export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
@@ -22,43 +22,43 @@ export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
         setCountAddedComments(n => n + 1);
     }
 
-    const elementNumber = content.commentUnits.length;
+    const elementNumber = content.length;
 
-        return (
+    return (
+        <div>
             <div>
-                <div>
+                {content.map((commentUnit, i) => {
+                    const unit = commentUnit as SourceCommentUnit;
+                    return (
+                        <div key={i} className="flex-container">
+                            {[...Array(unit.depth)].map((_, j) => (
+                                <span key={j} className="comment-left-space"/>
+                            ))}
+                            <AdminCommentEditorUnit
+                                postKey={postKey.append(i.toString())}
+                                countryTagsOptions={countryTagsOptions}
+                                content={unit}
+                            />
+                        </div>
+                    );
+                })}
 
-
-                    {content.commentUnits.map((commentUnit, i) => {
-                        const unit: SourceCommentUnit = commentUnit as SourceCommentUnit;
-                        return (
-                            <div key={i} className="flex-container">
-                                {[...Array(unit.depth)].map((_, j) => (
-                                    <span key={j} className="left-space"/>
-                                ))}
-                                <AdminCommentEditorUnit
-                                    postKey={postKey.append(i.toString())}
-                                    countryTagsOptions={countryTagsOptions}
-                                    content={unit}
-                                />
-                            </div>
-                        );
-                    })}
-
-                    {Array.from({length: countAddedComments}).map((_, index) => (
+                {Array.from({length: countAddedComments}).map((_, index) => (
+                    <div key={"key" + index.toString()}>
                         <AdminCommentEditorUnit
                             postKey={postKey.append((elementNumber + index).toString())}
                             countryTagsOptions={countryTagsOptions}
-                            content={SourceCommentUnit.empty()}
+                            content={null}
                         />
-                    ))}
+                    </div>
+                ))}
 
-                    <p>
-                        <button type="button" onClick={this.handleAddComment}>Add Comment</button>
-                    </p>
-                </div>
+                <p>
+                    <button type="button" onClick={handleAddComment}>Add Comment</button>
+                </p>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
+//
