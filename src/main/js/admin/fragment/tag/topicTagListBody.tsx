@@ -3,26 +3,27 @@ import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TextEditingForm} from "../atomic/textEditingForm";
-import {SearchTopicTagsInput} from "./searchTopicTagsInput"
 import {SearchTopicTagsOutput} from "./searchTopicTagsOutput"
+import {SearchTagsInput} from "../../../service/tags/searchTagsInput";
+import {TagService} from "../../../service/tags/tagService";
+import {SearchTagsOutput} from "../../../service/tags/searchTagsOutput";
 
-export const TopicTagListBody = ({formKey}) => {
+export const TopicTagListBody: React.FC = () => {
     //prop : formKey
-    const [inputCached, setInputCached] = useState(SearchTopicTagsInput.byDefault(formKey, true));
-    const [inputFixed, setInputFixed] = useState(SearchTopicTagsInput.byDefault(formKey, true));
     const [output, setOutput] = useState(SearchTopicTagsOutput.empty());
     const [countAddedTags, setCountAddedTags] = useState(0);
-    const searchForm = useRef(null);
+
+    const searchForm = useRef<HTMLFormElement>(null);
+    const tagService: TagService = new TagService();
+    const [page, setPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(50);
 
 
-    const handlePageChanged = (page) => {
-        // Trigger the form submission manually
-        inputCached.appendPage(page);
-        if (searchForm.current) {
-            searchForm.current.dispatchEvent(
-                new Event('submit', {cancelable: true, bubbles: true})
-            );
-        }
+    const handlePageChanged = (page: number) => {
+        setPage(page);
+    }
+    const handleItemsPerPageChanged = (itemsPerPage: number) => {
+        setItemsPerPage(itemsPerPage);
     }
 
     useEffect(() => {
@@ -44,23 +45,13 @@ export const TopicTagListBody = ({formKey}) => {
         setCountAddedTags(countAddedTags + 1);
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
-        const formData = new FormData(event.target);
-        const postData = Object.fromEntries(formData.entries());
-
-        try {
-            const response = await axios.post("/api/v1/topicTags", postData, {
-                headers: {'Content-Type': 'application/json',},
-            });
+        const input: SearchTagsInput = new SearchTagsInput(page, itemsPerPage, true);
+        const output: SearchTagsOutput = await tagService.searchTopicTags(input);
+        if(output.isSuccessful()) {
             setCountAddedTags(0);
             initialLoad();
-
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            console.error(error.response.data);
-            console.error(error.request);
-            console.error(error.message);
         }
 
     }

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
 import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {Article} from "../domain/article";
-import {AdminHeader} from "./adminHeader";
+import {AdminHeader} from "./fragment/adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../service/tags/searchTagsOutput";

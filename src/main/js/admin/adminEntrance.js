@@ -1,6 +1,6 @@
 import React from 'react';
 import {AdminFooter} from './adminFooter';
-import {AdminHeader} from "./adminHeader";
+import {AdminHeader} from "./fragment/adminHeader";
 
 export const AdminEntrance = () => {
     return (

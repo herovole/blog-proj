@@ -2,12 +2,14 @@ export interface TagUnitFields {
     id: string;
     tagJapanese: string;
     tagEnglish: string;
+    articles: number;
+    lastUpdate: string;
 }
 
 export class TagUnit {
 
     static empty(): TagUnit {
-        return new TagUnit({["id"]: "", ["tagJapanese"]: "", ["tagEnglish"]: ""})
+        return new TagUnit({["id"]: "", ["tagJapanese"]: "", ["tagEnglish"]: "", ["articles"]: 0, ["lastUpdate"]: ""})
     }
 
     fields: TagUnitFields;

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TopicTagListBody} from "./fragment/tag/topicTagListBody"
-import {AdminHeader} from "./adminHeader";
+import {AdminHeader} from "./fragment/adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
 
 export const AdminPageTopicTagList = () => {

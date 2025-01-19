@@ -15,6 +15,7 @@ public class EndpointPhrases {
     private final String[] phrases;
 
     public boolean isContainedIn(String uri) {
+        System.out.println(uri + " " + phrases);
         String formattedUri = uri.toLowerCase();
         return Stream.of(phrases).anyMatch(formattedUri::contains);
     }

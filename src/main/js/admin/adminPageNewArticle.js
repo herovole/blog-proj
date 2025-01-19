@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
 import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {ElementId} from "../domain/elementId/elementId";
-import {AdminHeader} from "./adminHeader";
+import {AdminHeader} from "./fragment/adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
 
 export const AdminPageNewArticle = () => {
