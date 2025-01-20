@@ -1,16 +1,15 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AdminArticleListBody} from "./fragment/articlelist/adminArticleListBody"
-import {AdminHeader} from "./fragment/adminHeader";
+import {AdminBasicLayout} from "./fragment/adminBasicLayout";
 
 export const AdminPageArticleList: React.FC = () => {
 
     return (
-        <div>
-            <AdminHeader/>
+        <AdminBasicLayout>
             <AdminArticleListBody
                 directoryToIndividualPage={"/admin/articles"}
             />
-        </div>
+        </AdminBasicLayout>
     );
 };

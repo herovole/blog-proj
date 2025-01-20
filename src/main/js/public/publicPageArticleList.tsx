@@ -1,14 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {PublicArticleListBody} from "./fragment/articlelist/publicArticleListBody";
+import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 
 export const PublicPageArticleList = () => {
 
     return (
-        <div>
-            <PublicArticleListBody
-                directoryToIndividualPage={"/articles"}
-            />
-        </div>
+        <PublicBasicLayout>
+            <PublicArticleListBody directoryToIndividualPage={"/articles"}/>
+        </PublicBasicLayout>
     );
 };

@@ -90,7 +90,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
         const output: BasicApiResult = await userService.postUserComment(input);
 
         if (output.isSuccessful()) {
-            setMessageOrdinary(output.getMessage("投稿成功"));
+            setMessageOrdinary(output.getMessage("投稿"));
             setMessageWarning("");
             await Zurvan.delay(2);
 
@@ -102,7 +102,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             reRender();
         } else {
             setMessageOrdinary("");
-            setMessageWarning(output.getMessage("投稿失敗"));
+            setMessageWarning(output.getMessage("投稿"));
         }
 
     }

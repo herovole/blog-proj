@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagUnits} from "./fragment/atomic/tagselectingform/tagUnits";
 import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {Article} from "../domain/article";
-import {AdminHeader} from "./fragment/adminHeader";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
@@ -12,6 +11,7 @@ import {FindArticleInput} from "../service/articles/findArticleInput";
 import {FindArticleOutput} from "../service/articles/findArticleOutput";
 import {ArticleService} from "../service/articles/articleService";
 import {TagService} from "../service/tags/tagService";
+import {AdminBasicLayout} from "./fragment/adminBasicLayout";
 
 export const AdminPageArticle: React.FC = () => {
     const {articleId} = useParams();
@@ -43,25 +43,20 @@ export const AdminPageArticle: React.FC = () => {
 
     if (article) {
         return (
-            <div>
-                <AdminHeader/>
-                <div className="main-body">
-                    <div>ads here</div>
-                    <div className="main-area-frame">
-                        <div className="main-area">
-                            <AdminArticleBody
-                                postKey={RootElementId.valueOf("articleEditingPage")}
-                                content={article}
-                                topicTagsOptions={topicTagsOptions}
-                                countryTagsOptions={countryTagsOptions}
-                            />
-                        </div>
-                    </div>
-                    <div>ads here</div>
-                </div>
-            </div>
+            <AdminBasicLayout>
+                <AdminArticleBody
+                    postKey={RootElementId.valueOf("articleEditingPage")}
+                    content={article}
+                    topicTagsOptions={topicTagsOptions}
+                    countryTagsOptions={countryTagsOptions}
+                />
+            </AdminBasicLayout>
         );
     } else {
-        return <div>Loading...</div>
+        return (
+            <AdminBasicLayout>
+                <div>Loading...</div>
+            </AdminBasicLayout>
+        );
     }
 };

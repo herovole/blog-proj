@@ -6,12 +6,12 @@ import {PublicArticleBody} from "./fragment/article/publicArticleBody";
 import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {FindArticleOutput} from "../service/articles/findArticleOutput";
-import {PublicHeader} from "./fragment/publicHeader";
 import {TagService} from "../service/tags/tagService";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
 import {FindArticleInput} from "../service/articles/findArticleInput";
 import {ArticleService} from "../service/articles/articleService";
+import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 
 export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
@@ -50,24 +50,17 @@ export const PublicPageArticleView: React.FC = () => {
     }, [refresh]);
 
     if (article) {
-        return <div>
-            <PublicHeader/>
-            <div className="main-area-frame">
-                <div className="main-area">
-                    <PublicArticleBody
-                        postKey={RootElementId.valueOf("article")}
-                        article={article}
-                        topicTagOptions={topicTagsOptions}
-                        countryTagOptions={countryTagsOptions}
-                        reRender={reRender}
-                    />
-                </div>
-            </div>
-        </div>
+        return <PublicBasicLayout>
+            <PublicArticleBody
+                postKey={RootElementId.valueOf("article")}
+                article={article}
+                topicTagOptions={topicTagsOptions}
+                countryTagOptions={countryTagsOptions}
+                reRender={reRender}
+            /></PublicBasicLayout>
     } else {
-        return <div>
-            <PublicHeader/>
+        return <PublicBasicLayout>
             <div>Loading...</div>
-        </div>
+        </PublicBasicLayout>
     }
 };
