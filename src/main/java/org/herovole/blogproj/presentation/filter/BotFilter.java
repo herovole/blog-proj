@@ -26,7 +26,7 @@ public class BotFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(BotFilter.class.getSimpleName());
     private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
-            "usercomments", "auth"
+            "usercomments", "auth/login"
     );
     private final VerifyOrganicity verifyOrganicity;
     private final BasicPresenter presenter;

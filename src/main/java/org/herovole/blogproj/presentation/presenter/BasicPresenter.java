@@ -2,11 +2,11 @@ package org.herovole.blogproj.presentation.presenter;
 
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Component
-@Scope("prototype")
+@RequestScope
 public class BasicPresenter extends GenericPresenterProto<Object> {
 
     @Override

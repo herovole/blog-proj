@@ -1,6 +1,6 @@
 import React from 'react';
 import {PublicPageArticleView} from "./public/publicPageArticleView";
-import { Route, Routes } from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {Home} from "./home";
 import {About} from "./about";
 import {Contact} from "./contact";
@@ -15,6 +15,8 @@ import {AdminPageTopicTagList} from './admin/adminPageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
 import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 import {PublicPageArticleList} from "./public/publicPageArticleList";
+import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
+import {AdminPageLogin} from "./admin/adminPageLogin";
 
 
 console.log("App.js");
@@ -35,8 +37,15 @@ const App = () => {
                 <Route path="/*" element={<NotFound/>}/> {}
 
                 <Route path="/about" element={<About/>}/> {}
-                <Route path="/admin" element={<AdminEntrance/>}/> {}
+
+                <Route path="/admin/login" element={<AdminPageLogin/>}/> {}
+                <Route path="/admin" element={
+                    <AdminProtectedRoute>
+                        <AdminEntrance/>
+                    </AdminProtectedRoute>
+                }/> {}
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}
+                <Route path="/admin/sandboxes" element={<Sandbox/>}/> {}
 
 
                 <Route path="/admin/articles" element={<AdminPageArticleList/>}/> {}

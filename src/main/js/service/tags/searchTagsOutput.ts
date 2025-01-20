@@ -23,4 +23,9 @@ export class SearchTagsOutput extends BasicApiResult {
         const fields: SearchTagsOutputFields = this.fields as SearchTagsOutputFields;
         return new TagUnits(fields.content.tagUnits.map(tagUnitFields => new TagUnit(tagUnitFields)));
     }
+
+    getTotalNumber(): number {
+        const fields: SearchTagsOutputFields = this.fields as SearchTagsOutputFields;
+        return fields.content.total;
+    }
 }

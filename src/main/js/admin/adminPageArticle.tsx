@@ -22,22 +22,18 @@ export const AdminPageArticle: React.FC = () => {
     const [article, setArticle] = React.useState<Article>();
 
     const load = async (): Promise<void> => {
-        try {
 
-            const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
-            setTopicTagsOptions(topicOutput.getTagUnits());
+        const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
+        const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
+        setTopicTagsOptions(topicOutput.getTagUnits());
 
-            const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
-            setCountryTagsOptions(countriesOutput.getTagUnits());
+        const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
+        const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
+        setCountryTagsOptions(countriesOutput.getTagUnits());
 
-            const articleInput: FindArticleInput = new FindArticleInput(articleId);
-            const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
-            setArticle(findArticleOutput.getArticle());
-        } catch (error) {
-            console.error("error : ", error);
-        }
+        const articleInput: FindArticleInput = new FindArticleInput(articleId);
+        const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
+        setArticle(findArticleOutput.getArticle());
     };
     useEffect(() => {
         load().then(r => {

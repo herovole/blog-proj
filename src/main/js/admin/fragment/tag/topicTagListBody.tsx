@@ -1,16 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
-import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TextEditingForm} from "../atomic/textEditingForm";
-import {SearchTopicTagsOutput} from "./searchTopicTagsOutput"
 import {SearchTagsInput} from "../../../service/tags/searchTagsInput";
 import {TagService} from "../../../service/tags/tagService";
 import {SearchTagsOutput} from "../../../service/tags/searchTagsOutput";
+import {BasicApiResult} from "../../../domain/basicApiResult";
+import {ElementId} from "../../../domain/elementId/elementId";
 
-export const TopicTagListBody: React.FC = () => {
+type TopicTagListBodyProps = {
+    postKey: ElementId;
+}
+
+export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => {
     //prop : formKey
-    const [output, setOutput] = useState(SearchTopicTagsOutput.empty());
+    const [output, setOutput] = useState(SearchTagsOutput.empty());
     const [countAddedTags, setCountAddedTags] = useState(0);
 
     const searchForm = useRef<HTMLFormElement>(null);
@@ -47,9 +51,9 @@ export const TopicTagListBody: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
-        const input: SearchTagsInput = new SearchTagsInput(page, itemsPerPage, true);
-        const output: SearchTagsOutput = await tagService.searchTopicTags(input);
-        if(output.isSuccessful()) {
+        const formData = new FormData(event.target as HTMLFormElement);
+        const result: BasicApiResult = await tagService.editTopicTags(formData);
+        if (result.isSuccessful()) {
             setCountAddedTags(0);
             initialLoad();
         }
@@ -58,47 +62,20 @@ export const TopicTagListBody: React.FC = () => {
 
     const handleSearch = async (event) => {
         event.preventDefault(); // Prevent page reload
-        console.log("handleSearch");
-
-        // submitter exists if normal submit button is invoked.
-        // submitter is absent if pager is invoked.
-        let input;
-        if (event.nativeEvent.submitter) {
-            input = inputCached;
-            setInputFixed({...inputCached});
-        } else {
-            input = inputFixed.appendPage(inputCached.page);
-            setInputCached({...inputFixed});
+        const input: SearchTagsInput = new SearchTagsInput(page, itemsPerPage, true);
+        const output: SearchTagsOutput = await tagService.searchTopicTags(input);
+        if (output.isSuccessful()) {
+            setCountAddedTags(0);
+            initialLoad();
         }
-        console.log("input:", JSON.stringify(input));
-        console.log("toUrlSearchParams:", input.toUrlSearchParams().toString());
-
-        try {
-            const response = await axios.get("/api/v1/topicTags", {
-                params: input.toUrlSearchParams(),
-                headers: {Accept: "application/json"},
-            });
-
-            console.log(response);
-            //console.log(JSON.parse(response));
-
-            //const parsedHash = JSON.parse(jsonString);
-            //const searchTopicTagsOutput = await response.data;
-            const searchTopicTagsOutput = SearchTopicTagsOutput.fromHash(response.data);
-            setOutput(searchTopicTagsOutput);
-            console.log("total tagUnits : " + output.articles);
-            console.log("tagUnits : " + JSON.stringify(output.tagUnits));
-
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-
+        setOutput(output);
     }
 
     const totalPages = () => {
-        return output.articles % inputFixed.itemsPerPage === 0
-            ? output.articles / inputFixed.itemsPerPage
-            : Math.floor(output.articles / inputFixed.itemsPerPage) + 1;
+        const totalNumber: number = output.getTotalNumber();
+        return totalNumber % itemsPerPage === 0
+            ? totalNumber / itemsPerPage
+            : Math.floor(totalNumber / itemsPerPage) + 1;
     }
 
     return (
@@ -108,18 +85,18 @@ export const TopicTagListBody: React.FC = () => {
                 <Pagination size="sm" className="pull-right">
                     <Pagination.First onClick={() => handlePageChanged(1)}/>
                     <Pagination.Prev
-                        onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
+                        onClick={() => handlePageChanged(page - 1 > 0 ? page - 1 : 1)}/>
                     {Array.from({length: totalPages()}, (_, i) => (
                         <Pagination.Item
                             key={i + 1}
-                            active={i + 1 === inputCached.page}
+                            active={i + 1 === page}
                             onClick={() => handlePageChanged(i + 1)}
                         >
                             {i + 1}
                         </Pagination.Item>
                     ))}
                     <Pagination.Next
-                        onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
+                        onClick={() => handlePageChanged(page < totalPages() ? page + 1 : totalPages())}/>
                     <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
                 </Pagination>
             </form>
@@ -136,47 +113,47 @@ export const TopicTagListBody: React.FC = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {output.tagUnits.tagUnits.map((tagUnit, i) => (
+                    {output.getTagUnits().tagUnits.map((tagUnit, i) => (
                         <tr>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("id")}
+                                    postKey={postKey.append(i.toString()).append("id")}
                                     isFixed={true}
-                                >{tagUnit.id}</TextEditingForm>
+                                >{tagUnit.fields.id}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("nameJp")}
+                                    postKey={postKey.append(i.toString()).append("nameJp")}
                                     isFixed={false}
-                                >{tagUnit.nameJp}</TextEditingForm>
+                                >{tagUnit.fields.tagJapanese}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("nameEn")}
+                                    postKey={postKey.append(i.toString()).append("nameEn")}
                                     isFixed={false}
-                                >{tagUnit.nameEn}</TextEditingForm>
+                                >{tagUnit.fields.tagEnglish}</TextEditingForm>
                             </td>
-                            <td>{tagUnit.articles}</td>
-                            <td>{tagUnit.lastUpdate}</td>
+                            <td>{tagUnit.fields.articles}</td>
+                            <td>{tagUnit.fields.lastUpdate}</td>
                         </tr>
                     ))}
                     {Array.from({length: countAddedTags}).map((_, i) => (
                         <tr>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("id")}
+                                    postKey={postKey.append(i.toString()).append("id")}
                                     isFixed={true}
                                 >{null}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("nameJp")}
+                                    postKey={postKey.append(i.toString()).append("nameJp")}
                                     isFixed={false}
                                 >{null}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i).append("nameEn")}
+                                    postKey={postKey.append(i.toString()).append("nameEn")}
                                     isFixed={false}
                                 >{null}</TextEditingForm>
                             </td>

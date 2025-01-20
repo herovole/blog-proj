@@ -57,7 +57,7 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
 
     @Override
     public AdminUser validateToken(AccessToken accessToken) throws SignatureException {
-        if (accessToken.isEmpty()) throw new IllegalArgumentException("Access token must not be empty");
+        if (accessToken.isEmpty()) throw new SignatureException("Access token must not be empty");
         // Parse the token and validate it
         Jws<Claims> claimsJws = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY) // Set the signing key

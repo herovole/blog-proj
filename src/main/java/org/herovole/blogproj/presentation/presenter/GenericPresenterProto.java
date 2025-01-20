@@ -33,7 +33,7 @@ public abstract class GenericPresenterProto<T> implements GenericPresenter<T> {
             this.controllerErrorType = ControllerErrorType.of(useCaseErrorType);
             logger.info("Assigned {}", useCaseErrorType);
         } else {
-            logger.error("Reassigned {}", useCaseErrorType);
+            logger.error("Reassigning {} to {}", useCaseErrorType, this.controllerErrorType);
             throw new IllegalStateException("Cannot change use case error type after it's been set");
         }
         return this;

@@ -1,6 +1,7 @@
 import {SearchTagsInput} from "./searchTagsInput";
 import {SearchTagsOutput, SearchTagsOutputFields} from "./searchTagsOutput";
 import axios, {AxiosResponse} from "axios";
+import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 
 export class TagService {
 
@@ -40,5 +41,21 @@ export class TagService {
             }
         }
         return SearchTagsOutput.empty();
+    }
+
+    async editTopicTags(formData: FormData): Promise<BasicApiResult> {
+        const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/topicTags", postData, {
+                headers: {'Content-Type': 'application/json',},
+            });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
     }
 }
