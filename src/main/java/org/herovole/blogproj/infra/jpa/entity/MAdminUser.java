@@ -32,7 +32,7 @@ public class MAdminUser implements Serializable {
         entity.setName(domainObj1.getUserName().memorySignature());
         entity.setRole(domainObj1.getRole().getCode());
         entity.setCredentialEncode(domainObj1.getCredentialEncode());
-        entity.setAccessTokenAton(domainObj1.getAccessTokenIp().aton());
+        entity.setAccessTokenAton(domainObj1.getAccessTokenIp().memorySignature());
         entity.setAccessToken(domainObj1.getAccessToken().memorySignature());
         entity.setAccessTokenExpiry(domainObj1.getAccessTokenExpiry().toLocalDateTime());
         return entity;

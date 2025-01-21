@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IPv4Address;
-import org.herovole.blogproj.domain.adminuser.InitialAdminRequest;
+import org.herovole.blogproj.domain.adminuser.AdminUserLoginRequest;
 
 @ToString
 @Getter
@@ -15,9 +15,9 @@ public class LoginAdminInput {
 
     public static LoginAdminInput of(IPv4Address ip, FormContent formContent) {
         return new LoginAdminInput(
-                InitialAdminRequest.fromFormContent(ip, formContent)
+                AdminUserLoginRequest.fromFormContent(ip, formContent)
         );
     }
 
-    private final InitialAdminRequest initialAdminRequest;
+    private final AdminUserLoginRequest adminUserLoginRequest;
 }

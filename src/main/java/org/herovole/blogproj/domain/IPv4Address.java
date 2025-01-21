@@ -38,7 +38,7 @@ public class IPv4Address {
     private final Long aton;
 
     public boolean isEmpty() {
-        return aton == null;
+        return aton == null || aton == 0;
     }
 
     public String toRegularFormat() {
@@ -47,6 +47,10 @@ public class IPv4Address {
 
     public long aton() {
         return this.isEmpty() ? 0 : aton;
+    }
+
+    public Long memorySignature() {
+        return this.isEmpty() ? null : aton;
     }
 
 }

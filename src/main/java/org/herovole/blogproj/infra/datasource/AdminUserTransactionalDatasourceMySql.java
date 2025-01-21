@@ -30,6 +30,13 @@ public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMy
     }
 
     @Override
+    public void insert(AdminUser user) {
+        if (user.isEmpty()) throw new IllegalArgumentException("Empty AdminUser");
+        MAdminUser newEntity = MAdminUser.fromDomainObj(user);
+        cacheInsert.add(newEntity);
+    }
+
+    @Override
     public void update(AdminUser before, AdminUser after) {
         if (before.isEmpty() || after.isEmpty()) throw new IllegalArgumentException("Empty AdminUser");
         List<MAdminUser> users = this.mAdminUserRepository.findByUserName(before.getUserName().memorySignature());

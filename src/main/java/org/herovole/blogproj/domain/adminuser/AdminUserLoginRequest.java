@@ -7,10 +7,10 @@ import org.herovole.blogproj.domain.IPv4Address;
 
 @Getter
 @Builder
-public class InitialAdminRequest {
+public class AdminUserLoginRequest {
 
-    public static InitialAdminRequest fromFormContent(IPv4Address ip, FormContent formContent) {
-        return InitialAdminRequest.builder()
+    public static AdminUserLoginRequest fromFormContent(IPv4Address ip, FormContent formContent) {
+        return AdminUserLoginRequest.builder()
                 .userName(UserName.fromFormContentUserName(formContent))
                 .password(Password.fromFormContentPassword(formContent))
                 .ip(ip)

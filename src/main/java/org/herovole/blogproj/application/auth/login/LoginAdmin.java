@@ -11,7 +11,7 @@ import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.adminuser.AdminUserDatasource;
 import org.herovole.blogproj.domain.adminuser.AdminUserTransactionalDatasource;
 import org.herovole.blogproj.domain.adminuser.CredentialsEncodingFactory;
-import org.herovole.blogproj.domain.adminuser.InitialAdminRequest;
+import org.herovole.blogproj.domain.adminuser.AdminUserLoginRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class LoginAdmin {
 
     public void process(LoginAdminInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
-        InitialAdminRequest request = input.getInitialAdminRequest();
+        AdminUserLoginRequest request = input.getAdminUserLoginRequest();
         AdminUser adminUser = this.adminUserDatasource.find(request.getUserName());
 
         // IP and Role aren't checked for User/Password logging in.

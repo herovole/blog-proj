@@ -2,13 +2,19 @@ package org.herovole.blogproj;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
+import org.herovole.blogproj.domain.adminuser.Password;
+import org.herovole.blogproj.domain.adminuser.Role;
+import org.herovole.blogproj.domain.adminuser.UserName;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigFile {
 
@@ -32,6 +38,8 @@ public class ConfigFile {
     private static final String CONFIG_KEY_G_RECAPTCHA_SECRET_KEY = "g_recaptcha_sercret_key";
     private static final String CONFIG_KEY_DAILY_USER_ID_KEY0 = "daily_user_id_key0";
     private static final String CONFIG_KEY_HOURS_ADMIN_TOKEN_EXPIRES = "hours_admin_token_expires";
+    private static final String CONFIG_KEY_OWNER_USER = "owner_user";
+    private static final String CONFIG_KEY_OWNER_PASSWORD = "owner_password";
 
     private final Map<String, String> configs;
 
@@ -58,4 +66,21 @@ public class ConfigFile {
     int getHoursAdminTokenExpires() {
         return Integer.parseInt(this.configs.get(CONFIG_KEY_HOURS_ADMIN_TOKEN_EXPIRES));
     }
+
+    private UserName getOwnerUser() {
+        return UserName.valueOf(this.configs.get(CONFIG_KEY_OWNER_USER));
+    }
+
+    private Password getOwnerPassword() {
+        return Password.valueOf(this.configs.get(CONFIG_KEY_OWNER_PASSWORD));
+    }
+
+    public AdminUserRegistrationRequest buildOwnerUserRegistrationRequest() {
+        return AdminUserRegistrationRequest.builder()
+                .userName(getOwnerUser())
+                .password(getOwnerPassword())
+                .role(Role.OWNER)
+                .build();
+    }
+
 }

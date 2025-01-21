@@ -39,7 +39,7 @@ public class AccessToken {
     }
 
     public String memorySignature() {
-        return this.isEmpty() ? "" : this.token;
+        return this.isEmpty() ? null : this.token;
     }
 
 }
