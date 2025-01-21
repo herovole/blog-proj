@@ -54,6 +54,9 @@ public class RegisterUser {
     @PostConstruct
     public void processToRegisterOwnerAccount() throws ApplicationProcessException {
         AdminUserRegistrationRequest registrationRequest = this.configFile.buildOwnerUserRegistrationRequest();
+        AdminUser existingUser = this.adminUserDatasource.find(registrationRequest.getUserName());
+        if (!existingUser.isEmpty()) return; // Already registered in database.
+
         RegisterUserInput input = RegisterUserInput.of(registrationRequest);
         try {
             this.process(input);
