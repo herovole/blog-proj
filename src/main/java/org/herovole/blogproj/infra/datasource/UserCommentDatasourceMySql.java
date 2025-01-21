@@ -4,8 +4,9 @@ import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
-import org.herovole.blogproj.domain.time.Date;
+import org.herovole.blogproj.domain.comment.rating.RatingLogs;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;
@@ -40,6 +41,15 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
     }
 
     @Override
+    public RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IntegerPublicUserId userId) {
+        List<EUserCommentRating> entities = eUserCommentRatingRepository.findActiveHistoryByUserIdAndArticleId(
+                userId.longMemorySignature(),
+                articleId.longMemorySignature());
+        RatingLog[] ratingLogs = entities.stream().map(EUserCommentRating::toDomainObj).toArray(RatingLog[]::new);
+        return RatingLogs.of(ratingLogs);
+    }
+
+    @Override
     public RatingLog findActiveRatingHistory(IntegerId commentSerialNumber, IPv4Address ip, Date date) {
         List<EUserCommentRating> entities = eUserCommentRatingRepository.findActiveHistoryByIpAndTimestampRange(
                 ip.aton(),
@@ -49,5 +59,16 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
         );
         if (entities.isEmpty()) return RatingLog.empty();
         return entities.get(0).toDomainObj();
+    }
+
+    @Override
+    public RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IPv4Address ip, Date date) {
+        List<EUserCommentRating> entities = eUserCommentRatingRepository.findActiveHistoryByIpAndTimestampRangeAndArticleId(
+                ip.aton(),
+                date.beginningTimestampOfDay().toLocalDateTime(),
+                date.shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                articleId.longMemorySignature());
+        RatingLog[] ratingLogs = entities.stream().map(EUserCommentRating::toDomainObj).toArray(RatingLog[]::new);
+        return RatingLogs.of(ratingLogs);
     }
 }

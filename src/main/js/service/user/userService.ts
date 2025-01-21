@@ -26,10 +26,13 @@ export class UserService {
 
     async searchRatingHistory(input: SearchRatingHistoryInput): Promise<SearchRatingHistoryOutput> {
         try {
-            const response: AxiosResponse<SearchRatingHistoryOutputFields> = await axios.post("/api/v1/usercomments/ratings",
-                input.toPayloadHash(), {
-                    headers: {'Content-Type': 'application/json',},
-                });
+            const response: AxiosResponse<SearchRatingHistoryOutputFields> = await axios.get(
+                "/api/v1/usercomments/ratings", {
+                    params: input.toPayloadHash(),
+                    headers: {Accept: 'application/json',},
+                }
+            );
+            console.log(response.data);
             return new SearchRatingHistoryOutput(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");

@@ -11,9 +11,9 @@ public interface UserCommentDatasource {
 
     RatingLog findActiveRatingHistory(IntegerId commentSerialNumber, IntegerPublicUserId userId);
 
-    RatingLogs findActiveRatingHistoryOfArticle(IntegerId articleId, IntegerPublicUserId userId);
+    RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IntegerPublicUserId userId);
 
     RatingLog findActiveRatingHistory(IntegerId commentSerialNumber, IPv4Address ip, Date date);
 
-    RatingLogs findActiveRatingHistoryOfArticle(IntegerId articleId, IPv4Address ip, Date date);
+    RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IPv4Address ip, Date date);
 }

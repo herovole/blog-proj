@@ -1,7 +1,6 @@
 package org.herovole.blogproj.application.user.searchratinghistory;
 
 import org.herovole.blogproj.application.GenericPresenter;
-import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
@@ -30,14 +29,14 @@ public class SearchRatingHistory {
         this.presenter = presenter;
     }
 
-    public void process(SearchRatingHistoryInput input) throws ApplicationProcessException {
+    public void process(SearchRatingHistoryInput input) {
         logger.info("interpreted post : {}", input);
         IPv4Address ip = input.getIPv4Address();
         IntegerPublicUserId userId = input.getUserId();
         IntegerId articleId = input.getArticleId();
 
-        RatingLogs pastRatingLogsByUserId = this.userCommentDatasource.findActiveRatingHistoryOfArticle(articleId, userId);
-        RatingLogs pastRatingLogsByIp = this.userCommentDatasource.findActiveRatingHistoryOfArticle(articleId, ip, Date.today());
+        RatingLogs pastRatingLogsByUserId = this.userCommentDatasource.searchActiveRatingHistoryOfArticle(articleId, userId);
+        RatingLogs pastRatingLogsByIp = this.userCommentDatasource.searchActiveRatingHistoryOfArticle(articleId, ip, Date.today());
 
         RatingLogs combinedRatingLogs = pastRatingLogsByUserId.combine(pastRatingLogsByIp);
 
