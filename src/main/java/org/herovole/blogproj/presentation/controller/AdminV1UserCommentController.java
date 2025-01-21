@@ -9,18 +9,23 @@ import org.herovole.blogproj.application.user.rateusercomment.RateUserComment;
 import org.herovole.blogproj.application.user.rateusercomment.RateUserCommentInput;
 import org.herovole.blogproj.application.user.reportusercomment.ReportUserComment;
 import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommentInput;
+import org.herovole.blogproj.application.user.searchratinghistory.SearchRatingHistory;
+import org.herovole.blogproj.application.user.searchratinghistory.SearchRatingHistoryInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchRatingHistoryPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -32,6 +37,8 @@ public class AdminV1UserCommentController {
 
     private final PostUserComment postUserComment;
     private final BasicPresenter postUserCommentPresenter;
+    private final SearchRatingHistory searchRatingHistory;
+    private final SearchRatingHistoryPresenter searchRatingHistoryPresenter;
     private final RateUserComment rateUserComment;
     private final BasicPresenter rateUserCommentPresenter;
     private final ReportUserComment reportUserComment;
@@ -39,12 +46,14 @@ public class AdminV1UserCommentController {
 
     @Autowired
     AdminV1UserCommentController(
-            PostUserComment postUserComment,
-            BasicPresenter postUserCommentPresenter, RateUserComment rateUserComment,
-            BasicPresenter rateUserCommentPresenter, ReportUserComment reportUserComment,
-            BasicPresenter reportUserCommentPresenter) {
+            PostUserComment postUserComment, BasicPresenter postUserCommentPresenter,
+            SearchRatingHistory searchRatingHistory, SearchRatingHistoryPresenter searchRatingHistoryPresenter,
+            RateUserComment rateUserComment, BasicPresenter rateUserCommentPresenter,
+            ReportUserComment reportUserComment, BasicPresenter reportUserCommentPresenter) {
         this.postUserComment = postUserComment;
         this.postUserCommentPresenter = postUserCommentPresenter;
+        this.searchRatingHistory = searchRatingHistory;
+        this.searchRatingHistoryPresenter = searchRatingHistoryPresenter;
         this.rateUserComment = rateUserComment;
         this.rateUserCommentPresenter = rateUserCommentPresenter;
         this.reportUserComment = reportUserComment;
@@ -81,6 +90,32 @@ public class AdminV1UserCommentController {
             this.postUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
         return this.postUserCommentPresenter.buildResponseEntity();
+    }
+
+    @GetMapping("/ratings")
+    public ResponseEntity<String> searchRatingHistory(
+            @RequestParam Map<String, String> request,
+            HttpServletRequest httpServletRequest
+    ) {
+        logger.info("Endpoint : usercomments/ratings (Get) ");
+        System.out.println(request);
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        try {
+            FormContent formContent = FormContent.of(request);
+            SearchRatingHistoryInput input = new SearchRatingHistoryInput.Builder()
+                    .iPv4Address(servletRequest.getUserIpFromHeader())
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .formContent(formContent)
+                    .build();
+            this.searchRatingHistory.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.searchRatingHistoryPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.searchRatingHistoryPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.searchRatingHistoryPresenter.buildResponseEntity();
     }
 
     @PostMapping("/{commentSerialNumber}/rate")

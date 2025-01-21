@@ -1,19 +1,16 @@
 import React from 'react';
 import {PublicSourceCommentViewUnit} from './publicSourceCommentViewUnit'
-import {ElementId} from "../../../../domain/elementId/elementId";
 import {CommentUnit} from "../../../../domain/comment/commentUnit";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 import {TagUnits} from "../../../../admin/fragment/atomic/tagselectingform/tagUnits";
 
 type PublicSourceCommentViewProps = {
-    postKey: ElementId;
     commentUnits: ReadonlyArray<CommentUnit>;
     countryTagsOptions: TagUnits;
     handleReference: (commentIdReferred: number) => void;
 }
 
 export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = ({
-                                                                                    postKey,
                                                                                     commentUnits,
                                                                                     countryTagsOptions,
                                                                                     handleReference
@@ -30,7 +27,6 @@ export const PublicSourceCommentView: React.FC<PublicSourceCommentViewProps> = (
                             <span key={j} className="comment-left-space"/>
                         ))}
                         <PublicSourceCommentViewUnit
-                            postKey={postKey.append(i.toString())}
                             content={unit}
                             countryTagsOptions={countryTagsOptions}
                             handleReference={handleReference}

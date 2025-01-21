@@ -26,6 +26,11 @@ public class EmptyRatingLog implements RatingLog {
     }
 
     @Override
+    public Rating getRating() {
+        return Rating.none();
+    }
+
+    @Override
     public boolean isEmpty() {
         return true;
     }

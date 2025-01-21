@@ -1,16 +1,20 @@
 import React from 'react';
 import {PublicUserCommentViewUnit} from './publicUserCommentViewUnit'
-import {ElementId} from "../../../../domain/elementId/elementId";
 import {UserCommentUnit} from "../../../../domain/comment/userCommentUnit";
 import {CommentUnit} from "../../../../domain/comment/commentUnit";
+import {SearchRatingHistoryOutput} from "../../../../service/user/searchRatingHistoryOutput";
 
 type PublicUserCommentViewProps = {
-    postKey: ElementId;
     commentUnits: ReadonlyArray<CommentUnit>;
+    ratingHistory: SearchRatingHistoryOutput;
     handleReference: (commentIdReferred: number) => void;
 }
 
-export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({postKey, commentUnits, handleReference}) => {
+export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({
+                                                                                commentUnits,
+                                                                                ratingHistory,
+                                                                                handleReference
+                                                                            }) => {
 
     return (
         <div className="comment-section">
@@ -18,14 +22,15 @@ export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({pos
             {commentUnits.map((commentUnit: CommentUnit, i: number) => {
                 const unit = commentUnit as UserCommentUnit;
                 const depth: number = unit.depth;
+                const rating: number = ratingHistory.findRatingByCommentSerialNumber(unit.body.commentSerialNumber);
                 return (
                     <div key={i} className="flex-container">
                         {[...Array(depth)].map((_, j) => (
                             <span key={j} className="comment-left-space"/>
                         ))}
                         <PublicUserCommentViewUnit
-                            postKey={postKey.append(i.toString())}
                             content={unit}
+                            rating={rating}
                             handleReference={handleReference}
                         />
                     </div>

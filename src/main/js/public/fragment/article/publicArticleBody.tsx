@@ -6,6 +6,7 @@ import {ElementId} from "../../../domain/elementId/elementId";
 import {Article} from "../../../domain/article";
 import {PublicSourceCommentView} from "./sourcecomment/publicSourceCommentView";
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
+import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHistoryOutput";
 
 
 type PublicArticleBodyProps = {
@@ -13,6 +14,7 @@ type PublicArticleBodyProps = {
     article: Article;
     topicTagOptions: TagUnits;
     countryTagOptions: TagUnits;
+    ratingHistory: SearchRatingHistoryOutput;
     reRender: () => void;
 }
 
@@ -21,6 +23,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         article,
                                                                         topicTagOptions,
                                                                         countryTagOptions,
+                                                                        ratingHistory,
                                                                         reRender
                                                                     }) => {
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
@@ -53,7 +56,6 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
 
             <div>
                 <PublicSourceCommentView
-                    postKey={postKey.append("originalComments")}
                     commentUnits={article.sourceComments}
                     countryTagsOptions={countryTagOptions}
                     handleReference={handleReference}
@@ -61,8 +63,8 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
             </div>
             <div>
                 <PublicUserCommentView
-                    postKey={postKey.append("userComments")}
                     commentUnits={article.userComments}
+                    ratingHistory={ratingHistory}
                     handleReference={handleReference}
                 />
             </div>

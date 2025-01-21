@@ -12,14 +12,19 @@ import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
 import {FindArticleInput} from "../service/articles/findArticleInput";
 import {ArticleService} from "../service/articles/articleService";
 import {PublicBasicLayout} from "./fragment/publicBasicLayout";
+import {SearchRatingHistoryInput} from "../service/user/searchRatingHistoryInput";
+import {UserService} from "../service/user/userService";
+import {SearchRatingHistoryOutput} from "../service/user/searchRatingHistoryOutput";
 
 export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
     const articleService: ArticleService = new ArticleService();
+    const userService: UserService = new UserService();
     const tagService: TagService = new TagService();
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [article, setArticle] = React.useState<Article>();
+    const [ratingHistory, setRatingHistory] = React.useState<SearchRatingHistoryOutput>();
     const [refresh, setRefresh] = React.useState(false);
     const reRender = () => {
         console.log("reload the page, flag:" + refresh);
@@ -39,6 +44,10 @@ export const PublicPageArticleView: React.FC = () => {
             const articleInput: FindArticleInput = new FindArticleInput(articleId);
             const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
             setArticle(findArticleOutput.getArticle());
+
+            const searchRatingHistoryInput: SearchRatingHistoryInput = new SearchRatingHistoryInput(articleId);
+            const searchRatingHistoryOutput: SearchRatingHistoryOutput = await userService.searchRatingHistory(searchRatingHistoryInput);
+            setRatingHistory(searchRatingHistoryOutput);
         } catch (error) {
             console.error("error : ", error);
         }
@@ -49,13 +58,14 @@ export const PublicPageArticleView: React.FC = () => {
         });
     }, [refresh]);
 
-    if (article) {
+    if (article && ratingHistory) {
         return <PublicBasicLayout>
             <PublicArticleBody
                 postKey={RootElementId.valueOf("article")}
                 article={article}
                 topicTagOptions={topicTagsOptions}
                 countryTagOptions={countryTagsOptions}
+                ratingHistory={ratingHistory}
                 reRender={reRender}
             /></PublicBasicLayout>
     } else {

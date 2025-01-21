@@ -1,17 +1,14 @@
 import React from 'react';
-import {ElementId} from "../../../../domain/elementId/elementId";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 import {TagUnits} from "../../../../admin/fragment/atomic/tagselectingform/tagUnits";
 
 type PublicSourceCommentViewUnitProps = {
-    postKey: ElementId;
     content: SourceCommentUnit;
     countryTagsOptions: TagUnits;
     handleReference: (commentIdReferred: number) => void;
 }
 
 export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitProps> = ({
-                                                                                            postKey,
                                                                                             content,
                                                                                             countryTagsOptions,
                                                                                             handleReference

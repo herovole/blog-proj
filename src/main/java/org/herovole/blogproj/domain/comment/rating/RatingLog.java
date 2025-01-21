@@ -17,7 +17,18 @@ public interface RatingLog {
 
     IPv4Address getIPv4Address();
 
+    Rating getRating();
+
     boolean isEmpty();
 
     boolean hasActualRating();
+
+    default Json toJsonModel() {
+        return new Json(
+                this.getCommentSerialNumber().longMemorySignature(),
+                this.getRating().memorySignature());
+    }
+
+    record Json(long commentSerialNumber, int rating) {
+    }
 }

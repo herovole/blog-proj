@@ -3,6 +3,8 @@ import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult"
 import {PostUserCommentInput} from "./postUserCommentInput";
 import {RateUserCommentInput} from "./rateUserCommentInput";
 import {ReportUserCommentInput} from "./reportUserCommentInput";
+import {SearchRatingHistoryOutput, SearchRatingHistoryOutputFields} from "./searchRatingHistoryOutput";
+import {SearchRatingHistoryInput} from "./searchRatingHistoryInput";
 
 export class UserService {
 
@@ -20,6 +22,22 @@ export class UserService {
             }
         }
         return BasicApiResult.empty();
+    }
+
+    async searchRatingHistory(input: SearchRatingHistoryInput): Promise<SearchRatingHistoryOutput> {
+        try {
+            const response: AxiosResponse<SearchRatingHistoryOutputFields> = await axios.post("/api/v1/usercomments/ratings",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json',},
+                });
+            return new SearchRatingHistoryOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new SearchRatingHistoryOutput(e.response.data);
+            }
+        }
+        return SearchRatingHistoryOutput.empty();
     }
 
     async rateUserComment(input: RateUserCommentInput): Promise<BasicApiResult> {

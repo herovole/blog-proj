@@ -1,5 +1,4 @@
 import React, {RefObject} from 'react';
-import {ElementId} from "../../../../domain/elementId/elementId";
 import {UserCommentUnit} from "../../../../domain/comment/userCommentUnit";
 import Modal from "react-modal/lib";
 import {useGoogleReCaptcha} from 'react-google-recaptcha-v3';
@@ -22,14 +21,14 @@ const customStyles = {
 
 
 type PublicUserCommentViewUnitProps = {
-    postKey: ElementId;
     content: UserCommentUnit;
+    rating: number;
     handleReference: (commentIdReferred: number) => void;
 }
 
 export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps> = ({
-                                                                                        postKey,
                                                                                         content,
+                                                                                        rating,
                                                                                         handleReference
                                                                                     }) => {
 
@@ -43,8 +42,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
 
     const BTN_CLASS_OFF: string = "user-comment-rate-off";
     const BTN_CLASS_ON: string = "user-comment-rate-on";
-    const [btnGoodClass, setBtnGoodClass] = React.useState<string>(BTN_CLASS_OFF);
-    const [btnBadClass, setBtnBadClass] = React.useState<string>(BTN_CLASS_OFF);
+    const [btnGoodClass, setBtnGoodClass] = React.useState<string>(0 < rating ? BTN_CLASS_ON : BTN_CLASS_OFF);
+    const [btnBadClass, setBtnBadClass] = React.useState<string>(rating < 0 ? BTN_CLASS_ON : BTN_CLASS_OFF);
     const [likes, setLikes] = React.useState<number>(content.body.likes);
     const [dislikes, setDislikes] = React.useState<number>(content.body.dislikes);
 
@@ -59,24 +58,23 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
         if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
             setBtnGoodClass(BTN_CLASS_ON);
             setLikes(likes + 1);
-        }
-        if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
-            if (btnGoodClass == BTN_CLASS_ON) {
-                return;
-            }
+        } else if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
             setBtnGoodClass(BTN_CLASS_OFF);
-            setLikes(likes);
+            setLikes(n => n - 1);
         }
     }
     const handleBad = async () => {
+        if (btnGoodClass == BTN_CLASS_ON) {
+            return;
+        }
         const isSuccessful = await handleRate(-1);
         if (isSuccessful && btnBadClass == BTN_CLASS_OFF) {
             setBtnBadClass(BTN_CLASS_ON);
-            setDislikes(likes + 1);
+            setDislikes(dislikes + 1);
         }
         if (isSuccessful && btnBadClass == BTN_CLASS_ON) {
             setBtnBadClass(BTN_CLASS_OFF);
-            setDislikes(likes);
+            setDislikes(n => n - 1);
         }
     }
     const handleRate = async (rating: number): Promise<boolean> => {
