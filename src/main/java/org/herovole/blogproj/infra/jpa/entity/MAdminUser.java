@@ -71,7 +71,7 @@ public class MAdminUser implements Serializable {
     public AdminUser toDomainObj() {
         return RealAdminUser.builder()
                 .userName(UserName.valueOf(name))
-                .role(Role.valueOf(role))
+                .role(Role.of(role))
                 .credentialEncode(credentialEncode)
                 .accessToken(AccessToken.valueOf(accessToken))
                 .accessTokenIp(IPv4Address.valueOf(accessTokenAton))

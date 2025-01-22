@@ -25,6 +25,7 @@ public class RealAdminUser implements AdminUser {
         return builder()
                 .userName(this.userName)
                 .role(this.role)
+                .credentialEncode(this.credentialEncode)
                 .accessToken(accessToken)
                 .accessTokenIp(accessTokenIp)
                 .accessTokenExpiry(accessTokenExpiry)

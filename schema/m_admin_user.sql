@@ -5,7 +5,7 @@ CREATE TABLE m_admin_user (
   role CHAR(3) NOT NULL,
   credential_encode VARCHAR(255) NOT NULL,
   access_token_aton BIGINT NULL,
-  access_token VARCHAR(127) NULL,
+  access_token VARCHAR(255) NULL,
   access_token_expiry timestamp NULL,
   update_timestamp timestamp default current_timestamp on update current_timestamp,
   insert_timestamp timestamp default current_timestamp

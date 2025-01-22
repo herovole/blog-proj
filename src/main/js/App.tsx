@@ -38,7 +38,11 @@ const App = () => {
 
                 <Route path="/about" element={<About/>}/> {}
 
-                <Route path="/admin/login" element={<AdminPageLogin/>}/> {}
+                <Route path="/admin/login" element={
+                    <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                        <AdminPageLogin/>
+                    </GoogleReCaptchaProvider>
+                }/> {}
                 <Route path="/admin" element={
                     <AdminProtectedRoute>
                         <AdminEntrance/>

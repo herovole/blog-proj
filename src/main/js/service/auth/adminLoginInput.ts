@@ -12,7 +12,7 @@ export class AdminLoginInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "handle": this.handle,
+            "userName": this.handle,
             "password": this.password,
             "botDetectionToken": this.botDetectionToken
         };

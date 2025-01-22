@@ -73,7 +73,7 @@ public class AccessTokenFactoryJwt implements AccessTokenFactory {
 
         return RealAdminUserClaim.builder()
                 .userName(UserName.valueOf(username))
-                .role(Role.valueOf(role))
+                .role(Role.of(role))
                 .accessToken(accessToken)
                 .accessTokenIp(IPv4Address.valueOf(ip))
                 .accessTokenExpiry(Timestamp.valueOf(claims.getExpiration()))
