@@ -6,48 +6,32 @@ import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
 import {HeadlinesMode, PublicArticleHeadlines} from "./publicArticleHeadlines";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
-import {SearchTagsInput} from "../../../service/tags/searchTagsInput";
-import {SearchTagsOutput} from "../../../service/tags/searchTagsOutput";
-import {TagService} from "../../../service/tags/tagService";
 import {ArticleService} from "../../../service/articles/articleService";
 
 type PublicArticleListBodyProps = {
+    hasSearchMenu: boolean;
     directoryToIndividualPage: string;
+    topicTagsOptions: TagUnits;
+    countryTagsOptions: TagUnits;
 }
 
 
-export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({directoryToIndividualPage}) => {
-    const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
-    const tagService: TagService = new TagService();
+export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
+                                                                                hasSearchMenu,
+                                                                                directoryToIndividualPage,
+                                                                                topicTagsOptions,
+                                                                                countryTagsOptions
+                                                                            }) => {
     const articleService: ArticleService = new ArticleService();
-    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
-    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const MIN_DATE: Date = new Date("2025-01-01");
     const MAX_DATE: Date = new Date();
-    const LETTERS_PICKUP = 50;
-    //const PAGES_VISIBLE = 15;
     const [inputCached, setInputCached] = useState(SearchArticlesInput.byDefault());
     const [inputFixed, setInputFixed] = useState(SearchArticlesInput.byDefault());
     const [output, setOutput] = useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
 
     const load = async (): Promise<void> => {
-        try {
-
-            const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
-            setTopicTagsOptions(topicOutput.getTagUnits());
-
-            const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
-            setCountryTagsOptions(countriesOutput.getTagUnits());
-
-            console.log("00000 " + JSON.stringify(topicTagsOptions));
-            console.log("00000 " + JSON.stringify(countryTagsOptions));
-
-        } catch (error) {
-            console.error("error : ", error);
-        }
+        await loadArticles(inputFixed);
     };
     useEffect(() => {
         load().then(r => {
@@ -69,32 +53,29 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({dir
     }
 
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
-        try {
-            const output: SearchArticlesOutput = await articleService.searchArticles(input);
-            setOutput(output);
-            console.log("total articles : " + output.getLength());
-            console.log("articles : " + JSON.stringify(output.getArticleSummaryList()));
-            setRefresh(r => !r);
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
+        console.log("input " + JSON.stringify(input.toPayloadHash()));
+        const output: SearchArticlesOutput = await articleService.searchArticles(input);
+        setOutput(output);
+        console.log("total articles : " + output.getLength());
+        console.log("articles : " + JSON.stringify(output.getArticleSummaryList()));
+        setRefresh(r => !r);
     }
 
-    const handlePageChanged = (page: number) => {
+    const handlePageChanged = async (page: number) => {
         // Trigger the form submission manually
-        setInputCached(inputFixed);
-        inputCached.appendPage(page);
-        loadArticles(inputCached).then(r => {
-        });
+        const input: SearchArticlesInput = inputFixed.appendPage(page);
+        setInputCached(input);
+        setInputFixed(input);
+        await loadArticles(input);
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
 
-        inputCached.appendPage(1);
-        setInputFixed(inputCached);
-        loadArticles(inputCached).then(r => {
-        });
+        const input: SearchArticlesInput = inputCached.appendPage(1);
+        setInputCached(input);
+        setInputFixed(input);
+        await loadArticles(input);
     }
 
     const totalPages = () => {
@@ -103,81 +84,97 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({dir
             : Math.floor(output.getLength() / inputFixed.itemsPerPage) + 1;
     }
 
+    const htmlPagenation =
+        <form onSubmit={handleSubmit}>
+            <button type="submit" value="action1">
+                検索
+            </button>
 
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <button type="submit" value="action1">
-                    Search
-                </button>
+            <Pagination size="sm" className="pull-right">
+                <Pagination.First onClick={() => handlePageChanged(1)}/>
+                <Pagination.Prev
+                    onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
+                {Array.from({length: totalPages()}, (_, i) => (
+                    <Pagination.Item
+                        key={i + 1}
+                        active={i + 1 === inputCached.page}
+                        onClick={() => handlePageChanged(i + 1)}
+                    >
+                        {i + 1}
+                    </Pagination.Item>
+                ))}
+                <Pagination.Next
+                    onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
+                <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
+            </Pagination>
+        </form>
 
-                <Pagination size="sm" className="pull-right">
-                    <Pagination.First onClick={() => handlePageChanged(1)}/>
-                    <Pagination.Prev
-                        onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
-                    {Array.from({length: totalPages()}, (_, i) => (
-                        <Pagination.Item
-                            key={i + 1}
-                            active={i + 1 === inputCached.page}
-                            onClick={() => handlePageChanged(i + 1)}
-                        >
-                            {i + 1}
-                        </Pagination.Item>
-                    ))}
-                    <Pagination.Next
-                        onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
-                    <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
-                </Pagination>
-            </form>
-            <p>ページ当たり表示数 :
-                <input
-                    type="number"
-                    max="100"
-                    min="10"
-                    step="5"
-                    className="editable-text-activated scale-span"
-                    placeholder="items per page"
-                    onChange={handleItemsPerPage}
-                    value={inputCached.itemsPerPage}
-                />
-            </p>
 
-            <br/>
-            <p>キーワード :
-                <input
-                    className="editable-text-activated scale-span"
-                    placeholder="space-separated search keywords"
-                    onChange={handleKeywords}
-                    value={inputCached.keywords}
-                />
-            </p>
-            <p>日付範囲 :
-                <DatePicker
-                    dateFormat="yyyy/MM/dd"
-                    placeholderText="date from"
-                    onChange={handleDateFrom}
-                    selected={inputCached.dateFrom}
-                    minDate={MIN_DATE}
-                    maxDate={MAX_DATE}
-                    showMonthYearDropdown/>
-                ～
-                <DatePicker
-                    dateFormat="yyyy/MM/dd"
-                    placeholderText="date to"
-                    onChange={handleDateTo}
-                    selected={inputCached.dateTo}
-                    minDate={MIN_DATE}
-                    maxDate={MAX_DATE}
-                    showMonthYearDropdown/>
-            </p>
-            <PublicArticleHeadlines
-                mode={HeadlinesMode.LARGE}
-                articles={output.getArticleSummaryList()}
-                directoryToIndividualPage={directoryToIndividualPage}
-                topicTagList={topicTagsOptions}
-                countryTagList={countryTagsOptions}
-                reRender={refresh}
+    const htmlSearch = <>
+        <p>ページ当たり表示数 :
+            <input
+                type="number"
+                max="100"
+                min="10"
+                step="5"
+                className="editable-text-activated scale-span"
+                placeholder="items per page"
+                onChange={handleItemsPerPage}
+                value={inputCached.itemsPerPage}
             />
-        </>
-    );
+        </p>
+
+        <br/>
+        <p>キーワード :
+            <input
+                className="editable-text-activated scale-span"
+                placeholder="space-separated search keywords"
+                onChange={handleKeywords}
+                value={inputCached.keywords}
+            />
+        </p>
+        <p>日付範囲 :
+            <DatePicker
+                dateFormat="yyyy/MM/dd"
+                placeholderText="date from"
+                onChange={handleDateFrom}
+                selected={inputCached.dateFrom}
+                minDate={MIN_DATE}
+                maxDate={MAX_DATE}
+                showMonthYearDropdown/>
+            ～
+            <DatePicker
+                dateFormat="yyyy/MM/dd"
+                placeholderText="date to"
+                onChange={handleDateTo}
+                selected={inputCached.dateTo}
+                minDate={MIN_DATE}
+                maxDate={MAX_DATE}
+                showMonthYearDropdown/>
+        </p>
+        <PublicArticleHeadlines
+            mode={HeadlinesMode.SMALL}
+            articles={output.getArticleSummaryList()}
+            directoryToIndividualPage={directoryToIndividualPage}
+            topicTagList={topicTagsOptions}
+            countryTagList={countryTagsOptions}
+            reRender={refresh}
+        />
+
+    </>
+
+    if (hasSearchMenu) {
+        return (
+            <>
+                {htmlPagenation}
+                {htmlSearch}
+            </>
+        );
+    } else {
+        return (
+            <>
+                {htmlPagenation}
+            </>
+        );
+    }
 };

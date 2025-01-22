@@ -58,6 +58,7 @@ public class RealArticleSimplified implements Article {
                 .topicTags(topicTags)
                 .editors(editors)
                 .sourceComments(countSourceComments)
+                .userComments(countUserComments)
 
                 .registrationTimestamp(this.registrationTimestamp)
                 .latestEditTimestamp(this.latestEditTimestamp)
