@@ -3,14 +3,12 @@ package org.herovole.blogproj.infra.filesystem;
 
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.accesskey.AccessKey;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Component
 @EqualsAndHashCode
 public class LocalFileSystem {
 

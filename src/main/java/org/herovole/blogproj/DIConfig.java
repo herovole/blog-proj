@@ -23,14 +23,13 @@ import java.io.IOException;
 
 @Configuration
 public class DIConfig {
-
-    private final ConfigFile configFile;
     private final LocalFileSystem localFileSystem;
+    private final ConfigFile configFile;
 
     @Autowired
-    public DIConfig(ConfigFile configFile, LocalFileSystem localFileSystem) {
-        this.configFile = configFile;
+    public DIConfig(LocalFileSystem localFileSystem, ConfigFile configFile) {
         this.localFileSystem = localFileSystem;
+        this.configFile = configFile;
     }
 
     @Bean
@@ -39,12 +38,11 @@ public class DIConfig {
         return new AppSessionFactoryHibernate(sessionFactory);
     }
 
-
     @Bean
     public ImageDatasource buildImageDatasourceLocalFs() throws IOException {
         LocalDirectory imageDirectory = LocalDirectory.of(
-                this.configFile.getImageDirectoryPath(),
-                this.localFileSystem
+                configFile.getImageDirectoryPath(),
+                localFileSystem
         );
         return new ImageDatasourceLocalFs(imageDirectory);
     }
@@ -52,11 +50,11 @@ public class DIConfig {
     @Bean
     public TextBlackList buildBlacklists() throws IOException {
         LocalFile commentBlacklistFile = LocalFile.of(
-                this.configFile.getCommentBlacklistFilePath(),
+                configFile.getCommentBlacklistFilePath(),
                 localFileSystem
         );
         LocalFile systemBlacklistFile = LocalFile.of(
-                this.configFile.getSystemBlacklistFilePath(),
+                configFile.getSystemBlacklistFilePath(),
                 localFileSystem
         );
         return new TextBlackListLocalFile.Builder()
@@ -67,17 +65,16 @@ public class DIConfig {
 
     @Bean
     public GoogleReCaptchaResultServer buildGoogleReCaptchaResultServer() {
-        return GoogleReCaptchaResultServer.of(this.configFile.getGoogleReCaptchaSecretKey());
+        return GoogleReCaptchaResultServer.of(configFile.getGoogleReCaptchaSecretKey());
     }
 
     @Bean
     public DailyUserIdFactory buildDailyUserIdFactory() {
-        return DailyUserIdFactoryImpl.of(this.configFile.getDailyUserIdKey0());
+        return DailyUserIdFactoryImpl.of(configFile.getDailyUserIdKey0());
     }
 
     @Bean
     public AccessTokenFactory buildAccessTokenFactory() {
-        return AccessTokenFactoryJwt.of(this.configFile.getHoursAdminTokenExpires());
+        return AccessTokenFactoryJwt.of(configFile.getHoursAdminTokenExpires());
     }
-
 }

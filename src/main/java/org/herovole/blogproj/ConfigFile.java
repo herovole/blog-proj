@@ -8,13 +8,11 @@ import org.herovole.blogproj.domain.adminuser.Role;
 import org.herovole.blogproj.domain.adminuser.UserName;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConfigFile {
 
@@ -76,6 +74,10 @@ public class ConfigFile {
     }
 
     public AdminUserRegistrationRequest buildOwnerUserRegistrationRequest() {
+        System.out.println("CONFIG FILE ELEMENTS");
+        for (Map.Entry<String, String> e : configs.entrySet()) {
+            System.out.println(e.getKey() + " " + e.getValue());
+        }
         return AdminUserRegistrationRequest.builder()
                 .userName(getOwnerUser())
                 .password(getOwnerPassword())

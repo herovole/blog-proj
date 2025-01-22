@@ -52,7 +52,7 @@ public class MAdminUser implements Serializable {
     private String credentialEncode;
 
     @Column(name = "access_token_aton")
-    private long accessTokenAton;
+    private Long accessTokenAton;
 
     @Column(name = "access_token")
     private String accessToken;
