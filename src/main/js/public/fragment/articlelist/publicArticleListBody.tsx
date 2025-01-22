@@ -4,7 +4,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput";
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
-import {PublicArticleHeadlines} from "./publicArticleHeadlines";
+import {HeadlinesMode, PublicArticleHeadlines} from "./publicArticleHeadlines";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {SearchTagsInput} from "../../../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../../../service/tags/searchTagsOutput";
@@ -171,6 +171,7 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({dir
                     showMonthYearDropdown/>
             </p>
             <PublicArticleHeadlines
+                mode={HeadlinesMode.LARGE}
                 articles={output.getArticleSummaryList()}
                 directoryToIndividualPage={directoryToIndividualPage}
                 topicTagList={topicTagsOptions}

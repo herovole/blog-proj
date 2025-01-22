@@ -3,6 +3,7 @@ import {AuthService} from "../../../service/auth/authService";
 import {AdminLoginInput} from "../../../service/auth/adminLoginInput";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import {BasicApiResult} from "../../../domain/basicApiResult";
+import {useNavigate} from "react-router-dom";
 
 type AdminLoginInputProps = {
     refreshParent: () => void;
@@ -14,6 +15,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
     const [loginPassword, setLoginPassword] = React.useState<string>("");
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "login";
+    const navigate = useNavigate();
 
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginHandle(e.target.value);
@@ -44,6 +46,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
         const output: BasicApiResult = await authService.loginAdmin(input);
         if (output.isSuccessful()) {
             console.log(output.getMessage("ログイン"));
+            navigate("/admin");
         } else {
             console.error(output.getMessage("ログイン"));
         }
