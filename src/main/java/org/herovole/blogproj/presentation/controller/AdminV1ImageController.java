@@ -1,53 +1,68 @@
 package org.herovole.blogproj.presentation.controller;
 
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
+import org.herovole.blogproj.application.image.postimage.PostImage;
+import org.herovole.blogproj.application.image.postimage.PostImageInput;
+import org.herovole.blogproj.application.image.searchimages.SearchImages;
+import org.herovole.blogproj.application.image.searchimages.SearchImagesInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
-import org.herovole.blogproj.domain.accesskey.AccessKey;
-import org.herovole.blogproj.domain.accesskey.AccessKeyAsPath;
+import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.image.Image;
-import org.herovole.blogproj.domain.image.ImageAsMultipartFile;
-import org.herovole.blogproj.domain.image.ImageDatasource;
-import org.herovole.blogproj.infra.filesystem.LocalFiles;
+import org.herovole.blogproj.infra.filesystem.ImageAsMultipartFile;
+import org.herovole.blogproj.presentation.presenter.BasicPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchImagesPresenter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/images")
 public class AdminV1ImageController {
 
-    private final ImageDatasource imageDatasource;
+    Logger logger = LoggerFactory.getLogger(AdminV1ImageController.class.getSimpleName());
+
+    private final SearchImages searchImages;
+    private final SearchImagesPresenter searchImagesPresenter;
+    private final PostImage postImage;
+    private final BasicPresenter postImagePresenter;
 
     @Autowired
-    public AdminV1ImageController(ImageDatasource imageDatasource) {
-        this.imageDatasource = imageDatasource;
+    public AdminV1ImageController(SearchImages searchImages, SearchImagesPresenter searchImagesPresenter, PostImage postImage, BasicPresenter postImagePresenter) {
+        this.searchImages = searchImages;
+        this.searchImagesPresenter = searchImagesPresenter;
+        this.postImage = postImage;
+        this.postImagePresenter = postImagePresenter;
     }
 
     @GetMapping
-    public ResponseEntity<String[]> getImages(
-            @RequestParam("page") int page,
-            @RequestParam("number") int number
-    ) {
-        System.out.println("endpoint : get");
+    public ResponseEntity<String> searchImages(
+            @RequestBody Map<String, String> request) {
+
+        FormContent formContent = FormContent.of(request);
+        SearchImagesInput input = SearchImagesInput.of(formContent);
         try {
-            PagingRequest pagingRequest = PagingRequest.of(page, number);
-            LocalFiles images = imageDatasource.searchSortedByTimestampDesc(pagingRequest);
-            String[] imageNames = images.getFileNames();
-            return ResponseEntity.ok(imageNames);
+            searchImages.process(input);
         } catch (DomainInstanceGenerationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new String[]{"Error: " + e.getMessage()});
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new String[]{"Internal Server Error: " + e.getMessage()});
+            logger.error("Error Bad Request : ", e);
+            this.searchImagesPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.searchImagesPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
+        return this.searchImagesPresenter.buildResponseEntity();
     }
 
     @PostMapping
@@ -60,14 +75,20 @@ public class AdminV1ImageController {
         }
 
         Image image = ImageAsMultipartFile.of(file);
-        AccessKey fileName = AccessKeyAsPath.nameOf(image);
-        try {
-            imageDatasource.persist(fileName, image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PostImageInput input = PostImageInput.of(image);
 
-        return ResponseEntity.status(HttpStatus.OK).body("Data received successfully");
+        try {
+            postImage.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.postImagePresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.postImagePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.postImagePresenter.buildResponseEntity();
     }
 
 }

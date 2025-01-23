@@ -1,8 +1,14 @@
 package org.herovole.blogproj.domain.image;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 public interface Image {
-    MultipartFile toMultipartFile();
-    String getFileName();
+
+    ImageName getImageName();
+
+
+    Json toJsonModel() throws IOException;
+
+    record Json(String fileName, String registrationTimestamp) {
+    }
 }

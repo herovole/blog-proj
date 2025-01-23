@@ -1,9 +1,14 @@
-package org.herovole.blogproj.domain.image;
+package org.herovole.blogproj.infra.filesystem;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.herovole.blogproj.domain.image.Image;
+import org.herovole.blogproj.domain.image.ImageName;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,8 +25,13 @@ public class ImageAsMultipartFile implements Image {
     }
 
     @Override
-    public String getFileName() {
-        return this.file.getOriginalFilename();
+    public ImageName getImageName() {
+        return ImageName.valueOf(this.file.getOriginalFilename());
+    }
+
+    @Override
+    public Json toJsonModel() throws IOException {
+        throw new UnsupportedEncodingException();
     }
 
 }

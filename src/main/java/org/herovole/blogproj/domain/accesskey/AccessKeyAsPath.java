@@ -14,7 +14,7 @@ public class AccessKeyAsPath implements AccessKey {
     }
 
     public static AccessKeyAsPath nameOf(Image image) {
-        return valueOf(image.getFileName());
+        return valueOf(image.getImageName().memorySignature());
     }
 
     public static AccessKeyAsPath empty() {

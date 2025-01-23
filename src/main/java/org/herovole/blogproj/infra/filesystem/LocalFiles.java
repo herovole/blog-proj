@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
+import org.herovole.blogproj.domain.image.Image;
+import org.herovole.blogproj.domain.image.Images;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class LocalFiles {
@@ -35,6 +38,14 @@ public class LocalFiles {
                 .toArray(LocalFile[]::new);
 
         return LocalFiles.of(sortedFiles);
+    }
+
+    public Images asImages() {
+        return Images.of(Stream.of(this.files).map(ImageAsLocalFile::of).toArray(Image[]::new));
+    }
+
+    public int getTotal() {
+        return this.files.length;
     }
 
     // a work class to avoid IOException during sort

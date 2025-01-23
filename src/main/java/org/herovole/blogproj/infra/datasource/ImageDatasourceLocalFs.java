@@ -4,6 +4,8 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageDatasource;
+import org.herovole.blogproj.domain.image.Images;
+import org.herovole.blogproj.infra.filesystem.ImageAsMultipartFile;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFiles;
@@ -23,14 +25,21 @@ public class ImageDatasourceLocalFs implements ImageDatasource {
 
     @Override
     public void persist(AccessKey key, Image image) throws IOException {
-        MultipartFile imageFile = image.toMultipartFile();
+        if (!(image instanceof ImageAsMultipartFile)) throw new IllegalStateException("incompatible Image type.");
+        MultipartFile imageFile = ((ImageAsMultipartFile) image).toMultipartFile();
         LocalFile destFile = parentDirectory.declareFile(key);
         if (destFile.exists()) throw new IOException("Declared file has already existed.");
         imageFile.transferTo(destFile.toPath());
     }
 
     @Override
-    public LocalFiles searchSortedByTimestampDesc(PagingRequest request) throws IOException {
-        return parentDirectory.getFiles().sortByTimestampDesc().get(request);
+    public Images searchSortedByTimestampDesc(PagingRequest request) throws IOException {
+        LocalFiles files = parentDirectory.getFiles().sortByTimestampDesc().get(request);
+        return files.asImages();
+    }
+
+    @Override
+    public int getTotal() throws IOException {
+        return parentDirectory.getFiles().getTotal();
     }
 }
