@@ -66,7 +66,7 @@ public class AdminV1ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postImages(@RequestPart("image") MultipartFile file) {
+    public ResponseEntity<String> postImage(@RequestPart("image") MultipartFile file) {
         System.out.println("endpoint : post");
         System.out.println("/api/v1/images");
         if (!file.isEmpty()) {

@@ -1,8 +1,16 @@
 import React from 'react';
-import axios from 'axios';
+import {ImageService} from "../../../service/image/imageService";
+import {PostImageInput} from "../../../service/image/postImageInput";
+import {BasicApiResult} from "../../../domain/basicApiResult";
 
 
-export const ImageUploadingForm: React.FC = () => {
+type ImageUploadingFormProps = {
+    reload: () => void;
+}
+
+export const ImageUploadingForm: React.FC<ImageUploadingFormProps> = ({reload}) => {
+
+    const imageService: ImageService = new ImageService();
     const [image, setImage] = React.useState<File | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,21 +21,15 @@ export const ImageUploadingForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>): Promise<void> => {
         e.preventDefault();
         if (!image) return;
-
-        const formData = new FormData();
-        formData.append('image', image);
-
-        try {
-            const response = await axios.post('/api/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('Image uploaded:', response.data);
-        } catch (error) {
-            console.error('Error uploading image:', error);
+        const input: PostImageInput = new PostImageInput(image);
+        const output: BasicApiResult = await imageService.postImage(input);
+        if (output.isSuccessful()) {
+            console.info(output.getMessage("Image Upload"));
+            reload();
+        } else {
+            console.error(output.getMessage("Image Upload"));
         }
-    };
+    }
 
     return (
         <div>
