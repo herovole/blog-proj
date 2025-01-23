@@ -1,0 +1,12 @@
+.admin-image-base {
+    background-color: #444477;
+    color: #CCCCCC;
+    padding:25px;
+}
+
+.article-image-thumbnail {
+    border:2px inset #222255;
+    width: 128px;
+    height: 128px;
+    cursor: pointer;
+}

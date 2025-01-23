@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,9 +25,9 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
     const articleService: ArticleService = new ArticleService();
     const MIN_DATE: Date = new Date("2025-01-01");
     const MAX_DATE: Date = new Date();
-    const [inputCached, setInputCached] = useState(SearchArticlesInput.byDefault());
-    const [inputFixed, setInputFixed] = useState(SearchArticlesInput.byDefault());
-    const [output, setOutput] = useState(SearchArticlesOutput.empty());
+    const [inputCached, setInputCached] = React.useState(SearchArticlesInput.byDefault());
+    const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault());
+    const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
 
     const load = async (): Promise<void> => {
@@ -85,83 +85,81 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
     }
 
     const htmlPagenation =
+        <Pagination size="sm" className="pull-right">
+            <Pagination.First onClick={() => handlePageChanged(1)}/>
+            <Pagination.Prev
+                onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
+            {Array.from({length: totalPages()}, (_, i) => (
+                <Pagination.Item
+                    key={i + 1}
+                    active={i + 1 === inputCached.page}
+                    onClick={() => handlePageChanged(i + 1)}
+                >
+                    {i + 1}
+                </Pagination.Item>
+            ))}
+            <Pagination.Next
+                onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
+            <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
+        </Pagination>
+
+
+    const htmlSearch =
         <form onSubmit={handleSubmit}>
             <button type="submit" value="action1">
                 検索
             </button>
+            <p>ページ当たり表示数 :
+                <input
+                    type="number"
+                    max="100"
+                    min="10"
+                    step="5"
+                    className="editable-text-activated scale-span"
+                    placeholder="items per page"
+                    onChange={handleItemsPerPage}
+                    value={inputCached.itemsPerPage}
+                />
+            </p>
 
-            <Pagination size="sm" className="pull-right">
-                <Pagination.First onClick={() => handlePageChanged(1)}/>
-                <Pagination.Prev
-                    onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
-                {Array.from({length: totalPages()}, (_, i) => (
-                    <Pagination.Item
-                        key={i + 1}
-                        active={i + 1 === inputCached.page}
-                        onClick={() => handlePageChanged(i + 1)}
-                    >
-                        {i + 1}
-                    </Pagination.Item>
-                ))}
-                <Pagination.Next
-                    onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
-                <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
-            </Pagination>
+            <br/>
+            <p>キーワード :
+                <input
+                    className="editable-text-activated scale-span"
+                    placeholder="space-separated search keywords"
+                    onChange={handleKeywords}
+                    value={inputCached.keywords}
+                />
+            </p>
+            <p>日付範囲 :
+                <DatePicker
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText="date from"
+                    onChange={handleDateFrom}
+                    selected={inputCached.dateFrom}
+                    minDate={MIN_DATE}
+                    maxDate={MAX_DATE}
+                    showMonthYearDropdown/>
+                ～
+                <DatePicker
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText="date to"
+                    onChange={handleDateTo}
+                    selected={inputCached.dateTo}
+                    minDate={MIN_DATE}
+                    maxDate={MAX_DATE}
+                    showMonthYearDropdown/>
+            </p>
+            <PublicArticleHeadlines
+                mode={HeadlinesMode.SMALL}
+                articles={output.getArticleSummaryList()}
+                directoryToIndividualPage={directoryToIndividualPage}
+                topicTagList={topicTagsOptions}
+                countryTagList={countryTagsOptions}
+                reRender={refresh}
+            />
+
         </form>
-
-
-    const htmlSearch = <>
-        <p>ページ当たり表示数 :
-            <input
-                type="number"
-                max="100"
-                min="10"
-                step="5"
-                className="editable-text-activated scale-span"
-                placeholder="items per page"
-                onChange={handleItemsPerPage}
-                value={inputCached.itemsPerPage}
-            />
-        </p>
-
-        <br/>
-        <p>キーワード :
-            <input
-                className="editable-text-activated scale-span"
-                placeholder="space-separated search keywords"
-                onChange={handleKeywords}
-                value={inputCached.keywords}
-            />
-        </p>
-        <p>日付範囲 :
-            <DatePicker
-                dateFormat="yyyy/MM/dd"
-                placeholderText="date from"
-                onChange={handleDateFrom}
-                selected={inputCached.dateFrom}
-                minDate={MIN_DATE}
-                maxDate={MAX_DATE}
-                showMonthYearDropdown/>
-            ～
-            <DatePicker
-                dateFormat="yyyy/MM/dd"
-                placeholderText="date to"
-                onChange={handleDateTo}
-                selected={inputCached.dateTo}
-                minDate={MIN_DATE}
-                maxDate={MAX_DATE}
-                showMonthYearDropdown/>
-        </p>
-        <PublicArticleHeadlines
-            mode={HeadlinesMode.SMALL}
-            articles={output.getArticleSummaryList()}
-            directoryToIndividualPage={directoryToIndividualPage}
-            topicTagList={topicTagsOptions}
-            countryTagList={countryTagsOptions}
-            reRender={refresh}
-        />
-
-    </>
 
     if (hasSearchMenu) {
         return (
@@ -169,7 +167,8 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
                 {htmlPagenation}
                 {htmlSearch}
             </>
-        );
+        )
+            ;
     } else {
         return (
             <>
