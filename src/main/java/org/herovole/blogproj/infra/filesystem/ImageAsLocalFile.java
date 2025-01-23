@@ -23,9 +23,13 @@ public class ImageAsLocalFile implements Image {
     }
 
     @Override
-    public Json toJsonModel() throws IOException {
-        return new Json(this.file.getName(),
-                this.file.getLastModifiedTime().letterSignatureFrontendDisplay()
-        );
+    public Json toJsonModel() {
+        try {
+            return new Json(this.file.getName(),
+                    this.file.getLastModifiedTime().letterSignatureFrontendDisplay()
+            );
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

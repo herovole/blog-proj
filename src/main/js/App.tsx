@@ -17,6 +17,7 @@ import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 import {PublicPageArticleList} from "./public/publicPageArticleList";
 import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
 import {AdminPageLogin} from "./admin/adminPageLogin";
+import {AdminPageImages} from "./admin/adminPageImages";
 
 
 console.log("App.js");
@@ -46,6 +47,11 @@ const App = () => {
                 <Route path="/admin" element={
                     <AdminProtectedRoute>
                         <AdminEntrance/>
+                    </AdminProtectedRoute>
+                }/> {}
+                <Route path="/admin/images" element={
+                    <AdminProtectedRoute>
+                        <AdminPageImages/>
                     </AdminProtectedRoute>
                 }/> {}
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}

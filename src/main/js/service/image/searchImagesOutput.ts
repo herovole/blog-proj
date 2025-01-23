@@ -17,12 +17,18 @@ export class SearchImagesOutput extends BasicApiResult {
         super(fields);
     }
 
+    isEmpty = (): boolean => {
+        return !this.fields;
+    }
+
     getTotal = (): number => {
+        if (!this.fields) return 0;
         const fields: SearchImagesOutputFields = this.fields as SearchImagesOutputFields;
         return fields.content.total;
     }
 
     getFiles = (): ReadonlyArray<{ fileName: string, registrationTimestamp: string }> => {
+        if (!this.fields) return [];
         const fields: SearchImagesOutputFields = this.fields as SearchImagesOutputFields;
         return fields.content.files;
     }

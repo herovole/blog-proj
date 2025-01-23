@@ -7,9 +7,6 @@ import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageAsMultipartFile implements Image {
@@ -30,8 +27,8 @@ public class ImageAsMultipartFile implements Image {
     }
 
     @Override
-    public Json toJsonModel() throws IOException {
-        throw new UnsupportedEncodingException();
+    public Json toJsonModel() {
+        throw new UnsupportedOperationException();
     }
 
 }

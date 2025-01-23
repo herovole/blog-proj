@@ -22,6 +22,8 @@ export const AdminHeader: React.FC = () => {
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/admin/topictags">【編集】トピックタグ</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
+                         to="/admin/images">【編集】画像管理</NavLink>
+                <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/admin/sandbox">【編集】サンドボックス</NavLink>
             </div>
         </div>

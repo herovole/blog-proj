@@ -1,6 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import Modal from 'react-modal';
+import {SearchImagesInput} from "../../../service/image/searchImagesInput";
+import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
+import {ImageService} from "../../../service/image/imageService";
+import {ImageUploadingForm} from "./imageUploadingForm";
 
 const customStyles = {
     content: {
@@ -21,71 +24,63 @@ type ImageSelectingModalProps = {
 export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     {imageName}) => {
 
+    const imageService: ImageService = new ImageService();
     const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
-    const GET_PARAM_PAGE = "page";
-    const GET_PARAM_NUMBER = "number";
 
-    const [isOpen, setOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
 
     const [page, setPage] = React.useState(1);
     const [imagesInPage, setImagesInPage] = React.useState(25);
 
     const [fileNames, setFileNames] = React.useState<string[]>([]);
-    const [selectedImage, setSelectedImage] = React.useState<string>("");
+    const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
 
     const afterOpenModal = () => {
     }
 
-    const openModal = () => {
-        setOpen(true);
-        reload();
+    const openModal = async () => {
+        setIsOpen(true);
+        await handlePageChanged(page);
     }
-    const closeModal = () => {
-        setOpen(false);
-        reload();
+    const closeModal = async () => {
+        setIsOpen(false);
+        await handlePageChanged(page);
     }
 
-    const nextPage = () => {
+    const nextPage = async () => {
         setPage(page => page + 1);
-        reload();
+        await handlePageChanged(page);
     }
 
-    const previousPage = () => {
+    const previousPage = async () => {
         setPage(page => page - 1);
-        reload();
+        await handlePageChanged(page);
     }
 
-    const reload = async () => {
-        const page = this.state.page;
-        const imagesInPage = this.state.imagesInPage;
-
-        const params = new URLSearchParams();
-        params.append(ImageSelectingModal.GET_PARAM_PAGE, page);
-        params.append(ImageSelectingModal.GET_PARAM_NUMBER, imagesInPage);
-        console.log(ImageSelectingModal.GET_PARAM_PAGE + "/" + ImageSelectingModal.GET_PARAM_NUMBER);
-
-        try {
-            const response = await axios.get("/api/v1/images", {params: params});
-            this.setState(prevState => ({
-                fileNames: response.data
-            }))
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            this.setState(prevState => ({
-                fileNames: []
-            }))
+    const handlePageChanged = async (requestedPage: number) => {
+        const input: SearchImagesInput = new SearchImagesInput(
+            requestedPage,
+            imagesInPage,
+            true
+        );
+        const output: SearchImagesOutput = await imageService.searchImages(input);
+        if (output.isSuccessful()) {
+            setPage(requestedPage);
+        } else {
+            console.error(output.getMessage("Image Search"))
         }
     }
 
-    const selectImage = (fileName: string) => {
+    const selectImage = async (fileName: string) => {
         setSelectedImage(fileName);
-        closeModal();
-        reload();
+        await closeModal();
+        await handlePageChanged(page);
     }
+
 
     return (
         <div>
-            <img className="image-sample" src={LOCAL_DIR + selectedImage}/>
+            <img className="image-sample" src={LOCAL_DIR + selectedImage} alt={"sample"}/>
             <button type="button" onClick={openModal}>Open List</button>
             <p>{selectedImage}</p>
             <Modal

@@ -8,14 +8,14 @@ export class ImageService {
 
     async searchImages(input: SearchImagesInput): Promise<SearchImagesOutput> {
         try {
-            const topicResponse: AxiosResponse<SearchImagesOutputFields> = await axios.get(
+            const response: AxiosResponse<SearchImagesOutputFields> = await axios.get(
                 "/api/v1/images", {
                     params: input.toPayloadHash(),
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(topicResponse.data);
-            return new SearchImagesOutput(topicResponse.data);
+            console.log(response.data);
+            return new SearchImagesOutput(response.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
             if (axios.isAxiosError(e) && e.response) {
@@ -31,7 +31,7 @@ export class ImageService {
                 "/api/v1/images",
                 input.toPayloadHash(),
                 {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'multipart/form-data'},
                 }
             );
             console.log(response.data);

@@ -3,17 +3,19 @@ import {AppPagination} from "../appPagenation";
 import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {ImageService} from "../../../service/image/imageService";
 import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
+import {ImageUploadingForm} from "./imageUploadingForm";
 
 export const AdminImageManagement: React.FC = () => {
 
+    const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const IMAGES_PER_PAGE: number = 50;
     const imageService: ImageService = new ImageService();
     const [page, setPage] = React.useState(1);
-    const [totalImages, setTotalImages] = React.useState(1);
+    const [output, setOutput] = React.useState(SearchImagesOutput.empty());
+    const [refresh, setRefresh] = React.useState(false);
 
     useEffect(() => {
-
-
+        handlePageChanged(1);
     }, []);
 
     const handlePageChanged = async (requestedPage: number) => {
@@ -25,7 +27,7 @@ export const AdminImageManagement: React.FC = () => {
         const output: SearchImagesOutput = await imageService.searchImages(input);
         if (output.isSuccessful()) {
             setPage(requestedPage);
-            setTotalImages(output.getTotal);
+            setOutput(output);
         } else {
             console.error(output.getMessage("Image Search"))
         }
@@ -33,42 +35,40 @@ export const AdminImageManagement: React.FC = () => {
 
     const totalPages = (itemsPerPage: number, totalItems: number): number => {
         return totalItems % itemsPerPage === 0
-            ? totalItems / itemsPerPage
+            ? Math.max(totalItems / itemsPerPage, 1)
             : Math.floor(totalItems / itemsPerPage) + 1;
     }
+    const reload = () => {
+        setRefresh(r => !r);
+    }
+    if (output.isEmpty()) {
+        return <div>loading...</div>
+    } else {
+        return (
+            <div className="admin-image-base">
+                <h2>Image Management</h2>
+                <AppPagination
+                    handlePageChanged={handlePageChanged}
+                    currentPage={page}
+                    totalPages={totalPages(IMAGES_PER_PAGE, output.getTotal())}
+                />
+                <ImageUploadingForm reload={reload}/>
+                <div className="flex-container">
 
-    return (
-        <div className="admin-image-base">
-            <h2>Image Management</h2>
-            <AppPagination
-                handlePageChanged={handlePageChanged}
-                currentPage={page}
-                totalPages={totalPages(IMAGES_PER_PAGE, totalImages)}
-            />
-
-            <input type="button" className="comment-modal-submit-s" value="New Image"/>
-
-            <div className="flex-container">
-                <div>
-                    <div className="article-image-thumbnail">dummy image</div>
-                    <div>article1.jpg</div>
-                    <div>2025/02/12 09:08:52</div>
-                    <p className="comment-modal-cancel">
-                        <button className="comment-modal-submit-s">Delete</button>
-                    </p>
-
-                </div>
-
-                <div>
-                    <div className="article-image-thumbnail">dummy image</div>
-                    <div>article1.jpg</div>
-                    <div>2025/02/12 09:08:52</div>
-                    <p className="comment-modal-cancel">
-                        <button className="comment-modal-submit-s">Delete</button>
-                    </p>
+                    {output.getFiles().map(image => (
+                        <div key={image.fileName}>
+                            <img className="article-image-thumbnail" src={LOCAL_DIR + image.fileName}
+                                 alt={"thumbnail"}/>
+                            <div>{image.fileName}</div>
+                            <div>{image.registrationTimestamp}</div>
+                            <p className="comment-modal-cancel">
+                                <button className="comment-modal-submit-s">Delete</button>
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 

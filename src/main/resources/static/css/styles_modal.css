@@ -25,3 +25,9 @@
     background-color: #CCCC88;
     width:200px;
 }
+
+.comment-modal-submit-s {
+    border: 2px outset #CCCC88;
+    background-color: #CCCC88;
+    height:25px;
+}

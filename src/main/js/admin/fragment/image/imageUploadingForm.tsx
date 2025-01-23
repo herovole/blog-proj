@@ -33,9 +33,9 @@ export const ImageUploadingForm: React.FC<ImageUploadingFormProps> = ({reload}) 
 
     return (
         <div>
-            <img src={image ? URL.createObjectURL(image) : ""} alt={"Being registered"}/>
+            <img className="article-image-thumbnail" src={image ? URL.createObjectURL(image) : ""} alt={"Being registered"}/>
             <input type="file" accept="image/jpeg" onChange={handleFileChange}/>
-            <button type="button" onClick={handleSubmit}>Upload</button>
+            <button className="comment-modal-submit-s" type="button" onClick={handleSubmit}>Upload</button>
         </div>
     );
 }
