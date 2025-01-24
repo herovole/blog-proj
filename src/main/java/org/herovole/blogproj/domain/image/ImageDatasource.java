@@ -8,8 +8,11 @@ import java.io.IOException;
 public interface ImageDatasource {
 
     void persist(AccessKey key, Image image) throws IOException;
+    void remove(AccessKey key) throws IOException;
 
     Images searchSortedByTimestampDesc(PagingRequest request) throws IOException;
+
+    Image findByName(AccessKey name) throws IOException;
 
     int getTotal() throws IOException;
 }

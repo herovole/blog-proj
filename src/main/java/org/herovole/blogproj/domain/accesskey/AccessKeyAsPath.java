@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.accesskey;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.image.Image;
+import org.herovole.blogproj.domain.image.ImageName;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccessKeyAsPath implements AccessKey {
@@ -11,6 +12,10 @@ public class AccessKeyAsPath implements AccessKey {
 
     public static AccessKeyAsPath valueOf(String path) {
         return new AccessKeyAsPath(path);
+    }
+
+    public static AccessKeyAsPath valueOf(ImageName imageName) {
+        return new AccessKeyAsPath(imageName.memorySignature());
     }
 
     public static AccessKeyAsPath nameOf(Image image) {
@@ -31,5 +36,10 @@ public class AccessKeyAsPath implements AccessKey {
     @Override
     public String memorySignature() {
         return isEmpty() ? "" : this.path;
+    }
+
+    @Override
+    public boolean correspondsWith(String expression) {
+        return this.path.equals(expression);
     }
 }

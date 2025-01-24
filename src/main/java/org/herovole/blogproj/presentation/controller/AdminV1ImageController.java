@@ -2,6 +2,8 @@ package org.herovole.blogproj.presentation.controller;
 
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
+import org.herovole.blogproj.application.image.deleteimage.RemoveImage;
+import org.herovole.blogproj.application.image.deleteimage.RemoveImageInput;
 import org.herovole.blogproj.application.image.postimage.PostImage;
 import org.herovole.blogproj.application.image.postimage.PostImageInput;
 import org.herovole.blogproj.application.image.searchimages.SearchImages;
@@ -16,9 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -37,13 +39,17 @@ public class AdminV1ImageController {
     private final SearchImagesPresenter searchImagesPresenter;
     private final PostImage postImage;
     private final BasicPresenter postImagePresenter;
+    private final RemoveImage removeImage;
+    private final BasicPresenter removeImagePresenter;
 
     @Autowired
-    public AdminV1ImageController(SearchImages searchImages, SearchImagesPresenter searchImagesPresenter, PostImage postImage, BasicPresenter postImagePresenter) {
+    public AdminV1ImageController(SearchImages searchImages, SearchImagesPresenter searchImagesPresenter, PostImage postImage, BasicPresenter postImagePresenter, RemoveImage removeImage, BasicPresenter removeImagePresenter) {
         this.searchImages = searchImages;
         this.searchImagesPresenter = searchImagesPresenter;
         this.postImage = postImage;
         this.postImagePresenter = postImagePresenter;
+        this.removeImage = removeImage;
+        this.removeImagePresenter = removeImagePresenter;
     }
 
     @GetMapping
@@ -92,4 +98,27 @@ public class AdminV1ImageController {
         return this.postImagePresenter.buildResponseEntity();
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> removeImage(
+            @RequestParam Map<String, String> request) {
+
+        System.out.println("endpoint : post");
+        System.out.println("/api/v1/images");
+        System.out.println(request);
+
+        FormContent formContent = FormContent.of(request);
+        RemoveImageInput input = RemoveImageInput.of(formContent);
+        try {
+            removeImage.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.removeImagePresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.removeImagePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.removeImagePresenter.buildResponseEntity();
+    }
 }

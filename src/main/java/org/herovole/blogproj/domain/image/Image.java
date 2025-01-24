@@ -4,6 +4,7 @@ public interface Image {
 
     ImageName getImageName();
 
+    boolean isEmpty();
 
     Json toJsonModel();
 

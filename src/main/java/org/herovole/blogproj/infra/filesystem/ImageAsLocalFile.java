@@ -23,6 +23,11 @@ public class ImageAsLocalFile implements Image {
     }
 
     @Override
+    public boolean isEmpty() {
+        return file == null;
+    }
+
+    @Override
     public Json toJsonModel() {
         try {
             return new Json(this.file.getName(),

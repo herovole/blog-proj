@@ -4,6 +4,8 @@ import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {ImageService} from "../../../service/image/imageService";
 import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageUploadingForm} from "./imageUploadingForm";
+import {RemoveImageInput} from "../../../service/image/removeImageInput";
+import {BasicApiResult} from "../../../domain/basicApiResult";
 
 export const AdminImageManagement: React.FC = () => {
 
@@ -11,8 +13,21 @@ export const AdminImageManagement: React.FC = () => {
     const IMAGES_PER_PAGE: number = 50;
     const imageService: ImageService = new ImageService();
     const [page, setPage] = React.useState(1);
-    const [output, setOutput] = React.useState(SearchImagesOutput.empty());
+    const [data, setData] = React.useState(SearchImagesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
+
+
+    const handleRemove = async (e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const imageName: string = e.currentTarget.name;
+        const input: RemoveImageInput = new RemoveImageInput(imageName);
+        const output: BasicApiResult = await imageService.removeImage(input);
+        if (output.isSuccessful()) {
+            console.info(output.getMessage("Image Removal"))
+        } else {
+            console.error(output.getMessage("Image Removal"))
+        }
+    }
 
     useEffect(() => {
         handlePageChanged(1);
@@ -27,7 +42,7 @@ export const AdminImageManagement: React.FC = () => {
         const output: SearchImagesOutput = await imageService.searchImages(input);
         if (output.isSuccessful()) {
             setPage(requestedPage);
-            setOutput(output);
+            setData(output);
         } else {
             console.error(output.getMessage("Image Search"))
         }
@@ -41,7 +56,8 @@ export const AdminImageManagement: React.FC = () => {
     const reload = () => {
         setRefresh(r => !r);
     }
-    if (output.isEmpty()) {
+
+    if (data.isEmpty()) {
         return <div>loading...</div>
     } else {
         return (
@@ -50,19 +66,23 @@ export const AdminImageManagement: React.FC = () => {
                 <AppPagination
                     handlePageChanged={handlePageChanged}
                     currentPage={page}
-                    totalPages={totalPages(IMAGES_PER_PAGE, output.getTotal())}
+                    totalPages={totalPages(IMAGES_PER_PAGE, data.getTotal())}
                 />
                 <ImageUploadingForm reload={reload}/>
                 <div className="flex-container">
 
-                    {output.getFiles().map(image => (
+                    {data.getFiles().map(image => (
                         <div key={image.fileName}>
                             <img className="article-image-thumbnail" src={LOCAL_DIR + image.fileName}
                                  alt={"thumbnail"}/>
                             <div>{image.fileName}</div>
                             <div>{image.registrationTimestamp}</div>
                             <p className="comment-modal-cancel">
-                                <button className="comment-modal-submit-s">Delete</button>
+                                <button className="comment-modal-submit-s"
+                                        name={image.fileName}
+                                        onClick={handleRemove}>
+                                    Remove
+                                </button>
                             </p>
                         </div>
                     ))}

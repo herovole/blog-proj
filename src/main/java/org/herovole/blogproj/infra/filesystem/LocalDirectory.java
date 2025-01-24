@@ -50,4 +50,11 @@ public class LocalDirectory {
         }
     }
 
+    public LocalFile find(AccessKey accessKey) throws IOException {
+        try (Stream<Path> filePathStream = Files.walk(path)) {
+            Path one = filePathStream.filter(Files::isRegularFile).filter(e -> accessKey.correspondsWith(e.getFileName().toString())).findAny().orElse(null);
+            return one == null ? null : LocalFile.of(one, fs);
+        }
+    }
+
 }

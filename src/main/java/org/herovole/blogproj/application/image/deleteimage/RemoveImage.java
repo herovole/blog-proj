@@ -1,4 +1,4 @@
-package org.herovole.blogproj.application.image.postimage;
+package org.herovole.blogproj.application.image.deleteimage;
 
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
@@ -7,6 +7,7 @@ import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.accesskey.AccessKeyAsPath;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageDatasource;
+import org.herovole.blogproj.domain.image.ImageName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class PostImage {
+public class RemoveImage {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostImage.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(RemoveImage.class.getSimpleName());
 
     private final ImageDatasource imageDatasource;
     private final GenericPresenter<Object> presenter;
 
     @Autowired
-    public PostImage(
+    public RemoveImage(
             ImageDatasource imageDatasource,
             GenericPresenter<Object> presenter
     ) {
@@ -31,22 +32,21 @@ public class PostImage {
         this.presenter = presenter;
     }
 
-    public void process(PostImageInput input) throws ApplicationProcessException {
+    public void process(RemoveImageInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
 
-        Image image = input.getImage();
-        AccessKey fileName = AccessKeyAsPath.nameOf(input.getImage());
-
+        ImageName imageName = input.getImageName();
+        AccessKey fileName = AccessKeyAsPath.valueOf(imageName);
 
         try {
             Image existingImage = imageDatasource.findByName(fileName);
-            if (!existingImage.isEmpty()) {
+            if (existingImage.isEmpty()) {
                 presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
-                        .setMessage("A synonym has already been registered.").interruptProcess();
+                        .setMessage("There's no requested file to delete.").interruptProcess();
             }
-            imageDatasource.persist(fileName, image);
+            imageDatasource.remove(fileName);
         } catch (IOException e) {
-            logger.error("error - image persisting", e);
+            logger.error("error - image removing", e);
             presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR).interruptProcess();
         }
     }

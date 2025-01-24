@@ -3,6 +3,7 @@ import {SearchImagesOutput, SearchImagesOutputFields} from "./searchImagesOutput
 import axios, {AxiosResponse} from "axios";
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 import {PostImageInput} from "./postImageInput";
+import {RemoveImageInput} from "./removeImageInput";
 
 export class ImageService {
 
@@ -44,5 +45,23 @@ export class ImageService {
         }
         return BasicApiResult.empty();
     }
+
+    async removeImage(input: RemoveImageInput): Promise<BasicApiResult> {
+
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.delete(
+                "/api/v1/images", {
+                    data: input.toPayloadHash(),
+                });
+            console.log(response.data);
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
+    };
 
 }

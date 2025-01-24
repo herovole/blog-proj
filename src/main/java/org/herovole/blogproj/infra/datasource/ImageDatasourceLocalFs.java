@@ -5,6 +5,7 @@ import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.domain.image.Images;
+import org.herovole.blogproj.infra.filesystem.ImageAsLocalFile;
 import org.herovole.blogproj.infra.filesystem.ImageAsMultipartFile;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
@@ -33,9 +34,21 @@ public class ImageDatasourceLocalFs implements ImageDatasource {
     }
 
     @Override
+    public void remove(AccessKey key) throws IOException {
+        LocalFile file = parentDirectory.find(key);
+        file.remove();
+    }
+
+    @Override
     public Images searchSortedByTimestampDesc(PagingRequest request) throws IOException {
         LocalFiles files = parentDirectory.getFiles().sortByTimestampDesc().get(request);
         return files.asImages();
+    }
+
+    @Override
+    public Image findByName(AccessKey name) throws IOException {
+        LocalFile file = parentDirectory.find(name);
+        return ImageAsLocalFile.of(file);
     }
 
     @Override

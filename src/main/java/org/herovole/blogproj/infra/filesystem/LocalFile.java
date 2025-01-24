@@ -48,4 +48,8 @@ public class LocalFile {
         return Files.lines(path);
     }
 
+    public void remove() throws IOException {
+        Files.delete(path);
+    }
+
 }

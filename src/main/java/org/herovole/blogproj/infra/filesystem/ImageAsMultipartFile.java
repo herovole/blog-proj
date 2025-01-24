@@ -27,6 +27,11 @@ public class ImageAsMultipartFile implements Image {
     }
 
     @Override
+    public boolean isEmpty() {
+        return file == null;
+    }
+
+    @Override
     public Json toJsonModel() {
         throw new UnsupportedOperationException();
     }
