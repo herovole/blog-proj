@@ -1,11 +1,13 @@
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
+import {UserFields} from "../../domain/userFields";
 
 export interface SearchAdminUserOutputFields extends BasicApiResultFields {
     content: {
-        users: ReadonlyArray<{ id:number, name:string, role:string, timestampLastLogin:string }>,
+        users: ReadonlyArray<UserFields>,
         total: number
     }
 }
+
 
 export class SearchAdminUserOutput extends BasicApiResult {
 
@@ -27,7 +29,7 @@ export class SearchAdminUserOutput extends BasicApiResult {
         return fields.content.total;
     }
 
-    getUsers= (): ReadonlyArray<{ id:number, name:string, role:string, timestampLastLogin:string }> => {
+    getUsers = (): ReadonlyArray<UserFields> => {
         if (!this.fields) return [];
         const fields: SearchAdminUserOutputFields = this.fields as SearchAdminUserOutputFields;
         return fields.content.users;

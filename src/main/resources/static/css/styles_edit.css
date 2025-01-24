@@ -32,3 +32,9 @@
 .comment-edit-label {
     color: #227744;
 }
+
+.admin-editable-text {
+    border:2px ridge #AAAAAA;
+    background-color:#77AAAA;
+    min-width:100px;
+}
