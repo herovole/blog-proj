@@ -38,3 +38,7 @@
     background-color:#77AAAA;
     min-width:100px;
 }
+.admin-editable-text-activated {
+    border: 4px inset #8888FF;
+    background-color: #FFFFFF;
+}

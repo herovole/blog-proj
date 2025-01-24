@@ -1,18 +1,21 @@
 import React, {useState} from 'react';
 import {ElementId} from "../../../domain/elementId/elementId";
 
+type PixelValue = `${number}px`;
 type TextEditingFormProps = {
     children: React.ReactNode;
     postKey: ElementId;
     isFixed?: boolean;
-    isLarge?: boolean;
+    width?: PixelValue;
+    height?: PixelValue;
 }
 
 export const TextEditingForm: React.FC<TextEditingFormProps> = ({
                                                                     children,
                                                                     postKey,
                                                                     isFixed = false,
-                                                                    isLarge = false
+                                                                    width = "100px",
+                                                                    height = "12px"
                                                                 }) => {
     const [editedText, setEditedText] = useState<string | undefined>(children?.toString());
     const [fixedText, setFixedText] = useState<string | undefined>(children?.toString());
@@ -20,7 +23,7 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const currentText = e.currentTarget.value;
-        setFixedText(currentText);
+        setEditedText(currentText);
     }
 
     const edit = () => {
@@ -42,7 +45,8 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         return (
             <div>
                     <textarea
-                        className={`editable-text-activated ${isLarge ? "scale-large-flexible" : "scale-span"}`}
+                        className="admin-editable-text-activated"
+                        style={{width, height}}
                         onChange={handleChange}
                         placeholder="Type here..."
                     >
@@ -55,7 +59,10 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
     } else {
         return (
             <>
-                <button type="button" className="admin-editable-text" onClick={edit}>
+                <button type="button"
+                        className="admin-editable-text"
+                        style={{width, height}}
+                        onClick={edit}>
                     {fixedText ?? "(No Text)"}
                 </button>
                 <input type="hidden"
