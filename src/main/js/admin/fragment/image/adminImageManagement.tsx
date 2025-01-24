@@ -20,12 +20,14 @@ export const AdminImageManagement: React.FC = () => {
     const handleRemove = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const imageName: string = e.currentTarget.name;
+        console.log("attempting to remove " + imageName);
         const input: RemoveImageInput = new RemoveImageInput(imageName);
         const output: BasicApiResult = await imageService.removeImage(input);
         if (output.isSuccessful()) {
-            console.info(output.getMessage("Image Removal"))
+            console.info(output.getMessage("Image Removal"));
+            reload();
         } else {
-            console.error(output.getMessage("Image Removal"))
+            console.error(output.getMessage("Image Removal"));
         }
     }
 
