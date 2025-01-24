@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.auth.login.LoginAdmin;
 import org.herovole.blogproj.application.auth.login.LoginAdminInput;
+import org.herovole.blogproj.application.auth.registeruser.RegisterUser;
+import org.herovole.blogproj.application.auth.registeruser.RegisterUserInput;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
@@ -15,6 +17,7 @@ import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.LoginAdminPresenter;
+import org.herovole.blogproj.presentation.presenter.ValidateAccessTokenPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +36,23 @@ public class AdminV1AuthController {
     private final LoginAdmin loginAdmin;
     private final LoginAdminPresenter loginAdminPresenter;
     private final ValidateAccessToken validateAccessToken;
-    private final BasicPresenter validateAccessTokenPresenter;
+    private final ValidateAccessTokenPresenter validateAccessTokenPresenter;
+    private final RegisterUser registerUser;
+    private final BasicPresenter registerUserPresenter;
 
     @Autowired
     AdminV1AuthController(
             LoginAdmin loginAdmin,
             LoginAdminPresenter loginAdminPresenter,
             ValidateAccessToken validateAccessToken,
-            BasicPresenter validateAccessTokenPresenter
-    ) {
+            ValidateAccessTokenPresenter validateAccessTokenPresenter,
+            RegisterUser registerUser, BasicPresenter registerUserPresenter) {
         this.loginAdmin = loginAdmin;
         this.loginAdminPresenter = loginAdminPresenter;
         this.validateAccessToken = validateAccessToken;
         this.validateAccessTokenPresenter = validateAccessTokenPresenter;
+        this.registerUser = registerUser;
+        this.registerUserPresenter = registerUserPresenter;
     }
 
     @PostMapping("/login")
@@ -104,4 +111,35 @@ public class AdminV1AuthController {
         }
         return this.validateAccessTokenPresenter.buildResponseEntity();
     }
+
+    @PostMapping("/adminuser")
+    public ResponseEntity<String> adminUser(
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            @RequestBody Map<String, String> request) {
+        logger.info("Endpoint : adminuser (Post) ");
+        System.out.println(request);
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().createsUser()) {
+            this.registerUserPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.registerUserPresenter.buildResponseEntity();
+        }
+
+        try {
+            FormContent formContent = FormContent.of(request);
+            RegisterUserInput input = RegisterUserInput.of(formContent);
+            this.registerUser.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.registerUserPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.registerUserPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.registerUserPresenter.buildResponseEntity();
+
+    }
+
 }

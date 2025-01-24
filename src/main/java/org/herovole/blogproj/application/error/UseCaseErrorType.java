@@ -53,6 +53,12 @@ public enum UseCaseErrorType {
         public void throwException(String message) throws AuthenticationFailureException {
             throw new AuthenticationFailureException(message);
         }
+    },
+    AUTH_INSUFFICIENT("AIS") {
+        @Override
+        public void throwException(String message) throws AuthorityInsufficientException {
+            throw new AuthorityInsufficientException(message);
+        }
     };
     private final String code;
 

@@ -9,8 +9,9 @@ import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccess
 import org.herovole.blogproj.application.error.AuthenticationFailureException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
+import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.presentation.AppServletRequest;
-import org.herovole.blogproj.presentation.presenter.BasicPresenter;
+import org.herovole.blogproj.presentation.presenter.ValidateAccessTokenPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class AuthFilter extends OncePerRequestFilter {
             "admin"
     );
     private final ValidateAccessToken validateAccessToken;
-    private final BasicPresenter presenter;
+    private final ValidateAccessTokenPresenter presenter;
 
     @Autowired
-    public AuthFilter(ValidateAccessToken validateAccessToken, BasicPresenter presenter) {
+    public AuthFilter(ValidateAccessToken validateAccessToken, ValidateAccessTokenPresenter presenter) {
         this.validateAccessToken = validateAccessToken;
         this.presenter = presenter;
     }
@@ -56,6 +57,11 @@ public class AuthFilter extends OncePerRequestFilter {
         try {
             validateAccessToken.process(input);
             itsLogger.info("validated");
+
+            AdminUser adminUser = presenter.getContent();
+            servletRequest.storeAdminUserToAttribute(adminUser);
+            itsLogger.info("admin user set to internal attribute");
+
             filterChain.doFilter(request, response);
         } catch (AuthenticationFailureException e) {
             this.presenter.addFilteringErrorInfo(response);

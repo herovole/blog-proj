@@ -18,6 +18,7 @@ export class BasicApiResult {
     private static readonly CODE_BOT: string = "BOT";
     private static readonly CODE_BANNED: string = "BAN";
     private static readonly CODE_AUTH_FAILURE: string = "ATH";
+    private static readonly CODE_AUTH_INSUFFICIENT: string = "AIS";
 
     protected readonly fields: BasicApiResultFields | null;
 
@@ -57,6 +58,9 @@ export class BasicApiResult {
             case BasicApiResult.CODE_AUTH_FAILURE:
                 console.error("server response " + this.fields.message);
                 return prefix + ": 有効な認証トークンがありません。";
+            case BasicApiResult.CODE_AUTH_INSUFFICIENT:
+                console.error("server response " + this.fields.message);
+                return prefix + ": 権限不足です。";
             default:
                 console.error("server response " + this.fields.message);
                 return prefix + ": 分類不能なエラー";

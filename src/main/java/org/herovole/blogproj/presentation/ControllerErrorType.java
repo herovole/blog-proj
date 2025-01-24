@@ -21,7 +21,8 @@ public enum ControllerErrorType {
     SYSTEM_THREATENING_PHRASE(UseCaseErrorType.SYSTEM_THREATENING_PHRASE, HttpStatus.FORBIDDEN, "Inappropriate Phrases (Attack)."),
     BOT(UseCaseErrorType.BOT, HttpStatus.FORBIDDEN, "Potential Bot Activity."),
     BAN(UseCaseErrorType.BAN, HttpStatus.FORBIDDEN, "Banned."),
-    AUTH_FAILURE(UseCaseErrorType.AUTH_FAILURE, HttpStatus.UNAUTHORIZED, "No Valid Token.");
+    AUTH_FAILURE(UseCaseErrorType.AUTH_FAILURE, HttpStatus.UNAUTHORIZED, "No Valid Token."),
+    AUTH_INSUFFICIENT(UseCaseErrorType.AUTH_INSUFFICIENT, HttpStatus.FORBIDDEN, "Authority Insufficient.");
 
     private static final Map<UseCaseErrorType, ControllerErrorType> toEnum = new HashMap<>();
 

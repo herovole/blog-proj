@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
+import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.comment.TextBlackUnit;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AppServletRequest {
     private static final String ATTRIBUTE_USER_ID = "userId";
+    private static final String ATTRIBUTE_ADMIN_USER = "adminUser";
     private static final String COOKIE_KEY_UUID = "uuId";
     private static final String COOKIE_KEY_ACCESS_TOKEN = "accessToken";
     private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
@@ -97,6 +99,14 @@ public class AppServletRequest {
 
     public IntegerPublicUserId getUserIdFromAttribute() {
         return (IntegerPublicUserId) request.getAttribute(ATTRIBUTE_USER_ID);
+    }
+
+    public void storeAdminUserToAttribute(AdminUser adminUser) {
+        request.setAttribute(ATTRIBUTE_ADMIN_USER, adminUser);
+    }
+
+    public AdminUser getAdminUserFromAttribute() {
+        return (AdminUser) request.getAttribute(ATTRIBUTE_ADMIN_USER);
     }
 
     public String getBotDetectionTokenFromParameter() {
