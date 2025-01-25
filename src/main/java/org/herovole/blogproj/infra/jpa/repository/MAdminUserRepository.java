@@ -25,4 +25,9 @@ public interface MAdminUserRepository extends JpaRepository<MAdminUser, Long> {
             "    access_token = :accessToken ",
             nativeQuery = true)
     List<MAdminUser> findByAccessToken(@Param("accessToken") String accessToken);
+
+    @Query(value = "Select * from m_admin_user " +
+            " Order By id " +
+            "", nativeQuery = true)
+    List<MAdminUser> search();
 }

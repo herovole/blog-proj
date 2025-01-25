@@ -61,14 +61,14 @@ export class TagService {
 
     async searchRoles(): Promise<SearchTagsOutput> {
         try {
-            const topicResponse: AxiosResponse<SearchTagsOutputFields> = await axios.get(
+            const rolesResponse: AxiosResponse<SearchTagsOutputFields> = await axios.get(
                 "/api/v1/roles", {
                     params: {},
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(topicResponse.data);
-            return new SearchTagsOutput(topicResponse.data);
+            console.log(rolesResponse.data);
+            return new SearchTagsOutput(rolesResponse.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
             if (axios.isAxiosError(e) && e.response) {

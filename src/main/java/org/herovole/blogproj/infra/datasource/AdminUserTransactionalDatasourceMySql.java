@@ -32,7 +32,7 @@ public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMy
     @Override
     public void insert(AdminUser user) {
         if (user.isEmpty()) throw new IllegalArgumentException("Empty AdminUser");
-        MAdminUser newEntity = MAdminUser.fromDomainObj(user);
+        MAdminUser newEntity = MAdminUser.fromInsertDomainObj(user);
         cacheInsert.add(newEntity);
     }
 
@@ -42,7 +42,7 @@ public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMy
         List<MAdminUser> users = this.mAdminUserRepository.findByUserName(before.getUserName().memorySignature());
         if (users.size() != 1) throw new IllegalArgumentException("Corresponding records : " + users.size());
         MAdminUser oldEntity = users.get(0);
-        MAdminUser newEntity = MAdminUser.fromDomainObj(after);
+        MAdminUser newEntity = MAdminUser.fromInsertDomainObj(after);
         newEntity.setId(oldEntity.getId());
         cacheUpdate.add(newEntity);
     }

@@ -39,4 +39,10 @@ public class AdminUserDatasourceMySql implements AdminUserDatasource {
         if (users.size() > 1) throw new IllegalArgumentException("Multiple users found for the same token");
         return users.get(0).toDomainObj();
     }
+
+    @Override
+    public AdminUser[] search() {
+        List<MAdminUser> users = mAdminUserRepository.search();
+        return users.stream().map(MAdminUser::toDomainObj).toArray(AdminUser[]::new);
+    }
 }

@@ -44,4 +44,9 @@ public class RealAdminUserClaim implements AdminUser {
 
                 this.accessTokenExpiry.precedes(legitimateUserInfo.getAccessTokenExpiry());
     }
+
+    @Override
+    public Json toJsonModel() {
+        throw new UnsupportedOperationException(RealAdminUserClaim.class.getSimpleName());
+    }
 }

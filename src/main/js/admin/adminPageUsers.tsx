@@ -7,6 +7,7 @@ import {AdminBasicLayout} from "./fragment/adminBasicLayout";
 import {AuthService} from "../service/auth/authService";
 import {SearchAdminUserOutput} from "../service/auth/searchAdminUserOutput";
 import {AdminUsers} from "./fragment/user/adminUsers";
+import {SearchAdminUserInput} from "../service/auth/searchAdminUserInput";
 
 export const AdminPageUsers: React.FC = () => {
     const tagService: TagService = new TagService();
@@ -16,12 +17,25 @@ export const AdminPageUsers: React.FC = () => {
     const [refresh, setRefresh] = React.useState(false);
 
     const load = async (): Promise<void> => {
-
+        console.log(1);
         const rolesOutput: SearchTagsOutput = await tagService.searchRoles();
-        setRoles(rolesOutput.getTagUnits);
+        console.log(2);
+        if (rolesOutput.isSuccessful()) {
+            setRoles(rolesOutput.getTagUnits);
+        } else {
+            console.error(rolesOutput.getMessage("roles"));
+        }
 
-        const usersOutput: SearchAdminUserOutput = await authService.searchAdminUser();
-        setUsers(usersOutput);
+        console.log(3);
+        const usersInput: SearchAdminUserInput = new SearchAdminUserInput(1, 10000, true);
+        const usersOutput: SearchAdminUserOutput = await authService.searchAdminUser(usersInput);
+        console.log(4);
+        if (usersOutput.isSuccessful()) {
+            setUsers(usersOutput);
+        } else {
+            console.error(usersOutput.getMessage("roles"));
+        }
+        console.log(5);
     };
     useEffect(() => {
         load().then(r => {
@@ -34,12 +48,14 @@ export const AdminPageUsers: React.FC = () => {
     }
 
     if (roles.isEmpty() || users.isEmpty()) {
+        console.log(6);
         return (
             <AdminBasicLayout>
                 <div>Loading...</div>
             </AdminBasicLayout>
         );
     } else {
+        console.log(7);
         return (
             <AdminBasicLayout>
                 <AdminUsers data={users} roles={roles} reload={reload}/>

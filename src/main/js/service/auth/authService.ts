@@ -2,8 +2,8 @@ import axios, {AxiosResponse} from "axios";
 import {AdminLoginInput} from "./adminLoginInput";
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 import {CreateAdminUserInput} from "./createAdminUserInput";
-import {SearchImagesOutput, SearchImagesOutputFields} from "../image/searchImagesOutput";
 import {SearchAdminUserOutput, SearchAdminUserOutputFields} from "./searchAdminUserOutput";
+import {SearchAdminUserInput} from "./searchAdminUserInput";
 
 export class AuthService {
 
@@ -47,11 +47,11 @@ export class AuthService {
         return BasicApiResult.empty();
     }
 
-    async searchAdminUser(): Promise<SearchAdminUserOutput> {
+    async searchAdminUser(input: SearchAdminUserInput): Promise<SearchAdminUserOutput> {
         try {
             const response: AxiosResponse<SearchAdminUserOutputFields> = await axios.get(
                 "/api/v1/auth/adminuser", {
-                    params: {},
+                    params: input.toPayloadHash(),
                     headers: {Accept: 'application/json',},
                 }
             );
@@ -67,7 +67,7 @@ export class AuthService {
 
     }
 
-    async createAdminUser(input:CreateAdminUserInput): Promise<BasicApiResult> {
+    async createAdminUser(input: CreateAdminUserInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(
                 "/api/v1/auth/adminuser",

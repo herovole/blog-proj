@@ -49,4 +49,9 @@ public class EmptyAdminUser implements AdminUser {
         return false;
     }
 
+    @Override
+    public Json toJsonModel() {
+        throw new UnsupportedOperationException(EmptyAdminUser.class.getSimpleName());
+    }
+
 }

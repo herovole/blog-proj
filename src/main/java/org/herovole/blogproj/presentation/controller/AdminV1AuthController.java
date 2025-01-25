@@ -6,6 +6,8 @@ import org.herovole.blogproj.application.auth.login.LoginAdmin;
 import org.herovole.blogproj.application.auth.login.LoginAdminInput;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUser;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUserInput;
+import org.herovole.blogproj.application.auth.searchuser.SearchAdminUsers;
+import org.herovole.blogproj.application.auth.searchuser.SearchAdminUsersInput;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessToken;
 import org.herovole.blogproj.application.auth.validateaccesstoken.ValidateAccessTokenInput;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
@@ -17,14 +19,17 @@ import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.LoginAdminPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchAdminUsersPresenter;
 import org.herovole.blogproj.presentation.presenter.ValidateAccessTokenPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -39,6 +44,8 @@ public class AdminV1AuthController {
     private final ValidateAccessTokenPresenter validateAccessTokenPresenter;
     private final RegisterUser registerUser;
     private final BasicPresenter registerUserPresenter;
+    private final SearchAdminUsers searchAdminUsers;
+    private final SearchAdminUsersPresenter searchAdminUsersPresenter;
 
     @Autowired
     AdminV1AuthController(
@@ -46,13 +53,15 @@ public class AdminV1AuthController {
             LoginAdminPresenter loginAdminPresenter,
             ValidateAccessToken validateAccessToken,
             ValidateAccessTokenPresenter validateAccessTokenPresenter,
-            RegisterUser registerUser, BasicPresenter registerUserPresenter) {
+            RegisterUser registerUser, BasicPresenter registerUserPresenter, SearchAdminUsers searchAdminUsers, SearchAdminUsersPresenter searchAdminUsersPresenter) {
         this.loginAdmin = loginAdmin;
         this.loginAdminPresenter = loginAdminPresenter;
         this.validateAccessToken = validateAccessToken;
         this.validateAccessTokenPresenter = validateAccessTokenPresenter;
         this.registerUser = registerUser;
         this.registerUserPresenter = registerUserPresenter;
+        this.searchAdminUsers = searchAdminUsers;
+        this.searchAdminUsersPresenter = searchAdminUsersPresenter;
     }
 
     @PostMapping("/login")
@@ -142,4 +151,25 @@ public class AdminV1AuthController {
 
     }
 
+    @GetMapping("/adminuser")
+    public ResponseEntity<String> searchAdminUsers(
+            @RequestParam Map<String, String> request) {
+        logger.info("Endpoint : admin users(Get) ");
+        System.out.println(request);
+
+        try {
+            FormContent formContent = FormContent.of(request);
+            SearchAdminUsersInput input = SearchAdminUsersInput.fromFormContent(formContent);
+            this.searchAdminUsers.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.searchAdminUsersPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.searchAdminUsersPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.searchAdminUsersPresenter.buildResponseEntity();
+    }
 }

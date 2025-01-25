@@ -4,4 +4,6 @@ public interface AdminUserDatasource {
     AdminUser find(UserName userName);
 
     AdminUser find(AccessToken accessToken);
+
+    AdminUser[] search();
 }

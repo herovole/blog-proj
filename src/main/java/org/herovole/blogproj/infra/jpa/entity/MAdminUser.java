@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.adminuser.RealAdminUser;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 @Data
 public class MAdminUser implements Serializable {
 
-    public static MAdminUser fromDomainObj(AdminUser domainObj) {
+    public static MAdminUser fromInsertDomainObj(AdminUser domainObj) {
         if (!(domainObj instanceof RealAdminUser domainObj1)) throw new IllegalArgumentException();
         MAdminUser entity = new MAdminUser();
         entity.setName(domainObj1.getUserName().memorySignature());
@@ -70,12 +71,14 @@ public class MAdminUser implements Serializable {
 
     public AdminUser toDomainObj() {
         return RealAdminUser.builder()
+                .id(IntegerId.valueOf(id))
                 .userName(UserName.valueOf(name))
                 .role(Role.of(role))
                 .credentialEncode(credentialEncode)
                 .accessToken(AccessToken.valueOf(accessToken))
                 .accessTokenIp(IPv4Address.valueOf(accessTokenAton))
                 .accessTokenExpiry(Timestamp.valueOf(accessTokenExpiry))
+                .timestampLastLogin(Timestamp.valueOf(updateTimestamp))
                 .build();
     }
 
