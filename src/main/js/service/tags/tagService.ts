@@ -58,4 +58,23 @@ export class TagService {
         }
         return BasicApiResult.empty();
     }
+
+    async searchRoles(): Promise<SearchTagsOutput> {
+        try {
+            const topicResponse: AxiosResponse<SearchTagsOutputFields> = await axios.get(
+                "/api/v1/roles", {
+                    params: {},
+                    headers: {Accept: 'application/json',},
+                }
+            );
+            console.log(topicResponse.data);
+            return new SearchTagsOutput(topicResponse.data);
+        } catch (e: unknown) {
+            console.error("Error requesting data");
+            if (axios.isAxiosError(e) && e.response) {
+                return new SearchTagsOutput(e.response.data);
+            }
+        }
+        return SearchTagsOutput.empty();
+    }
 }

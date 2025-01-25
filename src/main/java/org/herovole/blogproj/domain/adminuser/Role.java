@@ -66,4 +66,9 @@ public enum Role {
     public boolean editsImages() { return false; }
     public boolean createsUser() { return false; }
     public boolean updatesUserRole() { return false; }
+
+    public Json toJsonModel() {
+        return new Json(this.code, this.label, "");
+    }
+    public record Json(String id, String tagEnglish, String tagJapanese) { }
 }

@@ -3,7 +3,7 @@ import {ElementId} from "../../../domain/elementId/elementId";
 
 type PixelValue = `${number}px`;
 type TextEditingFormProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     postKey: ElementId;
     isFixed?: boolean;
     width?: PixelValue;
@@ -11,7 +11,7 @@ type TextEditingFormProps = {
 }
 
 export const TextEditingForm: React.FC<TextEditingFormProps> = ({
-                                                                    children,
+                                                                    children="",
                                                                     postKey,
                                                                     isFixed = false,
                                                                     width = "100px",

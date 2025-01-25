@@ -6,14 +6,14 @@ import {SearchRatingHistoryOutput} from "../../../../service/user/searchRatingHi
 
 type PublicUserCommentViewProps = {
     commentUnits: ReadonlyArray<CommentUnit>;
-    ratingHistory: SearchRatingHistoryOutput;
-    handleReference: (commentIdReferred: number) => void;
+    ratingHistory?: SearchRatingHistoryOutput;
+    handleReference?: (commentIdReferred: number) => void;
 }
 
 export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({
                                                                                 commentUnits,
-                                                                                ratingHistory,
-                                                                                handleReference
+                                                                                ratingHistory = SearchRatingHistoryOutput.empty(),
+                                                                                handleReference = function(none:number){}
                                                                             }) => {
 
     return (

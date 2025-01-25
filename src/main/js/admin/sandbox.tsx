@@ -81,7 +81,7 @@ export const Sandbox: React.FC = () => {
             <TagSelectingForm
                 postKey={RootElementId.valueOf("tsf")}
                 candidates={countryTagsOptions || TagUnits.empty()}
-                selectedTagIds={selectedTags}
+                children={selectedTags}
             />
         </div>
         <div>

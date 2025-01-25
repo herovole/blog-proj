@@ -1,14 +1,17 @@
 import React, {useEffect} from "react";
 import {SearchAdminUserOutput} from "../../../service/auth/searchAdminUserOutput";
+import {AdminUsersModal} from "./adminUsersModal";
+import {TagUnits} from "../atomic/tagselectingform/tagUnits";
 
 
 type AdminUsersType = {
     data: SearchAdminUserOutput;
+    roles: TagUnits;
     reload: () => void;
 }
 
 
-export const AdminUsers: React.FC<AdminUsersType> = ({data, reload}) => {
+export const AdminUsers: React.FC<AdminUsersType> = ({data, roles, reload}) => {
 
     useEffect(() => {
     }, []);
@@ -16,6 +19,11 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, reload}) => {
     return (
         <div className="main-area-frame">
             <div className="main-area">
+                <AdminUsersModal
+                    label={"New User"}
+                    roles={roles}
+                    reload={reload}
+                />
                 <table className="admin-table">
                     <thead>
                     <tr>
@@ -23,6 +31,7 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, reload}) => {
                         <th className="admin-table-header-cell">Name</th>
                         <th className="admin-table-header-cell">Role</th>
                         <th className="admin-table-header-cell">Last Login</th>
+                        <th className="admin-table-header-cell">Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,6 +46,9 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, reload}) => {
                             <td className="admin-table-cell">{user.name}</td>
                             <td className="admin-table-cell">{user.role}</td>
                             <td className="admin-table-cell">{user.timestampLastLogin}</td>
+                            <td className="admin-table-cell">
+                                <AdminUsersModal label={"Update User"} roles={roles} reload={reload}/>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

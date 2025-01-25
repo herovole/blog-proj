@@ -32,7 +32,7 @@ export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
                     <TagSelectingForm
                         postKey={postKey.append("country")}
                         candidates={countryTagsOptions || TagUnits.empty()}
-                        selectedTagIds={content ? content.body.country : ""}
+                        children={content ? content.body.country : ""}
                     />
                 </div>
                 <div className="comment-edit-item-line"><span className="comment-edit-label">IsHidden : </span>

@@ -6,12 +6,15 @@ import org.herovole.blogproj.application.tag.edittopictags.EditTopicTags;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTagsInput;
 import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTags;
 import org.herovole.blogproj.application.tag.searchcountrytags.SearchCountryTagsInput;
+import org.herovole.blogproj.application.tag.searchroles.SearchRolesOutput;
 import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTags;
 import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.adminuser.Role;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchCountryTagsPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchRolesPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchTopicTagsPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +42,21 @@ public class AdminV1TopicTagController {
     private final EditTopicTags editTopicTags;
     private final BasicPresenter editTopicTagsPresenter;
 
+    private final SearchRolesPresenter searchRolesPresenter;
+
     @Autowired
     public AdminV1TopicTagController(
             SearchCountryTags searchCountryTags,
             SearchCountryTagsPresenter searchCountryTagsPresenter, SearchTopicTags searchTopicTags,
-            SearchTopicTagsPresenter searchTopicTagsPresenter, EditTopicTags editTopicTags, BasicPresenter editTopicTagsPresenter) {
+            SearchTopicTagsPresenter searchTopicTagsPresenter, EditTopicTags editTopicTags, BasicPresenter editTopicTagsPresenter,
+            SearchRolesPresenter searchRolesPresenter) {
         this.searchCountryTags = searchCountryTags;
         this.searchCountryTagsPresenter = searchCountryTagsPresenter;
         this.searchTopicTags = searchTopicTags;
         this.searchTopicTagsPresenter = searchTopicTagsPresenter;
         this.editTopicTags = editTopicTags;
         this.editTopicTagsPresenter = editTopicTagsPresenter;
+        this.searchRolesPresenter = searchRolesPresenter;
     }
 
     //?page=...&itemsPerPage=...&isDetailed=...
@@ -115,4 +122,24 @@ public class AdminV1TopicTagController {
         return this.editTopicTagsPresenter.buildResponseEntity();
     }
 
+    @GetMapping("/roles")
+    public ResponseEntity<String> searchRoles(
+            @RequestParam Map<String, String> request) {
+        logger.info("Endpoint : roles (Get) ");
+        System.out.println(request);
+        try {
+            SearchRolesOutput output = SearchRolesOutput.builder()
+                    .roles(Role.values())
+                    .total(Role.values().length)
+                    .build();
+            this.searchRolesPresenter.setContent(output);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("User Error ", e);
+            this.searchRolesPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (Exception e) {
+            logger.error("Server Error", e);
+            this.searchRolesPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.searchRolesPresenter.buildResponseEntity();
+    }
 }

@@ -4,25 +4,25 @@ import {TagUnits} from "./tagUnits";
 import {ElementId} from "../../../../domain/elementId/elementId";
 
 type TagSelectingFormProps = {
+    children: React.ReactNode;
     postKey: ElementId;
     candidates: TagUnits;
     allowsMultipleOptions?: boolean;
     isFixed?: boolean;
-    selectedTagIds: ReadonlyArray<string> | string;
 }
 
 export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
+                                                                      children = [],
                                                                       postKey,
                                                                       candidates,
                                                                       allowsMultipleOptions = false,
                                                                       isFixed = false,
-                                                                      selectedTagIds
                                                                   }) => {
 
     const [selectedTags, setSelectedTags] = useState<ReadonlyArray<string>>(
-        Array.isArray(selectedTagIds) ? selectedTagIds : [selectedTagIds]);
+        Array.isArray(children) ? children : [children]);
     const [fixedSelectedTags, setFixedSelectedTags] = useState<ReadonlyArray<string>>(
-        Array.isArray(selectedTagIds) ? selectedTagIds : [selectedTagIds]);
+        Array.isArray(children) ? children : [children]);
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
 

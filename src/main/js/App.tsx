@@ -18,6 +18,7 @@ import {PublicPageArticleList} from "./public/publicPageArticleList";
 import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
 import {AdminPageLogin} from "./admin/adminPageLogin";
 import {AdminPageImages} from "./admin/adminPageImages";
+import {AdminPageUsers} from "./admin/adminPageUsers";
 
 
 console.log("App.js");
@@ -52,6 +53,11 @@ const App = () => {
                 <Route path="/admin/images" element={
                     <AdminProtectedRoute>
                         <AdminPageImages/>
+                    </AdminProtectedRoute>
+                }/> {}
+                <Route path="/admin/users" element={
+                    <AdminProtectedRoute>
+                        <AdminPageUsers/>
                     </AdminProtectedRoute>
                 }/> {}
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}

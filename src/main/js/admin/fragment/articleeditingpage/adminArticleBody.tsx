@@ -51,7 +51,6 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                     <div className="flex-container">
                         <p className="article-edit-title">Image</p>
                         <ImageSelectingModal
-                            postKey={postKey.append("imageName")}
                             imageName={content.imageName}
                         />
                     </div>
@@ -59,9 +58,8 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <p className="article-edit-title">Article ID</p>
                         <IdsEditingForm
                             postKey={postKey.append("articleId")}
-                            ids={content.articleId}
                             isFixed={true}
-                        />
+                        >{content.articleId}</IdsEditingForm>
                     </div>
                     <div>
                         <p className="article-edit-title-large">Source Info</p>
@@ -101,7 +99,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             postKey={postKey.append("editors")}
                             candidates={topicTagsOptions}
                             isFixed={true}
-                            selectedTagIds={[]}
+                            children={[]}
                         />
                     </div>
                     <div>
@@ -110,7 +108,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             allowsMultipleOptions={true}
                             postKey={postKey.append("topicTags")}
                             candidates={topicTagsOptions}
-                            selectedTagIds={content.topicTags}
+                            children={content.topicTags}
                         />
                     </div>
                     <div>
@@ -119,7 +117,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             allowsMultipleOptions={true}
                             postKey={postKey.append("countries")}
                             candidates={countryTagsOptions}
-                            selectedTagIds={content.countries}
+                            children={content.countries}
                         />
                     </div>
                     <div>
@@ -133,7 +131,8 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <p className="article-edit-title">Article Text</p>
                         <TextEditingForm
                             postKey={postKey.append("articleText")}
-                            isLarge={true}
+                            width={"400px"}
+                            height={"70px"}
                         >
                             {content.text}
                         </TextEditingForm>
@@ -151,9 +150,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
             <div>
                 <p className="article-edit-title-large">User Comments</p>
                 <PublicUserCommentView
-                    postKey={postKey.append("originalComments")}
                     commentUnits={content.sourceComments}
-                    handleReference={function(none:number){}}
                 />
             </div>
         </div>
