@@ -20,11 +20,13 @@ export class SearchTagsOutput extends BasicApiResult {
     }
 
     getTagUnits(): TagUnits {
+        if (!this.fields) return TagUnits.empty();
         const fields: SearchTagsOutputFields = this.fields as SearchTagsOutputFields;
         return new TagUnits(fields.content.tagUnits.map(tagUnitFields => new TagUnit(tagUnitFields)));
     }
 
     getTotalNumber(): number {
+        if (!this.fields) return 0;
         const fields: SearchTagsOutputFields = this.fields as SearchTagsOutputFields;
         return fields.content.total;
     }

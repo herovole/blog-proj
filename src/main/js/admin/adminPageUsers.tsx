@@ -17,25 +17,21 @@ export const AdminPageUsers: React.FC = () => {
     const [refresh, setRefresh] = React.useState(false);
 
     const load = async (): Promise<void> => {
-        console.log(1);
+
         const rolesOutput: SearchTagsOutput = await tagService.searchRoles();
-        console.log(2);
         if (rolesOutput.isSuccessful()) {
-            setRoles(rolesOutput.getTagUnits);
+            setRoles(rolesOutput.getTagUnits());
         } else {
             console.error(rolesOutput.getMessage("roles"));
         }
 
-        console.log(3);
         const usersInput: SearchAdminUserInput = new SearchAdminUserInput(1, 10000, true);
         const usersOutput: SearchAdminUserOutput = await authService.searchAdminUser(usersInput);
-        console.log(4);
         if (usersOutput.isSuccessful()) {
             setUsers(usersOutput);
         } else {
             console.error(usersOutput.getMessage("roles"));
         }
-        console.log(5);
     };
     useEffect(() => {
         load().then(r => {
