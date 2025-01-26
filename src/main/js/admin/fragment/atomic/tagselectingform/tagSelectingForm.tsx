@@ -40,14 +40,15 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
         setIsBeingEdited(false);
     }
 
-    const handleChange = (theSelectedTags: ReadonlyArray<string> | string) => {
+    const handleChange = (theSelectedTags:
+                              ReadonlyArray<{ value: string, label: string }> | { value: string, label: string }
+    ) => {
         console.log("selected handleChange : " + JSON.stringify(theSelectedTags));
 
         if (Array.isArray(theSelectedTags)) {
-            setSelectedTags(theSelectedTags);
-        }
-        if (typeof theSelectedTags === "string") {
-            const thoseSelectedTags: ReadonlyArray<string> = [theSelectedTags];
+            setSelectedTags(theSelectedTags.map(tag => tag.value));
+        } else {
+            const thoseSelectedTags: ReadonlyArray<string> = [theSelectedTags["value"]];
             setSelectedTags(thoseSelectedTags);
         }
     };
