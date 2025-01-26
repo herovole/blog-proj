@@ -52,12 +52,16 @@ const App = () => {
                 }/> {}
                 <Route path="/admin/images" element={
                     <AdminProtectedRoute>
-                        <AdminPageImages/>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageImages/>
+                        </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}
                 <Route path="/admin/users" element={
                     <AdminProtectedRoute>
-                        <AdminPageUsers/>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageUsers/>
+                        </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}
                 <Route path="/admin/sandbox" element={<Sandbox/>}/> {}

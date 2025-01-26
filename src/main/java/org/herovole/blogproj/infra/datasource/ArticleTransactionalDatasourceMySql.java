@@ -25,8 +25,6 @@ import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 @Component
 public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql implements ArticleTransactionalDatasource {
 
@@ -48,7 +46,6 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
             session.executeSql(transaction);
         }
     };
-    private final AtomicLong maxArticleId;
 
     @Autowired
     protected ArticleTransactionalDatasourceMySql(
@@ -59,8 +56,6 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
             ASourceCommentRepository aSourceCommentRepository,
             EUserCommentRepository eUserCommentRepository) {
         super(aArticleRepository, aArticleHasTopicTagRepository, aArticleHasCountryRepository, aArticleHasEditorRepository, aSourceCommentRepository, eUserCommentRepository);
-        Long maxId = aArticleRepository.findMaxId();
-        this.maxArticleId = maxId == null ? new AtomicLong(0) : new AtomicLong(maxId);
     }
 
     @Override
@@ -82,7 +77,9 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         if (article.isEmpty()) return;
         RealArticle article1 = (RealArticle) article;
 
-        IntegerId articleId = IntegerId.valueOf(maxArticleId.incrementAndGet());
+        Long maxId = aArticleRepository.findMaxId();
+
+        IntegerId articleId = IntegerId.valueOf(maxId == null ? 0 : maxId + 1);
         AArticle entity = AArticle.fromInsertDomainObj(articleId, article);
         AArticleHasCountry[] entitiesCountries = article1.getCountries().stream().map(e -> AArticleHasCountry.fromInsertDomainObj(articleId, e)).toArray(AArticleHasCountry[]::new);
         AArticleHasEditor[] entitiesEditors = article1.getEditors().stream().map(e -> AArticleHasEditor.fromInsertDomainObj(articleId, e)).toArray(AArticleHasEditor[]::new);

@@ -15,27 +15,51 @@ public enum Role {
     NONE(0, "NON", "None"),
     OWNER(10, "OWN", "Owner") {
         @Override
-        public boolean editsArticles() { return true; }
+        public boolean editsArticles() {
+            return true;
+        }
+
         @Override
-        public boolean editsTags() { return true; }
+        public boolean editsTags() {
+            return true;
+        }
+
         @Override
-        public boolean editsImages() { return true; }
+        public boolean editsImages() {
+            return true;
+        }
+
         @Override
-        public boolean createsUser() { return true; }
+        public boolean createsUser() {
+            return true;
+        }
+
         @Override
-        public boolean updatesUserRole() { return true; }
+        public boolean updatesUserRole() {
+            return true;
+        }
     },
     ADMIN(20, "ADM", "Administrator") {
         @Override
-        public boolean editsArticles() { return true; }
+        public boolean editsArticles() {
+            return true;
+        }
+
         @Override
-        public boolean editsTags() { return true; }
+        public boolean editsTags() {
+            return true;
+        }
+
         @Override
-        public boolean editsImages() { return true; }
+        public boolean editsImages() {
+            return true;
+        }
     },
-    EDITOR(30, "EDT", "Editor"){
+    EDITOR(30, "EDT", "Editor") {
         @Override
-        public boolean editsArticles() { return true; }
+        public boolean editsArticles() {
+            return true;
+        }
     },
     SPECTATOR(100, "SPC", "Spectator");
 
@@ -53,22 +77,39 @@ public enum Role {
     }
 
     public static Role of(String code) {
+        if (code == null) return NONE;
         return roles.getOrDefault(code, NONE);
     }
 
     public static Role fromFormContentRole(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ROLE);
-        return valueOf(child.getValue());
+        return of(child.getValue());
     }
 
-    public boolean editsArticles() { return false; }
-    public boolean editsTags() { return false; }
-    public boolean editsImages() { return false; }
-    public boolean createsUser() { return false; }
-    public boolean updatesUserRole() { return false; }
+    public boolean editsArticles() {
+        return false;
+    }
+
+    public boolean editsTags() {
+        return false;
+    }
+
+    public boolean editsImages() {
+        return false;
+    }
+
+    public boolean createsUser() {
+        return false;
+    }
+
+    public boolean updatesUserRole() {
+        return false;
+    }
 
     public Json toJsonModel() {
         return new Json(this.code, this.label, "");
     }
-    public record Json(String id, String tagEnglish, String tagJapanese) { }
+
+    public record Json(String id, String tagEnglish, String tagJapanese) {
+    }
 }

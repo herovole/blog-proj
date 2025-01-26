@@ -95,61 +95,65 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     />
 
     const htmlSearch =
-        <form onSubmit={handleSubmit}>
-            <button type="submit" value="action1">
-                検索
-            </button>
-            <p>ページ当たり表示数 :
-                <input
-                    type="number"
-                    max="100"
-                    min="10"
-                    step="5"
-                    className="editable-text-activated scale-span"
-                    placeholder="items per page"
-                    onChange={handleItemsPerPage}
-                    value={inputCached.itemsPerPage}
-                />
-            </p>
+        <div className="comment-modal-exterior">
+            <div className="comment-modal-interior">
+                <form onSubmit={handleSubmit}>
+                    <button type="submit" value="action1">
+                        検索
+                    </button>
+                    <p>ページ当たり表示数 :
+                        <input
+                            className="input-items-per-page"
+                            type="number"
+                            max="100"
+                            min="10"
+                            step="5"
+                            placeholder="items per page"
+                            onChange={handleItemsPerPage}
+                            value={inputCached.itemsPerPage}
+                        />
+                    </p>
 
-            <br/>
-            <p>キーワード :
-                <input
-                    className="editable-text-activated scale-span"
-                    placeholder="space-separated search keywords"
-                    onChange={handleKeywords}
-                    value={inputCached.keywords}
-                />
-            </p>
-            <p>日付範囲 :
-                <DatePicker
-                    dateFormat="yyyy/MM/dd"
-                    placeholderText="date from"
-                    onChange={handleDateFrom}
-                    selected={inputCached.dateFrom}
-                    minDate={MIN_DATE}
-                    maxDate={MAX_DATE}
-                    showMonthYearDropdown/>
-                ～
-                <DatePicker
-                    dateFormat="yyyy/MM/dd"
-                    placeholderText="date to"
-                    onChange={handleDateTo}
-                    selected={inputCached.dateTo}
-                    minDate={MIN_DATE}
-                    maxDate={MAX_DATE}
-                    showMonthYearDropdown/>
-            </p>
-            <PublicArticleHeadlines
-                mode={HeadlinesMode.SMALL}
-                articles={output.getArticleSummaryList()}
-                directoryToIndividualPage={directoryToIndividualPage}
-                topicTagList={topicTagsOptions}
-                countryTagList={countryTagsOptions}
-                reRender={refresh}
-            />
+                    <br/>
+                    <p>キーワード :
+                        <input
+                            className="input-keywords"
+                            placeholder="space-separated search keywords"
+                            onChange={handleKeywords}
+                            value={inputCached.keywords}
+                        />
+                    </p>
+                    <p>日付範囲 :
+                        <DatePicker
+                            dateFormat="yyyy/MM/dd"
+                            placeholderText="date from"
+                            onChange={handleDateFrom}
+                            selected={inputCached.dateFrom}
+                            minDate={MIN_DATE}
+                            maxDate={MAX_DATE}
+                            showMonthYearDropdown/>
+                        ～
+                        <DatePicker
+                            dateFormat="yyyy/MM/dd"
+                            placeholderText="date to"
+                            onChange={handleDateTo}
+                            selected={inputCached.dateTo}
+                            minDate={MIN_DATE}
+                            maxDate={MAX_DATE}
+                            showMonthYearDropdown/>
+                    </p>
+                    <PublicArticleHeadlines
+                        mode={HeadlinesMode.SMALL}
+                        articles={output.getArticleSummaryList()}
+                        directoryToIndividualPage={directoryToIndividualPage}
+                        topicTagList={topicTagsOptions}
+                        countryTagList={countryTagsOptions}
+                        reRender={refresh}
+                    />
 
-        </form>
+                </form>
+            </div>
+        </div>
 
     if (hasSearchMenu) {
         return (
@@ -164,6 +168,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             <>
                 {htmlPagination}
             </>
-        );
+        )
+            ;
     }
 };

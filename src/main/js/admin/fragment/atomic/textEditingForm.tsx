@@ -8,6 +8,7 @@ type TextEditingFormProps = {
     isFixed?: boolean;
     width?: PixelValue;
     height?: PixelValue;
+    isPassword?: boolean;
 }
 
 export const TextEditingForm: React.FC<TextEditingFormProps> = ({
@@ -15,13 +16,18 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
                                                                     postKey,
                                                                     isFixed = false,
                                                                     width = "400px",
-                                                                    height = "30px"
+                                                                    height = "30px",
+                                                                    isPassword = false,
                                                                 }) => {
     const [editedText, setEditedText] = useState<string | undefined>(children?.toString());
     const [fixedText, setFixedText] = useState<string | undefined>(children?.toString());
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const currentText = e.currentTarget.value;
+        setEditedText(currentText);
+    }
+    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         const currentText = e.currentTarget.value;
         setEditedText(currentText);
     }
@@ -40,8 +46,16 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         setIsBeingEdited(false);
     }
 
+    let textToShow = "(No Text)";
+    if (fixedText && !isPassword) {
+        textToShow = fixedText;
+    }
+    if (fixedText && isPassword) {
+        textToShow = "(Password Declared)";
+    }
 
-    if (isBeingEdited && !isFixed) {
+
+    if (isBeingEdited && !isFixed && !isPassword) {
         return (
             <div>
                     <textarea
@@ -56,6 +70,18 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
                 <button type="button" onClick={cancel}> Cancel</button>
             </div>
         );
+    } else if (isBeingEdited && !isFixed && isPassword) {
+        return <div>
+            <input
+                type="password"
+                className="admin-editable-text-activated"
+                style={{width, height}}
+                onChange={handleChangePassword}
+                value={editedText}
+            />
+            <button type="button" onClick={fix}> Fix</button>
+            <button type="button" onClick={cancel}> Cancel</button>
+        </div>
     } else {
         return (
             <>
@@ -64,7 +90,7 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
                         style={{width, height}}
                         onClick={edit}>
                     <span className="admin-editable-text-content">
-                        {fixedText ?? "(No Text)"}
+                        {textToShow}
                     </span>
                 </button>
                 <input type="hidden"

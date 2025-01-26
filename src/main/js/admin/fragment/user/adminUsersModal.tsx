@@ -38,6 +38,8 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "editUser";
 
+    const PASSWORD_MIN_LENGTH = 10;
+
 
     const afterOpenModal = () => {
     }
@@ -51,6 +53,9 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
         event.preventDefault(); // Prevent page reload
         setInfo("");
         setWarn("");
+        console.log(event.currentTarget)
+        const formData = new FormData(event.currentTarget as HTMLFormElement);
+
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
             return;
@@ -61,10 +66,20 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
             return;
         }
 
-        const formData = new FormData(event.currentTarget as HTMLFormElement);
+        const password = formData.get("password") as string;
+        const confirmation = formData.get("confirmation") as string;
+        if (password != confirmation) {
+            setWarn("Given passwords do not accord.");
+            return;
+        }
+        if (password.length < PASSWORD_MIN_LENGTH) {
+            setWarn("Password length needs to be at least " + PASSWORD_MIN_LENGTH);
+            return;
+        }
+
         const input: CreateAdminUserInput = new CreateAdminUserInput(
             formData.get("userName") as string,
-            formData.get("role") as string,
+            formData.get("role.0") as string,
             formData.get("password") as string,
             recaptchaToken
         );
@@ -91,12 +106,12 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
                 <div className="comment-modal-exterior">
                     <div className="comment-modal-interior">
                         <div className="comment-modal-cancel">
-                            <button type="button" onClick={closeModal}>Close</button>
+                            <button onClick={closeModal}>Close</button>
                         </div>
                         <div className="comment-modal-header">ユーザ情報更新</div>
                         <br/>
                         <form onSubmit={handleSubmit}>
-                            <input type="button" className="comment-modal-submit-s" value={label}/>
+                            <input type="submit" className="comment-modal-submit-s" value={label}/>
                             <table>
                                 <thead>
                                 <tr>
@@ -123,11 +138,13 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
                                 </tr>
                                 <tr>
                                     <td>Password :</td>
-                                    <td><TextEditingForm postKey={RootElementId.valueOf("password")}/></td>
+                                    <td><TextEditingForm isPassword postKey={RootElementId.valueOf("password")}/>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Password(Confirmation) :</td>
-                                    <td><TextEditingForm postKey={RootElementId.valueOf("confirmation")}/></td>
+                                    <td><TextEditingForm isPassword
+                                                         postKey={RootElementId.valueOf("confirmation")}/></td>
                                 </tr>
                                 </tbody>
                             </table>

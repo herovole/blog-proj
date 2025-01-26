@@ -2,11 +2,13 @@
     display: grid;
     grid-template-columns: 200px 800px 200px;
 }
+
 .main-area-frame {
     border: 2px solid #AAAAAA;
     padding: 2px;
     width: 70%;
 }
+
 .main-area {
     background-color: #BBBBAA;
 }
@@ -15,6 +17,14 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+}
+
+.input-items-per-page {
+    width: 40px;
+}
+
+.input-keywords {
+    width: 400px;
 }
 
 
@@ -66,13 +76,11 @@
 }
 
 
-
 .grid-container {
     display: grid;
     grid-template-columns: auto auto;
     gap: 0; /* Adds space between the divs */
 }
-
 
 
 .frame-unit {

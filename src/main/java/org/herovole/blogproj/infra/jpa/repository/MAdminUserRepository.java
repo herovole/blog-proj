@@ -14,6 +14,9 @@ public interface MAdminUserRepository extends JpaRepository<MAdminUser, Long> {
     @Query(value = "Select * from m_admin_user limit 1", nativeQuery = true)
     MAdminUser findOne();
 
+    @Query(value = "Select max(id) from m_admin_user", nativeQuery = true)
+    Integer findMaxId();
+
     @Query(value = "Select * from m_admin_user " +
             "  Where " +
             "    name = :name " +

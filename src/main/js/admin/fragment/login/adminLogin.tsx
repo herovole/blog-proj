@@ -59,7 +59,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
                 <span className="login-label">User : </span>
                 <input className="login-handle" type="text" onChange={handleHandleOnChange} value={loginHandle}/><br/>
                 <span className="login-label">Password : </span>
-                <input className="login-password" type="text" onChange={handlePasswordOnChange}
+                <input className="login-password" type="password" onChange={handlePasswordOnChange}
                        value={loginPassword}/><br/>
                 <button className="login-submit" type="button" onClick={handleSubmit}>Enter</button>
             </div>
