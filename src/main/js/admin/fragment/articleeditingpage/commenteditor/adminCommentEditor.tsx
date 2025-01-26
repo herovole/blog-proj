@@ -30,9 +30,9 @@ export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
                 {content.map((commentUnit, i) => {
                     const unit = commentUnit as SourceCommentUnit;
                     return (
-                        <div key={i} className="flex-container">
-                            {[...Array(unit.depth)].map((_, j) => (
-                                <span key={j} className="comment-left-space"/>
+                        <div key={unit.body.commentId} className="flex-container">
+                            {[...Array(unit.depth)].map((_) => (
+                                <span key={_} className="comment-left-space"/>
                             ))}
                             <AdminCommentEditorUnit
                                 postKey={postKey.append(i.toString())}

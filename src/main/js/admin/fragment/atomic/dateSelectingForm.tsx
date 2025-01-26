@@ -13,12 +13,15 @@ export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children, p
 
     function reactNodeToDateStrict(node: React.ReactNode): Date | null {
         if (node == null || node === "") return null;
-        if (typeof node === "string" || typeof node === "number") {
-            const date = new Date(node);
-            if (!isNaN(date.getTime())) {
-                return date;
+        if (typeof node === "string") {
+            if (!/^\d{8}$/.test(node)) {
+                throw new Error("Invalid date format. Expected yyyyMMdd.");
             }
-            throw new Error("Invalid date value");
+            const year = parseInt(node.slice(0, 4), 10);
+            const month = parseInt(node.slice(4, 6), 10) - 1; // Month is 0-based in JS Date
+            const day = parseInt(node.slice(6, 8), 10);
+
+            return new Date(year, month, day);
         }
         throw new Error("ReactNode is not convertible to a Date");
     }
@@ -71,7 +74,7 @@ export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children, p
         return (
             <>
                 <button type="button"
-                        className="admin-editable-text"
+                        className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
                         onClick={edit}>
                     {fixedDate == null ? null : format(fixedDate, 'yyyy/MM/dd')}
                 </button>

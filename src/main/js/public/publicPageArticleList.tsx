@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {PublicArticleListBody} from "./fragment/articlelist/publicArticleListBody";
+import {ArticleListBody} from "../admin/fragment/articlelist/articleListBody";
 import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 import {SearchTagsInput} from "../service/tags/searchTagsInput";
 import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
@@ -40,7 +40,7 @@ export const PublicPageArticleList = () => {
     } else {
         return (
             <PublicBasicLayout>
-                <PublicArticleListBody
+                <ArticleListBody
                     directoryToIndividualPage={"/articles"}
                     hasSearchMenu={true}
                     topicTagsOptions={topicTagsOptions}

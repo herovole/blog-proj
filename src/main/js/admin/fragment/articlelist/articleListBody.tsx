@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import DatePicker from 'react-datepicker';
-import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput";
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
-import {HeadlinesMode, PublicArticleHeadlines} from "./publicArticleHeadlines";
-import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
+import {HeadlinesMode, PublicArticleHeadlines} from "../../../public/fragment/articlelist/publicArticleHeadlines";
+import {TagUnits} from "../atomic/tagselectingform/tagUnits";
 import {ArticleService} from "../../../service/articles/articleService";
+import {AppPagination} from "../appPagenation";
 
-type PublicArticleListBodyProps = {
+type ArticleListBodyProps = {
     hasSearchMenu: boolean;
     directoryToIndividualPage: string;
     topicTagsOptions: TagUnits;
@@ -16,12 +16,12 @@ type PublicArticleListBodyProps = {
 }
 
 
-export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
-                                                                                hasSearchMenu,
-                                                                                directoryToIndividualPage,
-                                                                                topicTagsOptions,
-                                                                                countryTagsOptions
-                                                                            }) => {
+export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
+                                                                    hasSearchMenu,
+                                                                    directoryToIndividualPage,
+                                                                    topicTagsOptions,
+                                                                    countryTagsOptions
+                                                                }) => {
     const articleService: ArticleService = new ArticleService();
     const MIN_DATE: Date = new Date("2025-01-01");
     const MAX_DATE: Date = new Date();
@@ -55,7 +55,11 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
         console.log("input " + JSON.stringify(input.toPayloadHash()));
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
-        setOutput(output);
+        if (output.isSuccessful()) {
+            setOutput(output);
+        } else {
+            console.error(output.getMessage("article list retrieval"));
+        }
         console.log("total articles : " + output.getLength());
         console.log("articles : " + JSON.stringify(output.getArticleSummaryList()));
         setRefresh(r => !r);
@@ -80,29 +84,15 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
 
     const totalPages = () => {
         return output.getLength() % inputFixed.itemsPerPage === 0
-            ? output.getLength() / inputFixed.itemsPerPage
+            ? Math.min(output.getLength() / inputFixed.itemsPerPage, 1)
             : Math.floor(output.getLength() / inputFixed.itemsPerPage) + 1;
     }
 
-    const htmlPagenation =
-        <Pagination size="sm" className="pull-right">
-            <Pagination.First onClick={() => handlePageChanged(1)}/>
-            <Pagination.Prev
-                onClick={() => handlePageChanged(inputCached.page - 1 > 0 ? inputCached.page - 1 : 1)}/>
-            {Array.from({length: totalPages()}, (_, i) => (
-                <Pagination.Item
-                    key={i + 1}
-                    active={i + 1 === inputCached.page}
-                    onClick={() => handlePageChanged(i + 1)}
-                >
-                    {i + 1}
-                </Pagination.Item>
-            ))}
-            <Pagination.Next
-                onClick={() => handlePageChanged(inputCached.page < totalPages() ? inputCached.page + 1 : totalPages())}/>
-            <Pagination.Last onClick={() => handlePageChanged(totalPages())}/>
-        </Pagination>
-
+    const htmlPagination = <AppPagination
+        handlePageChanged={handlePageChanged}
+        currentPage={inputCached.page}
+        totalPages={totalPages()}
+    />
 
     const htmlSearch =
         <form onSubmit={handleSubmit}>
@@ -164,7 +154,7 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
     if (hasSearchMenu) {
         return (
             <>
-                {htmlPagenation}
+                {htmlPagination}
                 {htmlSearch}
             </>
         )
@@ -172,7 +162,7 @@ export const PublicArticleListBody: React.FC<PublicArticleListBodyProps> = ({
     } else {
         return (
             <>
-                {htmlPagenation}
+                {htmlPagination}
             </>
         );
     }

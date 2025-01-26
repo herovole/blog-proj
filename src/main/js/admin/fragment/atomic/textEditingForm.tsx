@@ -11,11 +11,11 @@ type TextEditingFormProps = {
 }
 
 export const TextEditingForm: React.FC<TextEditingFormProps> = ({
-                                                                    children="",
+                                                                    children = "",
                                                                     postKey,
                                                                     isFixed = false,
-                                                                    width = "100px",
-                                                                    height = "12px"
+                                                                    width = "400px",
+                                                                    height = "30px"
                                                                 }) => {
     const [editedText, setEditedText] = useState<string | undefined>(children?.toString());
     const [fixedText, setFixedText] = useState<string | undefined>(children?.toString());
@@ -41,7 +41,7 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
     }
 
 
-    if (isBeingEdited && isFixed) {
+    if (isBeingEdited && !isFixed) {
         return (
             <div>
                     <textarea
@@ -60,10 +60,12 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         return (
             <>
                 <button type="button"
-                        className="admin-editable-text"
+                        className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
                         style={{width, height}}
                         onClick={edit}>
-                    {fixedText ?? "(No Text)"}
+                    <span className="admin-editable-text-content">
+                        {fixedText ?? "(No Text)"}
+                    </span>
                 </button>
                 <input type="hidden"
                        name={postKey.toStringKey()}

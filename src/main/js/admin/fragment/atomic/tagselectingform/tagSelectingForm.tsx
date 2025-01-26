@@ -90,10 +90,15 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
         const tagsInJapanese = candidates.getJapaneseNamesByIdsForDisplay(fixedSelectedTags);
         const tagsInEnglish = candidates.getEnglishNamesByIdsForDisplay(fixedSelectedTags);
         return (<>
-            <button className="admin-editable-text" onClick={edit}>
+            <button
+                className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
+                onClick={edit}>
                 {tagsInJapanese || "(None)"}
             </button>
-            <button className="admin-editable-text" onClick={edit}>
+            <br/>
+            <button
+                className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
+                onClick={edit}>
                 {tagsInEnglish || "(None)"}
             </button>
             {fixedSelectedTags.map((v, i) => (

@@ -7,13 +7,15 @@ type IdsEditingFormProps = {
     postKey: ElementId;
     isFixed?: boolean;
     width?: PixelValue;
+    height?: PixelValue;
 }
 
 export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
                                                                   children,
                                                                   postKey,
                                                                   isFixed = false,
-                                                                  width = "100px"
+                                                                  width = "100px",
+                                                                  height = "30px"
                                                               }) => {
 
     const SPLITTER: string = ",";
@@ -49,7 +51,7 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
             <div>
                 <input
                     className="admin-editable-text-activated"
-                    style={{width}}
+                    style={{width, height}}
                     pattern="^[0-9,]*$"
                     placeholder="comma separated integer ids"
                     value={ids?.join(SPLITTER)}
@@ -73,10 +75,12 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
         return (
             <>
                 <button type="button"
-                        className="admin-editable-text"
-                        style={{width}}
+                        className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
+                        style={{width, height}}
                         onClick={edit}>
-                    {fixedIds && fixedIds.length > 0 ? fixedIds?.join(SPLITTER) : "(No IDs)"}
+                    <span className="admin-editable-text-content">
+                        {fixedIds && fixedIds.length > 0 ? fixedIds?.join(SPLITTER) : "(No IDs)"}
+                    </span>
                 </button>
                 {fixedIds?.map((v: number, i: number) => (
                     <input type="hidden"

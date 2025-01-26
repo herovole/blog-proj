@@ -66,14 +66,16 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <p>
                             <span className="article-edit-title">URL</span>
                             <TextEditingForm
-                                postKey={postKey.append("sourceUrl")}>
+                                postKey={postKey.append("sourceUrl")}
+                            >
                                 {content.sourceUrl}
                             </TextEditingForm>
                         </p>
                         <p>
                             <span className="article-edit-title">Title</span>
                             <TextEditingForm
-                                postKey={postKey.append("sourceTitle")}>
+                                postKey={postKey.append("sourceTitle")}
+                            >
                                 {content.sourceTitle}
                             </TextEditingForm>
                         </p>
@@ -98,9 +100,9 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             allowsMultipleOptions={true}
                             postKey={postKey.append("editors")}
                             candidates={topicTagsOptions}
-                            isFixed={true}
-                            children={[]}
-                        />
+                            isFixed={true}>
+                            {[]}
+                        </TagSelectingForm>
                     </div>
                     <div>
                         <p className="article-edit-title">Topic Tags</p>
@@ -108,8 +110,9 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             allowsMultipleOptions={true}
                             postKey={postKey.append("topicTags")}
                             candidates={topicTagsOptions}
-                            children={content.topicTags}
-                        />
+                        >
+                            {content.topicTags}
+                        </TagSelectingForm>
                     </div>
                     <div>
                         <p className="article-edit-title">Countries</p>
@@ -117,8 +120,9 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             allowsMultipleOptions={true}
                             postKey={postKey.append("countries")}
                             candidates={countryTagsOptions}
-                            children={content.countries}
-                        />
+                        >
+                            {content.countries}
+                        </TagSelectingForm>
                     </div>
                     <div>
                         <p className="article-edit-title">Article Title</p>

@@ -58,7 +58,9 @@ export const BooleanSelectingForm: React.FC<BooleanSelectingFormProps> = ({
         );
     } else {
         return (
-            <button className="admin-editable-text" onClick={edit}>
+            <button
+                className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
+                onClick={edit}>
                 {fixedCheck ? "On" : "Off"}
                 <input type="hidden"
                        name={postKey.toStringKey()}

@@ -23,17 +23,17 @@ export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
         <div className="comment-section">
             <div className="source-comment-individual">
                 <div className="comment-edit-item-line"><span className="comment-edit-label">CommentID : </span>
-                    <IdsEditingForm
-                        postKey={postKey.append("commentId")}
-                        ids={content ? content.body.commentId : ""}
-                    />
+                    <IdsEditingForm postKey={postKey.append("commentId")}>
+                        {content ? content.body.commentId : ""}
+                    </IdsEditingForm>
                 </div>
                 <div className="comment-edit-item-line"><span className="comment-edit-label">Country : </span>
                     <TagSelectingForm
                         postKey={postKey.append("country")}
                         candidates={countryTagsOptions || TagUnits.empty()}
-                        children={content ? content.body.country : ""}
-                    />
+                    >
+                        {content ? content.body.country : ""}
+                    </TagSelectingForm>
                 </div>
                 <div className="comment-edit-item-line"><span className="comment-edit-label">IsHidden : </span>
                     <BooleanSelectingForm postKey={postKey.append("isHidden")}>
@@ -42,15 +42,15 @@ export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
                 </div>
                 <div className="comment-edit-item-line"><span
                     className="comment-edit-label">Referring CommentIds : </span>
-                    <IdsEditingForm
-                        postKey={postKey.append("referringCommentIds")}
-                        ids={content ? content.body.referringCommentIds : ""}
-                    />
+                    <IdsEditingForm postKey={postKey.append("referringCommentIds")}>
+                        {content ? content.body.referringCommentIds : ""}
+                    </IdsEditingForm>
                 </div>
                 <div className="source-comment-text">
                     <TextEditingForm
                         postKey={postKey.append("text")}
-                        isLarge={true}
+                        width="400px"
+                        height="70px"
                     >
                         {content ? content.body.commentText : ""}
                     </TextEditingForm>

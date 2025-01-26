@@ -47,7 +47,7 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, roles, reload}) => {
                             <td className="admin-table-cell">{user.role}</td>
                             <td className="admin-table-cell">{user.timestampLastLogin}</td>
                             <td className="admin-table-cell">
-                                <AdminUsersModal label={"Update User"} roles={roles} reload={reload}/>
+                                <AdminUsersModal label={"Update User"} roles={roles} reload={reload} user={user}/>
                             </td>
                         </tr>
                     ))}

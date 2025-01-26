@@ -81,7 +81,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     return (
         <div>
             <img className="image-sample" src={LOCAL_DIR + selectedImage} alt={"sample"}/>
-            <button type="button" onClick={openModal}>Open List</button>
+            <br/><button type="button" onClick={openModal}>Open List</button>
             <p>{selectedImage}</p>
             <Modal
                 isOpen={isOpen}
