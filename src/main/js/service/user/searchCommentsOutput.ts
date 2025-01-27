@@ -11,7 +11,13 @@ export interface SearchCommentsOutputFields extends BasicApiResultFields {
 export interface ReportUnit {
     id: number,
     userId: number,
+    userBannedUntil: string;
+    hasUserBanned: boolean;
+
     ip: string,
+    ipBannedUntil: string;
+    hasIpBanned: boolean;
+
     text: string,
     timestampFiled: string,
     isHandled: boolean,

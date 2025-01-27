@@ -7,6 +7,10 @@ import {SearchRatingHistoryOutput, SearchRatingHistoryOutputFields} from "./sear
 import {SearchRatingHistoryInput} from "./searchRatingHistoryInput";
 import {SearchCommentsOutput, SearchCommentsOutputFields} from "./searchCommentsOutput";
 import {SearchCommentsInput} from "./searchCommentsInput";
+import {BanUserInput} from "./banUserInput";
+import {BanIpInput} from "./banIpInput";
+import {HideCommentInput} from "./hideCommentInput";
+import {HandleReportInput} from "./handleReportInput";
 
 export class UserService {
 
@@ -92,5 +96,73 @@ export class UserService {
             }
         }
         return SearchCommentsOutput.empty();
+    }
+
+    async banUser(input: BanUserInput): Promise<BasicApiResult> {
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+                "/api/v1/users/" + input.userId.toString() + "/ban",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json',},
+                });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
+    }
+
+    async banIp(input: BanIpInput): Promise<BasicApiResult> {
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+                "/api/v1/ip/ban",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json',},
+                });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
+    }
+
+    async hideComment(input: HideCommentInput): Promise<BasicApiResult> {
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+                "/api/v1/usercomments/" + input.commentSerialNumber + "/hide",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json',},
+                });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
+    }
+
+    async handleReport(input: HandleReportInput): Promise<BasicApiResult> {
+        try {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+                "/api/v1/reports/" + input.id + "/handle",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json',},
+                });
+            return new BasicApiResult(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new BasicApiResult(e.response.data);
+            }
+        }
+        return BasicApiResult.empty();
     }
 }

@@ -13,6 +13,14 @@ export interface UserCommentUnit extends CommentUnit {
         dislikes: number;
         dailyUserId: string;
         postTimestamp: string
+
+        publicUserId: number;
+        userBannedUntil: string;
+        hasUserBanned: boolean;
+
+        ip: string;
+        ipBannedUntil: string;
+        hasIpBanned: boolean;
     };
     depth: number;
 }
