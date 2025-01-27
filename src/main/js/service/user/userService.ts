@@ -5,6 +5,8 @@ import {RateUserCommentInput} from "./rateUserCommentInput";
 import {ReportUserCommentInput} from "./reportUserCommentInput";
 import {SearchRatingHistoryOutput, SearchRatingHistoryOutputFields} from "./searchRatingHistoryOutput";
 import {SearchRatingHistoryInput} from "./searchRatingHistoryInput";
+import {SearchCommentsOutput, SearchCommentsOutputFields} from "./searchCommentsOutput";
+import {SearchCommentsInput} from "./searchCommentsInput";
 
 export class UserService {
 
@@ -71,5 +73,24 @@ export class UserService {
             }
         }
         return BasicApiResult.empty();
+    }
+
+    async searchComments(input: SearchCommentsInput): Promise<SearchCommentsOutput> {
+        try {
+            const response: AxiosResponse<SearchCommentsOutputFields> = await axios.get(
+                "/api/v1/usercomments", {
+                    params: input.toPayloadHash(),
+                    headers: {Accept: 'application/json',},
+                }
+            );
+            console.log(response.data);
+            return new SearchCommentsOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new SearchCommentsOutput(e.response.data);
+            }
+        }
+        return SearchCommentsOutput.empty();
     }
 }

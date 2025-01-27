@@ -1,6 +1,6 @@
 export class GenericSwitch {
 
-    static valueOf(field: string): GenericSwitch {
+    static valueOfString(field: string): GenericSwitch {
         if (field === "true" || field === "1") {
             return new GenericSwitch(true);
         } else {
@@ -17,4 +17,5 @@ export class GenericSwitch {
     isTrue(): boolean {
         return this._field;
     }
+
 }

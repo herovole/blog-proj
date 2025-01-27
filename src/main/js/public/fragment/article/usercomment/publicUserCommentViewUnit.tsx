@@ -22,14 +22,14 @@ const customStyles = {
 
 type PublicUserCommentViewUnitProps = {
     content: UserCommentUnit;
-    rating: number;
-    handleReference: (commentIdReferred: number) => void;
+    rating?: number;
+    handleReference?: (commentIdReferred: number) => void;
 }
 
 export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps> = ({
                                                                                         content,
-                                                                                        rating,
-                                                                                        handleReference
+                                                                                        rating = 0,
+                                                                                        handleReference = null
                                                                                     }) => {
 
     const [open, setOpen] = React.useState<boolean>(false);
@@ -105,7 +105,9 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
 
 
     const handleOnClickReference = () => {
-        handleReference(content.body.commentId);
+        if (handleReference) {
+            handleReference(content.body.commentId);
+        }
     }
 
     const openModal = () => {

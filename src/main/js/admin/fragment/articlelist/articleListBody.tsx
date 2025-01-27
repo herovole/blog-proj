@@ -40,10 +40,10 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputCached(inputCached.appendItemsPerPage(parseInt(e.target.value)));
+        setInputCached(inputCached.appendItemsPerPage(parseInt(e.currentTarget.value)));
     }
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputCached(inputCached.appendKeywords(e.target.value));
+        setInputCached(inputCached.appendKeywords(e.currentTarget.value));
     }
     const handleDateFrom = (date: Date | null) => {
         setInputCached(inputCached.appendDateFrom(date));
@@ -73,7 +73,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         await loadArticles(input);
     }
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
 
         const input: SearchArticlesInput = inputCached.appendPage(1);
@@ -97,7 +97,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const htmlSearch =
         <div className="comment-modal-exterior">
             <div className="comment-modal-interior">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSearch}>
                     <button type="submit" value="action1">
                         検索
                     </button>
@@ -142,14 +142,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             maxDate={MAX_DATE}
                             showMonthYearDropdown/>
                     </p>
-                    <PublicArticleHeadlines
-                        mode={HeadlinesMode.SMALL}
-                        articles={output.getArticleSummaryList()}
-                        directoryToIndividualPage={directoryToIndividualPage}
-                        topicTagList={topicTagsOptions}
-                        countryTagList={countryTagsOptions}
-                        reRender={refresh}
-                    />
 
                 </form>
             </div>
@@ -158,8 +150,16 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     if (hasSearchMenu) {
         return (
             <>
-                {htmlPagination}
                 {htmlSearch}
+                {htmlPagination}
+                <PublicArticleHeadlines
+                    mode={HeadlinesMode.SMALL}
+                    articles={output.getArticleSummaryList()}
+                    directoryToIndividualPage={directoryToIndividualPage}
+                    topicTagList={topicTagsOptions}
+                    countryTagList={countryTagsOptions}
+                    reRender={refresh}
+                />
             </>
         )
             ;
@@ -167,6 +167,14 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         return (
             <>
                 {htmlPagination}
+                <PublicArticleHeadlines
+                    mode={HeadlinesMode.SMALL}
+                    articles={output.getArticleSummaryList()}
+                    directoryToIndividualPage={directoryToIndividualPage}
+                    topicTagList={topicTagsOptions}
+                    countryTagList={countryTagsOptions}
+                    reRender={refresh}
+                />
             </>
         )
             ;

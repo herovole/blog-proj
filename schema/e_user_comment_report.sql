@@ -7,6 +7,7 @@ CREATE TABLE e_user_comment_report (
   aton BIGINT,
 
   report_text TEXT,
+  is_handled TINYINT(1) NOT NULL DEFAULT 0,
 
   update_timestamp timestamp default current_timestamp on update current_timestamp,
   insert_timestamp timestamp default current_timestamp,
