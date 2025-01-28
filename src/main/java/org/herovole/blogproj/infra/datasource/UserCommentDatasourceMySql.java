@@ -103,4 +103,19 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
         }
         return CommentUnits.of(commentUnits);
     }
+
+    @Override
+    public long countComments(UserCommentsSearchOption searchOption) {
+        return eUserCommentRepository.countByOptions(
+                searchOption.getKeywords().get(0).memorySignature(),
+                searchOption.getKeywords().get(1).memorySignature(),
+                searchOption.getKeywords().get(2).memorySignature(),
+                searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getPagingRequest().getLimit(),
+                searchOption.getPagingRequest().getOffset(),
+                searchOption.getHasReports().isTrue() ? 1 : 0,
+                searchOption.getHasUnhandledReports().isTrue() ? 1 : 0
+        );
+    }
 }

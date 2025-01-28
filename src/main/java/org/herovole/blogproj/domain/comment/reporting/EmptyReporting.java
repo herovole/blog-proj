@@ -35,4 +35,9 @@ public class EmptyReporting implements Reporting {
     public boolean isEmpty() {
         return true;
     }
+
+    @Override
+    public Json toJsonModel() {
+        throw new UnsupportedOperationException(EmptyReporting.class.getSimpleName());
+    }
 }

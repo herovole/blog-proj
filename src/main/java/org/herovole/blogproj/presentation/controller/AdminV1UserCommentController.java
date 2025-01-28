@@ -9,6 +9,8 @@ import org.herovole.blogproj.application.user.rateusercomment.RateUserComment;
 import org.herovole.blogproj.application.user.rateusercomment.RateUserCommentInput;
 import org.herovole.blogproj.application.user.reportusercomment.ReportUserComment;
 import org.herovole.blogproj.application.user.reportusercomment.ReportUserCommentInput;
+import org.herovole.blogproj.application.user.searchcomments.SearchUserComments;
+import org.herovole.blogproj.application.user.searchcomments.SearchUserCommentsInput;
 import org.herovole.blogproj.application.user.searchratinghistory.SearchRatingHistory;
 import org.herovole.blogproj.application.user.searchratinghistory.SearchRatingHistoryInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
@@ -16,6 +18,7 @@ import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchRatingHistoryPresenter;
+import org.herovole.blogproj.presentation.presenter.SearchUserCommentsPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +46,15 @@ public class AdminV1UserCommentController {
     private final BasicPresenter rateUserCommentPresenter;
     private final ReportUserComment reportUserComment;
     private final BasicPresenter reportUserCommentPresenter;
+    private final SearchUserComments searchUserComments;
+    private final SearchUserCommentsPresenter searchUserCommentsPresenter;
 
     @Autowired
     AdminV1UserCommentController(
             PostUserComment postUserComment, BasicPresenter postUserCommentPresenter,
             SearchRatingHistory searchRatingHistory, SearchRatingHistoryPresenter searchRatingHistoryPresenter,
             RateUserComment rateUserComment, BasicPresenter rateUserCommentPresenter,
-            ReportUserComment reportUserComment, BasicPresenter reportUserCommentPresenter) {
+            ReportUserComment reportUserComment, BasicPresenter reportUserCommentPresenter, SearchUserComments searchUserComments, SearchUserCommentsPresenter searchUserCommentsPresenter) {
         this.postUserComment = postUserComment;
         this.postUserCommentPresenter = postUserCommentPresenter;
         this.searchRatingHistory = searchRatingHistory;
@@ -58,6 +63,8 @@ public class AdminV1UserCommentController {
         this.rateUserCommentPresenter = rateUserCommentPresenter;
         this.reportUserComment = reportUserComment;
         this.reportUserCommentPresenter = reportUserCommentPresenter;
+        this.searchUserComments = searchUserComments;
+        this.searchUserCommentsPresenter = searchUserCommentsPresenter;
     }
 
     @PostMapping
@@ -90,6 +97,32 @@ public class AdminV1UserCommentController {
             this.postUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
         return this.postUserCommentPresenter.buildResponseEntity();
+    }
+
+    @GetMapping
+    public ResponseEntity<String> searchUserComments(
+            @RequestParam Map<String, String> request,
+            HttpServletRequest httpServletRequest
+    ) {
+        logger.info("Endpoint : usercomments (Get) ");
+        System.out.println(request);
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().hasAccessToAdmin()) {
+            this.searchUserCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.searchUserCommentsPresenter.buildResponseEntity();
+        }
+        try {
+            FormContent formContent = FormContent.of(request);
+            SearchUserCommentsInput input = SearchUserCommentsInput.of(formContent);
+            this.searchUserComments.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.searchUserCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.searchUserCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.searchUserCommentsPresenter.buildResponseEntity();
     }
 
     @GetMapping("/ratings")
@@ -178,4 +211,5 @@ public class AdminV1UserCommentController {
         }
         return this.reportUserCommentPresenter.buildResponseEntity();
     }
+
 }

@@ -143,7 +143,7 @@ public class CommentUnits {
         return CommentUnits.of(this.stream().filter(e -> !e.isHidden()).toArray(CommentUnit[]::new));
     }
 
-    public CommentUnit.Json[] toJson() {
+    public CommentUnit.Json[] toJsonModel() {
         return stream().map(CommentUnit::toJson).toArray(CommentUnit.Json[]::new);
     }
 }

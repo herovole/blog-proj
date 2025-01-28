@@ -15,6 +15,11 @@ public enum Role {
     NONE(0, "NON", "None"),
     OWNER(10, "OWN", "Owner") {
         @Override
+        public boolean hasAccessToAdmin() {
+            return true;
+        }
+
+        @Override
         public boolean editsArticles() {
             return true;
         }
@@ -41,6 +46,11 @@ public enum Role {
     },
     ADMIN(20, "ADM", "Administrator") {
         @Override
+        public boolean hasAccessToAdmin() {
+            return true;
+        }
+
+        @Override
         public boolean editsArticles() {
             return true;
         }
@@ -57,11 +67,22 @@ public enum Role {
     },
     EDITOR(30, "EDT", "Editor") {
         @Override
+        public boolean hasAccessToAdmin() {
+            return true;
+        }
+
+        @Override
         public boolean editsArticles() {
             return true;
         }
     },
-    SPECTATOR(100, "SPC", "Spectator");
+    SPECTATOR(100, "SPC", "Spectator") {
+        @Override
+        public boolean hasAccessToAdmin() {
+            return true;
+        }
+
+    };
 
     private final int order;
     private final String code;
@@ -84,6 +105,10 @@ public enum Role {
     public static Role fromFormContentRole(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ROLE);
         return of(child.getValue());
+    }
+
+    public boolean hasAccessToAdmin() {
+        return false;
     }
 
     public boolean editsArticles() {

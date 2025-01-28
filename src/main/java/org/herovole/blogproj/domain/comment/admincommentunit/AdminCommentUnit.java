@@ -11,6 +11,7 @@ import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.stream.Stream;
 
 @Builder
 public class AdminCommentUnit implements CommentUnit {
@@ -95,8 +96,28 @@ public class AdminCommentUnit implements CommentUnit {
                 .build();
     }
 
+    @Builder
+    static class Json implements CommentUnit.Json {
+        private CommentUnit.Json commentUnit;
+        private String userBannedUntil;
+        private boolean hasUserBannedUntil;
+        private String ipBannedUntil;
+        private boolean hasIpBannedUntil;
+        private String title;
+        private Reporting.Json[] reportingUnits;
+
+    }
+
     @Override
     public Json toJson() {
-        return userCommentUnit.toJson();
+        return Json.builder()
+                .commentUnit(this.userCommentUnit.toJson())
+                .userBannedUntil(this.commentUserBannedUntil.letterSignatureFrontendDisplay())
+                .hasUserBannedUntil(Timestamp.now().precedes(this.commentUserBannedUntil))
+                .ipBannedUntil(this.commentIpBannedUntil.letterSignatureFrontendDisplay())
+                .hasIpBannedUntil(Timestamp.now().precedes(this.commentIpBannedUntil))
+                .title(this.title.memorySignature())
+                .reportingUnits(Stream.of(this.reportingUnits).map(Reporting::toJsonModel).toArray(Reporting.Json[]::new))
+                .build();
     }
 }

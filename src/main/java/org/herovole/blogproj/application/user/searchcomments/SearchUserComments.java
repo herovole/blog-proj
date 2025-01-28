@@ -6,10 +6,8 @@ import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.UserCommentsSearchOption;
-import org.herovole.blogproj.domain.comment.rating.RatingLogs;
 import org.herovole.blogproj.domain.publicuser.PublicIpDatasource;
 import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
-import org.herovole.blogproj.domain.time.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +23,14 @@ public class SearchUserComments {
     private final PublicUserDatasource publicUserDatasource;
     private final PublicIpDatasource publicIpDatasource;
 
-    private final GenericPresenter<CommentUnits> presenter;
+    private final GenericPresenter<SearchUserCommentsOutput> presenter;
 
     @Autowired
     public SearchUserComments(
             @Qualifier("userCommentDatasource") UserCommentDatasource userCommentDatasource,
             PublicUserDatasource publicUserDatasource,
             PublicIpDatasource publicIpDatasource,
-            GenericPresenter<CommentUnits> presenter) {
+            GenericPresenter<SearchUserCommentsOutput> presenter) {
         this.userCommentDatasource = userCommentDatasource;
         this.publicUserDatasource = publicUserDatasource;
         this.publicIpDatasource = publicIpDatasource;
@@ -45,14 +43,13 @@ public class SearchUserComments {
             presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR).interruptProcess();
         }
         UserCommentsSearchOption option = input.getSearchOption();
-        userCommentDatasource
-
-        RatingLogs pastRatingLogsByUserId = this.userCommentDatasource.searchActiveRatingHistoryOfArticle(articleId, userId);
-        RatingLogs pastRatingLogsByIp = this.userCommentDatasource.searchActiveRatingHistoryOfArticle(articleId, ip, Date.today());
-
-        RatingLogs combinedRatingLogs = pastRatingLogsByUserId.combine(pastRatingLogsByIp);
-
-        this.presenter.setContent(combinedRatingLogs);
+        long count = userCommentDatasource.countComments(option);
+        CommentUnits units = userCommentDatasource.searchComments(option);
+        SearchUserCommentsOutput output = SearchUserCommentsOutput.builder()
+                .commentUnits(units)
+                .total(count)
+                .build();
+        this.presenter.setContent(output);
         logger.info("job successful.");
     }
 }

@@ -31,4 +31,24 @@ public class RealReporting implements Reporting {
         return false;
     }
 
+    @Builder
+    static class Json implements Reporting.Json {
+        private int logId;
+        private long commentSerialNumber;
+        private long userId;
+        private String ip;
+        private String text;
+    }
+
+    @Override
+    public Json toJsonModel() {
+        return Json.builder()
+                .logId(this.logId.intMemorySignature())
+                .commentSerialNumber(this.commentSerialNumber.longMemorySignature())
+                .userId(this.publicUserId.longMemorySignature())
+                .ip(this.ip.toRegularFormat())
+                .text(this.reportingText.memorySignature())
+                .build();
+    }
+
 }

@@ -22,4 +22,9 @@ public interface Reporting {
 
     boolean isEmpty();
 
+    Json toJsonModel();
+
+    interface Json {
+    }
+
 }

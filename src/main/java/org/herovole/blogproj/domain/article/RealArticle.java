@@ -154,8 +154,8 @@ public class RealArticle implements Article {
                 .countries(countries.toMemorySignature())
                 .topicTags(topicTags.toIntMemorySignature())
                 .editors(editors.toIntMemorySignature())
-                .sourceComments(originalComments.toJson())
-                .userComments(userComments.toJson())
+                .sourceComments(originalComments.toJsonModel())
+                .userComments(userComments.toJsonModel())
                 .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
                 .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
                 .build();

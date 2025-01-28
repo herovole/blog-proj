@@ -43,4 +43,24 @@ public class ReportingWithUserBannedUntil implements Reporting {
     public boolean isEmpty() {
         return reporting.isEmpty();
     }
+
+    @Builder
+    static class Json implements Reporting.Json {
+        private Reporting.Json reporting;
+        private String userBannedUntil;
+        private boolean hasUserBanned;
+        private String ipBannedUntil;
+        private boolean hasIpBanned;
+    }
+
+    @Override
+    public Json toJsonModel() {
+        return Json.builder()
+                .reporting(reporting.toJsonModel())
+                .userBannedUntil(userBannedUntil.letterSignatureFrontendDisplay())
+                .hasUserBanned(Timestamp.now().precedes(userBannedUntil))
+                .ipBannedUntil(ipBannedUntil.letterSignatureFrontendDisplay())
+                .hasIpBanned(Timestamp.now().precedes(ipBannedUntil))
+                .build();
+    }
 }
