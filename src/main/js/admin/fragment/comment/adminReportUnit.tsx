@@ -11,7 +11,7 @@ type AdminReportUnitProps = {
 
 export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
     const userService: UserService = new UserService();
-    const [reportAddressed, setReportAddressed] = React.useState<boolean>(report.isHandled);
+    const [reportAddressed, setReportAddressed] = React.useState<boolean>(report.reporting.isHandled);
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "adminReportUnit";
 
@@ -29,7 +29,7 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
         const checked = e.currentTarget.checked;
         setReportAddressed(checked);
         const input: HandleReportInput = new HandleReportInput(
-            report.id,
+            report.reporting.logId,
             reportAddressed,
             recaptchaToken
         )
@@ -42,19 +42,19 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
     }
 
     return (
-        <div key={report.id} className="user-comment-individual">
-            <span>{report.id} /</span>
-            <span>{report.timestampFiled} </span>
-            <span>ID:{report.userId} </span>
+        <div key={report.reporting.logId} className="user-comment-individual">
+            <span>{report.reporting.logId} /</span>
+            <span>{report.reporting.reportTimestamp} </span>
+            <span>ID:{report.reporting.userId} </span>
             <AdminBanModal
                 label="Ban Report User"
-                userId={report.userId}
+                userId={report.reporting.userId}
                 userBannedUntil={report.userBannedUntil}
                 hasUserBanned={report.hasUserBanned}
-                ip={report.ip}
+                ip={report.reporting.ip}
                 ipBannedUntil={report.ipBannedUntil}
                 hasIpBanned={report.hasIpBanned}/>
-            <div className="user-comment-text">{report.text} </div>
+            <div className="user-comment-text">{report.reporting.text} </div>
             <span>対応完了</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"

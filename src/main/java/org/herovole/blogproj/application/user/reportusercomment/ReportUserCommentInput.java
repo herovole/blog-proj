@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.reporting.RealReporting;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
 @Getter
@@ -65,6 +67,8 @@ public class ReportUserCommentInput {
                 .publicUserId(userId)
                 .ip(iPv4Address)
                 .reportingText(reportingText)
+                .isHandled(GenericSwitch.empty())
+                .reportTimestamp(Timestamp.now())
                 .build();
     }
 

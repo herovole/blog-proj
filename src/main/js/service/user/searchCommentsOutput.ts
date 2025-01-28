@@ -3,33 +3,35 @@ import {UserCommentUnit} from "../../domain/comment/userCommentUnit";
 
 export interface SearchCommentsOutputFields extends BasicApiResultFields {
     content: {
-        comments: ReadonlyArray<CommentAndReport>;
+        commentUnits: ReadonlyArray<CommentAndReport>;
         total: number;
     };
 }
 
-export interface ReportUnit {
-    id: number,
-    userId: number,
-    userBannedUntil: string;
-    hasUserBanned: boolean;
-
-    ip: string,
-    ipBannedUntil: string;
-    hasIpBanned: boolean;
-
-    text: string,
-    timestampFiled: string,
-    isHandled: boolean,
-}
-
 export interface CommentAndReport {
     comment: UserCommentUnit,
-    article: {
-        id: number,
-        title: string
-    },
-    reports: ReadonlyArray<ReportUnit>
+    userBannedUntil: string;
+    hasUserBanned: boolean;
+    ipBannedUntil: string;
+    hasIpBanned: boolean;
+    title: string
+    reportingUnits: ReadonlyArray<ReportUnit>
+}
+
+export interface ReportUnit {
+    reporting: {
+        logId: number,
+        commentSerialNumber:number,
+        userId: number,
+        ip: string,
+        text: string,
+        isHandled: boolean,
+        reportTimestamp: string,
+    }
+    userBannedUntil: string;
+    hasUserBanned: boolean;
+    ipBannedUntil: string;
+    hasIpBanned: boolean;
 }
 
 export class SearchCommentsOutput extends BasicApiResult {
@@ -55,7 +57,7 @@ export class SearchCommentsOutput extends BasicApiResult {
     getComments = (): ReadonlyArray<CommentAndReport> => {
         if (!this.fields) return [];
         const fields: SearchCommentsOutputFields = this.fields as SearchCommentsOutputFields;
-        return fields.content.comments;
+        return fields.content.commentUnits;
     }
 
 }

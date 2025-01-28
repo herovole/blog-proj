@@ -15,6 +15,7 @@ import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.ArticleTitle;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.CommentUnitWithDepth;
 import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
 import org.herovole.blogproj.domain.comment.admincommentunit.AdminCommentUnit;
@@ -254,21 +255,23 @@ public class EUserComment implements Serializable {
         default AdminCommentUnit toDomainObj() {
             return AdminCommentUnit.builder()
                     .userCommentUnit(
-                            RealUserCommentUnit.builder()
-                                    .commentSerialNumber(IntegerId.valueOf(this.getId()))
-                                    .commentId(IntegerId.valueOf(this.getCommentId()))
-                                    .articleId(IntegerId.valueOf(this.getArticleId()))
-                                    .handleName(HandleName.valueOf(this.getHandleName()))
-                                    .commentText(CommentText.valueOf(this.getCommentText()))
-                                    .isHidden(GenericSwitch.valueOf(this.getIsHidden()))
-                                    .referringCommentIds(IntegerIds.of(this.getReferringCommentIds()))
-                                    .dailyUserId(DailyUserId.valueOf(this.getDailyUserId()))
-                                    .publicUserId(IntegerPublicUserId.valueOf(this.getUserId()))
-                                    .ip(IPv4Address.valueOf(this.getAton()))
-                                    .postTimestamp(Timestamp.valueOf(this.getInsertTimestamp()))
-                                    .likes(0)
-                                    .dislikes(0)
-                                    .build()
+                            new CommentUnitWithDepth(
+                                    RealUserCommentUnit.builder()
+                                            .commentSerialNumber(IntegerId.valueOf(this.getId()))
+                                            .commentId(IntegerId.valueOf(this.getCommentId()))
+                                            .articleId(IntegerId.valueOf(this.getArticleId()))
+                                            .handleName(HandleName.valueOf(this.getHandleName()))
+                                            .commentText(CommentText.valueOf(this.getCommentText()))
+                                            .isHidden(GenericSwitch.valueOf(this.getIsHidden()))
+                                            .referringCommentIds(IntegerIds.of(this.getReferringCommentIds()))
+                                            .dailyUserId(DailyUserId.valueOf(this.getDailyUserId()))
+                                            .publicUserId(IntegerPublicUserId.valueOf(this.getUserId()))
+                                            .ip(IPv4Address.valueOf(this.getAton()))
+                                            .postTimestamp(Timestamp.valueOf(this.getInsertTimestamp()))
+                                            .likes(0)
+                                            .dislikes(0)
+                                            .build()
+                                    , 0)
                     )
                     .commentUserBannedUntil(Timestamp.valueOf(this.getUserBannedUntil()))
                     .commentIpBannedUntil(Timestamp.valueOf(this.getIpBannedUntil()))

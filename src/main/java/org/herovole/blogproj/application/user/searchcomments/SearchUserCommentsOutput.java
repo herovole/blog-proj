@@ -14,6 +14,6 @@ public class SearchUserCommentsOutput {
     }
 
     public record Json(CommentUnit.Json[] commentUnits,
-                       long totalArticles) {
+                       long total) {
     }
 }

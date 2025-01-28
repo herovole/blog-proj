@@ -15,12 +15,7 @@ export interface UserCommentUnit extends CommentUnit {
         postTimestamp: string
 
         publicUserId: number;
-        userBannedUntil: string;
-        hasUserBanned: boolean;
-
         ip: string;
-        ipBannedUntil: string;
-        hasIpBanned: boolean;
     };
     depth: number;
 }

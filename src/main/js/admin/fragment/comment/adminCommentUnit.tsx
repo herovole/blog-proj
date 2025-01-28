@@ -46,7 +46,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
 
     return (
         <div className="user-comment-individual">
-            <div className="comment-form-header">article-{content.article.id} : {content.article.title}</div>
+            <div className="comment-form-header">article-{content.comment.body.articleId} : {content.title}</div>
             <span>コメントを非表示</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"
@@ -56,15 +56,15 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
             <AdminBanModal
                 label="Ban Comment User"
                 userId={content.comment.body.publicUserId}
-                userBannedUntil={content.comment.body.userBannedUntil}
-                hasUserBanned={content.comment.body.hasUserBanned}
+                userBannedUntil={content.userBannedUntil}
+                hasUserBanned={content.hasUserBanned}
                 ip={content.comment.body.ip}
-                ipBannedUntil={content.comment.body.ipBannedUntil}
-                hasIpBanned={content.comment.body.hasIpBanned}/>
+                ipBannedUntil={content.ipBannedUntil}
+                hasIpBanned={content.hasIpBanned}/>
 
             <PublicUserCommentViewUnit content={content.comment}/>
-            {content.reports.map(report => (
-                <div key={report.id}>
+            {content.reportingUnits.map(report => (
+                <div key={report.reporting.logId}>
                     <AdminReportUnit report={report}/>
                 </div>
             ))}

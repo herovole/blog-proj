@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.CommentText;
@@ -37,6 +38,7 @@ public class EUserCommentReport implements Serializable {
         entity.setReporterUserId(report1.getPublicUserId().longMemorySignature());
         entity.setAton(report1.getIp().aton());
         entity.setReportText(report1.getReportingText().memorySignature());
+        entity.setHandled(report1.getIsHandled().isTrue());
         entity.setDeleteFlag(false);
         return entity;
     }
@@ -58,6 +60,9 @@ public class EUserCommentReport implements Serializable {
 
     @Column(name = "report_text")
     private String reportText;
+
+    @Column(name = "is_handled")
+    private boolean isHandled;
 
     @UpdateTimestamp
     @Column(name = "update_timestamp")
@@ -92,6 +97,9 @@ public class EUserCommentReport implements Serializable {
         @Value("#{target.report_text}")
         String getReportText();
 
+        @Value("#{target.is_handled}")
+        boolean getIsHandled();
+
         @Value("#{target.update_timestamp}")
         LocalDateTime getUpdateTimestamp();
 
@@ -109,6 +117,8 @@ public class EUserCommentReport implements Serializable {
                             .publicUserId(IntegerPublicUserId.valueOf(getReporterUserId()))
                             .ip(IPv4Address.valueOf(getAton()))
                             .reportingText(CommentText.valueOf(getReportText()))
+                            .isHandled(GenericSwitch.valueOf(getIsHandled()))
+                            .reportTimestamp(Timestamp.valueOf(getInsertTimestamp()))
                             .build())
                     .userBannedUntil(Timestamp.valueOf(getUserBannedUntil()))
                     .ipBannedUntil(Timestamp.valueOf(getIpBannedUntil()))
