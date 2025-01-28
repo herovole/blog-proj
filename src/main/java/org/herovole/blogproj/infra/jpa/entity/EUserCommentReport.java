@@ -8,10 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.reporting.RealReporting;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
+import org.herovole.blogproj.domain.comment.reporting.ReportingWithUserBannedUntil;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -62,5 +69,51 @@ public class EUserCommentReport implements Serializable {
 
     @Column(name = "delete_flag")
     private boolean deleteFlag;
+
+    public interface EUserCommentReportForAdmin {
+        @Value("#{target.id}")
+        long getId();
+
+        @Value("#{comment_serial_number}")
+        long getCommentSerialNumber();
+
+        @Value("#{target.reporter_user_id}")
+        long getReporterUserId();
+
+        @Value("#{target.user_banned_until}")
+        LocalDateTime getUserBannedUntil();
+
+        @Value("#{target.aton}")
+        long getAton();
+
+        @Value("#{target.ip_banned_until}")
+        LocalDateTime getIpBannedUntil();
+
+        @Value("#{target.report_text}")
+        String getReportText();
+
+        @Value("#{target.update_timestamp}")
+        LocalDateTime getUpdateTimestamp();
+
+        @Value("#{target.insert_timestamp}")
+        LocalDateTime getInsertTimestamp();
+
+        @Value("#{target.delete_flag}")
+        boolean getDeleteFlag();
+
+        default Reporting toDomainObj() {
+            return ReportingWithUserBannedUntil.builder()
+                    .reporting(RealReporting.builder()
+                            .logId(IntegerId.valueOf(getId()))
+                            .commentSerialNumber(IntegerId.valueOf(getCommentSerialNumber()))
+                            .publicUserId(IntegerPublicUserId.valueOf(getReporterUserId()))
+                            .ip(IPv4Address.valueOf(getAton()))
+                            .reportingText(CommentText.valueOf(getReportText()))
+                            .build())
+                    .userBannedUntil(Timestamp.valueOf(getUserBannedUntil()))
+                    .ipBannedUntil(Timestamp.valueOf(getIpBannedUntil()))
+                    .build();
+        }
+    }
 
 }

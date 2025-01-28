@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RealDateRange implements DateRange {
 
-    public static RealDateRange fromComplementedPostContent(FormContent formContent) {
+    public static RealDateRange fromComplementedFormContent(FormContent formContent) {
         FormContent postDateFrom = formContent.getChildren(API_KEY_DATE_FROM);
         Date dateFrom = Date.valueOf(postDateFrom.getValue());
         FormContent postDateTo = formContent.getChildren(API_KEY_DATE_TO);

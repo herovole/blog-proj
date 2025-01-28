@@ -18,6 +18,8 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
     private static final String API_KEY_IS_PUBLISHED = "isPublished";
     private static final String API_KEY_IS_HIDDEN = "isHidden";
     private static final String API_KEY_IS_DETAILED = "isDetailed";
+    private static final String API_KEY_HAS_REPORTS = "hasReports";
+    private static final String API_KEY_HAS_UNHANDLED_REPORTS = "hasUnhandledReports";
 
     public static GenericSwitch fromFormContentIsPublished(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_PUBLISHED);
@@ -31,6 +33,16 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
 
     public static GenericSwitch fromFormContentIsDetailed(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_DETAILED);
+        return valueOf(child.getValue());
+    }
+
+    public static GenericSwitch fromFormContentHasReports(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_HAS_REPORTS);
+        return valueOf(child.getValue());
+    }
+
+    public static GenericSwitch fromFormContentHasUnhandledReports(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_HAS_UNHANDLED_REPORTS);
         return valueOf(child.getValue());
     }
 

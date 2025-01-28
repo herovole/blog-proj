@@ -12,13 +12,15 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.article.ArticleTitle;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.RealUserCommentUnit;
-import org.herovole.blogproj.domain.time.Timestamp;
+import org.herovole.blogproj.domain.comment.admincommentunit.AdminCommentUnit;
 import org.herovole.blogproj.domain.publicuser.DailyUserId;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Value;
@@ -196,6 +198,81 @@ public class EUserComment implements Serializable {
                     .postTimestamp(Timestamp.valueOf(this.getInsertTimestamp()))
                     .likes(this.getLikes())
                     .dislikes(this.getDisLikes())
+                    .build();
+        }
+    }
+
+    public interface EUserCommentForAdmin {
+        @Value("#{target.id}")
+        long getId();
+
+        @Value("#{target.comment_id}")
+        int getCommentId();
+
+        @Value("#{target.article_id}")
+        long getArticleId();
+
+        @Value("#{target.handle_name}")
+        String getHandleName();
+
+        @Value("#{target.comment_text}")
+        String getCommentText();
+
+        @Value("#{target.is_hidden}")
+        boolean getIsHidden();
+
+        @Value("#{target.referring_comment_ids}")
+        String getReferringCommentIds();
+
+        @Value("#{target.daily_user_id}")
+        String getDailyUserId();
+
+        @Value("#{target.user_id}")
+        long getUserId();
+
+        @Value("#{target.user_banned_until}")
+        LocalDateTime getUserBannedUntil();
+
+        @Value("#{target.aton}")
+        long getAton();
+
+        @Value("#{target.ip_banned_until}")
+        LocalDateTime getIpBannedUntil();
+
+        @Value("#{target.update_timestamp}")
+        LocalDateTime getUpdateTimestamp();
+
+        @Value("#{target.insert_timestamp}")
+        LocalDateTime getInsertTimestamp();
+
+        @Value("#{target.delete_flag}")
+        boolean getDeleteFlag();
+
+        @Value("#{target.article_title}")
+        String getArticleTitle();
+
+        default AdminCommentUnit toDomainObj() {
+            return AdminCommentUnit.builder()
+                    .userCommentUnit(
+                            RealUserCommentUnit.builder()
+                                    .commentSerialNumber(IntegerId.valueOf(this.getId()))
+                                    .commentId(IntegerId.valueOf(this.getCommentId()))
+                                    .articleId(IntegerId.valueOf(this.getArticleId()))
+                                    .handleName(HandleName.valueOf(this.getHandleName()))
+                                    .commentText(CommentText.valueOf(this.getCommentText()))
+                                    .isHidden(GenericSwitch.valueOf(this.getIsHidden()))
+                                    .referringCommentIds(IntegerIds.of(this.getReferringCommentIds()))
+                                    .dailyUserId(DailyUserId.valueOf(this.getDailyUserId()))
+                                    .publicUserId(IntegerPublicUserId.valueOf(this.getUserId()))
+                                    .ip(IPv4Address.valueOf(this.getAton()))
+                                    .postTimestamp(Timestamp.valueOf(this.getInsertTimestamp()))
+                                    .likes(0)
+                                    .dislikes(0)
+                                    .build()
+                    )
+                    .commentUserBannedUntil(Timestamp.valueOf(this.getUserBannedUntil()))
+                    .commentIpBannedUntil(Timestamp.valueOf(this.getIpBannedUntil()))
+                    .title(ArticleTitle.valueOf(this.getArticleTitle()))
                     .build();
         }
     }

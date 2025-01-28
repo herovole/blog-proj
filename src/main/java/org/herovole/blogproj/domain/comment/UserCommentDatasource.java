@@ -16,4 +16,6 @@ public interface UserCommentDatasource {
     RatingLog findActiveRatingHistory(IntegerId commentSerialNumber, IPv4Address ip, Date date);
 
     RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IPv4Address ip, Date date);
+
+    CommentUnits searchComments(UserCommentsSearchOption option);
 }

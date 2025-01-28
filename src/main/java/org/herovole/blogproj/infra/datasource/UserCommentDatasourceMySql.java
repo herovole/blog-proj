@@ -2,18 +2,26 @@ package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.comment.CommentUnit;
+import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.comment.UserCommentDatasource;
+import org.herovole.blogproj.domain.comment.UserCommentsSearchOption;
+import org.herovole.blogproj.domain.comment.admincommentunit.AdminCommentUnit;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.comment.rating.RatingLogs;
+import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.time.Date;
+import org.herovole.blogproj.infra.jpa.entity.EUserComment;
 import org.herovole.blogproj.infra.jpa.entity.EUserCommentRating;
+import org.herovole.blogproj.infra.jpa.entity.EUserCommentReport;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("userCommentDatasource")
@@ -70,5 +78,29 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
                 articleId.longMemorySignature());
         RatingLog[] ratingLogs = entities.stream().map(EUserCommentRating::toDomainObj).toArray(RatingLog[]::new);
         return RatingLogs.of(ratingLogs);
+    }
+
+    @Override
+    public CommentUnits searchComments(UserCommentsSearchOption searchOption) {
+        List<CommentUnit> commentUnits = new ArrayList<>();
+
+        List<EUserComment.EUserCommentForAdmin> comments = eUserCommentRepository.searchByOptions(
+                searchOption.getKeywords().get(0).memorySignature(),
+                searchOption.getKeywords().get(1).memorySignature(),
+                searchOption.getKeywords().get(2).memorySignature(),
+                searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                searchOption.getPagingRequest().getLimit(),
+                searchOption.getPagingRequest().getOffset(),
+                searchOption.getHasReports().isTrue() ? 1 : 0,
+                searchOption.getHasUnhandledReports().isTrue() ? 1 : 0
+        );
+        for (EUserComment.EUserCommentForAdmin comment : comments) {
+            List<EUserCommentReport.EUserCommentReportForAdmin> reports = eUserCommentReportRepository.findByCommentSerialNumber(comment.getId());
+            Reporting[] reportngUnits = reports.stream().map(EUserCommentReport.EUserCommentReportForAdmin::toDomainObj).toArray(Reporting[]::new);
+            AdminCommentUnit commentUnit = comment.toDomainObj().append(reportngUnits);
+            commentUnits.add(commentUnit);
+        }
+        return CommentUnits.of(commentUnits);
     }
 }

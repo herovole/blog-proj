@@ -8,8 +8,8 @@ public interface DateRange {
     String API_KEY_DATE_FROM = "dateFrom";
     String API_KEY_DATE_TO = "dateTo";
 
-    static DateRange fromComplementedPostContent(FormContent formContent) {
-        return RealDateRange.fromComplementedPostContent(formContent);
+    static DateRange fromComplementedFormContent(FormContent formContent) {
+        return RealDateRange.fromComplementedFormContent(formContent);
     }
 
     static DateRange fromPostContent(FormContent formContent) {
