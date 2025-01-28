@@ -177,8 +177,6 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             @Param("keyword3") String keyword3,
             @Param("timestampFrom") LocalDateTime timestampFrom,
             @Param("timestampTo") LocalDateTime timestampTo,
-            @Param("limit") int limit,
-            @Param("offset") long offset,
             @Param("minReportCount") int minReportCount,
             @Param("minUnhandledReportCount") int minUnhandledReportCount
     );

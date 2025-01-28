@@ -19,6 +19,7 @@ import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
 import {AdminPageLogin} from "./admin/adminPageLogin";
 import {AdminPageImages} from "./admin/adminPageImages";
 import {AdminPageUsers} from "./admin/adminPageUsers";
+import {AdminPageUserComments} from "./admin/adminPageUserComments";
 
 
 console.log("App.js");
@@ -61,6 +62,13 @@ const App = () => {
                     <AdminProtectedRoute>
                         <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
                             <AdminPageUsers/>
+                        </GoogleReCaptchaProvider>
+                    </AdminProtectedRoute>
+                }/> {}
+                <Route path="/admin/usercomments" element={
+                    <AdminProtectedRoute>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageUserComments/>
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}
