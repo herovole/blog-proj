@@ -15,7 +15,7 @@ public interface EUserCommentReportRepository extends JpaRepository<EUserComment
     EUserCommentReport findOne();
 
     @Query(value = "Select " +
-            "    r.* " +
+            "    r.*, " +
             "    u.banned_until as user_banned_until,  " +
             "    i.banned_until as ip_banned_until  " +
             "  From " +
@@ -23,11 +23,11 @@ public interface EUserCommentReportRepository extends JpaRepository<EUserComment
             "  Left Join " +
             "    e_public_user u  " +
             "  On  " +
-            "    c.public_user_id = u.id  " +
+            "    r.reporter_user_id = u.id  " +
             "  Left Join " +
             "    e_public_ip i  " +
             "  On  " +
-            "    c.aton = i.aton  " +
+            "    r.aton = i.aton  " +
             "  Where  " +
             "    r.comment_serial_number = :commentSerialNumber  " +
             "  Order By  " +

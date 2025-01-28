@@ -9,7 +9,7 @@ export interface SearchCommentsOutputFields extends BasicApiResultFields {
 }
 
 export interface CommentAndReport {
-    comment: UserCommentUnit,
+    commentUnit: UserCommentUnit,
     userBannedUntil: string;
     hasUserBanned: boolean;
     ipBannedUntil: string;

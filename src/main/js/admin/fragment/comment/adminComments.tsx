@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {CommentAndReport, SearchCommentsOutput} from "../../../service/user/searchCommentsOutput";
 import {AppPagination} from "../appPagenation";
 import DatePicker from "react-datepicker";
@@ -22,6 +22,10 @@ export const AdminComments: React.FC = () => {
     const [hasReports, setHasReports] = React.useState<boolean>(inputFixed.hasReports);
     const [hasUnhandledReports, setHasUnhandledReports] = React.useState<boolean>(inputFixed.hasUnhandledReports);
     const [refresh, setRefresh] = React.useState(false);
+
+    React.useEffect(() => {
+        loadComments(SearchCommentsInput.byDefault()).then(r => {return r;});
+    }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemsPerPage(parseInt(e.currentTarget.value));
@@ -160,7 +164,7 @@ export const AdminComments: React.FC = () => {
             {htmlSearch}
             <AppPagination handlePageChanged={handlePageChanged} currentPage={page} totalPages={totalPages()}/>
             {data.getComments().map((each: CommentAndReport) => (
-                <div key={each.comment.body.commentSerialNumber}>
+                <div key={each.commentUnit.body.commentSerialNumber}>
                     <AdminCommentUnit content={each}/>
                 </div>
             ))}

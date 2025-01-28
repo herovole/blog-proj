@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
@@ -22,6 +23,7 @@ public class AppServletRequest {
     private static final String COOKIE_KEY_UUID = "uuId";
     private static final String COOKIE_KEY_ACCESS_TOKEN = "accessToken";
     private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
+    private static final String PARAM_KEY_IS_DETAILED = "isDetailed";
 
     public static AppServletRequest of(HttpServletRequest request) {
         return new AppServletRequest(request);
@@ -111,6 +113,10 @@ public class AppServletRequest {
 
     public String getBotDetectionTokenFromParameter() {
         return request.getParameter(PARAM_KEY_BOT_DETECTION_TOKEN);
+    }
+
+    public GenericSwitch getIsDetailedFromParameter() {
+        return GenericSwitch.valueOf(request.getParameter(PARAM_KEY_IS_DETAILED));
     }
 
     public TextBlackUnit detectThreateningPhrase(TextBlackList textBlackList) {

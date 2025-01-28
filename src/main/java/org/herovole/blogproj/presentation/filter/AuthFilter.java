@@ -43,7 +43,8 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         itsLogger.info("doFilterInternal");
         AppServletRequest servletRequest = AppServletRequest.of(request);
-        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS)) {
+        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS) &&
+                !servletRequest.getIsDetailedFromParameter().isTrue()) {
             itsLogger.info("skipped");
             filterChain.doFilter(request, response);
             return;

@@ -14,7 +14,7 @@ type AdminCommentUnitProps = {
 
 export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => {
     const userService: UserService = new UserService();
-    const [hidesComment, setHidesComment] = React.useState(content.comment.body.isHidden);
+    const [hidesComment, setHidesComment] = React.useState(content.commentUnit.body.isHidden);
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "hidesComment";
 
@@ -32,7 +32,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
         }
         setHidesComment(e.currentTarget.checked);
         const input: HideCommentInput = new HideCommentInput(
-            content.comment.body.commentSerialNumber,
+            content.commentUnit.body.commentSerialNumber,
             hidesComment,
             recaptchaToken
         );
@@ -46,7 +46,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
 
     return (
         <div className="user-comment-individual">
-            <div className="comment-form-header">article-{content.comment.body.articleId} : {content.title}</div>
+            <div className="comment-form-header">article-{content.commentUnit.body.articleId} : {content.title}</div>
             <span>コメントを非表示</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"
@@ -55,14 +55,14 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
             />
             <AdminBanModal
                 label="Ban Comment User"
-                userId={content.comment.body.publicUserId}
+                userId={content.commentUnit.body.publicUserId}
                 userBannedUntil={content.userBannedUntil}
                 hasUserBanned={content.hasUserBanned}
-                ip={content.comment.body.ip}
+                ip={content.commentUnit.body.ip}
                 ipBannedUntil={content.ipBannedUntil}
                 hasIpBanned={content.hasIpBanned}/>
 
-            <PublicUserCommentViewUnit content={content.comment}/>
+            <PublicUserCommentViewUnit content={content.commentUnit}/>
             {content.reportingUnits.map(report => (
                 <div key={report.reporting.logId}>
                     <AdminReportUnit report={report}/>

@@ -55,13 +55,18 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "    u.banned_until as user_banned_until,  " +
             "    i.banned_until as ip_banned_until," +
             "    count(ra.id) as report_count," +
-            "    count(rb.id) as unhandled_report_count  " +
+            "    count(rb.id) as unhandled_report_count,  " +
+            "    a.title as article_title " +
             "  From " +
             "    e_user_comment c  " +
             "  Left Join " +
+            "    a_article a  " +
+            "  On " +
+            "    a.id = c.article_id  " +
+            "  Left Join " +
             "    e_public_user u  " +
             "  On  " +
-            "    c.public_user_id = u.id  " +
+            "    c.user_id = u.id  " +
             "  Left Join " +
             "    e_public_ip i  " +
             "  On  " +
@@ -101,7 +106,7 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "   OR " +
             "     c.insert_timestamp between :timestampFrom And :timestampTo " +
             "   ) " +
-            "  Group By c.id  " +
+            "  Group By c.id, i.id, u.id  " +
             "  Having  " +
             "    :minReportCount <= report_count  " +
             "  And  " +
