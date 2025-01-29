@@ -152,7 +152,7 @@ export class UserService {
     async handleReport(input: HandleReportInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(
-                "/api/v1/reports/" + input.id + "/handle",
+                "/api/v1/usercomments/reports/" + input.reportId + "/handle",
                 input.toPayloadHash(), {
                     headers: {'Content-Type': 'application/json',},
                 });

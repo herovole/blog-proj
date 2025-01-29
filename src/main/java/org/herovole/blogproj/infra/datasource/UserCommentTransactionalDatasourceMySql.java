@@ -99,9 +99,17 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
 
     @Override
     public void hides(IntegerId commentSerialNumber, boolean hides) {
-        if(commentSerialNumber.isEmpty()) throw new IllegalArgumentException();
+        if (commentSerialNumber.isEmpty()) throw new IllegalArgumentException();
         EUserComment entity = eUserCommentRepository.findBySerialNumber(commentSerialNumber.longMemorySignature());
         entity.setHidden(hides);
+        cacheUpdate.add(entity);
+    }
+
+    @Override
+    public void handleReport(IntegerId reportId, boolean handles) {
+        if (reportId.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentReport entity = eUserCommentReportRepository.findByReportId(reportId.longMemorySignature());
+        entity.setHandled(handles);
         cacheUpdate.add(entity);
     }
 }

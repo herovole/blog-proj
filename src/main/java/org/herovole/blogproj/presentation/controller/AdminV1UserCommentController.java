@@ -3,6 +3,10 @@ package org.herovole.blogproj.presentation.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
+import org.herovole.blogproj.application.user.handlereport.HandleReport;
+import org.herovole.blogproj.application.user.handlereport.HandleReportInput;
+import org.herovole.blogproj.application.user.hidecomment.HideUserComment;
+import org.herovole.blogproj.application.user.hidecomment.HideUserCommentInput;
 import org.herovole.blogproj.application.user.postusercomment.PostUserComment;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentInput;
 import org.herovole.blogproj.application.user.rateusercomment.RateUserComment;
@@ -26,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,13 +53,17 @@ public class AdminV1UserCommentController {
     private final BasicPresenter reportUserCommentPresenter;
     private final SearchUserComments searchUserComments;
     private final SearchUserCommentsPresenter searchUserCommentsPresenter;
+    private final HideUserComment hideUserComment;
+    private final BasicPresenter hideUserCommentPresenter;
+    private final HandleReport handleReport;
+    private final BasicPresenter handleReportPresenter;
 
     @Autowired
     AdminV1UserCommentController(
             PostUserComment postUserComment, BasicPresenter postUserCommentPresenter,
             SearchRatingHistory searchRatingHistory, SearchRatingHistoryPresenter searchRatingHistoryPresenter,
             RateUserComment rateUserComment, BasicPresenter rateUserCommentPresenter,
-            ReportUserComment reportUserComment, BasicPresenter reportUserCommentPresenter, SearchUserComments searchUserComments, SearchUserCommentsPresenter searchUserCommentsPresenter) {
+            ReportUserComment reportUserComment, BasicPresenter reportUserCommentPresenter, SearchUserComments searchUserComments, SearchUserCommentsPresenter searchUserCommentsPresenter, HideUserComment hideUserComment, BasicPresenter hideUserCommentPresenter, HandleReport handleReport, BasicPresenter handleReportPresenter) {
         this.postUserComment = postUserComment;
         this.postUserCommentPresenter = postUserCommentPresenter;
         this.searchRatingHistory = searchRatingHistory;
@@ -65,6 +74,10 @@ public class AdminV1UserCommentController {
         this.reportUserCommentPresenter = reportUserCommentPresenter;
         this.searchUserComments = searchUserComments;
         this.searchUserCommentsPresenter = searchUserCommentsPresenter;
+        this.hideUserComment = hideUserComment;
+        this.hideUserCommentPresenter = hideUserCommentPresenter;
+        this.handleReport = handleReport;
+        this.handleReportPresenter = handleReportPresenter;
     }
 
     @PostMapping
@@ -183,7 +196,7 @@ public class AdminV1UserCommentController {
 
     @PostMapping("/{commentSerialNumber}/reports")
     public ResponseEntity<String> reportComment(
-            @PathVariable int commentSerialNumber,
+            @PathVariable long commentSerialNumber,
             @RequestBody Map<String, String> request,
             HttpServletRequest httpServletRequest
     ) {
@@ -212,4 +225,63 @@ public class AdminV1UserCommentController {
         return this.reportUserCommentPresenter.buildResponseEntity();
     }
 
+    @PutMapping("/{commentSerialNumber}/hide")
+    public ResponseEntity<String> hideComment(
+            @PathVariable long commentSerialNumber,
+            @RequestBody Map<String, String> request,
+            HttpServletRequest httpServletRequest
+    ) {
+        logger.info("Endpoint : reportComment (Put) ");
+
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().bansUsers()) {
+            this.hideUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.hideUserCommentPresenter.buildResponseEntity();
+        }
+        FormContent formContent = FormContent.of(request);
+        formContent.println("reporting : ");
+        try {
+            HideUserCommentInput input = HideUserCommentInput.ofFormContent(commentSerialNumber, formContent);
+            this.hideUserComment.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.hideUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Application Process Error : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.hideUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.hideUserCommentPresenter.buildResponseEntity();
+    }
+
+    @PutMapping("/reports/{reportId}/handle")
+    public ResponseEntity<String> handleReport(
+            @PathVariable long reportId,
+            @RequestBody Map<String, String> request,
+            HttpServletRequest httpServletRequest
+    ) {
+        logger.info("Endpoint : handle report (Put) ");
+
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().bansUsers()) {
+            this.hideUserCommentPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.hideUserCommentPresenter.buildResponseEntity();
+        }
+        FormContent formContent = FormContent.of(request);
+        formContent.println("reporting : ");
+        try {
+            HandleReportInput input = HandleReportInput.ofFormContent(reportId, formContent);
+            this.handleReport.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.handleReportPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Application Process Error : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.handleReportPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.handleReportPresenter.buildResponseEntity();
+    }
 }

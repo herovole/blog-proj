@@ -1,19 +1,19 @@
 export class HandleReportInput {
-    id: number;
+    reportId: number;
     isHandled: boolean;
     botDetectionToken: string;
 
-    constructor(id: number,
+    constructor(reportId: number,
                 isHandled: boolean,
                 botDetectionToken: string) {
-        this.id = id;
+        this.reportId = reportId;
         this.isHandled = isHandled;
         this.botDetectionToken = botDetectionToken;
     }
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "id": this.id.toString(),
+            "id": this.reportId.toString(),
             "isHandled": this.isHandled.toString(),
             "botDetectionToken": this.botDetectionToken,
         };

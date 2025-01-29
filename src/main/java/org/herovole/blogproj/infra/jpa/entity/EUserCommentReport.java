@@ -75,6 +75,18 @@ public class EUserCommentReport implements Serializable {
     @Column(name = "delete_flag")
     private boolean deleteFlag;
 
+    public Reporting toDomainObj() {
+        return RealReporting.builder()
+                .logId(IntegerId.valueOf(getId()))
+                .commentSerialNumber(IntegerId.valueOf(getCommentSerialNumber()))
+                .publicUserId(IntegerPublicUserId.valueOf(getReporterUserId()))
+                .ip(IPv4Address.valueOf(getAton()))
+                .reportingText(CommentText.valueOf(getReportText()))
+                .isHandled(GenericSwitch.valueOf(isHandled))
+                .reportTimestamp(Timestamp.valueOf(getInsertTimestamp()))
+                .build();
+    }
+
     public interface EUserCommentReportForAdmin {
         @Value("#{target.id}")
         long getId();

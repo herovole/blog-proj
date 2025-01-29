@@ -21,4 +21,5 @@ public interface UserCommentTransactionalDatasource {
 
     void hides(IntegerId commentSerialNumber, boolean hides);
 
+    void handleReport(IntegerId reportId, boolean handles);
 }

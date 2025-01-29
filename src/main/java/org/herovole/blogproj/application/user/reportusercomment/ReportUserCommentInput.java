@@ -21,9 +21,15 @@ import org.herovole.blogproj.domain.time.Timestamp;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReportUserCommentInput {
     public static class Builder {
+        private long commentSerialNumberConfirmation;
         private IPv4Address iPv4Address;
         private IntegerPublicUserId userId;
         private FormContent formContent;
+
+        public Builder commentSerialNumberConfirmation(long commentSerialNumberConfirmation) {
+            this.commentSerialNumberConfirmation = commentSerialNumberConfirmation;
+            return this;
+        }
 
         public Builder iPv4Address(IPv4Address iPv4Address) {
             this.iPv4Address = iPv4Address;
@@ -45,10 +51,15 @@ public class ReportUserCommentInput {
                 throw new IllegalStateException(ReportUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
             formContent.println("comment post (parse 2)");
+            IntegerId commentSerialNumber = IntegerId.fromFormContentCommentSerialNumber(formContent);
+            if (commentSerialNumber.longMemorySignature() != commentSerialNumberConfirmation) {
+                throw new IllegalArgumentException("Discrepancy between form and path commentSerialNumbers.");
+            }
+
             return new ReportUserCommentInput(
                     iPv4Address,
                     userId,
-                    IntegerId.fromFormContentCommentSerialNumber(formContent),
+                    commentSerialNumber,
                     CommentText.fromFormContentCommentText(formContent)
             );
         }
