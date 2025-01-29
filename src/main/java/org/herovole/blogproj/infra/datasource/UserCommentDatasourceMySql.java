@@ -105,6 +105,14 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
     }
 
     @Override
+    public CommentUnit findByCommentSerialNumber(IntegerId commentSerialNumber) {
+        if(commentSerialNumber.isEmpty()) throw new IllegalArgumentException();
+        EUserComment eUserComment = this.eUserCommentRepository.findBySerialNumber(commentSerialNumber.longMemorySignature());
+        if (eUserComment == null) return CommentUnit.empty();
+        return eUserComment.toDomainObj();
+    }
+
+    @Override
     public long countComments(UserCommentsSearchOption searchOption) {
         return eUserCommentRepository.countByOptions(
                 searchOption.getKeywords().get(0).memorySignature(),

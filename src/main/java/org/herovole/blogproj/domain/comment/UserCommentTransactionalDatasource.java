@@ -1,6 +1,7 @@
 package org.herovole.blogproj.domain.comment;
 
 import org.herovole.blogproj.application.AppSession;
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.rating.RatingLog;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
 
@@ -17,5 +18,7 @@ public interface UserCommentTransactionalDatasource {
     void updateRating(RatingLog before, RatingLog after);
 
     void insertReport(Reporting report);
+
+    void hides(IntegerId commentSerialNumber, boolean hides);
 
 }

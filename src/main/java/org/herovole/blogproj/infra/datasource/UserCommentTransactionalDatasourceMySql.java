@@ -96,4 +96,12 @@ public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasour
         EUserCommentReport eUserCommentReport = EUserCommentReport.fromDomainObjectInsert(report);
         cacheInsert.add(eUserCommentReport);
     }
+
+    @Override
+    public void hides(IntegerId commentSerialNumber, boolean hides) {
+        if(commentSerialNumber.isEmpty()) throw new IllegalArgumentException();
+        EUserComment entity = eUserCommentRepository.findBySerialNumber(commentSerialNumber.longMemorySignature());
+        entity.setHidden(hides);
+        cacheUpdate.add(entity);
+    }
 }

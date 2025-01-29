@@ -24,6 +24,9 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
             "limit 1", nativeQuery = true)
     Integer findMaxCommentId(@Param("articleId") int articleId);
 
+    @Query(value = "Select * from e_user_comment Where id = :commentSerialNumber", nativeQuery = true)
+    EUserComment findBySerialNumber(@Param("commentSerialNumber") long commentSerialNumber);
+
     @Query(value = "Select c.*, count(rn.id) as dislikes, count(rp.id) as likes " +
             " From " +
             "   e_user_comment c " +

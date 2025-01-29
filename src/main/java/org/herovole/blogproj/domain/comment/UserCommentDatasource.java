@@ -19,5 +19,7 @@ public interface UserCommentDatasource {
 
     CommentUnits searchComments(UserCommentsSearchOption searchOption);
 
+    CommentUnit findByCommentSerialNumber(IntegerId commentSerialNumber);
+
     long countComments(UserCommentsSearchOption searchOption);
 }

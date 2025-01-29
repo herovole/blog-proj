@@ -32,7 +32,7 @@ public class RealUserCommentUnit implements CommentUnit {
                 .articleId(IntegerId.fromFormContentArticleId(formContent))
                 .handleName(HandleName.fromFormContentHandleName(formContent))
                 .commentText(commentText)
-                .isHidden(GenericSwitch.fromPostContentIsHidden(formContent))
+                .isHidden(GenericSwitch.fromFormContentIsHidden(formContent))
                 .referringCommentIds(commentText.scanReferringCommentIds())
                 .build();
     }
