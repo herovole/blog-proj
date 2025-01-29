@@ -27,7 +27,7 @@ public class Date {
 
     private static final String API_KEY_SOURCE_DATE = "sourceDate";
 
-    public static Date fromPostContentArticleDate(FormContent formContent) {
+    public static Date fromFormContentArticleDate(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_SOURCE_DATE);
         return valueOf(child.getValue());
     }

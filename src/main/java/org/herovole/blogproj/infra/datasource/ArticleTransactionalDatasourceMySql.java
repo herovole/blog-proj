@@ -61,7 +61,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
     @Override
     public int amountOfCachedTransactions() {
         return cacheInsert.amountOfStackedTransactions() +
-                cacheInsert.amountOfStackedTransactions() +
+                cacheUpdate.amountOfStackedTransactions() +
                 cacheDelete.amountOfStackedTransactions();
     }
 

@@ -14,7 +14,11 @@ import java.net.InetAddress;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class IPv4Address {
 
-    private static final long MAX_ADDRESS = 256L * 256 * 256 * 256 - 1;
+
+    public static IPv4Address fromFormContentUserId(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_IP);
+        return valueOf(child.getValue());
+    }
 
     public static IPv4Address valueOf(Long aton) {
         if (aton == null || aton == 0) return empty();
@@ -35,6 +39,8 @@ public class IPv4Address {
         return new IPv4Address(null);
     }
 
+    private static final long MAX_ADDRESS = 256L * 256 * 256 * 256 - 1;
+    private static final String API_KEY_IP = "ip";
     private final Long aton;
 
     public boolean isEmpty() {

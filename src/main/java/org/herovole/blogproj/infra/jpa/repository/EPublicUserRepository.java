@@ -20,5 +20,5 @@ public interface EPublicUserRepository extends JpaRepository<EPublicUser, Long> 
     @Query(value = "Select * from e_public_user " +
             " Where " +
             "   id = :userId", nativeQuery = true)
-    EPublicUser findByUuId(@Param("userId") long id);
+    EPublicUser findByUserId(@Param("userId") long id);
 }

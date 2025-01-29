@@ -52,7 +52,7 @@ public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMy
     @Override
     public int amountOfCachedTransactions() {
         return cacheInsert.amountOfStackedTransactions() +
-                cacheInsert.amountOfStackedTransactions();
+                cacheUpdate.amountOfStackedTransactions();
     }
 
     @Override

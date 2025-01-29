@@ -1,18 +1,17 @@
 package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.application.AppSession;
-import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
-import org.herovole.blogproj.domain.publicuser.PublicUserTransactionalDatasource;
-import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
+import org.herovole.blogproj.domain.IPv4Address;
+import org.herovole.blogproj.domain.publicuser.PublicIpTransactionalDatasource;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
-import org.herovole.blogproj.infra.jpa.entity.EPublicUser;
-import org.herovole.blogproj.infra.jpa.repository.EPublicUserRepository;
+import org.herovole.blogproj.infra.jpa.entity.EPublicIp;
+import org.herovole.blogproj.infra.jpa.repository.EPublicIpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PublicUserTransactionalDatasourceMySql extends PublicUserDatasourceMySql implements PublicUserTransactionalDatasource {
+public class PublicIpTransactionalDatasourceMySql extends PublicIpDatasourceMySql implements PublicIpTransactionalDatasource {
 
     private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
@@ -34,8 +33,8 @@ public class PublicUserTransactionalDatasourceMySql extends PublicUserDatasource
     };
 
     @Autowired
-    protected PublicUserTransactionalDatasourceMySql(EPublicUserRepository ePublicUserRepository) {
-        super(ePublicUserRepository);
+    public PublicIpTransactionalDatasourceMySql(EPublicIpRepository ePublicIpRepository) {
+        super(ePublicIpRepository);
     }
 
     @Override
@@ -53,17 +52,16 @@ public class PublicUserTransactionalDatasourceMySql extends PublicUserDatasource
     }
 
     @Override
-    public void insert(UniversallyUniqueId uuId) {
-        if (uuId.isEmpty()) return;
-        EPublicUser entity = EPublicUser.fromUuId(uuId);
+    public void insert(IPv4Address ip) {
+        EPublicIp entity = new EPublicIp();
+        entity.setAton(ip.aton());
         cacheInsert.add(entity);
     }
 
     @Override
-    public void suspend(IntegerPublicUserId userId, Timestamp banUntil) {
-        if (userId.isEmpty()) return;
-        EPublicUser entity = this.ePublicUserRepository.findByUserId(userId.longMemorySignature());
-        entity.setBannedUntil(banUntil.toLocalDateTime());
+    public void suspend(IPv4Address ip, Timestamp bannedUntil) {
+        EPublicIp entity = this.ePublicIpRepository.findByAton(ip.aton());
+        entity.setBannedUntil(bannedUntil.toLocalDateTime());
         cacheUpdate.add(entity);
     }
 }

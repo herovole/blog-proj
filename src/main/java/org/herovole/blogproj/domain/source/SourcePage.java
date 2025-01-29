@@ -15,7 +15,7 @@ public class SourcePage {
         return builder()
                 .url(SourceUrl.fromPostContent(formContent))
                 .title(ArticleTitle.fromPostContentSourceTitle(formContent))
-                .date(Date.fromPostContentArticleDate(formContent))
+                .date(Date.fromFormContentArticleDate(formContent))
                 .build();
     }
 

@@ -20,6 +20,11 @@ public enum Role {
         }
 
         @Override
+        public boolean bansUsers() {
+            return true;
+        }
+
+        @Override
         public boolean editsArticles() {
             return true;
         }
@@ -51,6 +56,11 @@ public enum Role {
         }
 
         @Override
+        public boolean bansUsers() {
+            return true;
+        }
+
+        @Override
         public boolean editsArticles() {
             return true;
         }
@@ -64,6 +74,18 @@ public enum Role {
         public boolean editsImages() {
             return true;
         }
+    },
+    SECURITY(25, "SCR", "Security") {
+        @Override
+        public boolean hasAccessToAdmin() {
+            return true;
+        }
+
+        @Override
+        public boolean bansUsers() {
+            return true;
+        }
+
     },
     EDITOR(30, "EDT", "Editor") {
         @Override
@@ -108,6 +130,10 @@ public enum Role {
     }
 
     public boolean hasAccessToAdmin() {
+        return false;
+    }
+
+    public boolean bansUsers() {
         return false;
     }
 
