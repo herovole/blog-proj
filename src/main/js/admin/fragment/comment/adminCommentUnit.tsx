@@ -7,17 +7,24 @@ import {HideCommentInput} from "../../../service/user/hideCommentInput";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import {BasicApiResult} from "../../../domain/basicApiResult";
 import {AdminBanModal} from "./adminBanModal";
+import {useNavigate} from "react-router-dom";
 
 type AdminCommentUnitProps = {
     content: CommentAndReport;
+    directoryToIndividualPage: string;
 }
 
-export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => {
+export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, directoryToIndividualPage}) => {
     const userService: UserService = new UserService();
     const [hidesComment, setHidesComment] = React.useState(content.commentUnit.body.isHidden);
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "hidesComment";
+    const navigate = useNavigate();
 
+    const navigateToArticle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        navigate(directoryToIndividualPage + "/" + content.commentUnit.body.articleId);
+    }
 
     const handleHideComment = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -46,7 +53,9 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content}) => 
 
     return (
         <div className="user-comment-individual">
-            <div className="comment-form-header">article-{content.commentUnit.body.articleId} : {content.title}</div>
+            <button className="comment-form-header"
+                    onClick={navigateToArticle}>
+                article-{content.commentUnit.body.articleId} : {content.title}</button>
             <span>コメントを非表示</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"

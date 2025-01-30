@@ -6,7 +6,7 @@ import {AdminComments} from "./fragment/comment/adminComments";
 export const AdminPageUserComments: React.FC = () => {
     return (
         <AdminBasicLayout>
-            <AdminComments/>
+            <AdminComments directoryToIndividualPage={"/admin/articles"}/>
         </AdminBasicLayout>
     );
 };

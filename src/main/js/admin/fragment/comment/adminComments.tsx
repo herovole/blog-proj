@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {CommentAndReport, SearchCommentsOutput} from "../../../service/user/searchCommentsOutput";
 import {AppPagination} from "../appPagenation";
 import DatePicker from "react-datepicker";
@@ -6,7 +6,11 @@ import {SearchCommentsInput} from "../../../service/user/searchCommentsInput";
 import {UserService} from "../../../service/user/userService";
 import {AdminCommentUnit} from "./adminCommentUnit";
 
-export const AdminComments: React.FC = () => {
+type AdminCommentsProps = {
+    directoryToIndividualPage: string;
+}
+
+export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividualPage}) => {
     const userService: UserService = new UserService();
 
     const [data, setData] = React.useState<SearchCommentsOutput>(SearchCommentsOutput.empty());
@@ -24,7 +28,9 @@ export const AdminComments: React.FC = () => {
     const [refresh, setRefresh] = React.useState(false);
 
     React.useEffect(() => {
-        loadComments(SearchCommentsInput.byDefault()).then(r => {return r;});
+        loadComments(SearchCommentsInput.byDefault()).then(r => {
+            return r;
+        });
     }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +171,7 @@ export const AdminComments: React.FC = () => {
             <AppPagination handlePageChanged={handlePageChanged} currentPage={page} totalPages={totalPages()}/>
             {data.getComments().map((each: CommentAndReport) => (
                 <div key={each.commentUnit.body.commentSerialNumber}>
-                    <AdminCommentUnit content={each}/>
+                    <AdminCommentUnit content={each} directoryToIndividualPage={directoryToIndividualPage}/>
                 </div>
             ))}
         </>

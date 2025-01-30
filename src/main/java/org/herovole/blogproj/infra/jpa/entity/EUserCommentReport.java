@@ -91,7 +91,7 @@ public class EUserCommentReport implements Serializable {
         @Value("#{target.id}")
         long getId();
 
-        @Value("#{comment_serial_number}")
+        @Value("#{target.comment_serial_number}")
         long getCommentSerialNumber();
 
         @Value("#{target.reporter_user_id}")

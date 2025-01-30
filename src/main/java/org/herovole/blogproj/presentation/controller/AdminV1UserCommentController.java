@@ -166,7 +166,7 @@ public class AdminV1UserCommentController {
 
     @PostMapping("/{commentSerialNumber}/rate")
     public ResponseEntity<String> rateComment(
-            @PathVariable int commentSerialNumber,
+            @PathVariable("commentSerialNumber") long commentSerialNumber,
             @RequestBody Map<String, String> request,
             HttpServletRequest httpServletRequest
     ) {
@@ -196,7 +196,7 @@ public class AdminV1UserCommentController {
 
     @PostMapping("/{commentSerialNumber}/reports")
     public ResponseEntity<String> reportComment(
-            @PathVariable long commentSerialNumber,
+            @PathVariable("commentSerialNumber") long commentSerialNumber,
             @RequestBody Map<String, String> request,
             HttpServletRequest httpServletRequest
     ) {
@@ -208,6 +208,7 @@ public class AdminV1UserCommentController {
             FormContent formContent = FormContent.of(request);
             formContent.println("reporting : ");
             ReportUserCommentInput input = new ReportUserCommentInput.Builder()
+                    .commentSerialNumberConfirmation(commentSerialNumber)
                     .iPv4Address(servletRequest.getUserIpFromHeader())
                     .userId(servletRequest.getUserIdFromAttribute())
                     .formContent(formContent)
