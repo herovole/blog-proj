@@ -10,6 +10,7 @@
 }
 .comment-form-header {
     background-color: #88CCCC;
+    width: 100%;
 }
 .comment-form-handle {
     margin: 2px;

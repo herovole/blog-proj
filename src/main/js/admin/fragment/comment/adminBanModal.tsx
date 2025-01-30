@@ -62,6 +62,7 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
         const banUserInput: BanUserInput = new BanUserInput(
             userId,
             days,
+            true,
             recaptchaToken
         )
         const banUserOutput: BasicApiResult = await userService.banUser(banUserInput);
@@ -74,6 +75,7 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
         const banIpInput: BanIpInput = new BanIpInput(
             ip,
             days,
+            true,
             recaptchaToken
         )
         const banIpOutput: BasicApiResult = await userService.banIp(banIpInput);

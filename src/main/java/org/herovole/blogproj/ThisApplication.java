@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @EnableConfigurationProperties(LocalProperty.class)
 @EntityScan(basePackages = "org.herovole.blogproj.infra.jpa.entity")
-public class DemoApplication {
+public class ThisApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(ThisApplication.class, args);
     }
 }

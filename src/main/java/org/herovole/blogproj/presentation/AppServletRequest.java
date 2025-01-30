@@ -1,5 +1,7 @@
 package org.herovole.blogproj.presentation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -14,7 +16,10 @@ import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.UniversallyUniqueId;
 import org.herovole.blogproj.presentation.filter.EndpointPhrases;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AppServletRequest {
@@ -23,7 +28,7 @@ public class AppServletRequest {
     private static final String COOKIE_KEY_UUID = "uuId";
     private static final String COOKIE_KEY_ACCESS_TOKEN = "accessToken";
     private static final String PARAM_KEY_BOT_DETECTION_TOKEN = "botDetectionToken";
-    private static final String PARAM_KEY_IS_DETAILED = "isDetailed";
+    private static final String PARAM_KEY_REQUIRES_AUTH = "requiresAuth";
 
     public static AppServletRequest of(HttpServletRequest request) {
         return new AppServletRequest(request);
@@ -111,12 +116,37 @@ public class AppServletRequest {
         return (AdminUser) request.getAttribute(ATTRIBUTE_ADMIN_USER);
     }
 
-    public String getBotDetectionTokenFromParameter() {
+    private String getValueFromBody(String key) {
+        try (BufferedReader br = request.getReader()) {
+            String body = br.lines().collect(Collectors.joining(System.lineSeparator()));
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(body);
+            return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private String getBotDetectionTokenFromParameter() {
         return request.getParameter(PARAM_KEY_BOT_DETECTION_TOKEN);
     }
 
-    public GenericSwitch getIsDetailedFromParameter() {
-        return GenericSwitch.valueOf(request.getParameter(PARAM_KEY_IS_DETAILED));
+    private String getBotDetectionTokenFromBody() {
+        return this.getValueFromBody(PARAM_KEY_BOT_DETECTION_TOKEN);
+    }
+
+    public String getBotDetectionTokenFromParameterOrBody() {
+        return this.getBotDetectionTokenFromParameter() != null ?
+                this.getBotDetectionTokenFromParameter() :
+                this.getBotDetectionTokenFromBody();
+    }
+
+    public GenericSwitch getRequiresAuthFromParameter() {
+        return GenericSwitch.valueOf(request.getParameter(PARAM_KEY_REQUIRES_AUTH));
+    }
+
+    public GenericSwitch getRequiresAuthFromBody() {
+        return GenericSwitch.valueOf(this.getValueFromBody(PARAM_KEY_REQUIRES_AUTH));
     }
 
     public TextBlackUnit detectThreateningPhrase(TextBlackList textBlackList) {

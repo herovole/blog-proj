@@ -17,7 +17,7 @@ public class SearchAdminUsersInput {
     public static SearchAdminUsersInput fromFormContent(FormContent formContent) {
         return new SearchAdminUsersInput(
                 PagingRequest.fromFormContent(formContent),
-                GenericSwitch.fromFormContentIsDetailed(formContent)
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 

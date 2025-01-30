@@ -81,6 +81,7 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
             formData.get("userName") as string,
             formData.get("role.0") as string,
             formData.get("password") as string,
+            true,
             recaptchaToken
         );
         const output: BasicApiResult = await authService.createAdminUser(input);

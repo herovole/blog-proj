@@ -1,19 +1,19 @@
 export class SearchImagesInput {
     page: number;
     itemsPerPage: number;
-    isDetailed: boolean;
+    requiresAuth: boolean;
 
-    constructor(page: number, itemsPerPage: number, isDetailed: boolean) {
+    constructor(page: number, itemsPerPage: number, requiresAuth: boolean) {
         this.page = page;
         this.itemsPerPage = itemsPerPage;
-        this.isDetailed = isDetailed;
+        this.requiresAuth = requiresAuth;
     }
 
     toPayloadHash(): { [key: string]: string } {
         return {
             "page": this.page.toString(),
             "itemsPerPage": this.itemsPerPage.toString(),
-            "isDetailed": this.isDetailed.toString()
+            "requiresAuth": this.requiresAuth.toString()
         };
     };
 }

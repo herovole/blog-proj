@@ -50,7 +50,7 @@ public class BotFilter extends OncePerRequestFilter {
         VerifyOrganicityInput input = VerifyOrganicityInput.builder()
                 .userId(servletRequest.getUserIdFromAttribute())
                 .iPv4Address(servletRequest.getUserIpFromHeader())
-                .verificationToken(servletRequest.getBotDetectionTokenFromParameter())
+                .verificationToken(servletRequest.getBotDetectionTokenFromParameterOrBody())
                 .build();
         try {
             verifyOrganicity.process(input);

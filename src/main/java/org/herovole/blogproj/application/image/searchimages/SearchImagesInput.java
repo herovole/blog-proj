@@ -16,7 +16,7 @@ public class SearchImagesInput {
     public static SearchImagesInput of(FormContent formContent) {
         return new SearchImagesInput(
                 PagingRequest.fromFormContent(formContent),
-                GenericSwitch.fromFormContentIsDetailed(formContent)
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 

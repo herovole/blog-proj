@@ -148,6 +148,8 @@ public class RealUserCommentUnit implements CommentUnit {
                 this.likes,
                 this.dislikes,
                 this.dailyUserId.memorySignature(),
+                this.publicUserId.longMemorySignature(),
+                this.ip.toRegularFormat(),
                 this.postTimestamp.letterSignatureFrontendDisplay()
         );
     }
@@ -163,6 +165,8 @@ public class RealUserCommentUnit implements CommentUnit {
             int likes,
             int dislikes,
             String dailyUserId,
+            long publicUserId,
+            String ip,
             String postTimestamp
     ) implements CommentUnit.Json {
     }

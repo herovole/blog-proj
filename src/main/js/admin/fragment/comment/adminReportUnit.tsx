@@ -31,6 +31,7 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
         const input: HandleReportInput = new HandleReportInput(
             report.reporting.logId,
             reportAddressed,
+            true,
             recaptchaToken
         )
         const output = await userService.handleReport(input);
@@ -42,7 +43,7 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
     }
 
     return (
-        <div key={report.reporting.logId} className="user-comment-individual">
+        <div key={report.reporting.logId} className="report-form-interior">
             <span>{report.reporting.logId} /</span>
             <span>{report.reporting.reportTimestamp} </span>
             <span>ID:{report.reporting.userId} </span>
@@ -54,7 +55,7 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
                 ip={report.reporting.ip}
                 ipBannedUntil={report.ipBannedUntil}
                 hasIpBanned={report.hasIpBanned}/>
-            <div className="user-comment-text">{report.reporting.text} </div>
+            <div className="report-form-text">{report.reporting.text} </div>
             <span>対応完了</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"

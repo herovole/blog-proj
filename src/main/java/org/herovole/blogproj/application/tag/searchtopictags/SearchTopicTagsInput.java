@@ -18,7 +18,7 @@ public class SearchTopicTagsInput {
     public static SearchTopicTagsInput fromFormContent(FormContent formContent) {
         return new SearchTopicTagsInput(
                 PagingRequest.fromFormContent(formContent),
-                GenericSwitch.fromFormContentIsDetailed(formContent)
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 

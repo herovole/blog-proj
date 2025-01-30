@@ -22,7 +22,7 @@ export class SearchCommentsInput {
     keywords: string;
     hasReports: boolean;
     hasUnhandledReports: boolean;
-    isDetailed: boolean;
+    requiresAuth: boolean;
 
     constructor(
         itemsPerPage: number,
@@ -32,7 +32,7 @@ export class SearchCommentsInput {
         keywords: string,
         hasReports: boolean,
         hasUnaddressedReports: boolean,
-        isDetailed: boolean,
+        requiresAuth: boolean,
     ) {
         this.itemsPerPage = itemsPerPage;
         this.page = page;
@@ -41,7 +41,7 @@ export class SearchCommentsInput {
         this.keywords = keywords;
         this.hasReports = hasReports;
         this.hasUnhandledReports = hasUnaddressedReports;
-        this.isDetailed = isDetailed;
+        this.requiresAuth = requiresAuth;
     }
 
     appendPage(page: number): SearchCommentsInput {
@@ -53,7 +53,7 @@ export class SearchCommentsInput {
             this.keywords,
             this.hasReports,
             this.hasUnhandledReports,
-            this.isDetailed
+            this.requiresAuth
         );
     }
 
@@ -66,7 +66,7 @@ export class SearchCommentsInput {
             "keywords": this.keywords,
             "hasReports": this.hasReports.toString(),
             "hasUnaddressedReports": this.hasUnhandledReports.toString(),
-            "isDetailed": this.isDetailed.toString()
+            "requiresAuth": this.requiresAuth.toString()
         };
     };
 }

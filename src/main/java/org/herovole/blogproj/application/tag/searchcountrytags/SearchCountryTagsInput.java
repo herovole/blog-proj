@@ -17,7 +17,7 @@ public class SearchCountryTagsInput {
     public static SearchCountryTagsInput fromFormContent(FormContent formContent) {
         return new SearchCountryTagsInput(
                 PagingRequest.fromFormContent(formContent),
-                GenericSwitch.fromFormContentIsDetailed(formContent)
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 

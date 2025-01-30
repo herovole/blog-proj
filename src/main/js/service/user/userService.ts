@@ -100,7 +100,7 @@ export class UserService {
 
     async banUser(input: BanUserInput): Promise<BasicApiResult> {
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+            const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/users/" + input.userId.toString() + "/ban",
                 input.toPayloadHash(), {
                     headers: {'Content-Type': 'application/json',},
@@ -117,7 +117,7 @@ export class UserService {
 
     async banIp(input: BanIpInput): Promise<BasicApiResult> {
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+            const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/ip/ban",
                 input.toPayloadHash(), {
                     headers: {'Content-Type': 'application/json',},
@@ -134,7 +134,7 @@ export class UserService {
 
     async hideComment(input: HideCommentInput): Promise<BasicApiResult> {
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+            const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/usercomments/" + input.commentSerialNumber + "/hide",
                 input.toPayloadHash(), {
                     headers: {'Content-Type': 'application/json',},

@@ -41,6 +41,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
         const input: HideCommentInput = new HideCommentInput(
             content.commentUnit.body.commentSerialNumber,
             hidesComment,
+            true,
             recaptchaToken
         );
         const output: BasicApiResult = await userService.hideComment(input);
@@ -56,12 +57,14 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
             <button className="comment-form-header"
                     onClick={navigateToArticle}>
                 article-{content.commentUnit.body.articleId} : {content.title}</button>
+            <br/>
             <span>コメントを非表示</span>
             <input className="admin-editable-text-activated"
                    type="checkbox"
                    checked={hidesComment}
                    onChange={handleHideComment}
             />
+            <br/>
             <AdminBanModal
                 label="Ban Comment User"
                 userId={content.commentUnit.body.publicUserId}
@@ -71,7 +74,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
                 ipBannedUntil={content.ipBannedUntil}
                 hasIpBanned={content.hasIpBanned}/>
 
-            <PublicUserCommentViewUnit content={content.commentUnit}/>
+            <PublicUserCommentViewUnit content={content.commentUnit} modeAdmin/>
             {content.reportingUnits.map(report => (
                 <div key={report.reporting.logId}>
                     <AdminReportUnit report={report}/>

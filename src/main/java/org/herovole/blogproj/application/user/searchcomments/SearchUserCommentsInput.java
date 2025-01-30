@@ -15,7 +15,7 @@ public class SearchUserCommentsInput {
     public static SearchUserCommentsInput of(FormContent formContent) {
         return new SearchUserCommentsInput(
                 UserCommentsSearchOption.fromFormContent(formContent),
-                GenericSwitch.fromFormContentIsDetailed(formContent)
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 

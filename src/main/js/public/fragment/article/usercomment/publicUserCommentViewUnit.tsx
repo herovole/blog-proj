@@ -24,12 +24,14 @@ type PublicUserCommentViewUnitProps = {
     content: UserCommentUnit;
     rating?: number;
     handleReference?: (commentIdReferred: number) => void;
+    modeAdmin?: boolean
 }
 
 export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps> = ({
                                                                                         content,
                                                                                         rating = 0,
-                                                                                        handleReference = null
+                                                                                        handleReference = null,
+                                                                                        modeAdmin = false
                                                                                     }) => {
 
     const [open, setOpen] = React.useState<boolean>(false);
@@ -157,6 +159,15 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
         }
     }
 
+    const buttons = modeAdmin ? "" : <>
+        <div>
+            <button type="button" className={btnGoodClass} onClick={handleGood}>Good</button>
+            <span> {likes}</span></div>
+        <div>
+            <button type="button" className={btnBadClass} onClick={handleBad}>Bad</button>
+            <span> {dislikes}</span></div>
+    </>
+
     return (
         <div className="user-comment-individual">
             <span>{content.body.commentId}:</span>
@@ -165,13 +176,9 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             <span>ID:{content.body.dailyUserId} </span>
             <button className="report-button" type="button" onClick={openModal}>管理者へ報告</button>
             <button type="button" onClick={handleOnClickReference}>このコメントへ返信</button>
-            <div className="user-comment-text">{content.body.commentText}
-                <div>
-                    <button type="button" className={btnGoodClass} onClick={handleGood}>Good</button>
-                    <span> {likes}</span></div>
-                <div>
-                    <button type="button" className={btnBadClass} onClick={handleBad}>Bad</button>
-                    <span> {dislikes}</span></div>
+            <div className="user-comment-text">
+                {content.body.commentText}
+                {buttons}
             </div>
             <div>
                 <Modal
