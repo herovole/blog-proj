@@ -11,7 +11,8 @@ export class ArticleService {
         try {
             const response: AxiosResponse<FindArticleOutputFields> = await axios.get(
                 "/api/v1/articles/" + input.articleId, {
-                    headers: {Accept: 'application/json',},
+                    params: input.toPayloadHash(),
+                    headers: {Accept: 'application/json'},
                 }
             );
             return new FindArticleOutput(response.data);

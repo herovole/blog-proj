@@ -31,11 +31,9 @@ public class FindArticle {
         logger.info("retrieving article : {}", articleId);
         Article article = articleDatasource.findById(articleId);
 
-        logger.info("masking private info...");
-        if (input.getIsForPublic().isTrue()) {
-            article = article
-                    .filterOutHiddenComments()
-                    .maskPrivateItems();
+        if (!input.getRequiresAuth().isTrue()) {
+            logger.info("masking private info...");
+            article = article.maskPrivateItems();
         }
 
         logger.info("sorting comments...");

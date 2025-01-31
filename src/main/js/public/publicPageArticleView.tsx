@@ -35,19 +35,40 @@ export const PublicPageArticleView: React.FC = () => {
 
             const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
             const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
-            setTopicTagsOptions(topicOutput.getTagUnits());
+            if(topicOutput.isSuccessful()) {
+                setTopicTagsOptions(topicOutput.getTagUnits());
+            } else {
+                console.error("failed to fetch topic tags");
+                return;
+            }
 
             const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
             const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
-            setCountryTagsOptions(countriesOutput.getTagUnits());
+            if(countriesOutput.isSuccessful()) {
+                setCountryTagsOptions(countriesOutput.getTagUnits());
+            } else {
+                console.error("failed to fetch country tags");
+                return;
+            }
 
-            const articleInput: FindArticleInput = new FindArticleInput(articleId);
+            const articleInput: FindArticleInput = new FindArticleInput(articleId, false);
             const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
-            setArticle(findArticleOutput.getArticle());
+            if(findArticleOutput.isSuccessful()) {
+                setArticle(findArticleOutput.getArticle());
+            } else {
+                console.error("failed to fetch article record");
+                return;
+            }
 
             const searchRatingHistoryInput: SearchRatingHistoryInput = new SearchRatingHistoryInput(articleId);
             const searchRatingHistoryOutput: SearchRatingHistoryOutput = await userService.searchRatingHistory(searchRatingHistoryInput);
-            setRatingHistory(searchRatingHistoryOutput);
+            if(searchRatingHistoryOutput.isSuccessful()) {
+                setRatingHistory(searchRatingHistoryOutput);
+            } else {
+                console.error("failed to reconstruct rating history");
+                return;
+            }
+
         } catch (error) {
             console.error("error : ", error);
         }

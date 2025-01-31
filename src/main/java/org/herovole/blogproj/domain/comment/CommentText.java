@@ -19,6 +19,7 @@ public class CommentText {
 
     private static final String API_KEY_COMMENT_TEXT = "text";
     private static final String EMPTY = "-";
+    private static final String PRETEXT_HIDDEN_COMMENT = "（非公開）";
 
     private static final Pattern REFERRING_FORMAT1 = Pattern.compile("[※米]\\d+");
     private static final Pattern REFERRING_FORMAT2 = Pattern.compile("(>>|＞＞)[\\d０-９]+");
@@ -34,6 +35,10 @@ public class CommentText {
 
     public static CommentText empty() {
         return new CommentText("");
+    }
+
+    public static CommentText hidden() {
+        return valueOf(PRETEXT_HIDDEN_COMMENT);
     }
 
     private final String text;

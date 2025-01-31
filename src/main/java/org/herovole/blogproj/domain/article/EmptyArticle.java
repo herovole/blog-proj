@@ -39,11 +39,6 @@ public class EmptyArticle implements Article {
     }
 
     @Override
-    public Article filterOutHiddenComments() {
-        return this;
-    }
-
-    @Override
     public Json toJsonModel() {
         return null;
     }

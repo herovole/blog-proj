@@ -13,13 +13,17 @@ import org.herovole.blogproj.domain.IntegerId;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class FindArticleInput {
 
-    public static FindArticleInput of(int articleId, FormContent formContent) {
+    public static FindArticleInput of(int articleIdConfirmation, FormContent formContent) {
+        IntegerId articleId = IntegerId.fromFormContentArticleId(formContent);
+        if (articleId.intMemorySignature() != articleIdConfirmation) {
+            throw new IllegalArgumentException("Article ID mismatch");
+        }
         return new FindArticleInput(
-                IntegerId.valueOf(articleId),
-                GenericSwitch.fromFormContentIsPublished(formContent)
+                articleId,
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
         );
     }
 
     private final IntegerId articleId;
-    private final GenericSwitch isForPublic;
+    private final GenericSwitch requiresAuth;
 }

@@ -1,22 +1,23 @@
-export interface SearchRatingHistoryOutputFields {
+import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
+
+export interface SearchRatingHistoryOutputFields extends BasicApiResultFields {
     content: { logs: { commentSerialNumber: number, rating: number }[] };
 }
 
-export class SearchRatingHistoryOutput {
+export class SearchRatingHistoryOutput extends BasicApiResult {
 
     static empty(): SearchRatingHistoryOutput {
-        return new SearchRatingHistoryOutput({content: {logs: []}});
+        return new SearchRatingHistoryOutput(null);
     }
 
-    private readonly fields: SearchRatingHistoryOutputFields | null;
-
     constructor(fields: SearchRatingHistoryOutputFields | null) {
-        this.fields = fields;
+        super(fields);
     }
 
     findRatingByCommentSerialNumber(commentSerialNumber: number): number {
         if (!this.fields) return 0;
-        const log = this.fields.content.logs.find(e => e.commentSerialNumber === commentSerialNumber);
+        const fields: SearchRatingHistoryOutputFields = this.fields as SearchRatingHistoryOutputFields;
+        const log = fields.content.logs.find(e => e.commentSerialNumber === commentSerialNumber);
         if (log) {
             return log.rating;
         } else {

@@ -25,15 +25,29 @@ export const AdminPageArticle: React.FC = () => {
 
         const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
         const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
-        setTopicTagsOptions(topicOutput.getTagUnits());
+        if (topicOutput.isSuccessful()) {
+            setTopicTagsOptions(topicOutput.getTagUnits());
+        } else {
+            console.error("failed to fetch topic tags");
+            return;
+        }
 
         const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
         const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
-        setCountryTagsOptions(countriesOutput.getTagUnits());
+        if (countriesOutput.isSuccessful()) {
+            setCountryTagsOptions(countriesOutput.getTagUnits());
+        } else {
+            console.error("failed to fetch country tags");
+            return;
+        }
 
-        const articleInput: FindArticleInput = new FindArticleInput(articleId);
+        const articleInput: FindArticleInput = new FindArticleInput(articleId, true);
         const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
-        setArticle(findArticleOutput.getArticle());
+        if (findArticleOutput.isSuccessful()) {
+            setArticle(findArticleOutput.getArticle());
+        } else {
+            console.error("failed to fetch article record");
+        }
     };
     useEffect(() => {
         load().then(r => {

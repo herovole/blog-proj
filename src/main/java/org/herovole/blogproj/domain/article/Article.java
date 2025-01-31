@@ -43,8 +43,6 @@ public interface Article {
 
     Article maskPrivateItems();
 
-    Article filterOutHiddenComments();
-
     Json toJsonModel();
 
     interface Json {

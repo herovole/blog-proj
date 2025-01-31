@@ -108,7 +108,7 @@ public class RealUserCommentUnit implements CommentUnit {
                 .commentId(this.commentId)
                 .articleId(this.articleId)
                 .handleName(this.handleName)
-                .commentText(this.commentText)
+                .commentText(this.isHidden.isTrue() ? CommentText.hidden() : this.commentText)
                 .isHidden(this.isHidden)
                 .referringCommentIds(this.referringCommentIds)
                 .likes(this.likes)
