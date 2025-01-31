@@ -6,11 +6,11 @@ export const PublicHeader: React.FC = () => {
         <div className="header-frame">
             <div className="header-alignment">
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
-                         to="/">トップページ</NavLink>
+                         to="/" end>トップページ</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
-                         to="/articles">検索</NavLink>
+                         to="/articles" end>検索</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
-                         to="/">サイト情報</NavLink>
+                         to="/about" end>サイト情報</NavLink>
             </div>
         </div>
     )

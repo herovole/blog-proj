@@ -1,7 +1,6 @@
 import React from 'react';
 import {PublicPageArticleView} from "./public/publicPageArticleView";
 import {Route, Routes} from "react-router-dom";
-import {Home} from "./home";
 import {About} from "./about";
 import {Contact} from "./contact";
 import {NotFound} from "./notfound";
@@ -20,6 +19,7 @@ import {AdminPageLogin} from "./admin/adminPageLogin";
 import {AdminPageImages} from "./admin/adminPageImages";
 import {AdminPageUsers} from "./admin/adminPageUsers";
 import {AdminPageUserComments} from "./admin/adminPageUserComments";
+import {PublicPageHome} from "./public/publicPageHome";
 
 
 console.log("App.js");
@@ -34,12 +34,24 @@ const App = () => {
             <h1>これはRoutesの外側のエレメント</h1>
 
             <Routes>
-                <Route path="/" element={<Home/>}/> {}
                 <Route path="/about" element={<About/>}/> {}
                 <Route path="/contact" element={<Contact message="Hello"/>}/> {}
                 <Route path="/*" element={<NotFound/>}/> {}
 
                 <Route path="/about" element={<About/>}/> {}
+
+                <Route path="/" element={
+                    <PublicPageHome/>
+                }/> {}
+                <Route path="/articles" element={
+                    <PublicPageArticleList/>
+                }/> {}
+                <Route path="/articles/:articleId" element={
+                    <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                        <PublicPageArticleView/>
+                    </GoogleReCaptchaProvider>
+                }/> {}
+
 
                 <Route path="/admin/login" element={
                     <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
@@ -72,22 +84,41 @@ const App = () => {
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}
-                <Route path="/admin/sandbox" element={<Sandbox/>}/> {}
-                <Route path="/admin/sandboxes" element={<Sandbox/>}/> {}
-
-
-                <Route path="/admin/articles" element={<AdminPageArticleList/>}/> {}
-                <Route path="/admin/articles/:articleId" element={<AdminPageArticle/>}/> {}
-                <Route path="/admin/articles/new" element={<AdminPageNewArticle/>}/> {}
-
-                <Route path="/admin/topictags" element={<AdminPageTopicTagList/>}/> {}
-
-                <Route path="/articles" element={<PublicPageArticleList/>}/> {}
-                <Route path="/articles/:articleId" element={
-                    <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                        <PublicPageArticleView/>
-                    </GoogleReCaptchaProvider>
+                <Route path="/admin/sandbox" element={
+                    <AdminProtectedRoute>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <Sandbox/>
+                        </GoogleReCaptchaProvider>
+                    </AdminProtectedRoute>
                 }/> {}
+                <Route path="/admin/articles" element={
+                    <AdminProtectedRoute>
+                        <AdminPageArticleList/>
+                    </AdminProtectedRoute>
+                }/> {}
+                <Route path="/admin/articles/:articleId" element={
+                    <AdminProtectedRoute>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageArticle/>
+                        </GoogleReCaptchaProvider>
+                    </AdminProtectedRoute>
+                }/> {}
+                <Route path="/admin/articles/new" element={
+                    <AdminProtectedRoute>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageNewArticle/>
+                        </GoogleReCaptchaProvider>
+                    </AdminProtectedRoute>
+                }/> {}
+
+                <Route path="/admin/topictags" element={
+                    <AdminProtectedRoute>
+                        <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
+                            <AdminPageTopicTagList/>
+                        </GoogleReCaptchaProvider>
+                    </AdminProtectedRoute>
+                }/> {}
+
 
             </Routes>
 

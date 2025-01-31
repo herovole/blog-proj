@@ -9,6 +9,7 @@ import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
 
 type ArticleListBodyProps = {
+    mode?: HeadlinesMode;
     hasSearchMenu: boolean;
     directoryToIndividualPage: string;
     topicTagsOptions: TagUnits;
@@ -17,6 +18,7 @@ type ArticleListBodyProps = {
 
 
 export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
+                                                                    mode = HeadlinesMode.SMALL,
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
                                                                     topicTagsOptions,
@@ -153,7 +155,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                 {htmlSearch}
                 {htmlPagination}
                 <PublicArticleHeadlines
-                    mode={HeadlinesMode.SMALL}
+                    mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
                     topicTagList={topicTagsOptions}
@@ -168,7 +170,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             <>
                 {htmlPagination}
                 <PublicArticleHeadlines
-                    mode={HeadlinesMode.SMALL}
+                    mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
                     topicTagList={topicTagsOptions}
