@@ -151,7 +151,7 @@ export class UserService {
 
     async handleReport(input: HandleReportInput): Promise<BasicApiResult> {
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post(
+            const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/usercomments/reports/" + input.reportId + "/handle",
                 input.toPayloadHash(), {
                     headers: {'Content-Type': 'application/json',},

@@ -57,7 +57,7 @@ public class CheckUserBan {
                     uuIdBannedUntil);
             // Status Code : 403
             // You are banned until ...
-            this.presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.BAN)
                     .setTimestampBannedUntil(uuIdBannedUntil)
                     .interruptProcess();
         }
@@ -72,7 +72,7 @@ public class CheckUserBan {
                         ipBannedUntil);
                 // Status Code : 403
                 // You are banned until ...
-                this.presenter.setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+                this.presenter.setUseCaseErrorType(UseCaseErrorType.BAN)
                         .setTimestampBannedUntil(ipBannedUntil)
                         .interruptProcess();
             }

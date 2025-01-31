@@ -11,11 +11,11 @@ type AdminReportUnitProps = {
 
 export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
     const userService: UserService = new UserService();
-    const [reportAddressed, setReportAddressed] = React.useState<boolean>(report.reporting.isHandled);
+    const [hasReportAddressed, setHasReportAddressed] = React.useState<boolean>(report.reporting.isHandled);
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "adminReportUnit";
 
-    const handleReportAddressed = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleReportAddressed = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
@@ -26,17 +26,16 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
             console.error('verification failed');
             return;
         }
-        const checked = e.currentTarget.checked;
-        setReportAddressed(checked);
         const input: HandleReportInput = new HandleReportInput(
             report.reporting.logId,
-            reportAddressed,
+            !hasReportAddressed,
             true,
             recaptchaToken
         )
         const output = await userService.handleReport(input);
         if (output.isSuccessful()) {
             console.info(output.getMessage("Handle Report"));
+            setHasReportAddressed(r => !r);
         } else {
             console.error(output.getMessage("Handle Report"));
         }
@@ -56,12 +55,8 @@ export const AdminReportUnit: React.FC<AdminReportUnitProps> = ({report}) => {
                 ipBannedUntil={report.ipBannedUntil}
                 hasIpBanned={report.hasIpBanned}/>
             <div className="report-form-text">{report.reporting.text} </div>
-            <span>対応完了</span>
-            <input className="admin-editable-text-activated"
-                   type="checkbox"
-                   checked={reportAddressed}
-                   onChange={handleReportAddressed}
-            />
+            <button type="button"
+                    onClick={handleReportAddressed}>{hasReportAddressed ? "対応済み" : "未対応"}</button>
         </div>
     );
 }

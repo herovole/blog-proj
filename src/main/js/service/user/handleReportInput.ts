@@ -16,7 +16,7 @@ export class HandleReportInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "id": this.reportId.toString(),
+            "reportId": this.reportId.toString(),
             "isHandled": this.isHandled.toString(),
             "requiresAuth": this.requiresAuth.toString(),
             "botDetectionToken": this.botDetectionToken,

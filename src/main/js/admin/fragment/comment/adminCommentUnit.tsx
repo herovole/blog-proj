@@ -26,7 +26,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
         navigate(directoryToIndividualPage + "/" + content.commentUnit.body.articleId);
     }
 
-    const handleHideComment = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleHideComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!executeRecaptcha) {
             console.error('reCAPTCHA not yet available');
@@ -37,16 +37,16 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
             console.error('verification failed');
             return;
         }
-        setHidesComment(e.currentTarget.checked);
         const input: HideCommentInput = new HideCommentInput(
             content.commentUnit.body.commentSerialNumber,
-            hidesComment,
+            !hidesComment,
             true,
             recaptchaToken
         );
         const output: BasicApiResult = await userService.hideComment(input);
         if (output.isSuccessful()) {
             console.info(output.getMessage("Hide Comment"));
+            setHidesComment(r => !r);
         } else {
             console.error(output.getMessage("Hide Comment"));
         }
@@ -58,12 +58,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
                     onClick={navigateToArticle}>
                 article-{content.commentUnit.body.articleId} : {content.title}</button>
             <br/>
-            <span>コメントを非表示</span>
-            <input className="admin-editable-text-activated"
-                   type="checkbox"
-                   checked={hidesComment}
-                   onChange={handleHideComment}
-            />
+            <button type="button" onClick={handleHideComment}>{hidesComment ? "コメント非公開" : "コメント公開"}</button>
             <br/>
             <AdminBanModal
                 label="Ban Comment User"
