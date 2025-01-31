@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@Order(5)
+@Order(6)
 public class AuthFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(AuthFilter.class.getSimpleName());

@@ -21,7 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@Order(3)
+@Order(4)
 public class BotFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(BotFilter.class.getSimpleName());

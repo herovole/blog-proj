@@ -43,6 +43,7 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
     const googleReCaptchaActionLabel = "banUser";
 
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const [refresh, setRefresh] = React.useState<boolean>(false);
 
     const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -84,7 +85,7 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
         } else {
             console.error(banIpOutput.getMessage("Ban Ip"));
         }
-
+        setRefresh(r => !r);
     }
 
     const openModal = () => {
@@ -122,6 +123,7 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
                                 until
                                 : {ipBannedUntil}</div>
                         </div>
+                        <br/>
                         <div>
                             <input
                                 className="input-items-per-page"

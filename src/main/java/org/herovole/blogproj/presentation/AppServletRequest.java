@@ -18,6 +18,7 @@ import org.herovole.blogproj.presentation.filter.EndpointPhrases;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,7 @@ public class AppServletRequest {
     }
 
     private final HttpServletRequest request;
+    private JsonNode formFieldsCache;
 
     public boolean hasUriContaining(EndpointPhrases endpointPhrases) {
         String requestURI = request.getRequestURI();
@@ -117,14 +119,19 @@ public class AppServletRequest {
     }
 
     private String getValueFromBody(String key) {
-        try (BufferedReader br = request.getReader()) {
-            String body = br.lines().collect(Collectors.joining(System.lineSeparator()));
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(body);
-            return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
-        } catch (IOException e) {
-            return null;
+        if (this.formFieldsCache == null) {
+            try (BufferedReader br = request.getReader()) {
+                String body = br.lines().collect(Collectors.joining(System.lineSeparator()));
+
+                // Parse JSON
+                ObjectMapper mapper = new ObjectMapper();
+                this.formFieldsCache = mapper.readTree(body);
+
+            } catch (IOException e) {
+                return null;
+            }
         }
+        return this.formFieldsCache.get(key) == null ? null : this.formFieldsCache.get(key).asText();
     }
 
     private String getBotDetectionTokenFromParameter() {

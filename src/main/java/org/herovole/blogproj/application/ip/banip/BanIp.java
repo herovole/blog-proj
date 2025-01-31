@@ -36,22 +36,7 @@ public class BanIp {
         this.presenter = presenter;
     }
 
-    public void process(BanIpInput input) throws ApplicationProcessException {
-        logger.info("interpreted post : {}", input);
-
-        IPv4Address ip = input.getIp();
-        if (!this.publicIpDatasource.isRecorded(ip)) {
-            logger.info("Specified IP doesn't have records. The application builds one.");
-            publicIpTransactionalDatasource.insert(ip);
-        }
-
-        Timestamp willBeBannedUntil = Timestamp.now().shiftHours(input.getDays() * 24);
-        Timestamp isBannedUntil = this.publicIpDatasource.isBannedUntil(ip);
-        if (willBeBannedUntil.precedes(isBannedUntil)) logger.warn("Suspension gets shortened {} => {}",
-                isBannedUntil.letterSignatureYyyyMMddSpaceHHmmss(), willBeBannedUntil.letterSignatureYyyyMMddSpaceHHmmss());
-
-        this.publicIpTransactionalDatasource.suspend(ip, willBeBannedUntil);
-
+    public void flush() throws ApplicationProcessException {
         try (AppSession session = sessionFactory.createSession()) {
             logger.info("Amount of cached transactions : {}", this.publicIpTransactionalDatasource.amountOfCachedTransactions());
             this.publicIpTransactionalDatasource.flush(session);
@@ -62,6 +47,25 @@ public class BanIp {
             this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
                     .interruptProcess();
         }
+    }
+
+    public void process(BanIpInput input) throws ApplicationProcessException {
+        logger.info("interpreted post : {}", input);
+
+        IPv4Address ip = input.getIp();
+        if (!this.publicIpDatasource.isRecorded(ip)) {
+            logger.info("Specified IP doesn't have records. The application builds one.");
+            publicIpTransactionalDatasource.insert(ip);
+            this.flush();
+        }
+
+        Timestamp willBeBannedUntil = Timestamp.now().shiftHours(input.getDays() * 24);
+        Timestamp isBannedUntil = this.publicIpDatasource.isBannedUntil(ip);
+        if (willBeBannedUntil.precedes(isBannedUntil)) logger.warn("Suspension gets shortened {} => {}",
+                isBannedUntil.letterSignatureYyyyMMddSpaceHHmmss(), willBeBannedUntil.letterSignatureYyyyMMddSpaceHHmmss());
+
+        this.publicIpTransactionalDatasource.suspend(ip, willBeBannedUntil);
+        this.flush();
         logger.info("job successful.");
 
     }
