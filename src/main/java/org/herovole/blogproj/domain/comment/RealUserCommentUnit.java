@@ -165,7 +165,7 @@ public class RealUserCommentUnit implements CommentUnit {
             int likes,
             int dislikes,
             String dailyUserId,
-            long publicUserId,
+            Long publicUserId,
             String ip,
             String postTimestamp
     ) implements CommentUnit.Json {

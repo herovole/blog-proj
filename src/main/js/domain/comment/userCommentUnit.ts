@@ -14,7 +14,7 @@ export interface UserCommentUnit extends CommentUnit {
         dailyUserId: string;
         postTimestamp: string
 
-        publicUserId: number;
+        publicUserId: number | null;
         ip: string;
     };
     depth: number;

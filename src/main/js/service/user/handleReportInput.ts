@@ -14,13 +14,13 @@ export class HandleReportInput {
         this.botDetectionToken = botDetectionToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "reportId": this.reportId.toString(),
             "isHandled": this.isHandled.toString(),
             "requiresAuth": this.requiresAuth.toString(),
             "botDetectionToken": this.botDetectionToken,
-        };
+        });
     };
 
 }

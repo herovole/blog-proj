@@ -44,7 +44,7 @@ export class TagService {
     }
 
     async editTopicTags(formData: FormData): Promise<BasicApiResult> {
-        const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
+        const postData: { [k: string]: FormDataEntryValue } = JSON.stringify(Object.fromEntries(formData.entries()));
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/topicTags", postData, {
                 headers: {'Content-Type': 'application/json',},

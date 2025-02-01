@@ -57,6 +57,7 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
         const output: SearchCommentsOutput = await userService.searchComments(input);
         if (output.isSuccessful()) {
             setData(output);
+            console.log("output " + JSON.stringify(output));
         } else {
             console.error(output.getMessage("article list retrieval"));
         }

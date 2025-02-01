@@ -11,12 +11,12 @@ export class ReportUserCommentInput {
         this.verificationToken = verificationToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "commentSerialNumber": this.commentSerialNumber.toString(),
-            "text": this.reportingText ? this.reportingText : "",
+            "text": this.reportingText ? encodeURIComponent(this.reportingText) : "",
             "botDetectionToken": this.verificationToken
-        };
+        });
     };
 
     buildUrl(): string {

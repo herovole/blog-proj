@@ -177,6 +177,7 @@ public class AdminV1UserCommentController {
             AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
             RateUserCommentInput input = new RateUserCommentInput.Builder()
+                    .commentSerialNumberConfirmation(commentSerialNumber)
                     .iPv4Address(servletRequest.getUserIpFromHeader())
                     .userId(servletRequest.getUserIdFromAttribute())
                     .formContent(formContent)

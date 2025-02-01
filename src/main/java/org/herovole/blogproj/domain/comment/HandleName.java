@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -17,7 +20,7 @@ public class HandleName {
 
     public static HandleName fromFormContentHandleName(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_HANDLE_NAME);
-        return valueOf(child.getValue());
+        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static HandleName valueOf(String handleName) {

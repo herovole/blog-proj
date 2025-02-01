@@ -11,12 +11,12 @@ export class RateUserCommentInput {
         this.verificationToken = verificationToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "commentSerialNumber": this.commentSerialNumber.toString(),
             "rating": this.rating.toString(),
             "botDetectionToken": this.verificationToken
-        };
+        });
     };
 
     buildUrl(): string {

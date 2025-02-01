@@ -7,6 +7,8 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerIds;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,7 +28,7 @@ public class CommentText {
 
     public static CommentText fromFormContentCommentText(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_TEXT);
-        return valueOf(child.getValue());
+        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static CommentText valueOf(String text) {

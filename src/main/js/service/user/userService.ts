@@ -17,12 +17,12 @@ export class UserService {
     async postUserComment(input: PostUserCommentInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/usercomments", input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
             });
             console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
-            console.error("Error submitting form");
+            console.error("Error submitting form" + JSON.stringify(e));
             if (axios.isAxiosError(e) && e.response) {
                 return new BasicApiResult(e.response.data);
             }
@@ -52,7 +52,7 @@ export class UserService {
     async rateUserComment(input: RateUserCommentInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(input.buildUrl(), input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
             });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
@@ -67,7 +67,7 @@ export class UserService {
     async reportUserComment(input: ReportUserCommentInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(input.buildUrl(), input.toPayloadHash(), {
-                headers: {'Content-Type': 'application/json',},
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
             });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
@@ -103,7 +103,7 @@ export class UserService {
             const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/users/" + input.userId.toString() + "/ban",
                 input.toPayloadHash(), {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
@@ -120,7 +120,7 @@ export class UserService {
             const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/ip/ban",
                 input.toPayloadHash(), {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
@@ -137,7 +137,7 @@ export class UserService {
             const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/usercomments/" + input.commentSerialNumber + "/hide",
                 input.toPayloadHash(), {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
@@ -154,7 +154,7 @@ export class UserService {
             const response: AxiosResponse<BasicApiResultFields> = await axios.put(
                 "/api/v1/usercomments/reports/" + input.reportId + "/handle",
                 input.toPayloadHash(), {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {

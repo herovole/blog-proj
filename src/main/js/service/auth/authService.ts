@@ -13,7 +13,7 @@ export class AuthService {
                 "/api/v1/auth/login",
                 input.toPayloadHash(),
                 {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
             console.log(response.data);
@@ -33,7 +33,7 @@ export class AuthService {
                 "/api/v1/auth/validate",
                 {},
                 {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
             console.log(response.data);
@@ -73,7 +73,7 @@ export class AuthService {
                 "/api/v1/auth/adminuser",
                 input.toPayloadHash(),
                 {
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
             console.log(response.data);

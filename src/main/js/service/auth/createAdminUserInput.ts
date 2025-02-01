@@ -14,13 +14,13 @@ export class CreateAdminUserInput {
         this.botDetectionToken = botDetectionToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "userName": this.handle,
             "role": this.role,
             "password": this.password,
             "requiresAuth": this.requiresAuth.toString(),
             "botDetectionToken": this.botDetectionToken
-        };
+        });
     };
 }

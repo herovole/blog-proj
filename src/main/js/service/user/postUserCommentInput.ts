@@ -14,13 +14,13 @@ export class PostUserCommentInput {
         this.verificationToken = verificationToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "articleId": this.articleId.toString(),
-            "handleName": this.handleName ? this.handleName : "",
-            "text": this.commentText ? this.commentText : "",
+            "handleName": this.handleName ? encodeURIComponent(this.handleName) : "",
+            "text": this.commentText ? encodeURIComponent(this.commentText) : "",
             "botDetectionToken": this.verificationToken
-        };
+        });
     };
 
 }

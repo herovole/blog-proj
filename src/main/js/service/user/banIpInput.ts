@@ -14,13 +14,13 @@ export class BanIpInput {
         this.botDetectionToken = botDetectionToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "ip": this.ip,
             "days": this.days.toString(),
             "requiresAuth": this.requiresAuth.toString(),
             "botDetectionToken": this.botDetectionToken,
-        };
+        });
     };
 
 }

@@ -10,11 +10,11 @@ export class AdminLoginInput {
         this.botDetectionToken = botDetectionToken;
     }
 
-    toPayloadHash(): { [key: string]: string } {
-        return {
+    toPayloadHash(): string {
+        return JSON.stringify({
             "userName": this.handle,
             "password": this.password,
             "botDetectionToken": this.botDetectionToken
-        };
+        });
     };
 }

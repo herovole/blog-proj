@@ -62,7 +62,7 @@ export const AdminCommentUnit: React.FC<AdminCommentUnitProps> = ({content, dire
             <br/>
             <AdminBanModal
                 label="Ban Comment User"
-                userId={content.commentUnit.body.publicUserId}
+                userId={content.commentUnit.body.publicUserId ? content.commentUnit.body.publicUserId : -1}
                 userBannedUntil={content.userBannedUntil}
                 hasUserBanned={content.hasUserBanned}
                 ip={content.commentUnit.body.ip}

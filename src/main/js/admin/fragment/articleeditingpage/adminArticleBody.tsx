@@ -154,7 +154,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
             <div>
                 <p className="article-edit-title-large">User Comments</p>
                 <PublicUserCommentView
-                    commentUnits={content.sourceComments}
+                    commentUnits={content.userComments}
                 />
             </div>
         </div>

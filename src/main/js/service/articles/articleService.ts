@@ -44,8 +44,8 @@ export class ArticleService {
     async editArticle(formData: FormData): Promise<BasicApiResult> {
         const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/articles", postData, {
-                headers: {'Content-Type': 'application/json',},
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/articles", JSON.stringify(postData), {
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
             });
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
