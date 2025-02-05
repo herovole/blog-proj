@@ -15,12 +15,12 @@ public class LocalFileSystem {
     private final Path directoryBoundary;
 
     public LocalFileSystem(String boundary) throws HazardousFileSystemNodeException {
-        if (boundary == null || boundary.isEmpty()) throw new HazardousFileSystemNodeException();
+        if (boundary == null || boundary.isEmpty()) throw new HazardousFileSystemNodeException("boundary isn't set.");
         Path directoryBoundaryDeclared = Paths.get(boundary);
         if (Files.isDirectory(directoryBoundaryDeclared)) {
             this.directoryBoundary = directoryBoundaryDeclared;
         } else {
-            throw new HazardousFileSystemNodeException();
+            throw new HazardousFileSystemNodeException("Declared boundary isn't a directory.");
         }
     }
 
