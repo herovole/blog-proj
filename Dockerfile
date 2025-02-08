@@ -3,14 +3,17 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN pwd && ls -la && echo "Current directory:" && \
+RUN echo "Current directory:" && pwd && ls -la && \
     npm run build && \
-    pwd && ls -la && echo "After build:" && \
-    ls -la ./build && \
-    echo "Build directory contents:" && \
-    tree ./build || { echo "Build failed"; exit 1; }
+    echo "Build directory contents:" && pwd && ls -la ./src/main/resources/static/dist
 
 FROM nginx:latest
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/src/main/resources/static /var/www/html
+COPY --from=build /app/src/main/resources/templates /var/www/html
+COPY --from=build /app/src/main/resources/favicon.ico /var/www/html/favicon.ico
+COPY docker_nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker_nginx/conf.d /etc/nginx/conf.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+
+

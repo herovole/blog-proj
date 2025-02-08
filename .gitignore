@@ -13,3 +13,4 @@ package.json
 .eslintrc.json
 tsconfig.tsbuildinfo
 dist
+.htpasswd

@@ -14,7 +14,7 @@
         </Root>
 
         <!-- Specific Logger -->
-        <Logger name="com.example" level="debug" additivity="false">
+        <Logger name="org.herovole.blogproj" level="debug" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>
     </Loggers>
