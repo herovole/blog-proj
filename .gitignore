@@ -14,3 +14,4 @@ package.json
 tsconfig.tsbuildinfo
 dist
 .htpasswd
+docker/local/backend/*.jar
