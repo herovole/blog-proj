@@ -1,4 +1,7 @@
 FROM node:18 AS build
+ENV TZ=Asia/Tokyo
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install

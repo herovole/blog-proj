@@ -1,9 +1,17 @@
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.8.7-eclipse-temurin-17 AS build
 ENV TZ=Asia/Tokyo
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
 WORKDIR /app
-COPY docker/local/backend/blog-proj-1.0-SNAPSHOT.jar blog-proj.jar
+COPY . .
+RUN mvn package -DskipTests -Plocaldocker
+
+FROM eclipse-temurin:17-jdk AS exe
+ENV TZ=Asia/Tokyo
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+WORKDIR /app
+COPY --from=build /app/target/*.jar blog-proj.jar
 COPY docker/local/backend/app_utility app_utility
 EXPOSE 8080
 RUN mkdir -p /var/log/blog && \
