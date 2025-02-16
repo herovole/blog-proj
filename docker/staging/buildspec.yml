@@ -1,0 +1,43 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  pre_build:
+    commands:
+      - echo Backend S3 resource download
+      - aws s3 cp s3://blog2025-stg-s3-private/build/backend/app_utility ./docker/backend/app_utility
+
+      - echo Frontend S3 resource download
+      - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/.htpasswd ./docker/staging/frontend/conf.d/.htpasswd
+  build:
+    commands:
+      - echo Build started on `date`
+
+      - echo Backend Docker image build
+      - docker build --no-cache -t blog-proj-staging-backend -f docker/staging/backend/Dockerfile .
+
+      - echo Backend Docker container build
+      - docker run -d|
+        --name blog-proj-staging-backend-container 
+        --net docker_default 
+        -p 8080:8080 
+        blog-proj-staging-backend
+
+      - echo Frontend Docker image build
+      - docker build --no-cache -t blog-proj-staging-frontend -f docker/staging/frontend/Dockerfile .
+
+      - echo Frontend Docker container build
+      - docker run -d|
+        --name blog-proj-staging-frontend-container 
+        --net docker_default 
+        -p 443:443 
+        blog-proj-staging-frontend
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - target/messageUtil-1.0.jar
