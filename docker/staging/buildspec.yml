@@ -3,13 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11
+      java: corretto17
   pre_build:
     commands:
-      - echo Logging in to AWS
-      - aws --version
-      - aws sts get-caller-identity
-      - aws s3 ls s3://blog2025-stg-s3-private/
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - echo Backend S3 resource download
       - aws s3 cp --recursive s3://blog2025-stg-s3-private/build/backend/app_utility/ ./docker/staging/backend/app_utility/
@@ -19,38 +17,22 @@ phases:
       - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/selfsigned.key ./docker/staging/frontend/conf.d/selfsigned.key
       - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/selfsigned.crt ./docker/staging/frontend/conf.d/selfsigned.crt
 
-      - echo prepare a Docker Network
-      - docker network create blog2025-stg-docker-network
-
   build:
     commands:
       - echo Build started on `date`
 
       - echo Backend Docker image build
       - docker build --no-cache -t blog-proj-staging-backend -f docker/staging/backend/Dockerfile .
-
-      - echo Backend Docker container build
-      - |
-        docker run -d \
-        --name blog-proj-staging-backend-container \
-        --net blog2025-stg-docker-network \
-        -p 8080:8080 \
-        blog-proj-staging-backend
+      - docker tag blog-proj-staging-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-backend:latest
 
       - echo Frontend Docker image build
       - docker build --no-cache -t blog-proj-staging-frontend -f docker/staging/frontend/Dockerfile .
-
-      - echo Frontend Docker container build
-      - |
-        docker run -d \
-        --name blog-proj-staging-frontend-container \
-        --net blog2025-stg-docker-network \
-        -p 443:443 \
-        blog-proj-staging-frontend
+      - docker tag blog-proj-staging-frontend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-frontend:latest
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-backend:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-frontend:latest
 artifacts:
   files:
-    - target/messageUtil-1.0.jar
