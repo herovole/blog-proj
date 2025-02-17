@@ -27,16 +27,16 @@ phases:
 
       - echo Backend Docker image build
       - docker build --no-cache -t blog-proj-staging-backend -f docker/staging/backend/Dockerfile .
-      - docker tag blog-proj-staging-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-backend:latest
+      - docker tag blog-proj-staging-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-backend:latest
 
       - echo Frontend Docker image build
       - docker build --no-cache -t blog-proj-staging-frontend -f docker/staging/frontend/Dockerfile .
-      - docker tag blog-proj-staging-frontend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-frontend:latest
+      - docker tag blog-proj-staging-frontend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-frontend:latest
 
   post_build:
     commands:
       - echo Pushing the Docker image to Amazon ECR...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-backend:latest
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/blog-proj-staging-frontend:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-backend:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-frontend:latest
 artifacts:
   files:
