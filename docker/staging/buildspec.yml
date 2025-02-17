@@ -27,20 +27,22 @@ phases:
       - docker build --no-cache -t blog-proj-staging-backend -f docker/staging/backend/Dockerfile .
 
       - echo Backend Docker container build
-      - docker run -d|
-        --name blog-proj-staging-backend-container 
-        --net docker_default 
-        -p 8080:8080 
+      - |
+        docker run -d \
+        --name blog-proj-staging-backend-container \
+        --net docker_default \
+        -p 8080:8080 \
         blog-proj-staging-backend
 
       - echo Frontend Docker image build
       - docker build --no-cache -t blog-proj-staging-frontend -f docker/staging/frontend/Dockerfile .
 
       - echo Frontend Docker container build
-      - docker run -d|
-        --name blog-proj-staging-frontend-container 
-        --net docker_default 
-        -p 443:443 
+      - |
+        docker run -d \
+        --name blog-proj-staging-frontend-container \
+        --net docker_default \
+        -p 443:443 \
         blog-proj-staging-frontend
 
   post_build:
