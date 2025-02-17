@@ -19,6 +19,9 @@ phases:
       - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/selfsigned.key ./docker/staging/frontend/conf.d/selfsigned.key
       - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/selfsigned.crt ./docker/staging/frontend/conf.d/selfsigned.crt
 
+      - echo prepare a Docker Network
+      - docker network create blog2025-stg-docker-network
+
   build:
     commands:
       - echo Build started on `date`
@@ -30,7 +33,7 @@ phases:
       - |
         docker run -d \
         --name blog-proj-staging-backend-container \
-        --net docker_default \
+        --net blog2025-stg-docker-network \
         -p 8080:8080 \
         blog-proj-staging-backend
 
@@ -41,7 +44,7 @@ phases:
       - |
         docker run -d \
         --name blog-proj-staging-frontend-container \
-        --net docker_default \
+        --net blog2025-stg-docker-network \
         -p 443:443 \
         blog-proj-staging-frontend
 
