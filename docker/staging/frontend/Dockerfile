@@ -3,7 +3,8 @@ ENV TZ=Asia/Tokyo
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
 COPY . .
 RUN echo "Current directory:" && pwd && ls -la && \
