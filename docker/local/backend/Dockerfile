@@ -1,4 +1,4 @@
-FROM maven:3.8.7-eclipse-temurin-17 AS build
+FROM public.ecr.aws/docker/library/maven:3.8.7-eclipse-temurin-17 AS build
 ENV TZ=Asia/Tokyo
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 RUN mvn package -DskipTests -Plocaldocker
 
-FROM eclipse-temurin:17-jdk AS exe
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:17 AS exe
 ENV TZ=Asia/Tokyo
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone
