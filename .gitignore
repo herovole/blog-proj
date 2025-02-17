@@ -19,3 +19,4 @@ src/main/resources/staging/hibernate.cfg.xml
 src/main/resources/prod/hibernate.cfg.xml
 *.key
 *.crt
+aws_user.log
