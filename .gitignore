@@ -17,3 +17,5 @@ docker/local/backend/*.jar
 src/main/resources/static/built/
 src/main/resources/staging/hibernate.cfg.xml
 src/main/resources/prod/hibernate.cfg.xml
+*.key
+*.crt
