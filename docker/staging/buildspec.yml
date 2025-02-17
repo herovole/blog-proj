@@ -10,7 +10,7 @@ phases:
       - aws s3 cp s3://blog2025-stg-s3-private/build/aws_user.log ./docker/staging/aws_user.log
 
       - echo Logging in to Amazon ECR...
-      - source aws_user.log
+      - source ./docker/staging/aws_user.log
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - echo Backend S3 resource download
