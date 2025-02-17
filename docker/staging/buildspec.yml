@@ -6,6 +6,11 @@ phases:
       java: corretto11
   pre_build:
     commands:
+      - echo Logging in to AWS
+      - aws --version
+      - aws sts get-caller-identity
+      - aws s3 ls s3://blog2025-stg-s3-private/
+
       - echo Backend S3 resource download
       - aws s3 cp s3://blog2025-stg-s3-private/build/backend/app_utility ./docker/backend/app_utility
 
