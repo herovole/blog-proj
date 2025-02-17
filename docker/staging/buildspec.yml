@@ -6,6 +6,9 @@ phases:
       java: corretto17
   pre_build:
     commands:
+      - echo AWS resource download
+      - aws s3 cp s3://blog2025-stg-s3-private/build/aws_user.log ./docker/staging/aws_user.log
+
       - echo Logging in to Amazon ECR...
       - source aws_user.log
       - echo "AWS_REGION: $AWS_REGION"
