@@ -12,7 +12,7 @@ phases:
       - aws s3 ls s3://blog2025-stg-s3-private/
 
       - echo Backend S3 resource download
-      - aws s3 cp s3://blog2025-stg-s3-private/build/backend/app_utility ./docker/backend/app_utility
+      - aws s3 cp s3://blog2025-stg-s3-private/build/backend/app_utility/ ./docker/backend/app_utility/
 
       - echo Frontend S3 resource download
       - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/.htpasswd ./docker/staging/frontend/conf.d/.htpasswd
