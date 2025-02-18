@@ -1,6 +1,4 @@
 #!/bin/bash
-
-#!/bin/bash
 set -e  # Stop on error
 
 # Define S3 bucket and file
