@@ -1,0 +1,18 @@
+version: 0.0
+os: linux
+
+hooks:
+  BeforeInstall:
+    - location: scripts/setup_docker_network.sh
+      runas: ec2-user
+    - location: scripts/login_ecr.sh
+      runas: ec2-user
+  Install:
+    - location: scripts/build_run_backend.sh
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/build_run_frontend.sh
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/verify_containers.sh
+      runas: ec2-user
