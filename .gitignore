@@ -18,4 +18,5 @@ src/main/resources/staging/hibernate.cfg.xml
 src/main/resources/prod/hibernate.cfg.xml
 *.key
 *.crt
+*.zip
 aws_user.log
