@@ -7,10 +7,9 @@ hooks:
       runas: ec2-user
     - location: scripts/login_ecr.sh
       runas: ec2-user
-  Install:
+  AfterInstall:
     - location: scripts/build_run_backend.sh
       runas: ec2-user
-  AfterInstall:
     - location: scripts/build_run_frontend.sh
       runas: ec2-user
   ApplicationStart:
