@@ -12,7 +12,8 @@ echo $(date) deploying frontend container $DOCKER_FRONTEND_CONTAINER | tee -a $L
 # Check if the container exists (running or stopped)
 if sudo docker ps -a --format \'{{.Names}}\' | grep -wq \"$DOCKER_FRONTEND_CONTAINER\"; then
     echo $(date) \"Stopping and removing container \'$DOCKER_FRONTEND_CONTAINER\'...\" | tee -a $LOG_FILE
-    sudo docker stop \"$DOCKER_FRONTEND_CONTAINER\" && docker rm \"$DOCKER_FRONTEND_CONTAINER\"
+    sudo docker stop \"$DOCKER_FRONTEND_CONTAINER\"
+    sudo docker rm \"$DOCKER_FRONTEND_CONTAINER\"
 else
     echo $(date) \"Container \'$DOCKER_FRONTEND_CONTAINER\' does not exist. Skipping removal.\" | tee -a $LOG_FILE
 fi

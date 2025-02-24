@@ -12,7 +12,8 @@ echo $(date) deploying backend container $DOCKER_BACKEND_CONTAINER | tee -a $LOG
 # Check if the container exists (running or stopped)
 if sudo docker ps -a --format \'{{.Names}}\' | grep -wq \"$DOCKER_BACKEND_CONTAINER\"; then
     echo $(date) \"Stopping and removing container \'$DOCKER_BACKEND_CONTAINER\'...\" | tee -a $LOG_FILE
-    sudo docker stop \"$DOCKER_BACKEND_CONTAINER\" && docker rm \"$DOCKER_BACKEND_CONTAINER\"
+    sudo docker stop \"$DOCKER_BACKEND_CONTAINER\"
+    sudo docker rm \"$DOCKER_BACKEND_CONTAINER\"
 else
     echo $(date) \"Container \'$DOCKER_BACKEND_CONTAINER\' does not exist. Skipping removal.\" | tee -a $LOG_FILE
 fi
