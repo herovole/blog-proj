@@ -10,12 +10,19 @@ source $AWS_USER_EC2
 echo $(date) deploying frontend container $DOCKER_FRONTEND_CONTAINER | tee -a $LOG_FILE
 
 # Check if the container exists (running or stopped)
-if sudo docker ps -a --format \'{{.Names}}\' | grep -wq \"$DOCKER_FRONTEND_CONTAINER\"; then
+if sudo docker ps -a --format \'{{.Names}}\' | grep -wq $DOCKER_FRONTEND_CONTAINER; then
     echo $(date) \"Stopping and removing container \'$DOCKER_FRONTEND_CONTAINER\'...\" | tee -a $LOG_FILE
-    sudo docker stop \"$DOCKER_FRONTEND_CONTAINER\"
-    sudo docker rm \"$DOCKER_FRONTEND_CONTAINER\"
+    sudo docker stop $DOCKER_FRONTEND_CONTAINER
+    sudo docker rm $DOCKER_FRONTEND_CONTAINER
 else
     echo $(date) \"Container \'$DOCKER_FRONTEND_CONTAINER\' does not exist. Skipping removal.\" | tee -a $LOG_FILE
+fi
+
+if sudo docker images --format "{{.Repository}}" | grep -q "^${DOCKER_FRONTEND_IMAGE}$"; then
+    echo "Previous version of the Docker image '${DOCKER_FRONTEND_IMAGE}' exists. removing..." | tee -a $LOG_FILE
+    sudo docker rmi $(sudo docker images ${AWS_ECR_PREFIX}/${DOCKER_FRONTEND_IMAGE} -q) --force
+else
+    echo "Docker image '${DOCKER_FRONTEND_IMAGE}' does not exist. Skipping removal." | tee -a $LOG_FILE
 fi
 
 # Pull the frontend image from ECR
