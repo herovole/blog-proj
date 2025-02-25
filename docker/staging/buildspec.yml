@@ -18,7 +18,7 @@ phases:
       - aws s3 cp s3://blog2025-stg-s3-private/build/backend/hibernate.cfg.xml ./src/main/resources/staging/hibernate.cfg.xml
 
       - echo Frontend S3 resource download
-      - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/.htpasswd ./docker/staging/frontend/conf.d/.htpasswd
+      - aws s3 cp s3://blog2025-stg-s3-private/build/frontend/nginx/conf.d/.htpasswd ./docker/staging/frontend/nginx/conf.d/.htpasswd
 
   build:
     commands:

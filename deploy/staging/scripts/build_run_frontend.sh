@@ -40,7 +40,7 @@ fi
 sudo docker run -d \
         --name $DOCKER_FRONTEND_CONTAINER \
         --net $DOCKER_NETWORK \
-        -p 443:443 \
+        -p 80:80 \
         $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_FRONTEND_IMAGE:latest
 
 # Verify frontend container running
