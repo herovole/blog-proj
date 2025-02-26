@@ -2,9 +2,11 @@ package org.herovole.blogproj.domain.accesskey;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageName;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccessKeyAsPath implements AccessKey {
 
@@ -41,5 +43,10 @@ public class AccessKeyAsPath implements AccessKey {
     @Override
     public boolean correspondsWith(String expression) {
         return this.path.equals(expression);
+    }
+
+    @Override
+    public AccessKey appendWithSlash(AccessKey accessKey) {
+        return AccessKeyAsPath.valueOf(this.path + "/" + accessKey.memorySignature());
     }
 }

@@ -30,7 +30,7 @@ public class ConfigFile {
     }
 
     private static final String CONFIG_SEPARATOR = "=";
-    private static final String CONFIG_KEY_IMAGES = "images";
+    private static final String CONFIG_KEY_IMAGE_DOMAIN = "img_domain";
     private static final String CONFIG_KEY_COMMENT_BLACKLIST = "comment_blacklist";
     private static final String CONFIG_KEY_SYSTEM_BLACKLIST = "system_blacklist";
     private static final String CONFIG_KEY_G_RECAPTCHA_SECRET_KEY = "g_recaptcha_sercret_key";
@@ -43,6 +43,10 @@ public class ConfigFile {
 
     String getImageDirectoryPath() {
         return this.configs.get(CONFIG_KEY_IMAGES);
+    }
+
+    String getImageDomain() {
+        return this.configs.get(CONFIG_KEY_IMAGE_DOMAIN);
     }
 
     String getCommentBlacklistFilePath() {

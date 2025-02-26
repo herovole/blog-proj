@@ -6,4 +6,5 @@ public interface AccessKey {
     String memorySignature();
 
     boolean correspondsWith(String expression);
+    AccessKey appendWithSlash(AccessKey accessKey);
 }
