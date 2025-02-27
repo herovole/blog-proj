@@ -25,6 +25,11 @@ public class ImageDatasourceLocalFs implements ImageDatasource {
     }
 
     @Override
+    public String imageResourcePrefix() {
+        return parentDirectory.getPath();
+    }
+
+    @Override
     public void persist(AccessKey key, Image image) throws IOException {
         if (!(image instanceof ImageAsMultipartFile)) throw new IllegalStateException("incompatible Image type.");
         MultipartFile imageFile = ((ImageAsMultipartFile) image).toMultipartFile();

@@ -27,7 +27,6 @@ import java.util.List;
 
 public class ImageDatasourceAWSS3 implements ImageDatasource {
 
-    private static final String PROTOCOL = "https://";
     private static final AccessKey DIRECTORY_ARTICLE = AccessKeyAsPath.valueOf("articles");
     private static final int MAX_OBJECT_AMOUNT = 1000; // This is the maximum number S3 supports.
     private final S3Client s3Client;
@@ -36,6 +35,12 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
     public ImageDatasourceAWSS3(S3Client s3client, String bucketName) {
         this.s3Client = s3client;
         this.bucketName = bucketName;
+    }
+
+    // ex. https://blog2025-stg-s3-public.s3.ap-northeast-1.amazonaws.com/large.jpg
+    @Override
+    public String imageResourcePrefix() {
+        return "https://<bucketName>.s3.ap-northeast-1.amazonaws.com".replace("<bucketName>", bucketName);
     }
 
     @Override

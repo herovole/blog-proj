@@ -27,6 +27,10 @@ public class LocalDirectory {
     private final Path path;
     private final LocalFileSystem fs;
 
+    public String getPath() {
+        return path.toAbsolutePath().toString();
+    }
+
     public LocalDirectory declareDirectory(AccessKey accessKey) throws IOException {
         Path childNode = path.resolve(accessKey.memorySignature());
         if (Files.exists(childNode) && !Files.isDirectory(childNode, LinkOption.NOFOLLOW_LINKS))

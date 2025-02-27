@@ -39,6 +39,9 @@ public class ConfigFile {
     private static final String CONFIG_KEY_HOURS_ADMIN_TOKEN_EXPIRES = "hours_admin_token_expires";
     private static final String CONFIG_KEY_OWNER_USER = "owner_user";
     private static final String CONFIG_KEY_OWNER_PASSWORD = "owner_password";
+    private static final String CONFIG_KEY_AWS_ACCESS_KEY = "aws_access_key";
+    private static final String CONFIG_KEY_AWS_SECRET_ACCESS_KEY = "aws_secret_access_key";
+    private static final String CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET = "aws_public_resources_bucket";
 
     private final Map<String, String> configs;
 
@@ -88,6 +91,18 @@ public class ConfigFile {
                 .password(getOwnerPassword())
                 .role(Role.OWNER)
                 .build();
+    }
+
+    public String getAwsAccessKey() {
+        return this.configs.get(CONFIG_KEY_AWS_ACCESS_KEY);
+    }
+
+    public String getAwsSecretAccessKey() {
+        return this.configs.get(CONFIG_KEY_AWS_SECRET_ACCESS_KEY);
+    }
+
+    public String getAwsPublicResourcesBucket() {
+        return this.configs.get(CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET);
     }
 
 }
