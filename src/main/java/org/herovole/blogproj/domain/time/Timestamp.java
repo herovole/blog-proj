@@ -32,12 +32,17 @@ public class Timestamp implements Comparable<Timestamp> {
         return valueOf(LocalDateTime.now(zoneIdTokyo));
     }
 
+    public static Timestamp valueOf(Instant instant) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zoneIdTokyo);
+        return new Timestamp(localDateTime);
+    }
+
     public static Timestamp valueOf(LocalDateTime localDateTime) {
         return new Timestamp(localDateTime);
     }
 
     public static Timestamp valueOf(java.util.Date deprecatedDateInstance) {
-        LocalDateTime localDateTime= deprecatedDateInstance.toInstant().atZone(zoneIdTokyo).toLocalDateTime();
+        LocalDateTime localDateTime = deprecatedDateInstance.toInstant().atZone(zoneIdTokyo).toLocalDateTime();
         return valueOf(localDateTime);
     }
 
