@@ -6,10 +6,10 @@ import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageUploadingForm} from "./imageUploadingForm";
 import {RemoveImageInput} from "../../../service/image/removeImageInput";
 import {BasicApiResult} from "../../../domain/basicApiResult";
+import {ResourcePrefix} from "../../../service/image/resourcePrefix";
 
 export const AdminImageManagement: React.FC = () => {
 
-    const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
     const IMAGES_PER_PAGE: number = 50;
     const imageService: ImageService = new ImageService();
     const [page, setPage] = React.useState(1);
@@ -62,6 +62,7 @@ export const AdminImageManagement: React.FC = () => {
     if (data.isEmpty()) {
         return <div>loading...</div>
     } else {
+        const resourcePrefix: string = await ResourcePrefix.getInstance().withSlash();
         return (
             <div className="admin-image-base">
                 <h2>Image Management</h2>
@@ -75,7 +76,7 @@ export const AdminImageManagement: React.FC = () => {
 
                     {data.getFiles().map(image => (
                         <div key={image.fileName}>
-                            <img className="article-image-thumbnail" src={LOCAL_DIR + image.fileName}
+                            <img className="article-image-thumbnail" src={resourcePrefix + image.fileName}
                                  alt={"thumbnail"}/>
                             <div>{image.fileName}</div>
                             <div>{image.registrationTimestamp}</div>
