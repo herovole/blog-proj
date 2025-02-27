@@ -5,7 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageName;
+import org.herovole.blogproj.domain.time.Timestamp;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,8 +36,14 @@ public class ImageAsMultipartFile implements Image {
     }
 
     @Override
+    public Timestamp getTimestamp() throws IOException {
+        throw new UnsupportedEncodingException();
+    }
+
+    @Override
     public Json toJsonModel() {
         throw new UnsupportedOperationException();
     }
+
 
 }

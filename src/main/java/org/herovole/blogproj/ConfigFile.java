@@ -30,6 +30,7 @@ public class ConfigFile {
     }
 
     private static final String CONFIG_SEPARATOR = "=";
+    private static final String CONFIG_KEY_IMAGE_LOCAL = "img_local";
     private static final String CONFIG_KEY_IMAGE_DOMAIN = "img_domain";
     private static final String CONFIG_KEY_COMMENT_BLACKLIST = "comment_blacklist";
     private static final String CONFIG_KEY_SYSTEM_BLACKLIST = "system_blacklist";
@@ -42,7 +43,7 @@ public class ConfigFile {
     private final Map<String, String> configs;
 
     String getImageDirectoryPath() {
-        return this.configs.get(CONFIG_KEY_IMAGES);
+        return this.configs.get(CONFIG_KEY_IMAGE_LOCAL);
     }
 
     String getImageDomain() {

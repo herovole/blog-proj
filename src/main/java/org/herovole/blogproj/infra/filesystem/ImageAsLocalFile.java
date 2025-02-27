@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.domain.image.ImageName;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.io.IOException;
 
@@ -28,6 +29,11 @@ public class ImageAsLocalFile implements Image {
     }
 
     @Override
+    public Timestamp getTimestamp() throws IOException {
+        return this.file.getLastModifiedTime();
+    }
+
+    @Override
     public Json toJsonModel() {
         try {
             return new Json(this.file.getName(),
@@ -37,4 +43,5 @@ public class ImageAsLocalFile implements Image {
             throw new IllegalStateException(e);
         }
     }
+
 }
