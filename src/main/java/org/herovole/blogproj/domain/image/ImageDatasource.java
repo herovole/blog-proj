@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public interface ImageDatasource {
 
+    String imageResourcePrefix();
     void persist(AccessKey key, Image image) throws IOException;
     void remove(AccessKey key) throws IOException;
 

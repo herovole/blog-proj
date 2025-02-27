@@ -8,6 +8,7 @@ import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.infra.datasource.AccessTokenFactoryJwt;
 import org.herovole.blogproj.infra.datasource.DailyUserIdFactoryImpl;
 import org.herovole.blogproj.infra.datasource.GoogleReCaptchaResultServer;
+import org.herovole.blogproj.infra.datasource.ImageDatasourceAWSS3;
 import org.herovole.blogproj.infra.datasource.ImageDatasourceLocalFs;
 import org.herovole.blogproj.infra.datasource.TextBlackListLocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
@@ -18,6 +19,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.IOException;
 
@@ -39,12 +45,27 @@ public class DIConfig {
     }
 
     @Bean
+    @Profile({"localdocker"})
     public ImageDatasource buildImageDatasourceLocalFs() throws IOException {
         LocalDirectory imageDirectory = LocalDirectory.of(
                 configFile.getImageDirectoryPath(),
                 localFileSystem
         );
         return new ImageDatasourceLocalFs(imageDirectory);
+    }
+
+    @Bean
+    @Profile({"local", "staging", "prod"})
+    public ImageDatasource buildImageDatasourceS3() throws IOException {
+        S3Client s3Client = S3Client.builder()
+                .region(Region.AP_NORTHEAST_1) // Set your region
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(
+                                configFile.getAwsAccessKey(),
+                                configFile.getAwsSecretAccessKey()
+                        )
+                )).build();
+        return new ImageDatasourceAWSS3(s3Client, configFile.getAwsPublicResourcesBucket());
     }
 
     @Bean

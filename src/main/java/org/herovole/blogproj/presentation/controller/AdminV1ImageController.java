@@ -6,6 +6,7 @@ import org.herovole.blogproj.application.image.deleteimage.RemoveImage;
 import org.herovole.blogproj.application.image.deleteimage.RemoveImageInput;
 import org.herovole.blogproj.application.image.postimage.PostImage;
 import org.herovole.blogproj.application.image.postimage.PostImageInput;
+import org.herovole.blogproj.application.image.resourceprefix.GetResourcePrefix;
 import org.herovole.blogproj.application.image.searchimages.SearchImages;
 import org.herovole.blogproj.application.image.searchimages.SearchImagesInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
@@ -13,6 +14,7 @@ import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.infra.filesystem.ImageAsMultipartFile;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
+import org.herovole.blogproj.presentation.presenter.GetResourcePrefixPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchImagesPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +44,39 @@ public class AdminV1ImageController {
     private final BasicPresenter postImagePresenter;
     private final RemoveImage removeImage;
     private final BasicPresenter removeImagePresenter;
+    private final GetResourcePrefix getResourcePrefix;
+    private final GetResourcePrefixPresenter getResourcePrefixPresenter;
 
     @Autowired
-    public AdminV1ImageController(SearchImages searchImages, SearchImagesPresenter searchImagesPresenter, PostImage postImage, BasicPresenter postImagePresenter, RemoveImage removeImage, BasicPresenter removeImagePresenter) {
+    public AdminV1ImageController(SearchImages searchImages, SearchImagesPresenter searchImagesPresenter,
+                                  PostImage postImage, BasicPresenter postImagePresenter,
+                                  RemoveImage removeImage, BasicPresenter removeImagePresenter,
+                                  GetResourcePrefix getResourcePrefix, GetResourcePrefixPresenter getResourcePrefixPresenter) {
         this.searchImages = searchImages;
         this.searchImagesPresenter = searchImagesPresenter;
         this.postImage = postImage;
         this.postImagePresenter = postImagePresenter;
         this.removeImage = removeImage;
         this.removeImagePresenter = removeImagePresenter;
+        this.getResourcePrefix = getResourcePrefix;
+        this.getResourcePrefixPresenter = getResourcePrefixPresenter;
+    }
+
+    @GetMapping("/prefix")
+    public ResponseEntity<String> getResourcePrefix() {
+
+        try {
+            getResourcePrefix.process();
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.getResourcePrefixPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.getResourcePrefixPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.getResourcePrefixPresenter.buildResponseEntity();
     }
 
     @GetMapping
