@@ -4,8 +4,28 @@ import axios, {AxiosResponse} from "axios";
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 import {PostImageInput} from "./postImageInput";
 import {RemoveImageInput} from "./removeImageInput";
+import {GetResourcePrefixOutput, GetResourcePrefixOutputFields} from "./getResourcePrefixOutput";
 
 export class ImageService {
+
+    async getResourcePrefix(): Promise<GetResourcePrefixOutput> {
+        try {
+            const response: AxiosResponse<GetResourcePrefixOutputFields> = await axios.get(
+                "/api/v1/images/prefix", {
+                    params: {},
+                    headers: {Accept: 'application/json',},
+                }
+            );
+            console.log(response.data);
+            return new GetResourcePrefixOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error requesting data");
+            if (axios.isAxiosError(e) && e.response) {
+                return new GetResourcePrefixOutput(e.response.data);
+            }
+        }
+        return GetResourcePrefixOutput.empty();
+    }
 
     async searchImages(input: SearchImagesInput): Promise<SearchImagesOutput> {
         try {

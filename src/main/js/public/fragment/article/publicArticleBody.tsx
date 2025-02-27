@@ -7,6 +7,7 @@ import {Article} from "../../../domain/article";
 import {PublicSourceCommentView} from "./sourcecomment/publicSourceCommentView";
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
 import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHistoryOutput";
+import {ResourcePrefix} from "../../../service/image/resourcePrefix";
 
 
 type PublicArticleBodyProps = {
@@ -37,47 +38,50 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         }
     }
 
-    return (
-        <div>
-            <h2 className="article-title">{article.title}</h2>
-            <img className="article-image" src={article.imageName} alt="not rendered"/>
-            <div className="article-text">{article.text}</div>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={topicTagOptions} tagIds={article.topicTags}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={countryTagOptions} tagIds={article.countries}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
-            <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
+    ResourcePrefix.getInstance().articlesWithSlash().then(resourcePrefix => {
+        return (
+            <div>
+                <h2 className="article-title">{article.title}</h2>
+                <img className="article-image" src={resourcePrefix + article.imageName} alt="not rendered"/>
+                <div className="article-text">{article.text}</div>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={topicTagOptions} tagIds={article.topicTags}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={countryTagOptions} tagIds={article.countries}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
+                <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
 
 
-            <div>
-                <PublicSourceCommentView
-                    commentUnits={article.sourceComments}
-                    countryTagsOptions={countryTagOptions}
-                    handleReference={handleReference}
-                />
+                <div>
+                    <PublicSourceCommentView
+                        commentUnits={article.sourceComments}
+                        countryTagsOptions={countryTagOptions}
+                        handleReference={handleReference}
+                    />
+                </div>
+                <div>
+                    <PublicUserCommentView
+                        commentUnits={article.userComments}
+                        ratingHistory={ratingHistory}
+                        handleReference={handleReference}
+                    />
+                </div>
+                <div>
+                    <PublicUserCommentForm
+                        postKey={postKey.append("userCommentForm")}
+                        articleId={article.articleId}
+                        articleTitle={article.title}
+                        refText={refText}
+                        reRender={reRender}
+                    />
+                </div>
             </div>
-            <div>
-                <PublicUserCommentView
-                    commentUnits={article.userComments}
-                    ratingHistory={ratingHistory}
-                    handleReference={handleReference}
-                />
-            </div>
-            <div>
-                <PublicUserCommentForm
-                    postKey={postKey.append("userCommentForm")}
-                    articleId={article.articleId}
-                    articleTitle={article.title}
-                    refText={refText}
-                    reRender={reRender}
-                />
-            </div>
-        </div>
-    );
+        );
+    });
+    return <div>loading...</div>
 }
 
