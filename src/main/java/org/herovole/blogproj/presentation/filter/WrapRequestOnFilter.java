@@ -39,8 +39,13 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
 
         public CachedBodyHttpServletRequest(HttpServletRequest request) throws IOException {
             super(request);
-            body = request.getReader().lines()
-                    .collect(Collectors.joining(System.lineSeparator()));
+            if (request.getContentType() != null
+                    && request.getContentType().startsWith("multipart/")) {
+                body = "";
+            } else {
+                body = request.getReader().lines()
+                        .collect(Collectors.joining(System.lineSeparator()));
+            }
         }
 
         @Override
