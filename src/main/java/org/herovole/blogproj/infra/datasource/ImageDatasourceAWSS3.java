@@ -95,7 +95,8 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
             continuationToken = listResponse.nextContinuationToken(); // Get next page token
 
         } while (continuationToken != null); // Continue if there are more results
-        Image[] images = objects.stream().map(ImageAsS3Object::of).toArray(Image[]::new);
+        Image[] images = objects.stream().filter(object -> !object.key().endsWith("/"))
+                .map(ImageAsS3Object::of).toArray(Image[]::new);
         return Images.of(images).sortByTimestampDesc();
     }
 

@@ -8,6 +8,8 @@ import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.time.Timestamp;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
+import java.nio.file.Paths;
+
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageAsS3Object implements Image {
@@ -19,7 +21,9 @@ public class ImageAsS3Object implements Image {
 
     @Override
     public ImageName getImageName() {
-        return ImageName.valueOf(this.file.key());
+        return ImageName.valueOf(
+                Paths.get(file.key()).getFileName().toString()
+        );
     }
 
     @Override
@@ -35,7 +39,7 @@ public class ImageAsS3Object implements Image {
     @Override
     public Json toJsonModel() {
         return new Json(
-                this.file.key(),
+                this.getImageName().memorySignature(),
                 this.getTimestamp().letterSignatureFrontendDisplay()
         );
     }
