@@ -37,12 +37,17 @@ public class RealAdminUserClaim implements AdminUser {
 
     @Override
     public boolean isCoherentTo(AdminUser legitimateUserInfo) {
+        System.out.println("UN " + this.userName.letterSignature() + " vs " + legitimateUserInfo.getUserName().letterSignature());
+        System.out.println("role " + this.role.getLabel() + " vs " + legitimateUserInfo.getRole().getLabel());
+        System.out.println("ip " + this.accessTokenIp.aton() + " vs " + legitimateUserInfo.getAccessTokenIp().aton());
+        System.out.println("token " + this.accessToken.letterSignature() + " vs " + legitimateUserInfo.getAccessToken().letterSignature());
+        System.out.println("exp " + this.accessTokenExpiry.letterSignatureFrontendDisplay() + " vs " + legitimateUserInfo.getAccessTokenExpiry().letterSignatureFrontendDisplay());
         return this.userName.equals(legitimateUserInfo.getUserName()) &&
                 this.role.equals(legitimateUserInfo.getRole()) &&
                 this.accessTokenIp.equals(legitimateUserInfo.getAccessTokenIp()) &&
                 this.accessToken.equals(legitimateUserInfo.getAccessToken()) &&
 
-                this.accessTokenExpiry.precedes(legitimateUserInfo.getAccessTokenExpiry());
+                this.accessTokenExpiry.precedesOrEquals(legitimateUserInfo.getAccessTokenExpiry());
     }
 
     @Override

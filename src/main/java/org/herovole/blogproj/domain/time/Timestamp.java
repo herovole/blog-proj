@@ -72,6 +72,10 @@ public class Timestamp implements Comparable<Timestamp> {
         return this.isEmpty() || that.isEmpty() || this.localDateTime.isBefore(that.localDateTime);
     }
 
+    public boolean precedesOrEquals(Timestamp that) {
+        return this.isEmpty() || that.isEmpty() || !this.localDateTime.isAfter(that.localDateTime);
+    }
+
     public Timestamp shiftHours(int hours) {
         if (this.isEmpty()) throw new IllegalStateException("Empty Timestamp");
         return Timestamp.valueOf(this.localDateTime.plusHours(hours));
