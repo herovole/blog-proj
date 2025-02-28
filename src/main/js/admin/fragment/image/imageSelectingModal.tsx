@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageService} from "../../../service/image/imageService";
-import {ImageUploadingForm} from "./imageUploadingForm";
+import {ResourcePrefix} from "../../../service/image/resourcePrefix";
 
 const customStyles = {
     content: {
@@ -13,17 +13,17 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-    },
+    }
 };
-//Modal.setAppElement('#yourAppElement');
 
 type ImageSelectingModalProps = {
     imageName: string;
-}
+};
 
 export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     {imageName}) => {
 
+    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const imageService: ImageService = new ImageService();
     const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
 
@@ -34,6 +34,10 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     const [fileNames, setFileNames] = React.useState<string[]>([]);
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
+
+    useEffect(() => {
+        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
+    }, []);
 
     const afterOpenModal = () => {
     }
@@ -81,7 +85,8 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     return (
         <div>
             <img className="image-sample" src={LOCAL_DIR + selectedImage} alt={"sample"}/>
-            <br/><button type="button" onClick={openModal}>Open List</button>
+            <br/>
+            <button type="button" onClick={openModal}>Open List</button>
             <p>{selectedImage}</p>
             <Modal
                 isOpen={isOpen}
@@ -96,7 +101,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
                 <div className="grid-container">
                     {fileNames.map((name, i) => (
                         <div key={"key" + i.toString()}>
-                            <img className="image-thumbnail" src={LOCAL_DIR + name}/>
+                            <img className="image-thumbnail" src={resourcePrefix + name} alt={name}/>
                             <button type="button" onClick={() => selectImage(name)}>Select</button>
                         </div>
                     ))}
@@ -105,4 +110,3 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
         </div>
     );
 }
-
