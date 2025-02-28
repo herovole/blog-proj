@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {AppPagination} from "../appPagenation";
 import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {ImageService} from "../../../service/image/imageService";
@@ -11,6 +11,7 @@ import {ResourcePrefix} from "../../../service/image/resourcePrefix";
 export const AdminImageManagement: React.FC = () => {
 
     const IMAGES_PER_PAGE: number = 50;
+    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const imageService: ImageService = new ImageService();
     const [page, setPage] = React.useState(1);
     const [data, setData] = React.useState(SearchImagesOutput.empty());
@@ -33,6 +34,7 @@ export const AdminImageManagement: React.FC = () => {
 
     useEffect(() => {
         handlePageChanged(1);
+        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
     }, []);
 
     const handlePageChanged = async (requestedPage: number) => {
@@ -62,7 +64,6 @@ export const AdminImageManagement: React.FC = () => {
     if (data.isEmpty()) {
         return <div>loading...</div>
     } else {
-        const resourcePrefix: string = await ResourcePrefix.getInstance().withSlash();
         return (
             <div className="admin-image-base">
                 <h2>Image Management</h2>
