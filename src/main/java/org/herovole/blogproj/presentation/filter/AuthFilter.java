@@ -44,8 +44,7 @@ public class AuthFilter extends OncePerRequestFilter {
         itsLogger.info("doFilterInternal");
         AppServletRequest servletRequest = AppServletRequest.of(request);
         if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS) &&
-                !servletRequest.getRequiresAuthFromParameter().isTrue() &&
-                !servletRequest.getRequiresAuthFromBody().isTrue()
+                !servletRequest.requiresAuth()
         ) {
             itsLogger.info("skipped");
             filterChain.doFilter(request, response);

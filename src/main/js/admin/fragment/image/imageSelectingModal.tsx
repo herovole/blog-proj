@@ -25,7 +25,6 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const imageService: ImageService = new ImageService();
-    const LOCAL_DIR = "c://home/git/blog-proj/app_utility/images/";
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -36,6 +35,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
 
     useEffect(() => {
+        handlePageChanged(1).then();
         ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
     }, []);
 
@@ -84,7 +84,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     return (
         <div>
-            <img className="image-sample" src={LOCAL_DIR + selectedImage} alt={"sample"}/>
+            <img className="image-sample" src={resourcePrefix + selectedImage} alt={"sample"}/>
             <br/>
             <button type="button" onClick={openModal}>Open List</button>
             <p>{selectedImage}</p>

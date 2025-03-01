@@ -97,7 +97,7 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
         } while (continuationToken != null); // Continue if there are more results
         Image[] images = objects.stream().filter(object -> !object.key().endsWith("/"))
                 .map(ImageAsS3Object::of).toArray(Image[]::new);
-        return Images.of(images).sortByTimestampDesc();
+        return Images.of(images).sortByTimestampDesc().get(request);
     }
 
     @Override

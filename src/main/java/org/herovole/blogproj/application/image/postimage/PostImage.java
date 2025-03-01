@@ -35,9 +35,11 @@ public class PostImage {
         logger.info("interpreted post : {}", input);
 
         Image image = input.getImage();
+        if(image.isEmpty()) presenter
+                .setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
+                .setMessage("Image must not be empty.").interruptProcess();
+
         AccessKey fileName = AccessKeyAsPath.nameOf(input.getImage());
-
-
         try {
             Image existingImage = imageDatasource.findByName(fileName);
             if (!existingImage.isEmpty()) {

@@ -1,5 +1,6 @@
 package org.herovole.blogproj.presentation.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.image.deleteimage.RemoveImage;
@@ -13,6 +14,7 @@ import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.image.Image;
 import org.herovole.blogproj.infra.filesystem.ImageAsMultipartFile;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.GetResourcePrefixPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchImagesPresenter;
@@ -81,8 +83,14 @@ public class AdminV1ImageController {
 
     @GetMapping
     public ResponseEntity<String> searchImages(
+            HttpServletRequest httpServletRequest,
             @RequestParam Map<String, String> request) {
-
+        logger.info("Endpoint : images (get) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().editsArticles()) {
+            this.searchImagesPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.searchImagesPresenter.buildResponseEntity();
+        }
         FormContent formContent = FormContent.of(request);
         SearchImagesInput input = SearchImagesInput.of(formContent);
         try {
@@ -100,18 +108,19 @@ public class AdminV1ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postImage(@RequestPart("image") MultipartFile file) {
-        System.out.println("endpoint : post");
-        System.out.println("/api/v1/images");
-        if (!file.isEmpty()) {
-            System.out.println("Received file: " + file.getOriginalFilename());
-            System.out.println("File size: " + file.getSize() + " bytes");
+    public ResponseEntity<String> postImage(
+            HttpServletRequest httpServletRequest,
+            @RequestPart("image") MultipartFile file) {
+        logger.info("Endpoint : images (post) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().editsImages()) {
+            this.postImagePresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.postImagePresenter.buildResponseEntity();
         }
-
         Image image = ImageAsMultipartFile.of(file);
-        PostImageInput input = PostImageInput.of(image);
 
         try {
+            PostImageInput input = PostImageInput.of(image);
             postImage.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
@@ -127,11 +136,14 @@ public class AdminV1ImageController {
 
     @DeleteMapping
     public ResponseEntity<String> removeImage(
+            HttpServletRequest httpServletRequest,
             @RequestBody Map<String, String> request) {
-
-        System.out.println("endpoint : delete");
-        System.out.println("/api/v1/images");
-        System.out.println(request);
+        logger.info("Endpoint : images (delete) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().editsImages()) {
+            this.postImagePresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.postImagePresenter.buildResponseEntity();
+        }
 
         FormContent formContent = FormContent.of(request);
         RemoveImageInput input = RemoveImageInput.of(formContent);

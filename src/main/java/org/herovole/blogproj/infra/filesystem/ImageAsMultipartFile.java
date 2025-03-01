@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 public class ImageAsMultipartFile implements Image {
 
     public static Image of(MultipartFile file) {
+        if (file == null || file.isEmpty()) return new ImageAsMultipartFile(null);
         return new ImageAsMultipartFile(file);
     }
 
