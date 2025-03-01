@@ -5,11 +5,11 @@ import {format} from 'date-fns';
 import {ElementId} from "../../../domain/elementId/elementId";
 
 type DateSelectingFormProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     postKey: ElementId;
     isFixed?: boolean;
 }
-export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children, postKey, isFixed = false}) => {
+export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children = null, postKey, isFixed = false}) => {
 
     function reactNodeToDateStrict(node: React.ReactNode): Date | null {
         if (node == null || node === "") return null;

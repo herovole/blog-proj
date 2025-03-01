@@ -12,7 +12,6 @@ import {AdminPageArticleList} from './admin/adminPageArticleList';
 import {AdminPageArticle} from './admin/adminPageArticle';
 import {AdminPageTopicTagList} from './admin/adminPageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
-import {AdminPageNewArticle} from "./admin/adminPageNewArticle";
 import {PublicPageArticleList} from "./public/publicPageArticleList";
 import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
 import {AdminPageLogin} from "./admin/adminPageLogin";
@@ -106,7 +105,7 @@ const App = () => {
                 <Route path="/admin/articles/new" element={
                     <AdminProtectedRoute>
                         <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                            <AdminPageNewArticle/>
+                            <AdminPageArticle/>
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}

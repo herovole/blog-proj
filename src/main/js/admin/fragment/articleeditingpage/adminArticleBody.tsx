@@ -13,17 +13,18 @@ import {Article} from "../../../domain/article";
 import {ArticleService} from "../../../service/articles/articleService";
 import {BasicApiResult} from "../../../domain/basicApiResult";
 import {PublicUserCommentView} from "../../../public/fragment/article/usercomment/publicUserCommentView";
+import {CommentUnit} from "../../../domain/comment/commentUnit";
 
 
 type AdminArticleBodyProps = {
     postKey: ElementId;
-    content: Article;
+    content?: Article | null;
     topicTagsOptions: TagUnits;
     countryTagsOptions: TagUnits;
 }
 export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                                                                       postKey,
-                                                                      content,
+                                                                      content = null,
                                                                       topicTagsOptions,
                                                                       countryTagsOptions
                                                                   }) => {
@@ -54,7 +55,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <p className="article-edit-title">Image</p>
                         <ImageSelectingModal
                             postKey={postKey.append("imageName")}
-                            imageName={content.imageName}
+                            imageName={content ? content.imageName : ""}
                         />
                     </div>
                     <div className="flex-container">
@@ -62,7 +63,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <IdsEditingForm
                             postKey={postKey.append("articleId")}
                             isFixed={true}
-                        >{content.articleId}</IdsEditingForm>
+                        >{content ? content.articleId : null}</IdsEditingForm>
                     </div>
                     <div>
                         <p className="article-edit-title-large">Source Info</p>
@@ -71,7 +72,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             <TextEditingForm
                                 postKey={postKey.append("sourceUrl")}
                             >
-                                {content.sourceUrl}
+                                {content ? content.sourceUrl : ""}
                             </TextEditingForm>
                         </p>
                         <p>
@@ -79,14 +80,14 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             <TextEditingForm
                                 postKey={postKey.append("sourceTitle")}
                             >
-                                {content.sourceTitle}
+                                {content ? content.sourceTitle : ""}
                             </TextEditingForm>
                         </p>
                         <p>
                             <span className="article-edit-title">Date</span>
                             <DateSelectingForm
                                 postKey={postKey.append("sourceDate")}>
-                                {content.sourceDate}
+                                {content ? content.sourceDate : null}
                             </DateSelectingForm>
                         </p>
                     </div>
@@ -94,7 +95,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <p className="article-edit-title">Published?</p>
                         <BooleanSelectingForm
                             postKey={postKey.append("isPublished")}>
-                            {content.isPublished}
+                            {content ? content.isPublished : false}
                         </BooleanSelectingForm>
                     </div>
                     <div className="flex-container">
@@ -114,7 +115,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             postKey={postKey.append("topicTags")}
                             candidates={topicTagsOptions}
                         >
-                            {content.topicTags}
+                            {content ? content.topicTags : null}
                         </TagSelectingForm>
                     </div>
                     <div>
@@ -124,14 +125,14 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             postKey={postKey.append("countries")}
                             candidates={countryTagsOptions}
                         >
-                            {content.countries}
+                            {content ? content.countries : null}
                         </TagSelectingForm>
                     </div>
                     <div>
                         <p className="article-edit-title">Article Title</p>
                         <TextEditingForm
                             postKey={postKey.append("articleTitle")}>
-                            {content.title}
+                            {content ? content.title : ""}
                         </TextEditingForm>
                     </div>
                     <div>
@@ -141,14 +142,14 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             width={"400px"}
                             height={"70px"}
                         >
-                            {content.text}
+                            {content ? content.text : ""}
                         </TextEditingForm>
                     </div>
                     <div>
                         <p className="article-edit-title-large">Source Comments</p>
                         <AdminCommentEditor
                             postKey={postKey.append("sourceComments")}
-                            content={content.sourceComments}
+                            content={content ? content.sourceComments : new Array<CommentUnit>()}
                             countryTagsOptions={countryTagsOptions}
                         />
                     </div>
@@ -157,7 +158,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
             <div>
                 <p className="article-edit-title-large">User Comments</p>
                 <PublicUserCommentView
-                    commentUnits={content.userComments}
+                    commentUnits={content ? content.userComments : new Array<CommentUnit>()}
                 />
             </div>
         </div>
