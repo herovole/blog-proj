@@ -43,6 +43,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     const [messageWarning, setMessageWarning] = React.useState<string>("");
 
 
+    React.useEffect(() => {},[refresh]);
+
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const currentHandle: string = e.target.value;
         setHandle(currentHandle);

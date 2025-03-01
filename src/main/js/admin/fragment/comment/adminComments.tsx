@@ -28,10 +28,8 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
     const [refresh, setRefresh] = React.useState(false);
 
     React.useEffect(() => {
-        loadComments(SearchCommentsInput.byDefault()).then(r => {
-            return r;
-        });
-    }, []);
+        loadComments(SearchCommentsInput.byDefault()).then();
+        }, [refresh]);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemsPerPage(parseInt(e.currentTarget.value));
