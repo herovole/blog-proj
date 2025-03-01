@@ -22,9 +22,7 @@ export const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({childre
         setIsValid(true);
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, []);
 
     if (isValid) {

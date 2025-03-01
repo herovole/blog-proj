@@ -12,8 +12,6 @@ type TagButtonProps = {
 export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searchBaseUrl}) => {
 
     useEffect(() => {
-        console.log("TAGBUTTONS " + JSON.stringify(tagUnitList));
-        console.log("TAGBUTTONS " + JSON.stringify(tagIds));
     }, []);
 
     return (

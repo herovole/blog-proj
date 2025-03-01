@@ -43,7 +43,6 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
     const handleChange = (theSelectedTags:
                               ReadonlyArray<{ value: string, label: string }> | { value: string, label: string }
     ) => {
-        console.log("selected handleChange : " + JSON.stringify(theSelectedTags));
 
         if (Array.isArray(theSelectedTags)) {
             setSelectedTags(theSelectedTags.map(tag => tag.value));
@@ -54,8 +53,6 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
     };
 
     if (isBeingEdited && !isFixed) {
-        console.log("render-active :" + JSON.stringify(candidates.getTagOptionsJapanese()));
-        console.log("selected :" + JSON.stringify(selectedTags));
         return (
             <div>
                 <Select
@@ -87,7 +84,6 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
             </div>
         );
     } else {
-        console.log("render-passive:" + JSON.stringify(candidates.getTagOptionsJapanese()));
         const tagsInJapanese = candidates.getJapaneseNamesByIdsForDisplay(fixedSelectedTags);
         const tagsInEnglish = candidates.getEnglishNamesByIdsForDisplay(fixedSelectedTags);
         return (<>

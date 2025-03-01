@@ -53,7 +53,6 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
         event.preventDefault(); // Prevent page reload
         setInfo("");
         setWarn("");
-        console.log(event.currentTarget)
         const formData = new FormData(event.currentTarget as HTMLFormElement);
 
         if (!executeRecaptcha) {

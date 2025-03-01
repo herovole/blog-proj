@@ -16,7 +16,6 @@ export class ImageService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(response.data);
             return new GetResourcePrefixOutput(response.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
@@ -35,7 +34,6 @@ export class ImageService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(response.data);
             return new SearchImagesOutput(response.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
@@ -55,7 +53,6 @@ export class ImageService {
                     headers: {'Content-Type': 'multipart/form-data'},
                 }
             );
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");
@@ -73,7 +70,6 @@ export class ImageService {
                 "/api/v1/images", {
                     data: input.toPayloadHash(),
                 });
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");

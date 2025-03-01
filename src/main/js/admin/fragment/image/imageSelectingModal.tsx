@@ -4,6 +4,7 @@ import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageService} from "../../../service/image/imageService";
 import {ResourcePrefix} from "../../../service/image/resourcePrefix";
+import {ElementId} from "../../../domain/elementId/elementId";
 
 const customStyles = {
     content: {
@@ -17,11 +18,12 @@ const customStyles = {
 };
 
 type ImageSelectingModalProps = {
+    postKey: ElementId;
     imageName: string;
 };
 
 export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
-    {imageName}) => {
+    {postKey, imageName}) => {
 
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const imageService: ImageService = new ImageService();
@@ -31,7 +33,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     const [page, setPage] = React.useState(1);
     const [imagesInPage, setImagesInPage] = React.useState(25);
 
-    const [fileNames, setFileNames] = React.useState<string[]>([]);
+    const [images, setImages] = React.useState<ReadonlyArray<{ fileName: string, registrationTimestamp: string }>>([]);
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
 
     useEffect(() => {
@@ -64,12 +66,12 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     const handlePageChanged = async (requestedPage: number) => {
         const input: SearchImagesInput = new SearchImagesInput(
             requestedPage,
-            imagesInPage,
-            true
+            imagesInPage
         );
         const output: SearchImagesOutput = await imageService.searchImages(input);
         if (output.isSuccessful()) {
             setPage(requestedPage);
+            setImages(output.getFiles());
         } else {
             console.error(output.getMessage("Image Search"))
         }
@@ -85,6 +87,10 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     return (
         <div>
             <img className="image-sample" src={resourcePrefix + selectedImage} alt={"sample"}/>
+            <p>{selectedImage}</p>
+            <input type="hidden"
+                   name={postKey.toStringKey()}
+                   value={selectedImage}/>
             <br/>
             <button type="button" onClick={openModal}>Open List</button>
             <p>{selectedImage}</p>
@@ -99,10 +105,11 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
                 <button type="button" onClick={nextPage}>Next</button>
                 <button onClick={closeModal}>close</button>
                 <div className="grid-container">
-                    {fileNames.map((name, i) => (
+                    {images.map((image, i) => (
                         <div key={"key" + i.toString()}>
-                            <img className="image-thumbnail" src={resourcePrefix + name} alt={name}/>
-                            <button type="button" onClick={() => selectImage(name)}>Select</button>
+                            <img className="image-thumbnail" src={resourcePrefix + image.fileName}
+                                 alt={image.fileName}/>
+                            <button type="button" onClick={() => selectImage(image.fileName)}>Select</button>
                         </div>
                     ))}
                 </div>

@@ -20,7 +20,6 @@ export const Sandbox: React.FC = () => {
 
     useEffect(() => {
         const fetchTagsOptions = async () => {
-            console.log("---------fetchTagsOptions---------");
             try {
 
                 const topicResponse = await axios.get("/api/v1/topicTags", {
@@ -49,7 +48,6 @@ export const Sandbox: React.FC = () => {
             }
         };
         fetchTagsOptions();
-        console.log("TagUnit:", topicTagsOptions.getTagUnit("1"));
     }, []);
 
     const selectedTags = ["af"];

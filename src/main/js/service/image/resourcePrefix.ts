@@ -23,13 +23,10 @@ export class ResourcePrefix {
     }
 
     private async withSlash(): Promise<string> {
-        console.log("prefix call");
         if (this.prefix) return this.prefix + "/";
-        console.log("prefix read localStorage");
         if (localStorage.getItem(ResourcePrefix.LOCAL_STORAGE_KEY)) {
             this.prefix = localStorage.getItem(ResourcePrefix.LOCAL_STORAGE_KEY) as string;
         } else {
-            console.log("prefix ask API");
             const apiResult: GetResourcePrefixOutput = await this.imageService.getResourcePrefix();
             localStorage.setItem(ResourcePrefix.LOCAL_STORAGE_KEY, apiResult.getPrefix());
             this.prefix = localStorage.getItem(ResourcePrefix.LOCAL_STORAGE_KEY) as string;

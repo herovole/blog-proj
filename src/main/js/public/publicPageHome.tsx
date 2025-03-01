@@ -14,7 +14,6 @@ export const PublicPageHome: React.FC = () => {
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [refresh, setRefresh] = React.useState(false);
     const reRender = () => {
-        console.log("reload the page, flag:" + refresh);
         setRefresh(r => !r);
     }
     const load = async (): Promise<void> => {
@@ -39,9 +38,7 @@ export const PublicPageHome: React.FC = () => {
         }
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, [refresh]);
 
     if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {

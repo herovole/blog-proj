@@ -53,15 +53,12 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
     }
 
     const loadComments = async (input: SearchCommentsInput): Promise<void> => {
-        console.log("input " + JSON.stringify(input.toPayloadHash()));
         const output: SearchCommentsOutput = await userService.searchComments(input);
         if (output.isSuccessful()) {
             setData(output);
-            console.log("output " + JSON.stringify(output));
         } else {
             console.error(output.getMessage("article list retrieval"));
         }
-        console.log("total comments : " + output.getTotal());
         setRefresh(r => !r);
     }
 

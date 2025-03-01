@@ -19,7 +19,7 @@ public class RealSourceCommentUnit implements CommentUnit {
 
     public static RealSourceCommentUnit fromFormContent(FormContent formContent) {
         return RealSourceCommentUnit.builder()
-                .commentSerialNumber(IntegerId.empty())
+                .commentSerialNumber(IntegerId.fromFormContentCommentSerialNumber(formContent))
                 .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
                 .country(CountryCode.fromPostContent(formContent))
@@ -42,6 +42,11 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public boolean isEmpty() {
         return this.commentId.isEmpty();
+    }
+
+    @Override
+    public IntegerId getSerialNumber() {
+        return this.commentSerialNumber;
     }
 
     @Override

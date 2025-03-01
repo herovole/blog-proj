@@ -27,6 +27,11 @@ public class AdminCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getSerialNumber() {
+        return userCommentUnit.getSerialNumber();
+    }
+
+    @Override
     public IntegerId getCommentId() {
         return userCommentUnit.getCommentId();
     }

@@ -36,9 +36,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         await loadArticles(inputFixed);
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,15 +53,12 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }
 
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
-        console.log("input " + JSON.stringify(input.toPayloadHash()));
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
         if (output.isSuccessful()) {
             setOutput(output);
         } else {
             console.error(output.getMessage("article list retrieval"));
         }
-        console.log("total articles : " + output.getLength());
-        console.log("articles : " + JSON.stringify(output.getArticleSummaryList()));
         setRefresh(r => !r);
     }
 

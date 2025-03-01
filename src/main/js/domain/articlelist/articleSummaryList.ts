@@ -15,9 +15,6 @@ export class ArticleSummaryList {
     }
 
     getElements(): ReadonlyArray<ArticleSummary> {
-        console.log(this.list.length);
-        console.log(this.list[0]);
-        console.log(this.list[1]);
         return Array.from(this.list);
     }
 }

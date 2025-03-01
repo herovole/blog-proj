@@ -26,6 +26,7 @@ public interface CommentUnit {
 
     boolean isEmpty();
 
+    IntegerId getSerialNumber();
     IntegerId getCommentId();
 
     IntegerId getArticleId();

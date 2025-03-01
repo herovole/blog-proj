@@ -19,7 +19,6 @@ export class UserService {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/usercomments", input.toPayloadHash(), {
                 headers: {'Content-Type': 'application/json;charset=utf-8',},
             });
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form" + JSON.stringify(e));
@@ -38,7 +37,6 @@ export class UserService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(response.data);
             return new SearchRatingHistoryOutput(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");
@@ -87,7 +85,6 @@ export class UserService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(response.data);
             return new SearchCommentsOutput(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");

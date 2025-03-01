@@ -23,7 +23,6 @@ export const PublicUserCommentView: React.FC<PublicUserCommentViewProps> = ({
                 const unit = commentUnit as UserCommentUnit;
                 const depth: number = unit.depth;
                 const rating: number = ratingHistory.findRatingByCommentSerialNumber(unit.body.commentSerialNumber);
-                console.log("commentId " + unit.body.commentId + "/serial : " + unit.body.commentSerialNumber + "/rating : " + rating);
                 return (
                     <div key={i} className="flex-container">
                         {[...Array(depth)].map((_, j) => (

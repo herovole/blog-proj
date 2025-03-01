@@ -34,9 +34,7 @@ export const AdminPageUsers: React.FC = () => {
         }
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, [refresh]);
 
     const reload = () => {
@@ -44,14 +42,12 @@ export const AdminPageUsers: React.FC = () => {
     }
 
     if (roles.isEmpty() || users.isEmpty()) {
-        console.log(6);
         return (
             <AdminBasicLayout>
                 <div>Loading...</div>
             </AdminBasicLayout>
         );
     } else {
-        console.log(7);
         return (
             <AdminBasicLayout>
                 <AdminUsers data={users} roles={roles} reload={reload}/>

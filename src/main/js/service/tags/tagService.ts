@@ -13,7 +13,6 @@ export class TagService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(topicResponse.data);
             return new SearchTagsOutput(topicResponse.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
@@ -32,7 +31,6 @@ export class TagService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(countriesResponse.data);
             return new SearchTagsOutput(countriesResponse.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
@@ -67,7 +65,6 @@ export class TagService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(rolesResponse.data);
             return new SearchTagsOutput(rolesResponse.data);
         } catch (e: unknown) {
             console.error("Error requesting data");

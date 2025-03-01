@@ -18,6 +18,11 @@ public class CommentUnitWithDepth implements CommentUnit {
     }
 
     @Override
+    public IntegerId getSerialNumber() {
+        return this.body.getSerialNumber();
+    }
+
+    @Override
     public IntegerId getCommentId() {
         return this.body.getCommentId();
     }
