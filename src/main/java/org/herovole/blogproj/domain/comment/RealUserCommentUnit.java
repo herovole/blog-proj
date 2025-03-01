@@ -9,12 +9,12 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.domain.publicuser.DailyUserId;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.publicuser.PublicUserId;
+import org.herovole.blogproj.domain.time.Date;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -60,6 +60,11 @@ public class RealUserCommentUnit implements CommentUnit {
     @Override
     public boolean isEmpty() {
         return this.handleName.isEmpty() && this.commentText.isEmpty();
+    }
+
+    @Override
+    public IntegerId getSerialNumber() {
+        return this.commentSerialNumber;
     }
 
     @Override

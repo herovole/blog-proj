@@ -5,9 +5,10 @@ export class RemoveImageInput {
         this.imageName = imageName;
     }
 
-    toPayloadHash(): string {
-        return JSON.stringify({
-            "imageName": this.imageName
-        });
+    toPayloadHash(): { [key: string]: string } {
+        return {
+            "imageName": this.imageName,
+            "requiresAuth": "true"
+        };
     };
 }

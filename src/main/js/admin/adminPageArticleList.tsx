@@ -34,9 +34,7 @@ export const AdminPageArticleList: React.FC = () => {
 
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, []);
 
     if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {

@@ -13,7 +13,6 @@ export const TagButton: React.FC<TagButtonProps> = ({unit, searchBaseUrl, search
 
     const navigate = useNavigate();
     const handleOnClick = () => {
-        console.log("tag click : " + unit.fields.id + " " + unit.fields.tagJapanese)
         const hash = {[searchKey]: unit.fields.id.toString()};
         const urlSearchParams = new URLSearchParams(Object.entries(hash));
         navigate(`${searchBaseUrl}?${urlSearchParams.toString()}`);

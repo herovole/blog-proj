@@ -41,7 +41,6 @@ export const AdminImageManagement: React.FC = () => {
         const input: SearchImagesInput = new SearchImagesInput(
             requestedPage,
             IMAGES_PER_PAGE,
-            true
         );
         const output: SearchImagesOutput = await imageService.searchImages(input);
         if (output.isSuccessful()) {

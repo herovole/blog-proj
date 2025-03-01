@@ -16,7 +16,6 @@ export class AuthService {
                     headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");
@@ -36,7 +35,6 @@ export class AuthService {
                     headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");
@@ -55,7 +53,6 @@ export class AuthService {
                     headers: {Accept: 'application/json',},
                 }
             );
-            console.log(response.data);
             return new SearchAdminUserOutput(response.data);
         } catch (e: unknown) {
             console.error("Error requesting data");
@@ -76,7 +73,6 @@ export class AuthService {
                     headers: {'Content-Type': 'application/json;charset=utf-8',},
                 }
             );
-            console.log(response.data);
             return new BasicApiResult(response.data);
         } catch (e: unknown) {
             console.error("Error submitting form");

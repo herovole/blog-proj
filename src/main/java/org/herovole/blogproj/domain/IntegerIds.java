@@ -91,7 +91,7 @@ public class IntegerIds implements Iterable<IntegerId> {
         return Arrays.asList(this.ids).contains(integerId);
     }
 
-    public IntegerIds lack(IntegerIds that) {
+    public IntegerIds unknownItemsOf(IntegerIds that) {
         return IntegerIds.of(that.stream().filter(e -> !this.has(e)).toArray(IntegerId[]::new));
     }
 

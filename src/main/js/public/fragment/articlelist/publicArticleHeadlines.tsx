@@ -33,13 +33,7 @@ export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({
                                                                               }) => {
 
 
-    useEffect(() => {
-        console.log("DAT " + JSON.stringify(articles));
-        console.log("AAAAAA " + JSON.stringify(topicTagList));
-        console.log("AAAAAA " + JSON.stringify(topicTagList.getTagUnit("1")));
-        console.log("AAAAAA " + JSON.stringify(countryTagList));
-        console.log("AAAAAA " + JSON.stringify(countryTagList.getTagUnit("ad")));
-    }, [reRender]);
+    useEffect(() => { }, [reRender]);
 
 
     if (mode === HeadlinesMode.SMALL) {

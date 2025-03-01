@@ -37,7 +37,6 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
     }, []);
 
     const initialLoad = () => {
-        console.log("initialLoad");
         if (searchForm.current) {
             searchForm.current.dispatchEvent(
                 new Event('submit', {cancelable: true, bubbles: true})

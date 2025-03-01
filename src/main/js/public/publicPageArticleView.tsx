@@ -27,7 +27,6 @@ export const PublicPageArticleView: React.FC = () => {
     const [ratingHistory, setRatingHistory] = React.useState<SearchRatingHistoryOutput>();
     const [refresh, setRefresh] = React.useState(false);
     const reRender = () => {
-        console.log("reload the page, flag:" + refresh);
         setRefresh(r => !r);
     }
     const load = async (): Promise<void> => {
@@ -74,9 +73,7 @@ export const PublicPageArticleView: React.FC = () => {
         }
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, [refresh]);
 
     if (article && ratingHistory) {

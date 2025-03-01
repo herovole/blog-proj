@@ -35,7 +35,7 @@ public class RealArticle implements Article {
                 .countries(CountryCodes.fromPostContent(children))
                 .topicTags(IntegerIds.fromPostContentTopicTags(children))
                 .editors(IntegerIds.fromPostContentEditors(children))
-                .originalComments(CommentUnits.fromFormContentToSourceComments(children))
+                .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
                 .latestEditTimestamp(Timestamp.empty())
@@ -52,7 +52,7 @@ public class RealArticle implements Article {
     private final CountryCodes countries;
     private final IntegerIds topicTags;
     private final IntegerIds editors;
-    private final CommentUnits originalComments;
+    private final CommentUnits sourceComments;
     private final CommentUnits userComments;
     private final Timestamp registrationTimestamp;
     private final Timestamp latestEditTimestamp;
@@ -79,7 +79,7 @@ public class RealArticle implements Article {
                 .countries(countries)
                 .topicTags(topicTags)
                 .editors(editors)
-                .originalComments(sourceComments)
+                .sourceComments(sourceComments)
                 .userComments(userComments)
 
                 .registrationTimestamp(this.registrationTimestamp)
@@ -99,7 +99,7 @@ public class RealArticle implements Article {
 
     @Override
     public Article sortComments() {
-        return this.append(this.topicTags, this.countries, this.editors, this.originalComments.sort(), this.userComments.sort());
+        return this.append(this.topicTags, this.countries, this.editors, this.sourceComments.sort(), this.userComments.sort());
     }
 
     @Override
@@ -114,7 +114,7 @@ public class RealArticle implements Article {
                 .countries(this.countries)
                 .topicTags(this.topicTags)
                 .editors(this.editors)
-                .originalComments(this.originalComments.maskPrivateItems())
+                .sourceComments(this.sourceComments.maskPrivateItems())
                 .userComments(this.userComments.maskPrivateItems())
                 .registrationTimestamp(this.registrationTimestamp)
                 .latestEditTimestamp(this.latestEditTimestamp)
@@ -135,7 +135,7 @@ public class RealArticle implements Article {
                 .countries(countries.toMemorySignature())
                 .topicTags(topicTags.toIntMemorySignature())
                 .editors(editors.toIntMemorySignature())
-                .sourceComments(originalComments.toJsonModel())
+                .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
                 .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
                 .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())

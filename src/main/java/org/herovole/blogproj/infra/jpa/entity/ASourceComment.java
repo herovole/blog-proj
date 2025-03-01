@@ -8,10 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.RealSourceCommentUnit;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
@@ -74,12 +74,12 @@ public class ASourceComment implements Serializable {
         return aSourceComment;
     }
 
-    public static ASourceComment fromUpdateDomainObj(IntegerId articleId, CommentUnit commentUnit) {
-        if (commentUnit.isEmpty()) throw new EmptyRecordException();
-        RealSourceCommentUnit commentUnit1 = (RealSourceCommentUnit) commentUnit;
-        ASourceComment sourceComment = fromDomainObj(commentUnit);
-        sourceComment.setId(commentUnit1.getCommentSerialNumber().longMemorySignature());
-        sourceComment.setArticleId(articleId.longMemorySignature());
+    public static ASourceComment fromUpdateDomainObj(CommentUnit before, CommentUnit after) {
+        if (after.isEmpty()) throw new EmptyRecordException();
+        RealSourceCommentUnit before1 = (RealSourceCommentUnit) before;
+        ASourceComment sourceComment = fromDomainObj(after);
+        sourceComment.setId(before1.getCommentSerialNumber().longMemorySignature());
+        sourceComment.setArticleId(before1.getArticleId().longMemorySignature());
         sourceComment.setDeleteFlag(false);
         return sourceComment;
     }

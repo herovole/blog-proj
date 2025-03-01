@@ -50,9 +50,7 @@ export const AdminPageArticle: React.FC = () => {
         }
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, []);
 
     if (article) {

@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentUnits {
 
-    private static final String API_KEY_ORIGINAL_COMMENTS = "originalComments";
+    private static final String API_KEY_SOURCE_COMMENTS = "sourceComments";
     private static final String API_KEY_USER_COMMENTS = "userComments";
 
     public static CommentUnits fromFormContentToSourceComments(FormContent formContent) {
-        FormContent child = formContent.getChildren(API_KEY_ORIGINAL_COMMENTS);
+        FormContent child = formContent.getChildren(API_KEY_SOURCE_COMMENTS);
         FormContents arrayChildren = child.getInArray();
         CommentUnit[] comments = arrayChildren.stream().map(CommentUnit::fromFormContentToSourceComment).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new);
         return of(comments);
@@ -66,22 +66,31 @@ public class CommentUnits {
         return commentOfSameId[0];
     }
 
-    public CommentUnits lacksInId(CommentUnits that) {
+    public CommentUnits unknownCommentsOf(CommentUnits that) {
         return CommentUnits.of(that.stream().filter(e -> !this.hasInId(e)).toArray(CommentUnit[]::new));
     }
 
-    public CommentUnits differ(CommentUnits that) {
-        return CommentUnits.of(that.stream().filter(e ->
-                        this.hasInId(e) &&
-                                !this.getBySameId(e).hasSameContent(e)
-                )
-                .toArray(CommentUnit[]::new));
+    public CommentUnits differentCommentsOf(CommentUnits that) {
+        CommentUnit[] differentUnits = that.stream()
+                .filter(e -> !e.getSerialNumber().isEmpty() && this.hasInId(e) && !this.getBySameId(e).hasSameContent(e))
+                .toArray(CommentUnit[]::new);
+        return CommentUnits.of(differentUnits);
     }
 
-    private CommentUnit getByInArticleCommentId(IntegerId commentId) {
+    private CommentUnit findByInArticleCommentId(IntegerId commentId) {
         CommentUnit[] commentOfSameId = this.stream().filter(e -> !e.isEmpty() && e.getCommentId().equals(commentId)).toArray(CommentUnit[]::new);
         if (commentOfSameId.length == 0) return CommentUnit.empty();
         return commentOfSameId[0];
+    }
+
+    public CommentUnit findBySerialNumber(IntegerId commentSerialNumber) {
+        System.out.println("finding " + commentSerialNumber.longMemorySignature());
+        for (CommentUnit e : units) {
+            System.out.println(e.getSerialNumber().longMemorySignature());
+        }
+        CommentUnit[] commentOfSameSerialNumber = this.stream().filter(e -> !e.isEmpty() && e.getSerialNumber().equals(commentSerialNumber)).toArray(CommentUnit[]::new);
+        if (commentOfSameSerialNumber.length == 0) return CommentUnit.empty();
+        return commentOfSameSerialNumber[0];
     }
 
     private CommentUnits appendUnit(CommentUnit commentUnit) {
@@ -122,7 +131,7 @@ public class CommentUnits {
                 CommentUnit unitWithDepth = unit.appendDepth(0);
                 newUnits = newUnits.appendUnit(unitWithDepth);
             } else {
-                CommentUnit referredUnit = newUnits.getByInArticleCommentId(refId);
+                CommentUnit referredUnit = newUnits.findByInArticleCommentId(refId);
                 if (referredUnit.isEmpty()) {
                     CommentUnit unitWithDepth = unit.appendDepth(0);
                     newUnits = newUnits.appendUnit(unitWithDepth);

@@ -30,9 +30,7 @@ export const PublicPageArticleList = () => {
 
     };
     useEffect(() => {
-        load().then(r => {
-            console.log(r);
-        });
+        load().then();
     }, []);
 
     if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {

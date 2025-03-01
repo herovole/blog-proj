@@ -14,6 +14,11 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerId getSerialNumber() {
+        return IntegerId.empty();
+    }
+
+    @Override
     public IntegerId getCommentId() {
         return IntegerId.empty();
     }

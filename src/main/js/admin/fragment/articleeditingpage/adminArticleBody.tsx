@@ -51,6 +51,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                     <div className="flex-container">
                         <p className="article-edit-title">Image</p>
                         <ImageSelectingModal
+                            postKey={postKey.append("imageName")}
                             imageName={content.imageName}
                         />
                     </div>
@@ -144,7 +145,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                     <div>
                         <p className="article-edit-title-large">Source Comments</p>
                         <AdminCommentEditor
-                            postKey={postKey.append("originalComments")}
+                            postKey={postKey.append("sourceComments")}
                             content={content.sourceComments}
                             countryTagsOptions={countryTagsOptions}
                         />
