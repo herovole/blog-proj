@@ -35,7 +35,7 @@ export const AdminImageManagement: React.FC = () => {
     useEffect(() => {
         handlePageChanged(1).then();
         ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
-    }, []);
+    }, [refresh]);
 
     const handlePageChanged = async (requestedPage: number) => {
         const input: SearchImagesInput = new SearchImagesInput(

@@ -31,6 +31,8 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
     const [message, setMessage] = React.useState("");
     const articleService: ArticleService = new ArticleService();
 
+    React.useEffect(() => { }, [refresh]);
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault(); // Prevent page reload
         const formData = new FormData(event.target as HTMLFormElement);
