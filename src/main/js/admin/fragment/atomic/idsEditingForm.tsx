@@ -3,7 +3,7 @@ import {ElementId} from "../../../domain/elementId/elementId";
 
 type PixelValue = `${number}px`;
 type IdsEditingFormProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     postKey: ElementId;
     isFixed?: boolean;
     width?: PixelValue;
@@ -11,7 +11,7 @@ type IdsEditingFormProps = {
 }
 
 export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
-                                                                  children,
+                                                                  children = null,
                                                                   postKey,
                                                                   isFixed = false,
                                                                   width = "100px",
@@ -19,10 +19,10 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
                                                               }) => {
 
     const SPLITTER: string = ",";
-    const initIds = children?.toString().split(SPLITTER).map((n) => Number(n));
+    const initIds = children ? (children as string).toString().split(SPLITTER).map((n) => Number(n)) : new Array<number>();
 
-    const [ids, setIds] = useState<Array<number> | undefined>(initIds);
-    const [fixedIds, setFixedIds] = useState<Array<number> | undefined>(initIds);
+    const [ids, setIds] = useState<Array<number>>(initIds);
+    const [fixedIds, setFixedIds] = useState<Array<number>>(initIds);
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
 
     const fix = () => {
         setFixedIds(ids);
-        setIsBeingEdited(true);
+        setIsBeingEdited(false);
     }
 
     const cancel = () => {
