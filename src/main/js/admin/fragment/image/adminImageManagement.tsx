@@ -33,7 +33,7 @@ export const AdminImageManagement: React.FC = () => {
     }
 
     useEffect(() => {
-        handlePageChanged(1);
+        handlePageChanged(1).then();
         ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
     }, []);
 

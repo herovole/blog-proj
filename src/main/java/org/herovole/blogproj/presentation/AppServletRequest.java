@@ -18,7 +18,6 @@ import org.herovole.blogproj.presentation.filter.EndpointPhrases;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,6 +36,25 @@ public class AppServletRequest {
 
     private final HttpServletRequest request;
     private JsonNode formFieldsCache;
+
+    private GenericSwitch getRequiresAuthFromParameter() {
+        return GenericSwitch.valueOf(request.getParameter(PARAM_KEY_REQUIRES_AUTH));
+    }
+
+    private GenericSwitch getRequiresAuthFromBody() {
+        return GenericSwitch.valueOf(this.getValueFromBody(PARAM_KEY_REQUIRES_AUTH));
+    }
+
+    private boolean uploadsImage() {
+        return request.getContentType() != null
+                && request.getContentType().startsWith("multipart/");
+    }
+
+    public boolean requiresAuth() {
+        return this.getRequiresAuthFromParameter().isTrue() ||
+                this.getRequiresAuthFromBody().isTrue() ||
+                this.uploadsImage();
+    }
 
     public boolean hasUriContaining(EndpointPhrases endpointPhrases) {
         String requestURI = request.getRequestURI();
@@ -148,13 +166,6 @@ public class AppServletRequest {
                 this.getBotDetectionTokenFromBody();
     }
 
-    public GenericSwitch getRequiresAuthFromParameter() {
-        return GenericSwitch.valueOf(request.getParameter(PARAM_KEY_REQUIRES_AUTH));
-    }
-
-    public GenericSwitch getRequiresAuthFromBody() {
-        return GenericSwitch.valueOf(this.getValueFromBody(PARAM_KEY_REQUIRES_AUTH));
-    }
 
     public TextBlackUnit detectThreateningPhrase(TextBlackList textBlackList) {
         for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
