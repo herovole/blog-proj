@@ -19,6 +19,7 @@ import {AdminPageImages} from "./admin/adminPageImages";
 import {AdminPageUsers} from "./admin/adminPageUsers";
 import {AdminPageUserComments} from "./admin/adminPageUserComments";
 import {PublicPageHome} from "./public/publicPageHome";
+import {AdminPageArticleNew} from "./admin/adminPageArticleNew";
 
 
 console.log("App.js");
@@ -105,7 +106,7 @@ const App = () => {
                 <Route path="/admin/articles/new" element={
                     <AdminProtectedRoute>
                         <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                            <AdminPageArticle/>
+                            <AdminPageArticleNew/>
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}

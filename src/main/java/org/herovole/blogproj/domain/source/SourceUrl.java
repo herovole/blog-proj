@@ -23,8 +23,8 @@ public class SourceUrl {
 
     public static SourceUrl valueOf(String url) {
         if (url == null || url.isEmpty() || url.isBlank()) return empty();
-        if (LENGTH_LIMIT < url.length()) throw new DomainInstanceGenerationException();
-        if (!urlValidator.isValid(url)) throw new DomainInstanceGenerationException();
+        if (LENGTH_LIMIT < url.length()) throw new DomainInstanceGenerationException(url);
+        if (!urlValidator.isValid(url)) throw new DomainInstanceGenerationException(url);
         return new SourceUrl(url);
     }
 
