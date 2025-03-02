@@ -1,19 +1,16 @@
 import React from 'react';
 import {AdminCommentEditorUnit} from './adminCommentEditorUnit'
 import {ElementId} from "../../../../domain/elementId/elementId";
-import {TagUnits} from "../../atomic/tagselectingform/tagUnits";
 import {CommentUnit} from "../../../../domain/comment/commentUnit";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 
 type AdminCommentEditorProps = {
     postKey: ElementId;
     content: ReadonlyArray<CommentUnit>;
-    countryTagsOptions: TagUnits;
 }
 export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
                                                                           postKey,
                                                                           content,
-                                                                          countryTagsOptions
                                                                       }) => {
 
     const [countAddedComments, setCountAddedComments] = React.useState<number>(0);
@@ -36,7 +33,6 @@ export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
                             ))}
                             <AdminCommentEditorUnit
                                 postKey={postKey.append(i.toString())}
-                                countryTagsOptions={countryTagsOptions}
                                 content={unit}
                             />
                         </div>
@@ -47,7 +43,6 @@ export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
                     <div key={"key" + index.toString()}>
                         <AdminCommentEditorUnit
                             postKey={postKey.append((elementNumber + index).toString())}
-                            countryTagsOptions={countryTagsOptions}
                             content={null}
                         />
                     </div>

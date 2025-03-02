@@ -7,7 +7,7 @@ import {Article} from "../../../domain/article";
 import {PublicSourceCommentView} from "./sourcecomment/publicSourceCommentView";
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
 import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHistoryOutput";
-import {ResourcePrefix} from "../../../service/image/resourcePrefix";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 
 type PublicArticleBodyProps = {
@@ -33,7 +33,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
 
 
     useEffect(() => {
-        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
     }, []);
 
     const handleReference = (commentIdReferred: number) => {

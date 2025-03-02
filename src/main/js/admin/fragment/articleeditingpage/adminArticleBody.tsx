@@ -14,25 +14,27 @@ import {ArticleService} from "../../../service/articles/articleService";
 import {BasicApiResult} from "../../../domain/basicApiResult";
 import {PublicUserCommentView} from "../../../public/fragment/article/usercomment/publicUserCommentView";
 import {CommentUnit} from "../../../domain/comment/commentUnit";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 
 type AdminArticleBodyProps = {
     postKey: ElementId;
     content?: Article | null;
-    topicTagsOptions: TagUnits;
-    countryTagsOptions: TagUnits;
 }
 export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                                                                       postKey,
                                                                       content = null,
-                                                                      topicTagsOptions,
-                                                                      countryTagsOptions
                                                                   }) => {
     const [refresh, setRefresh] = React.useState(false);
     const [message, setMessage] = React.useState("");
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const articleService: ArticleService = new ArticleService();
 
-    React.useEffect(() => { }, [refresh]);
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, [refresh]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault(); // Prevent page reload
@@ -150,7 +152,6 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                         <AdminCommentEditor
                             postKey={postKey.append("sourceComments")}
                             content={content ? content.sourceComments : new Array<CommentUnit>()}
-                            countryTagsOptions={countryTagsOptions}
                         />
                     </div>
                 </div>

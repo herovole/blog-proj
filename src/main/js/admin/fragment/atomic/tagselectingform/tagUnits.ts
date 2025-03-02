@@ -2,6 +2,12 @@ import {TagUnit} from './tagUnit'
 
 export class TagUnits {
 
+    static ofJson(json: string | null): TagUnits {
+        if (json == null) return new TagUnits(new Array<TagUnit>());
+        const field: ReadonlyArray<TagUnit> = Object.assign(new Array<TagUnit>(), JSON.parse(json));
+        return new TagUnits(field);
+    }
+
     static empty(): TagUnits {
         return new TagUnits([]);
     }
@@ -10,6 +16,10 @@ export class TagUnits {
 
     constructor(arrayListOfTagUnits: ReadonlyArray<TagUnit>) {
         this.tagUnits = arrayListOfTagUnits || [];
+    }
+
+    stringify(): string {
+        return JSON.stringify(this.tagUnits);
     }
 
     isEmpty(): boolean {
