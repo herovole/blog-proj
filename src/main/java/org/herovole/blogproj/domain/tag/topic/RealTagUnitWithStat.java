@@ -39,7 +39,7 @@ public class RealTagUnitWithStat implements TagUnit {
     @Override
     public Json toJson() {
         return RealTagUnitWithStat.Json.builder()
-                .id(this.id.longMemorySignature())
+                .id(this.id.letterSignature())
                 .tagEnglish(this.tagEnglish.memorySignature())
                 .tagJapanese(this.tagJapanese.memorySignature())
                 .articles(this.articles)
@@ -49,7 +49,7 @@ public class RealTagUnitWithStat implements TagUnit {
 
     @Builder
     record Json(
-            Long id,
+            String id,
             String tagEnglish,
             String tagJapanese,
             int articles,

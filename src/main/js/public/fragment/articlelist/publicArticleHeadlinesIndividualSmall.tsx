@@ -23,7 +23,7 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, []);
+    }, [topicTagsOptions, countryTagsOptions]);
 
     const goToIndividualPage = (articleId: number) => {
         navigate(directoryToIndividualPage + "/" + articleId);

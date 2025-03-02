@@ -1,5 +1,5 @@
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
 import {useNavigate} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
@@ -15,26 +15,23 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                                                                                                                 directoryToIndividualPage,
                                                                                                             }
 ) => {
-    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const LETTERS_PICKUP = 30;
     const navigate = useNavigate();
+    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
     React.useEffect(() => {
+        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, []);
+    }, [resourcePrefix, topicTagsOptions, countryTagsOptions]);
 
     const goToIndividualPage = (articleId: number) => {
         navigate(directoryToIndividualPage + "/" + articleId);
     }
 
-    useEffect(() => {
-        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
-    }, []);
-
-    if(topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+    if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
         return <div>loading...</div>;
     } else {
         return (
