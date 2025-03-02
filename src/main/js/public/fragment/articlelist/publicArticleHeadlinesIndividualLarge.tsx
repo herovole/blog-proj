@@ -34,23 +34,27 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
     }, []);
 
-    return (
-        <div key="" className="headline-item">
-            <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
-                {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
-                <br/>
-                <img className="article-image" src={resourcePrefix + article.imageName} alt={article.imageName}/>
-            </button>
-            <div className="article-text">{article.text}</div>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
-            <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
-        </div>);
+    if(topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+        return <div>loading...</div>;
+    } else {
+        return (
+            <div key="" className="headline-item">
+                <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
+                    {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
+                    <br/>
+                    <img className="article-image" src={resourcePrefix + article.imageName} alt={article.imageName}/>
+                </button>
+                <div className="article-text">{article.text}</div>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
+                <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
+            </div>);
+    }
 }
