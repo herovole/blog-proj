@@ -3,31 +3,35 @@ import React, {useEffect, useState} from "react";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
 import {useNavigate} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
-import {ResourcePrefix} from "../../../service/image/resourcePrefix";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 type PublicArticleHeadlinesIndividualLargeProps = {
     article: ArticleSummary;
     directoryToIndividualPage: string;
-    topicTagList: TagUnits;
-    countryTagList: TagUnits;
 }
 
 export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadlinesIndividualLargeProps> = ({
                                                                                                                 article,
                                                                                                                 directoryToIndividualPage,
-                                                                                                                topicTagList,
-                                                                                                                countryTagList
                                                                                                             }
 ) => {
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const LETTERS_PICKUP = 30;
     const navigate = useNavigate();
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
+
     const goToIndividualPage = (articleId: number) => {
         navigate(directoryToIndividualPage + "/" + articleId);
     }
 
     useEffect(() => {
-        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
     }, []);
 
     return (
@@ -39,11 +43,11 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
             </button>
             <div className="article-text">{article.text}</div>
             <div className="article-tag-alignment">
-                <TagButtons tagUnitList={topicTagList} tagIds={article.topicTags}
+                <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
                             searchBaseUrl={directoryToIndividualPage}/>
             </div>
             <div className="article-tag-alignment">
-                <TagButtons tagUnitList={countryTagList} tagIds={article.countries}
+                <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                             searchBaseUrl={directoryToIndividualPage}/>
             </div>
             <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>

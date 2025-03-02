@@ -6,7 +6,7 @@ import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageUploadingForm} from "./imageUploadingForm";
 import {RemoveImageInput} from "../../../service/image/removeImageInput";
 import {BasicApiResult} from "../../../domain/basicApiResult";
-import {ResourcePrefix} from "../../../service/image/resourcePrefix";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 export const AdminImageManagement: React.FC = () => {
 
@@ -34,7 +34,7 @@ export const AdminImageManagement: React.FC = () => {
 
     useEffect(() => {
         handlePageChanged(1).then();
-        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
     }, [refresh]);
 
     const handlePageChanged = async (requestedPage: number) => {

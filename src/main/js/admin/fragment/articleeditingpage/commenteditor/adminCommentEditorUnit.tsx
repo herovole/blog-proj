@@ -6,18 +6,21 @@ import {TagSelectingForm} from '../../atomic/tagselectingform/tagSelectingForm';
 import {TagUnits} from '../../atomic/tagselectingform/tagUnits';
 import {ElementId} from "../../../../domain/elementId/elementId";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
+import {ResourceManagement} from "../../../../service/resourceManagement";
 
 type AdminCommentEditorUnitProps = {
     postKey: ElementId;
     content: SourceCommentUnit | null;
-    countryTagsOptions: TagUnits;
 }
 export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
                                                                                   postKey,
                                                                                   content,
-                                                                                  countryTagsOptions
                                                                               }) => {
 
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
     return (
         <div className="comment-section">

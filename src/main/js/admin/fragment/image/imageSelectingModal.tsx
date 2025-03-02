@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import {SearchImagesInput} from "../../../service/image/searchImagesInput";
 import {SearchImagesOutput} from "../../../service/image/searchImagesOutput";
 import {ImageService} from "../../../service/image/imageService";
-import {ResourcePrefix} from "../../../service/image/resourcePrefix";
+import {ResourceManagement} from "../../../service/resourceManagement";
 import {ElementId} from "../../../domain/elementId/elementId";
 
 const customStyles = {
@@ -38,7 +38,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     useEffect(() => {
         handlePageChanged(1).then();
-        ResourcePrefix.getInstance().articlesWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
     }, []);
 
     const afterOpenModal = () => {

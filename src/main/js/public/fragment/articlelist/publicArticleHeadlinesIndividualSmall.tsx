@@ -3,23 +3,28 @@ import React from "react";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
 import {useNavigate} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 type PublicArticleHeadlinesIndividualSmallProps = {
     article: ArticleSummary;
     directoryToIndividualPage: string;
-    topicTagList: TagUnits;
-    countryTagList: TagUnits;
 }
 
 export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadlinesIndividualSmallProps> = ({
                                                                                                                 article,
                                                                                                                 directoryToIndividualPage,
-                                                                                                                topicTagList,
-                                                                                                                countryTagList
                                                                                                             }
 ) => {
     const LETTERS_PICKUP = 30;
     const navigate = useNavigate();
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
+
     const goToIndividualPage = (articleId: number) => {
         navigate(directoryToIndividualPage + "/" + articleId);
     }
@@ -32,9 +37,9 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
             <br/>
             <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
-                            <TagButtons tagUnitList={topicTagList} tagIds={article.topicTags}
+                            <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
                                         searchBaseUrl={directoryToIndividualPage}/>
-                            <TagButtons tagUnitList={countryTagList} tagIds={article.countries}
+                            <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                                         searchBaseUrl={directoryToIndividualPage}/>
                         </span>
         </div>);

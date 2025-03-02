@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput";
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
 import {HeadlinesMode, PublicArticleHeadlines} from "../../../public/fragment/articlelist/publicArticleHeadlines";
-import {TagUnits} from "../atomic/tagselectingform/tagUnits";
 import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
 
@@ -12,8 +11,6 @@ type ArticleListBodyProps = {
     mode?: HeadlinesMode;
     hasSearchMenu: boolean;
     directoryToIndividualPage: string;
-    topicTagsOptions: TagUnits;
-    countryTagsOptions: TagUnits;
 }
 
 
@@ -21,8 +18,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                     mode = HeadlinesMode.SMALL,
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
-                                                                    topicTagsOptions,
-                                                                    countryTagsOptions
                                                                 }) => {
     const articleService: ArticleService = new ArticleService();
     const MIN_DATE: Date = new Date("2025-01-01");
@@ -153,8 +148,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    topicTagList={topicTagsOptions}
-                    countryTagList={countryTagsOptions}
                     reRender={refresh}
                 />
             </>
@@ -168,8 +161,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    topicTagList={topicTagsOptions}
-                    countryTagList={countryTagsOptions}
                     reRender={refresh}
                 />
             </>
