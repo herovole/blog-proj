@@ -53,10 +53,14 @@ export class ResourceManagement {
     }
 
     public async getTopicTags(): Promise<TagUnits> {
+        console.log("topic1");
         if (!this.topicTags.isEmpty()) return this.topicTags;
+        console.log("topic2");
         if (localStorage.getItem(ResourceManagement.LOCAL_STORAGE_TOPIC_TAGS_KEY)) {
+            console.log("topic2a");
             this.topicTags = TagUnits.ofJson(localStorage.getItem(ResourceManagement.LOCAL_STORAGE_TOPIC_TAGS_KEY));
         } else {
+            console.log("topic2b");
             const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
             const topicOutput: SearchTagsOutput = await this.tagService.searchTopicTags(topicInput);
             if (topicOutput.isSuccessful()) {
@@ -70,10 +74,14 @@ export class ResourceManagement {
     }
 
     public async getCountryTags(): Promise<TagUnits> {
+        console.log("country1");
         if (!this.countryTags.isEmpty()) return this.countryTags;
+        console.log("country2");
         if (localStorage.getItem(ResourceManagement.LOCAL_STORAGE_COUNTRY_TAGS_KEY)) {
+            console.log("country2a");
             this.countryTags = TagUnits.ofJson(localStorage.getItem(ResourceManagement.LOCAL_STORAGE_COUNTRY_TAGS_KEY));
         } else {
+            console.log("country2b");
             const countryInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
             const countryOutput: SearchTagsOutput = await this.tagService.searchCountries(countryInput);
             if (countryOutput.isSuccessful()) {

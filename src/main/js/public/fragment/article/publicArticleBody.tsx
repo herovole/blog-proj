@@ -13,8 +13,6 @@ import {ResourceManagement} from "../../../service/resourceManagement";
 type PublicArticleBodyProps = {
     postKey: ElementId;
     article: Article;
-    topicTagOptions: TagUnits;
-    countryTagOptions: TagUnits;
     ratingHistory: SearchRatingHistoryOutput;
     reRender: () => void;
 }
@@ -22,14 +20,20 @@ type PublicArticleBodyProps = {
 export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         postKey,
                                                                         article,
-                                                                        topicTagOptions,
-                                                                        countryTagOptions,
                                                                         ratingHistory,
                                                                         reRender
                                                                     }) => {
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
     const directoryToIndividualPage: string = "undefined";
+
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
 
 
     useEffect(() => {
@@ -49,11 +53,11 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
             <img className="article-image" src={resourcePrefix + article.imageName} alt="not rendered"/>
             <div className="article-text">{article.text}</div>
             <div className="article-tag-alignment">
-                <TagButtons tagUnitList={topicTagOptions} tagIds={article.topicTags}
+                <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
                             searchBaseUrl={directoryToIndividualPage}/>
             </div>
             <div className="article-tag-alignment">
-                <TagButtons tagUnitList={countryTagOptions} tagIds={article.countries}
+                <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                             searchBaseUrl={directoryToIndividualPage}/>
             </div>
             <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
@@ -63,7 +67,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
             <div>
                 <PublicSourceCommentView
                     commentUnits={article.sourceComments}
-                    countryTagsOptions={countryTagOptions}
+                    countryTagsOptions={countryTagsOptions}
                     handleReference={handleReference}
                 />
             </div>

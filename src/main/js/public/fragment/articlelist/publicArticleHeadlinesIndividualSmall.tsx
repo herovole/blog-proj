@@ -29,18 +29,22 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
         navigate(directoryToIndividualPage + "/" + articleId);
     }
 
-    return (
-        <div key="" className="headline-item">
-            <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
-                {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
-            </button>
-            <br/>
-            <span className="small-memo">
+    if(topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+        return <div>loading...</div>;
+    } else {
+        return (
+            <div key="" className="headline-item">
+                <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
+                    {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
+                </button>
+                <br/>
+                <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
                             <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
                                         searchBaseUrl={directoryToIndividualPage}/>
                             <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                                         searchBaseUrl={directoryToIndividualPage}/>
                         </span>
-        </div>);
+            </div>);
+    }
 }
