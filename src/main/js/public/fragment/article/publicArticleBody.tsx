@@ -1,4 +1,4 @@
-import React, {RefObject, useEffect, useState} from 'react';
+import React, {RefObject, useState} from 'react';
 import {PublicUserCommentForm} from "./usercomment/publicUserCommentForm";
 import {PublicUserCommentView} from "./usercomment/publicUserCommentView";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
@@ -23,22 +23,18 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         ratingHistory,
                                                                         reRender
                                                                     }) => {
-    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
     const directoryToIndividualPage: string = "undefined";
 
+    const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, []);
-
-
-    useEffect(() => {
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
-    }, []);
+    }, [resourcePrefix, topicTagsOptions, countryTagsOptions]);
 
     const handleReference = (commentIdReferred: number) => {
         if (refText.current) {

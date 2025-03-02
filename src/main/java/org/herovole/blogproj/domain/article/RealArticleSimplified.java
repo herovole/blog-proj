@@ -88,7 +88,7 @@ public class RealArticleSimplified implements Article {
                 .sourceDate(sourcePage.getDate().letterSignature())
                 .isPublished(isPublished.memorySignature())
                 .countries(countries.toMemorySignature())
-                .topicTags(topicTags.toIntMemorySignature())
+                .topicTags(topicTags.toStringMemorySignature())
                 .editors(editors.toIntMemorySignature())
                 .countSourceComments(sourceComments)
                 .countUserComments(userComments)
@@ -107,7 +107,7 @@ public class RealArticleSimplified implements Article {
                 String sourceDate,
                 Boolean isPublished,
                 String[] countries,
-                int[] topicTags,
+                String[] topicTags,
                 int[] editors,
                 int countSourceComments,
                 int countUserComments,

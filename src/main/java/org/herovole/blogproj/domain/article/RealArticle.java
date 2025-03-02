@@ -133,7 +133,7 @@ public class RealArticle implements Article {
                 .sourceDate(sourcePage.getDate().letterSignature())
                 .isPublished(isPublished.memorySignature())
                 .countries(countries.toMemorySignature())
-                .topicTags(topicTags.toIntMemorySignature())
+                .topicTags(topicTags.toStringMemorySignature())
                 .editors(editors.toIntMemorySignature())
                 .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
@@ -152,7 +152,7 @@ public class RealArticle implements Article {
                 String sourceDate,
                 Boolean isPublished,
                 String[] countries,
-                int[] topicTags,
+                String[] topicTags,
                 int[] editors,
                 CommentUnit.Json[] sourceComments,
                 CommentUnit.Json[] userComments,

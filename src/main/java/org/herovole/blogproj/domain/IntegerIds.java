@@ -103,6 +103,10 @@ public class IntegerIds implements Iterable<IntegerId> {
         return stream().filter(e -> !e.isEmpty()).map(IntegerId::intMemorySignature).mapToInt(Integer::intValue).toArray();
     }
 
+    public String[] toStringMemorySignature() {
+        return stream().filter(e -> !e.isEmpty()).map(IntegerId::letterSignature).toArray(String[]::new);
+    }
+
     public IntegerId getLargest() {
         return this.isEmpty() ? IntegerId.empty() : this.stream().max(IntegerId::compareTo).orElse(IntegerId.empty());
     }

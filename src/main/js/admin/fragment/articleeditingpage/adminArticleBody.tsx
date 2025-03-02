@@ -34,7 +34,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, [refresh]);
+    }, [refresh, topicTagsOptions, countryTagsOptions]);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault(); // Prevent page reload

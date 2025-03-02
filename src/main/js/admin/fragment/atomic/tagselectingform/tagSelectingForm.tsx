@@ -12,21 +12,33 @@ type TagSelectingFormProps = {
 }
 
 export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
-                                                                      children = [],
+                                                                      children = new Array<string>(),
                                                                       postKey,
                                                                       candidates,
                                                                       allowsMultipleOptions = false,
                                                                       isFixed = false,
                                                                   }) => {
-    if (!children) { children = []; }
-    const [selectedTags, setSelectedTags] = useState<ReadonlyArray<string>>(
-        Array.isArray(children) ? children : [children]);
-    const [fixedSelectedTags, setFixedSelectedTags] = useState<ReadonlyArray<string>>(
-        Array.isArray(children) ? children : [children]);
+
+    let argSelectedTags: Array<string> = new Array<string>();
+    if (!children) {
+        argSelectedTags = new Array<string>();
+    }
+    if (!Array.isArray(children)) {
+        argSelectedTags = new Array<string>(children as string);
+    }
+    if (Array.isArray(children)) {
+        argSelectedTags = children.map(e => e as string);
+    }
+
+    const [selectedTags, setSelectedTags] = useState<ReadonlyArray<string>>(argSelectedTags);
+    const [fixedSelectedTags, setFixedSelectedTags] = useState<ReadonlyArray<string>>(argSelectedTags);
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
     console.log(JSON.stringify(candidates));
     console.log(JSON.stringify(selectedTags));
+    console.log(JSON.stringify(candidates.getTagOptionsJapanese()));
+    console.log(JSON.stringify(candidates.getTagOptionsJapaneseSelected(selectedTags)));
+
 
     const edit = () => {
         setIsBeingEdited(true);
@@ -50,7 +62,7 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
         if (Array.isArray(theSelectedTags)) {
             setSelectedTags(theSelectedTags.map(tag => tag.value));
         } else {
-            const thoseSelectedTags: ReadonlyArray<string> = [theSelectedTags["value"]];
+            const thoseSelectedTags: ReadonlyArray<string> = new Array<string>(theSelectedTags["value"]);
             setSelectedTags(thoseSelectedTags);
         }
     };
