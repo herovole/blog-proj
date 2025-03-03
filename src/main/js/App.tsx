@@ -31,8 +31,6 @@ const App = () => {
 
     return (
         <div className="App">
-            <h1>これはRoutesの外側のエレメント</h1>
-
             <Routes>
                 <Route path="/about" element={<About/>}/> {}
                 <Route path="/contact" element={<Contact message="Hello"/>}/> {}
@@ -121,8 +119,6 @@ const App = () => {
 
 
             </Routes>
-
-            <h1>これもRoutesの外側のエレメント</h1>
             <Footer/>
         </div>
     );
