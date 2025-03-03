@@ -1,12 +1,33 @@
 .admin-image-base {
     background-color: #444477;
     color: #CCCCCC;
-    padding:25px;
+    padding: 25px;
 }
 
 .article-image-thumbnail {
-    border:2px inset #222255;
+    border: 2px inset #222255;
     width: 128px;
     height: 128px;
     cursor: pointer;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0; /* Adds space between the divs */
+}
+
+.image-thumbnail {
+    width: 200px;
+    height: 200px;
+}
+
+.image-sample {
+    width: 600px;
+    height: 600px;
+}
+
+.hero-banner-base {
+    width: 100%;
+    height: 120px;
 }
