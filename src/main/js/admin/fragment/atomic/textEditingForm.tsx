@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ElementId} from "../../../domain/elementId/elementId";
+import {DivText} from "./divText";
 
 type PixelValue = `${number}px`;
 type TextEditingFormProps = {
@@ -89,9 +90,9 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
                         className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
                         style={{width, height}}
                         onClick={edit}>
-                    <span className="admin-editable-text-content">
+                    <DivText className="admin-editable-text-content">
                         {textToShow}
-                    </span>
+                    </DivText>
                 </button>
                 <input type="hidden"
                        name={postKey.toStringKey()}

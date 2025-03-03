@@ -6,6 +6,7 @@ import {PostUserCommentInput} from "../../../../service/user/postUserCommentInpu
 import {Zurvan} from "../../../../domain/zurvan";
 import {UserService} from "../../../../service/user/userService";
 import {BasicApiResult} from "../../../../domain/basicApiResult";
+import {DivText} from "../../../../admin/fragment/atomic/divText";
 
 
 const customStyles = {
@@ -43,7 +44,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     const [messageWarning, setMessageWarning] = React.useState<string>("");
 
 
-    React.useEffect(() => {},[refresh]);
+    React.useEffect(() => {
+    }, [refresh]);
 
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const currentHandle: string = e.target.value;
@@ -161,7 +163,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                         <div className="comment-modal-body">
                             <span>名前:</span><span>{handle}</span>
                             <span>本文:</span>
-                            <div>{text}</div>
+                            <DivText>{text}</DivText>
                         </div>
                         <br/>
                         <div>■利用規約<br/>
