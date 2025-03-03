@@ -7,6 +7,7 @@ import {Zurvan} from "../../../../domain/zurvan";
 import {RateUserCommentInput} from "../../../../service/user/rateUserCommentInput";
 import {UserService} from "../../../../service/user/userService";
 import {BasicApiResult} from "../../../../domain/basicApiResult";
+import {DivText} from "../../../../admin/fragment/atomic/divText";
 
 const customStyles = {
     content: {
@@ -176,10 +177,10 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             <span>ID:{content.body.dailyUserId} </span>
             <button className="report-button" type="button" onClick={openModal}>管理者へ報告</button>
             <button type="button" onClick={handleOnClickReference}>このコメントへ返信</button>
-            <div className="user-comment-text">
+            <DivText className="user-comment-text">
                 {content.body.commentText}
                 {buttons}
-            </div>
+            </DivText>
             <div>
                 <Modal
                     isOpen={open}
@@ -195,7 +196,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
                             </div>
                             <div className="report-form-header">コメント{content.body.commentId}を管理者へ報告</div>
                             <span className="report-form-label">原文:</span>
-                            <div className="report-reference-text">{content.body.commentText}</div>
+                            <DivText
+                                className="report-reference-text">{content.body.commentText}</DivText>
                             <span className="report-form-label">報告内容:</span>
                             <textarea className="report-form-text" ref={refReport}></textarea>
                             <br/>

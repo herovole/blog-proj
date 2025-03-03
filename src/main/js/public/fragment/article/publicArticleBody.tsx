@@ -8,6 +8,7 @@ import {PublicSourceCommentView} from "./sourcecomment/publicSourceCommentView";
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
 import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHistoryOutput";
 import {ResourceManagement} from "../../../service/resourceManagement";
+import {DivText} from "../../../admin/fragment/atomic/divText";
 
 
 type PublicArticleBodyProps = {
@@ -47,7 +48,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         <div>
             <h2 className="article-title">{article.title}</h2>
             <img className="article-image" src={resourcePrefix + article.imageName} alt="not rendered"/>
-            <div className="article-text">{article.text}</div>
+            <DivText className="article-text">{article.text}</DivText>
             <div className="article-tag-alignment">
                 <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
                             searchBaseUrl={directoryToIndividualPage}/>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 import {TagUnits} from "../../../../admin/fragment/atomic/tagselectingform/tagUnits";
+import {DivText} from "../../../../admin/fragment/atomic/divText";
 
 type PublicSourceCommentViewUnitProps = {
     content: SourceCommentUnit;
@@ -25,7 +26,7 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
                 {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
             </span>
             <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
-            <div className="source-comment-text">{content.body.commentText}</div>
+            <DivText className="source-comment-text">{content.body.commentText}</DivText>
         </div>
     );
 }
