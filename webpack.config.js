@@ -7,6 +7,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './src/main/resources/static/dist'),
         filename: 'bundle.js',
+        publicPath: "/",
     },
     devtool: "source-map",
     cache: true,
@@ -44,7 +45,7 @@ module.exports = {
             directory: path.join(__dirname, './src/main/resources/static/dist'), // Serve static files from "dist"
         },
         historyApiFallback: true, // Redirect all requests to index.html
-        port: 8080, // Change the port if needed
+        port: 3000, // Change the port if needed
         open: true, // Auto-open browser on start
         hot: true // Enable Hot Module Replacement (HMR)
     },
