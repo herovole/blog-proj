@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {marked} from "marked"; // Import the Markdown parser
+import {marked} from "marked";
+import {PublicBasicLayout} from "./fragment/publicBasicLayout"; // Import the Markdown parser
 
 export const PublicPageAbout = () => {
     const [content, setContent] = useState<string>("");
@@ -10,5 +11,7 @@ export const PublicPageAbout = () => {
             .then((text) => setContent(marked(text) as string))  // Convert Markdown to HTML
     }, []);
 
-    return <div dangerouslySetInnerHTML={{__html: content}}/>;
+    return <PublicBasicLayout>
+        <div dangerouslySetInnerHTML={{__html: content}}/>
+    </PublicBasicLayout>
 };

@@ -41,8 +41,7 @@ export const PublicPageArticleList = () => {
                 <ArticleListBody
                     directoryToIndividualPage={"/articles"}
                     hasSearchMenu={true}
-                    topicTagsOptions={topicTagsOptions}
-                    countryTagsOptions={countryTagsOptions}/>
+                />
             </PublicBasicLayout>
         );
     }

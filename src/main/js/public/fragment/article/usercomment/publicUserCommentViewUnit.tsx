@@ -48,7 +48,9 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const [btnGoodClass, setBtnGoodClass] = React.useState<string>(0 < rating ? BTN_CLASS_ON : BTN_CLASS_OFF);
     const [btnBadClass, setBtnBadClass] = React.useState<string>(rating < 0 ? BTN_CLASS_ON : BTN_CLASS_OFF);
     const [likes, setLikes] = React.useState<number>(content.body.likes);
+    const [likesBeingProcessed, setLikesBeingProcessed] = React.useState<string>("");
     const [dislikes, setDislikes] = React.useState<number>(content.body.dislikes);
+    const [dislikesBeingProcessed, setDislikesBeingProcessed] = React.useState<string>("");
 
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_report";
@@ -57,29 +59,40 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
         if (btnBadClass == BTN_CLASS_ON) {
             return;
         }
-        const isSuccessful = await handleRate(1);
-        if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
-            setBtnGoodClass(BTN_CLASS_ON);
-            setLikes(likes + 1);
-        } else if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
-            setBtnGoodClass(BTN_CLASS_OFF);
-            setLikes(n => n - 1);
-        }
+        setLikesBeingProcessed("処理中...");
+        handleRate(1).then(isSuccessful => {
+                if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
+                    setBtnGoodClass(BTN_CLASS_ON);
+                    setLikes(likes + 1);
+                    setLikesBeingProcessed("");
+                } else if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
+                    setBtnGoodClass(BTN_CLASS_OFF);
+                    setLikes(n => n - 1);
+                    setLikesBeingProcessed("");
+                }
+            }
+        );
     }
+
     const handleBad = async () => {
         if (btnGoodClass == BTN_CLASS_ON) {
             return;
         }
-        const isSuccessful = await handleRate(-1);
-        if (isSuccessful && btnBadClass == BTN_CLASS_OFF) {
-            setBtnBadClass(BTN_CLASS_ON);
-            setDislikes(dislikes + 1);
-        }
-        if (isSuccessful && btnBadClass == BTN_CLASS_ON) {
-            setBtnBadClass(BTN_CLASS_OFF);
-            setDislikes(n => n - 1);
-        }
+        setDislikesBeingProcessed("処理中...");
+        handleRate(-1).then(isSuccessful => {
+            if (isSuccessful && btnBadClass == BTN_CLASS_OFF) {
+                setBtnBadClass(BTN_CLASS_ON);
+                setDislikes(dislikes + 1);
+                setDislikesBeingProcessed("");
+            }
+            if (isSuccessful && btnBadClass == BTN_CLASS_ON) {
+                setBtnBadClass(BTN_CLASS_OFF);
+                setDislikes(n => n - 1);
+                setDislikesBeingProcessed("");
+            }
+        });
     }
+
     const handleRate = async (rating: number): Promise<boolean> => {
 
         if (!executeRecaptcha) {
@@ -163,10 +176,10 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const buttons = modeAdmin ? "" : <>
         <div>
             <button type="button" className={btnGoodClass} onClick={handleGood}>Good</button>
-            <span> {likes}</span></div>
+            <span> {likes}</span> <span className="comment-form-process"> {likesBeingProcessed}</span></div>
         <div>
             <button type="button" className={btnBadClass} onClick={handleBad}>Bad</button>
-            <span> {dislikes}</span></div>
+            <span> {dislikes}</span> <span className="comment-form-process"> {dislikesBeingProcessed}</span></div>
     </>
 
     return (
