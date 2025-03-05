@@ -27,9 +27,6 @@ import java.io.IOException;
 public class AuthFilter extends OncePerRequestFilter {
 
     private static final Logger itsLogger = LoggerFactory.getLogger(AuthFilter.class.getSimpleName());
-    private static final EndpointPhrases APPLIED_ENDPOINTS = EndpointPhrases.of(
-            "admin"
-    );
     private final ValidateAccessToken validateAccessToken;
     private final ValidateAccessTokenPresenter presenter;
 
@@ -43,13 +40,6 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         itsLogger.info("doFilterInternal");
         AppServletRequest servletRequest = AppServletRequest.of(request);
-        if (!servletRequest.hasUriContaining(APPLIED_ENDPOINTS) &&
-                !servletRequest.requiresAuth()
-        ) {
-            itsLogger.info("skipped");
-            filterChain.doFilter(request, response);
-            return;
-        }
         AccessToken accessToken = servletRequest.getAccessTokenFromCookie();
         ValidateAccessTokenInput input = ValidateAccessTokenInput.builder()
                 .userId(servletRequest.getUserIdFromAttribute())
@@ -75,5 +65,10 @@ public class AuthFilter extends OncePerRequestFilter {
         }
     }
 
-}
+    @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
+        AppServletRequest servletRequest = AppServletRequest.of(request);
+        return !servletRequest.requiresAuth();
+    }
 
+}

@@ -2,11 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-    devServer:{
-        historyApiFallback: true,
-        port: 3000,
-        open: true,
-    },
     resolve: {extensions: ['.js', '.jsx', '.ts', '.tsx'],},
     entry: './src/main/js/index.tsx',
     output: {
@@ -43,6 +38,15 @@ module.exports = {
                 }]
             }
         ]
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, './src/main/resources/static/dist'), // Serve static files from "dist"
+        },
+        historyApiFallback: true, // Redirect all requests to index.html
+        port: 8080, // Change the port if needed
+        open: true, // Auto-open browser on start
+        hot: true // Enable Hot Module Replacement (HMR)
     },
     plugins: [
         new webpack.ProvidePlugin({
