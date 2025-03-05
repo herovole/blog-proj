@@ -1,10 +1,6 @@
 import React from 'react';
-import {PublicPageArticleView} from "./public/publicPageArticleView";
 import {Route, Routes} from "react-router-dom";
-import {About} from "./about";
-import {Contact} from "./contact";
 import {NotFound} from "./notfound";
-import {Footer} from "./footer";
 
 import {AdminEntrance} from './admin/adminEntrance';
 import {Sandbox} from './admin/sandbox';
@@ -12,14 +8,17 @@ import {AdminPageArticleList} from './admin/adminPageArticleList';
 import {AdminPageArticle} from './admin/adminPageArticle';
 import {AdminPageTopicTagList} from './admin/adminPageTopicTagList';
 import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
-import {PublicPageArticleList} from "./public/publicPageArticleList";
 import {AdminProtectedRoute} from "./admin/adminProtectedRoute";
 import {AdminPageLogin} from "./admin/adminPageLogin";
 import {AdminPageImages} from "./admin/adminPageImages";
 import {AdminPageUsers} from "./admin/adminPageUsers";
 import {AdminPageUserComments} from "./admin/adminPageUserComments";
-import {PublicPageHome} from "./public/publicPageHome";
 import {AdminPageArticleNew} from "./admin/adminPageArticleNew";
+import {PublicPageHome} from "./public/publicPageHome";
+import {PublicPageArticleView} from "./public/publicPageArticleView";
+import {PublicPageArticleList} from "./public/publicPageArticleList";
+import {PublicPageAbout} from "./public/publicPageAbout";
+import {Footer} from "./footer";
 
 
 console.log("App.js");
@@ -32,11 +31,7 @@ const App = () => {
     return (
         <div className="App">
             <Routes>
-                <Route path="/about" element={<About/>}/> {}
-                <Route path="/contact" element={<Contact message="Hello"/>}/> {}
                 <Route path="/*" element={<NotFound/>}/> {}
-
-                <Route path="/about" element={<About/>}/> {}
 
                 <Route path="/" element={
                     <PublicPageHome/>
@@ -48,6 +43,9 @@ const App = () => {
                     <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
                         <PublicPageArticleView/>
                     </GoogleReCaptchaProvider>
+                }/> {}
+                <Route path="/about" element={
+                    <PublicPageAbout/>
                 }/> {}
 
 
