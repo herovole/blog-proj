@@ -1,5 +1,6 @@
 package org.herovole.blogproj.presentation.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.herovole.blogproj.application.article.editarticle.EditArticle;
 import org.herovole.blogproj.application.article.editarticle.EditArticleInput;
 import org.herovole.blogproj.application.article.findarticle.FindArticle;
@@ -10,6 +11,7 @@ import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.FindArticlePresenter;
 import org.herovole.blogproj.presentation.presenter.SearchArticlesPresenter;
@@ -54,9 +56,14 @@ public class AdminV1ArticleController {
 
     @PostMapping
     public ResponseEntity<String> postArticles(
+            HttpServletRequest httpServletRequest,
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : articles (Post) ");
-        System.out.println(request);
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().editsArticles()) {
+            this.editArticlePresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.editArticlePresenter.buildResponseEntity();
+        }
 
         try {
             FormContent formContent = FormContent.of(request);
@@ -79,11 +86,10 @@ public class AdminV1ArticleController {
     public ResponseEntity<String> searchArticles(
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) ");
-        System.out.println(request);
 
         try {
             FormContent formContent = FormContent.of(request);
-            SearchArticlesInput input = SearchArticlesInput.fromPostContent(formContent);
+            SearchArticlesInput input = SearchArticlesInput.fromFormContent(formContent);
             this.searchArticles.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);

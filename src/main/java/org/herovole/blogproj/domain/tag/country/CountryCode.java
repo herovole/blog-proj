@@ -22,7 +22,7 @@ public class CountryCode implements Comparable<CountryCode> {
 
     public static CountryCode valueOf(String code) {
         if (code == null) return empty();
-        if (code.length() != 2) throw new DomainInstanceGenerationException();
+        if (code.length() != 2) throw new DomainInstanceGenerationException(code);
         return new CountryCode(code);
     }
 

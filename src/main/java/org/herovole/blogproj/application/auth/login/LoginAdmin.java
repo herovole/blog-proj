@@ -58,7 +58,6 @@ public class LoginAdmin {
                     .interruptProcess();
         }
         AccessToken accessToken = this.accessTokenFactory.generateToken(adminUser);
-        System.out.println("BEHOLD. THIS IS THE ACCESS TOKEN" + accessToken.memorySignature());
 
         AdminUser newAdminUser = adminUser.appendTokenInfo(
                 accessToken,

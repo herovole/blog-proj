@@ -19,7 +19,7 @@ public class ArticleText {
 
     public static ArticleText valueOf(String text) {
         if (text == null) return empty();
-        if (LENGTH_LIMIT < text.length()) throw new DomainInstanceGenerationException();
+        if (LENGTH_LIMIT < text.length()) throw new DomainInstanceGenerationException(text);
         return new ArticleText(text);
     }
 

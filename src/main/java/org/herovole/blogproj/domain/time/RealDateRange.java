@@ -37,9 +37,9 @@ public class RealDateRange implements DateRange {
 
     public static RealDateRange of(Date dateFrom, Date dateTo) {
         if (dateFrom.isEmpty() || dateTo.isEmpty() || dateFrom.postcedes(dateTo))
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException("dateFrom " + dateFrom.letterSignature() + "/dateTo " + dateTo.letterSignature());
         if (dateFrom.isEmpty() && !dateTo.isEmpty() ||
-                !dateFrom.isEmpty() && dateTo.isEmpty()) throw new DomainInstanceGenerationException();
+                !dateFrom.isEmpty() && dateTo.isEmpty()) throw new DomainInstanceGenerationException("dateFrom " + dateFrom.letterSignature() + "/dateTo " + dateTo.letterSignature());
         return new RealDateRange(dateFrom, dateTo);
     }
 

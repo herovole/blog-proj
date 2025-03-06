@@ -45,7 +45,6 @@ public class PostUserCommentInput {
             if (iPv4Address == null || userId == null || formContent == null) {
                 throw new IllegalStateException(PostUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
-            formContent.println("comment post");
             return new PostUserCommentInput(
                     iPv4Address,
                     userId,

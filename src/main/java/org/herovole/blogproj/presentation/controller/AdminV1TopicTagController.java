@@ -1,5 +1,6 @@
 package org.herovole.blogproj.presentation.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.application.tag.edittopictags.EditTopicTags;
@@ -12,6 +13,7 @@ import org.herovole.blogproj.application.tag.searchtopictags.SearchTopicTagsInpu
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.adminuser.Role;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchCountryTagsPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchRolesPresenter;
@@ -84,7 +86,6 @@ public class AdminV1TopicTagController {
     public ResponseEntity<String> searchTopicTags(
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : topicTags (Get) ");
-        System.out.println(request);
         try {
             FormContent formContent = FormContent.of(request);
             SearchTopicTagsInput input = SearchTopicTagsInput.fromFormContent(formContent);
@@ -103,7 +104,6 @@ public class AdminV1TopicTagController {
     public ResponseEntity<String> editTopicTags(
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : articles (Post) ");
-        System.out.println(request);
 
         try {
             FormContent formContent = FormContent.of(request);
@@ -124,9 +124,14 @@ public class AdminV1TopicTagController {
 
     @GetMapping("/roles")
     public ResponseEntity<String> searchRoles(
+            HttpServletRequest httpServletRequest,
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : roles (Get) ");
-        System.out.println(request);
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().hasAccessToAdmin()) {
+            this.searchRolesPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.searchRolesPresenter.buildResponseEntity();
+        }
         try {
             SearchRolesOutput output = SearchRolesOutput.builder()
                     .roles(Role.values())

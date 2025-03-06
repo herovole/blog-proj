@@ -91,7 +91,6 @@ public class AdminV1UserCommentController {
             // Check user status
             AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
-            System.out.println(servletRequest.getUserIdFromAttribute());
             PostUserCommentInput input = new PostUserCommentInput.Builder()
                     .iPv4Address(servletRequest.getUserIpFromHeader())
                     .userId(servletRequest.getUserIdFromAttribute())
@@ -118,7 +117,6 @@ public class AdminV1UserCommentController {
             HttpServletRequest httpServletRequest
     ) {
         logger.info("Endpoint : usercomments (Get) ");
-        System.out.println(request);
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         if (!servletRequest.getAdminUserFromAttribute().getRole().hasAccessToAdmin()) {
             this.searchUserCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
@@ -144,7 +142,6 @@ public class AdminV1UserCommentController {
             HttpServletRequest httpServletRequest
     ) {
         logger.info("Endpoint : usercomments/ratings (Get) ");
-        System.out.println(request);
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         try {
             FormContent formContent = FormContent.of(request);
@@ -207,7 +204,6 @@ public class AdminV1UserCommentController {
             // Check user status
             AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
             FormContent formContent = FormContent.of(request);
-            formContent.println("reporting : ");
             ReportUserCommentInput input = new ReportUserCommentInput.Builder()
                     .commentSerialNumberConfirmation(commentSerialNumber)
                     .iPv4Address(servletRequest.getUserIpFromHeader())
@@ -241,7 +237,6 @@ public class AdminV1UserCommentController {
             return this.hideUserCommentPresenter.buildResponseEntity();
         }
         FormContent formContent = FormContent.of(request);
-        formContent.println("reporting : ");
         try {
             HideUserCommentInput input = HideUserCommentInput.ofFormContent(commentSerialNumber, formContent);
             this.hideUserComment.process(input);
@@ -271,7 +266,6 @@ public class AdminV1UserCommentController {
             return this.hideUserCommentPresenter.buildResponseEntity();
         }
         FormContent formContent = FormContent.of(request);
-        formContent.println("reporting : ");
         try {
             HandleReportInput input = HandleReportInput.ofFormContent(reportId, formContent);
             this.handleReport.process(input);

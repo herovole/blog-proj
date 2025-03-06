@@ -50,7 +50,6 @@ public class ReportUserCommentInput {
             if (iPv4Address == null || userId == null || formContent == null) {
                 throw new IllegalStateException(ReportUserCommentInput.class.getSimpleName() + "Invalid building process.");
             }
-            formContent.println("comment post (parse 2)");
             IntegerId commentSerialNumber = IntegerId.fromFormContentCommentSerialNumber(formContent);
             if (commentSerialNumber.longMemorySignature() != commentSerialNumberConfirmation) {
                 throw new IllegalArgumentException("Discrepancy between form and path commentSerialNumbers.");

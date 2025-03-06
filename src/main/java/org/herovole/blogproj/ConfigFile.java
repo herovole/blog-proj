@@ -82,10 +82,6 @@ public class ConfigFile {
     }
 
     public AdminUserRegistrationRequest buildOwnerUserRegistrationRequest() {
-        System.out.println("CONFIG FILE ELEMENTS");
-        for (Map.Entry<String, String> e : configs.entrySet()) {
-            System.out.println(e.getKey() + " " + e.getValue());
-        }
         return AdminUserRegistrationRequest.builder()
                 .userName(getOwnerUser())
                 .password(getOwnerPassword())

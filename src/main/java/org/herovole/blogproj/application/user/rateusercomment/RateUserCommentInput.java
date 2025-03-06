@@ -52,7 +52,6 @@ public class RateUserCommentInput {
             if (commentSerialNumber.longMemorySignature() != commentSerialNumberConfirmation) {
                 throw new IllegalArgumentException("Discrepancy between form and path commentSerialNumbers.");
             }
-            formContent.println("comment post (parse 2)");
             return new RateUserCommentInput(
                     iPv4Address,
                     userId,

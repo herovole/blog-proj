@@ -12,7 +12,7 @@ public class Week implements DateRange {
         if(sunday.isSunday()) {
             this.sunday = sunday;
         } else {
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException(sunday.letterSignature());
         }
     }
 
