@@ -14,6 +14,11 @@ public class EmptyArticle implements Article {
     }
 
     @Override
+    public boolean isPublished() {
+        return false;
+    }
+
+    @Override
     public IntegerId getArticleId() {
         return IntegerId.empty();
     }

@@ -14,6 +14,7 @@ import org.herovole.blogproj.application.user.visit.VisitArticleInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.adminuser.Role;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.FindArticlePresenter;
@@ -95,6 +96,11 @@ public class AdminV1ArticleController {
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) ");
 
+        // Role Check isn't performed here, because
+        // a. admin user requires auth => usecase returns private data.
+        // b. public user requires auth => already gets filtered.
+        // c. public user doesn't requires auth => usecase returns public data.
+
         try {
             FormContent formContent = FormContent.of(request);
             SearchArticlesInput input = SearchArticlesInput.fromFormContent(formContent);
@@ -114,6 +120,11 @@ public class AdminV1ArticleController {
             @PathVariable int id,
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) {}", id);
+
+        // Role Check isn't performed here, because
+        // a. admin user requires auth => usecase returns private data.
+        // b. public user requires auth => already gets filtered.
+        // c. public user doesn't requires auth => usecase returns public data.
 
         try {
             FormContent formContent = FormContent.of(request);

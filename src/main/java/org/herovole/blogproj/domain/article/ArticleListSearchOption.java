@@ -12,7 +12,7 @@ import org.herovole.blogproj.domain.time.DateRange;
 public class ArticleListSearchOption {
 
 
-    public static ArticleListSearchOption fromPostContent(FormContent formContent) {
+    public static ArticleListSearchOption fromFormContent(FormContent formContent) {
         return ArticleListSearchOption.builder()
                 .pagingRequest(PagingRequest.fromFormContent(formContent))
                 .dateRange(DateRange.fromComplementedFormContent(formContent))

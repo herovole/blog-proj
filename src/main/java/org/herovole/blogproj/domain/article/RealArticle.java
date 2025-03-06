@@ -63,6 +63,11 @@ public class RealArticle implements Article {
     }
 
     @Override
+    public boolean isPublished() {
+        return this.isPublished.isTrue();
+    }
+
+    @Override
     public Article append(
             IntegerIds topicTags,
             CountryCodes countries,

@@ -1,6 +1,8 @@
 package org.herovole.blogproj.application.article.findarticle;
 
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
@@ -24,7 +26,7 @@ public class FindArticle {
         this.presenter = presenter;
     }
 
-    public void process(FindArticleInput input) {
+    public void process(FindArticleInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         IntegerId articleId = input.getArticleId();
 
@@ -32,6 +34,11 @@ public class FindArticle {
         Article article = articleDatasource.findById(articleId);
 
         if (!input.getRequiresAuth().isTrue()) {
+            if(!article.isPublished()) {
+                this.presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
+                        .setMessage("forbidden article")
+                        .interruptProcess();
+            }
             logger.info("masking private info...");
             article = article.maskPrivateItems();
         }
