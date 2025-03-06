@@ -1,58 +1,38 @@
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {TagUnits} from "../admin/fragment/atomic/tagselectingform/tagUnits";
-import {TagService} from "../service/tags/tagService";
-import {SearchTagsInput} from "../service/tags/searchTagsInput";
-import {SearchTagsOutput} from "../service/tags/searchTagsOutput";
 import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 import {ArticleListBody} from "../admin/fragment/articlelist/articleListBody";
 import {HeadlinesMode} from "./fragment/articlelist/publicArticleHeadlines";
+import {VisitArticleInput} from "../service/articles/visitArticleInput";
+import {BasicApiResult} from "../domain/basicApiResult";
+import {ArticleService} from "../service/articles/articleService";
 
 export const PublicPageHome: React.FC = () => {
-    const tagService: TagService = new TagService();
-    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
-    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
-    const [refresh, setRefresh] = React.useState(false);
-    const reRender = () => {
-        setRefresh(r => !r);
-    }
+    const ARTICLE_ID: string = "0";
+    const articleService: ArticleService = new ArticleService();
+
     const load = async (): Promise<void> => {
         try {
-            const topicInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const topicOutput: SearchTagsOutput = await tagService.searchTopicTags(topicInput);
-            if (topicOutput.isSuccessful()) {
-                setTopicTagsOptions(topicOutput.getTagUnits());
-            } else {
-                console.error(topicOutput.getMessage("topic tags retrieval"));
-            }
-
-            const countriesInput: SearchTagsInput = new SearchTagsInput(1, 10000, false);
-            const countriesOutput: SearchTagsOutput = await tagService.searchCountries(countriesInput);
-            if (countriesOutput.isSuccessful()) {
-                setCountryTagsOptions(countriesOutput.getTagUnits());
-            } else {
-                console.error(countriesOutput.getMessage("country tags retrieval"));
+            const visitArticleInput: VisitArticleInput = new VisitArticleInput(ARTICLE_ID);
+            const visitArticleOutput: BasicApiResult = await articleService.visitArticle(visitArticleInput);
+            if (!visitArticleOutput.isSuccessful()) {
+                console.error("failed to visit");
+                return;
             }
         } catch (error) {
             console.error("error : ", error);
         }
     };
+
     useEffect(() => {
         load().then();
-    }, [refresh]);
+    }, []);
 
-    if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
-        return <PublicBasicLayout>
-            <div>Loading...</div>
-        </PublicBasicLayout>
-    } else {
-        return <PublicBasicLayout>
-            <ArticleListBody
-                mode={HeadlinesMode.LARGE}
-                hasSearchMenu={false}
-                directoryToIndividualPage={"/articles"}
-                topicTagsOptions={topicTagsOptions}
-                countryTagsOptions={countryTagsOptions}/>
-            </PublicBasicLayout>
-    }
+    return <PublicBasicLayout>
+        <ArticleListBody
+            mode={HeadlinesMode.LARGE}
+            hasSearchMenu={false}
+            directoryToIndividualPage={"/articles"}
+        />
+    </PublicBasicLayout>
 };

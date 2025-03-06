@@ -11,6 +11,8 @@ import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 import {SearchRatingHistoryInput} from "../service/user/searchRatingHistoryInput";
 import {UserService} from "../service/user/userService";
 import {SearchRatingHistoryOutput} from "../service/user/searchRatingHistoryOutput";
+import {VisitArticleInput} from "../service/articles/visitArticleInput";
+import {BasicApiResult} from "../domain/basicApiResult";
 
 export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
@@ -24,6 +26,13 @@ export const PublicPageArticleView: React.FC = () => {
     }
     const load = async (): Promise<void> => {
         try {
+            const visitArticleInput: VisitArticleInput = new VisitArticleInput(articleId);
+            const visitArticleOutput: BasicApiResult = await articleService.visitArticle(visitArticleInput);
+            if (!visitArticleOutput.isSuccessful()) {
+                console.error("failed to visit");
+                return;
+            }
+
             const articleInput: FindArticleInput = new FindArticleInput(articleId, false);
             const findArticleOutput: FindArticleOutput = await articleService.findArticle(articleInput);
             if (findArticleOutput.isSuccessful()) {
