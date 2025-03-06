@@ -7,6 +7,9 @@ import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
+import org.herovole.blogproj.domain.adminuser.AdminUser;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.presentation.AppServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -30,7 +33,16 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         itsLogger.info("doFilterInternal");
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
+
+        // Obtain internal cache
         wrappedRequest.getParameterMap();
+
+        AppServletRequest servletRequest = AppServletRequest.of(wrappedRequest);
+
+        // Initialize Admin User
+        servletRequest.storeAdminUserToAttribute(AdminUser.empty());
+        // Initialize User Id
+        servletRequest.storeUserIdToAttribute(IntegerPublicUserId.empty());
         filterChain.doFilter(wrappedRequest, response);
     }
 

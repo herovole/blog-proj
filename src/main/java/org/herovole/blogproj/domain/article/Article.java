@@ -23,7 +23,7 @@ public interface Article {
     }
 
     boolean isEmpty();
-
+    boolean isPublished();
     IntegerId getArticleId();
 
     Article append(
