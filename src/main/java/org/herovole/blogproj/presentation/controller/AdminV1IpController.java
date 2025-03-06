@@ -42,7 +42,6 @@ public class AdminV1IpController {
             HttpServletRequest httpServletRequest,
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : ban user (Put) ");
-        System.out.println(request);
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         if (!servletRequest.getAdminUserFromAttribute().getRole().bansUsers()) {
             this.banIpPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);

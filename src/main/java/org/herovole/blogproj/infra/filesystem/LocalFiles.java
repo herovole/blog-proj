@@ -74,10 +74,6 @@ public class LocalFiles {
     }
 
     public String[] getFileNames() {
-        System.out.println("number of files found " + this.files.length);
-        for (LocalFile f : this.files) {
-            System.out.println(f.getName());
-        }
         return Arrays.stream(this.files).map(LocalFile::getName).toArray(String[]::new);
     }
 }

@@ -13,7 +13,7 @@ import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 public class SearchArticlesInput {
 
 
-    public static SearchArticlesInput fromPostContent(FormContent formContent) {
+    public static SearchArticlesInput fromFormContent(FormContent formContent) {
         return new SearchArticlesInput(ArticleListSearchOption.fromPostContent(formContent));
     }
 

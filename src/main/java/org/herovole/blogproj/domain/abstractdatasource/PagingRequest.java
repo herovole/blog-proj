@@ -11,7 +11,6 @@ public class PagingRequest {
     private static final String API_KEY_PAGER_PAGE = "page";
 
     public static PagingRequest fromFormContent(FormContent formContent) {
-        formContent.println("pagingrequest");
         FormContent postItemsPerPage = formContent.getChildren(API_KEY_PAGER_ITEMS_PER_PAGE);
         int itemsPerPage = Integer.parseInt(postItemsPerPage.getValue());
         FormContent postPage = formContent.getChildren(API_KEY_PAGER_PAGE);
@@ -29,7 +28,7 @@ public class PagingRequest {
     private PagingRequest(int page, int size) {
         this.page = page;
         this.size = size;
-        if (page < 1 || size < 1) throw new DomainInstanceGenerationException();
+        if (page < 1 || size < 1) throw new DomainInstanceGenerationException("page " + page + "/size " + size);
     }
 
     public int getLimit() {

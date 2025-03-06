@@ -84,10 +84,6 @@ public class CommentUnits {
     }
 
     public CommentUnit findBySerialNumber(IntegerId commentSerialNumber) {
-        System.out.println("finding " + commentSerialNumber.longMemorySignature());
-        for (CommentUnit e : units) {
-            System.out.println(e.getSerialNumber().longMemorySignature());
-        }
         CommentUnit[] commentOfSameSerialNumber = this.stream().filter(e -> !e.isEmpty() && e.getSerialNumber().equals(commentSerialNumber)).toArray(CommentUnit[]::new);
         if (commentOfSameSerialNumber.length == 0) return CommentUnit.empty();
         return commentOfSameSerialNumber[0];

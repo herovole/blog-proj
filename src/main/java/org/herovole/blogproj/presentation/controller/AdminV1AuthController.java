@@ -70,7 +70,6 @@ public class AdminV1AuthController {
             HttpServletResponse httpServletResponse,
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : login (Post) ");
-        System.out.println(request);
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         AppServletResponse servletResponse = AppServletResponse.of(httpServletResponse);
 
@@ -127,7 +126,7 @@ public class AdminV1AuthController {
             HttpServletResponse httpServletResponse,
             @RequestBody Map<String, String> request) {
         logger.info("Endpoint : adminuser (Post) ");
-        System.out.println(request);
+
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         if (!servletRequest.getAdminUserFromAttribute().getRole().createsUser()) {
             this.registerUserPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
@@ -153,9 +152,15 @@ public class AdminV1AuthController {
 
     @GetMapping("/adminuser")
     public ResponseEntity<String> searchAdminUsers(
+            HttpServletRequest httpServletRequest,
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : admin users(Get) ");
-        System.out.println(request);
+
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().hasAccessToAdmin()) {
+            this.registerUserPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.registerUserPresenter.buildResponseEntity();
+        }
 
         try {
             FormContent formContent = FormContent.of(request);

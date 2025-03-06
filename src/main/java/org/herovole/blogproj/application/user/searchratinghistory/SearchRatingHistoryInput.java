@@ -37,7 +37,6 @@ public class SearchRatingHistoryInput {
             if (iPv4Address == null || userId == null || formContent == null) {
                 throw new IllegalStateException(SearchRatingHistoryInput.class.getSimpleName() + "Invalid building process.");
             }
-            formContent.println("comment post (parse 2)");
             return new SearchRatingHistoryInput(
                     iPv4Address,
                     userId,

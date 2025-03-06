@@ -62,7 +62,7 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
         if (field.equalsIgnoreCase(FALSE1) || field.equalsIgnoreCase(FALSE2)) {
             return negative();
         }
-        throw new DomainInstanceGenerationException();
+        throw new DomainInstanceGenerationException(field);
     }
 
     public static GenericSwitch valueOf(Boolean field) {

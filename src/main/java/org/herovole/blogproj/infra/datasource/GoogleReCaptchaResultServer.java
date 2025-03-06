@@ -53,10 +53,6 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<String> responseRaw = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("Status Code: " + responseRaw.statusCode());
-        System.out.println("Response Body: " + responseRaw.body());
-
-
         ObjectMapper objectMapper = new ObjectMapper();
         ResponsePayloadModel responseInterpreted = objectMapper.readValue(responseRaw.body(), ResponsePayloadModel.class);
 

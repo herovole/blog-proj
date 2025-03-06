@@ -14,7 +14,7 @@ public class Hour {
 
     public static Hour valueOf(Integer number)  {
         if(number < 0 || 23 < number) {
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException(number);
         }
         return new Hour(number);
     }
@@ -23,7 +23,7 @@ public class Hour {
         try {
             return EMPTY.equals(number) ? empty() : valueOf(Integer.parseInt(number));
         } catch (NumberFormatException e) {
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException(number);
         }
     }
 
