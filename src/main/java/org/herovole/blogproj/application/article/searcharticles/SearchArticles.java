@@ -1,6 +1,8 @@
 package org.herovole.blogproj.application.article.searcharticles;
 
 import org.herovole.blogproj.application.GenericPresenter;
+import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.article.Article;
@@ -30,9 +32,15 @@ public class SearchArticles {
         this.presenter = presenter;
     }
 
-    public void process(SearchArticlesInput input) {
+    public void process(SearchArticlesInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
         ArticleListSearchOption searchOption = input.getSearchOption();
+        if (!input.getRequiresAuth().isTrue() && !searchOption.getIsPublished().isTrue()) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
+                    .setMessage("forbidden option")
+                    .interruptProcess();
+        }
+
         long articleNumber = articleDatasource.countByOptions(searchOption);
         IntegerIds ids = articleDatasource.searchByOptions(searchOption);
         List<Article> articles0 = new ArrayList<>();

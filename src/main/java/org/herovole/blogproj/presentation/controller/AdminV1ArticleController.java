@@ -96,10 +96,10 @@ public class AdminV1ArticleController {
             @RequestParam Map<String, String> request) {
         logger.info("Endpoint : articles (Get) ");
 
-        // Role Check isn't performed here, because
-        // a. admin user requires auth => usecase returns private data.
+        // Role Check isn't performed here
+        // a. admin user requires auth => isPublished flag works for both true/false.
         // b. public user requires auth => already gets filtered.
-        // c. public user doesn't requires auth => usecase returns public data.
+        // c. public user doesn't requires auth => isPublished flag works only for true.
 
         try {
             FormContent formContent = FormContent.of(request);

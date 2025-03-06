@@ -100,6 +100,10 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
         return this.field;
     }
 
+    public int intMemorySignature() {
+        return this.isTrue() ? 1 : 0;
+    }
+
     @Override
     public int compareTo(GenericSwitch o) {
         return this.field.compareTo(o.field);

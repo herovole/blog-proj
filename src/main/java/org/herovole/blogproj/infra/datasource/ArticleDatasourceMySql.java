@@ -100,6 +100,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         long[] ids = aArticleRepository.searchByOptions(
+                searchOption.getIsPublished().intMemorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),
@@ -116,6 +117,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     @Override
     public long countByOptions(ArticleListSearchOption searchOption) {
         return aArticleRepository.countByOptions(
+                searchOption.getIsPublished().intMemorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),
