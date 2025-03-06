@@ -6,6 +6,7 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             10,
             1,
+            true,
             null,
             null,
             ""
@@ -14,6 +15,7 @@ export class SearchArticlesInput {
 
     itemsPerPage: number;
     page: number;
+    isPublished: boolean;
     dateFrom: Date | null;
     dateTo: Date | null;
     keywords: string;
@@ -21,12 +23,14 @@ export class SearchArticlesInput {
     constructor(
         itemsPerPage: number,
         page: number,
+        isPublished: boolean,
         dateFrom: Date | null,
         dateTo: Date | null,
         keywords: string
     ) {
         this.itemsPerPage = itemsPerPage;
         this.page = page;
+        this.isPublished = isPublished;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.keywords = keywords;
@@ -36,6 +40,7 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             itemsPerPage,
             this.page,
+            this.isPublished,
             this.dateFrom,
             this.dateTo,
             this.keywords
@@ -46,9 +51,10 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
             page,
+            this.isPublished,
             this.dateFrom,
             this.dateTo,
-            this.keywords
+            this.keywords,
         );
     }
 
@@ -56,6 +62,7 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
             this.page,
+            this.isPublished,
             dateFrom,
             this.dateTo,
             this.keywords
@@ -66,6 +73,7 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
             this.page,
+            this.isPublished,
             this.dateFrom,
             dateTo,
             this.keywords
@@ -76,6 +84,7 @@ export class SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
             this.page,
+            this.isPublished,
             this.dateFrom,
             this.dateTo,
             keywords
@@ -86,6 +95,7 @@ export class SearchArticlesInput {
         return {
             "itemsPerPage": this.itemsPerPage.toString(),
             "page": this.page.toString(),
+            "isPublished": this.isPublished.toString(),
             "dateFrom": this.dateFrom ? format(this.dateFrom, "yyyyMMdd") : "",
             "dateTo": this.dateTo ? format(this.dateTo, "yyyyMMdd") : "",
             "keywords": this.keywords,

@@ -20,6 +20,8 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
 
     @Query(value = "Select id from a_article " +
             " Where " +
+            "   is_published = :isPublished " +
+            "   And " +
             "   (" +
             "     title like Concat('%', :keyword1, '%') " +
             "   OR " +
@@ -50,7 +52,8 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "    ) " +
             " order by id desc" +
             " limit :limit offset :offset", nativeQuery = true)
-    long[] searchByOptions(@Param("keyword1") String keyword1,
+    long[] searchByOptions(@Param("isPublished") int isPublished,
+                           @Param("keyword1") String keyword1,
                            @Param("keyword2") String keyword2,
                            @Param("keyword3") String keyword3,
                            @Param("timestampFrom") LocalDateTime timestampFrom,
@@ -63,6 +66,8 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
 
     @Query(value = "Select count(id) from a_article " +
             " Where " +
+            "   is_published = :isPublished " +
+            "   And " +
             "   (" +
             "     title like Concat('%', :keyword1, '%') " +
             "   OR " +
@@ -91,7 +96,8 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   OR " +
             "     coalesce(source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) ", nativeQuery = true)
-    long countByOptions(@Param("keyword1") String keyword1,
+    long countByOptions(@Param("isPublished") int isPublished,
+                        @Param("keyword1") String keyword1,
                         @Param("keyword2") String keyword2,
                         @Param("keyword3") String keyword3,
                         @Param("timestampFrom") LocalDateTime timestampFrom,
