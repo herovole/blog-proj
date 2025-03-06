@@ -9,8 +9,11 @@ import org.herovole.blogproj.application.article.searcharticles.SearchArticles;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesInput;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
+import org.herovole.blogproj.application.user.visit.VisitArticle;
+import org.herovole.blogproj.application.user.visit.VisitArticleInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.FindArticlePresenter;
@@ -40,18 +43,23 @@ public class AdminV1ArticleController {
     private final FindArticle findArticle;
     private final FindArticlePresenter findArticlePresenter;
 
+    private final VisitArticle visitArticle;
+    private final BasicPresenter visitArticlePresenter;
+
     @Autowired
     AdminV1ArticleController(
-            EditArticle editArticle,
-            BasicPresenter editArticlePresenter, SearchArticles searchArticles,
-            SearchArticlesPresenter searchArticlesPresenter, FindArticle findArticle,
-            FindArticlePresenter findArticlePresenter) {
+            EditArticle editArticle, BasicPresenter editArticlePresenter,
+            SearchArticles searchArticles, SearchArticlesPresenter searchArticlesPresenter,
+            FindArticle findArticle, FindArticlePresenter findArticlePresenter,
+            VisitArticle visitArticle, BasicPresenter visitArticlePresenter) {
         this.editArticle = editArticle;
         this.editArticlePresenter = editArticlePresenter;
         this.searchArticles = searchArticles;
         this.searchArticlesPresenter = searchArticlesPresenter;
         this.findArticle = findArticle;
         this.findArticlePresenter = findArticlePresenter;
+        this.visitArticle = visitArticle;
+        this.visitArticlePresenter = visitArticlePresenter;
     }
 
     @PostMapping
@@ -119,5 +127,32 @@ public class AdminV1ArticleController {
             this.findArticlePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
         return this.findArticlePresenter.buildResponseEntity();
+    }
+
+    @PostMapping("/{id}/visit")
+    public ResponseEntity<String> visitArticle(
+            @PathVariable int id,
+            HttpServletRequest httpServletRequest) {
+        logger.info("Endpoint : articles visit (Post) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+
+        try {
+            VisitArticleInput input = VisitArticleInput.builder()
+                    .articleId(IntegerId.valueOf(id))
+                    .userId(servletRequest.getUserIdFromAttribute())
+                    .iPv4Address(servletRequest.getUserIpFromHeader())
+                    .build();
+            this.visitArticle.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.visitArticlePresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.visitArticlePresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+
+        return visitArticlePresenter.buildResponseEntity();
     }
 }
