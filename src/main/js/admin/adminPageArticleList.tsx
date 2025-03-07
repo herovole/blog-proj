@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AdminBasicLayout} from "./fragment/adminBasicLayout";
 import {ArticleListBody} from "./fragment/articlelist/articleListBody";
@@ -6,15 +6,10 @@ import {ArticleListBody} from "./fragment/articlelist/articleListBody";
 export const AdminPageArticleList: React.FC = () => {
 
 
-    const load = async (): Promise<void> => {
-    };
-    useEffect(() => {
-        load().then();
-    }, []);
-
     return (
         <AdminBasicLayout>
             <ArticleListBody
+                isForAdmin={true}
                 hasSearchMenu={true}
                 directoryToIndividualPage={"/admin/articles"}
             />

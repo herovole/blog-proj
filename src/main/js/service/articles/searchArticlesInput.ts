@@ -2,14 +2,15 @@ import {format} from "date-fns";
 
 export class SearchArticlesInput {
 
-    static byDefault() {
+    static byDefault(isForAdmin: boolean) {
         return new SearchArticlesInput(
             10,
             1,
             true,
             null,
             null,
-            ""
+            "",
+            isForAdmin
         );
     }
 
@@ -19,6 +20,7 @@ export class SearchArticlesInput {
     dateFrom: Date | null;
     dateTo: Date | null;
     keywords: string;
+    requiresAuth: boolean;
 
     constructor(
         itemsPerPage: number,
@@ -26,7 +28,8 @@ export class SearchArticlesInput {
         isPublished: boolean,
         dateFrom: Date | null,
         dateTo: Date | null,
-        keywords: string
+        keywords: string,
+        requiresAuth: boolean
     ) {
         this.itemsPerPage = itemsPerPage;
         this.page = page;
@@ -34,20 +37,10 @@ export class SearchArticlesInput {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.keywords = keywords;
+        this.requiresAuth = requiresAuth;
     }
 
-    appendItemsPerPage = (itemsPerPage: number): SearchArticlesInput => {
-        return new SearchArticlesInput(
-            itemsPerPage,
-            this.page,
-            this.isPublished,
-            this.dateFrom,
-            this.dateTo,
-            this.keywords
-        );
-    }
-
-    appendPage = (page: number): SearchArticlesInput => {
+    appendPage(page: number): SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
             page,
@@ -55,39 +48,7 @@ export class SearchArticlesInput {
             this.dateFrom,
             this.dateTo,
             this.keywords,
-        );
-    }
-
-    appendDateFrom = (dateFrom: Date | null): SearchArticlesInput => {
-        return new SearchArticlesInput(
-            this.itemsPerPage,
-            this.page,
-            this.isPublished,
-            dateFrom,
-            this.dateTo,
-            this.keywords
-        );
-    }
-
-    appendDateTo = (dateTo: Date | null): SearchArticlesInput => {
-        return new SearchArticlesInput(
-            this.itemsPerPage,
-            this.page,
-            this.isPublished,
-            this.dateFrom,
-            dateTo,
-            this.keywords
-        );
-    }
-
-    appendKeywords = (keywords: string): SearchArticlesInput => {
-        return new SearchArticlesInput(
-            this.itemsPerPage,
-            this.page,
-            this.isPublished,
-            this.dateFrom,
-            this.dateTo,
-            keywords
+            this.requiresAuth
         );
     }
 
@@ -95,10 +56,11 @@ export class SearchArticlesInput {
         return {
             "itemsPerPage": this.itemsPerPage.toString(),
             "page": this.page.toString(),
-            "isPublished": this.isPublished.toString(),
+            "isPublished": this.isPublished ? "1" : "0",
             "dateFrom": this.dateFrom ? format(this.dateFrom, "yyyyMMdd") : "",
             "dateTo": this.dateTo ? format(this.dateTo, "yyyyMMdd") : "",
             "keywords": this.keywords,
+            "requiresAuth": this.requiresAuth ? "1" : "0",
         };
     };
 }

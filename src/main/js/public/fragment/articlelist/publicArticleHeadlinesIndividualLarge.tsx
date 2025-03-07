@@ -25,7 +25,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, [resourcePrefix, topicTagsOptions, countryTagsOptions]);
+    }, []);
 
     const goToIndividualPage = (articleId: number) => {
         navigate(directoryToIndividualPage + "/" + articleId);

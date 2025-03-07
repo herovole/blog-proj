@@ -57,16 +57,18 @@ export const PublicPageArticleView: React.FC = () => {
     };
     useEffect(() => {
         load().then();
-    }, [refresh]);
+    }, []);
 
     if (article && ratingHistory) {
-        return <PublicBasicLayout>
-            <PublicArticleBody
-                postKey={RootElementId.valueOf("article")}
-                article={article}
-                ratingHistory={ratingHistory}
-                reRender={reRender}
-            /></PublicBasicLayout>
+        return <>
+            <PublicBasicLayout>
+                <PublicArticleBody
+                    postKey={RootElementId.valueOf("article")}
+                    article={article}
+                    ratingHistory={ratingHistory}
+                    reRender={reRender}
+                /></PublicBasicLayout>
+            <input type="hidden" value={refresh.toString()}/></>
     } else {
         return <PublicBasicLayout>
             <div>Loading...</div>

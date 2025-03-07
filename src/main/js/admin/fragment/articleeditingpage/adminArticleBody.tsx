@@ -34,7 +34,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-    }, [refresh, topicTagsOptions, countryTagsOptions]);
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault(); // Prevent page reload
@@ -47,11 +47,12 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
             setMessage(output.getMessage("記事編集"));
         }
     };
-    if(topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+    if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
         return <div>loading...</div>
     } else {
         return (
             <div>
+                <input type="hidden" name="reload" value={refresh.toString()}/>
                 <form onSubmit={handleSubmit}>
                     <button type="submit">Submit</button>
                     <div>

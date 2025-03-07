@@ -35,7 +35,7 @@ export const AdminImageManagement: React.FC = () => {
     useEffect(() => {
         handlePageChanged(1).then();
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
-    }, [refresh]);
+    }, []);
 
     const handlePageChanged = async (requestedPage: number) => {
         const input: SearchImagesInput = new SearchImagesInput(
@@ -65,6 +65,7 @@ export const AdminImageManagement: React.FC = () => {
     } else {
         return (
             <div className="admin-image-base">
+                <input type="hidden" name="reload" value={refresh.toString()}/>
                 <h2>Image Management</h2>
                 <AppPagination
                     handlePageChanged={handlePageChanged}

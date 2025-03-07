@@ -8,7 +8,7 @@ export const PublicHeader: React.FC = () => {
 
     React.useEffect(() => {
         ResourceManagement.getInstance().systemImagePrefixWithSlash().then(setResourcePrefix);
-    }, [resourcePrefix]);
+    }, []);
 
     return (
         <div className="header-frame">

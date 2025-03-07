@@ -45,7 +45,6 @@ export const AdminBanModal: React.FC<AdminBanModalProps> = ({
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [refresh, setRefresh] = React.useState<boolean>(false);
 
-    React.useEffect(() => { }, [refresh]);
     const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setDays(parseInt(e.currentTarget.value));

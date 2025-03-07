@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TagButton} from "./tagButton";
 import {TagUnits} from "./tagUnits"
@@ -11,8 +11,6 @@ type TagButtonProps = {
 
 export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searchBaseUrl}) => {
 
-    useEffect(() => {
-    }, []);
 
     return (
         <span>

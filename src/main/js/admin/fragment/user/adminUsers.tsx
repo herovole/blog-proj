@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {SearchAdminUserOutput} from "../../../service/auth/searchAdminUserOutput";
 import {AdminUsersModal} from "./adminUsersModal";
 import {TagUnits} from "../atomic/tagselectingform/tagUnits";
@@ -12,9 +12,6 @@ type AdminUsersType = {
 
 
 export const AdminUsers: React.FC<AdminUsersType> = ({data, roles, reload}) => {
-
-    useEffect(() => {
-    }, []);
 
     return (
         <div className="main-area-frame">

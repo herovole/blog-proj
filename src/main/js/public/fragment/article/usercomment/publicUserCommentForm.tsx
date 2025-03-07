@@ -44,9 +44,6 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
     const [messageWarning, setMessageWarning] = React.useState<string>("");
 
 
-    React.useEffect(() => {
-    }, [refresh]);
-
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const currentHandle: string = e.target.value;
         setHandle(currentHandle);
@@ -113,6 +110,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
 
     return (
         <div>
+            <input type="hidden" value={refresh.toString()} />
             <div className="comment-form-exterior">
                 <div className="comment-form-interior">
                     <div className="comment-form-header">記事「{articleTitle}」へ投稿</div>
