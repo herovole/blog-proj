@@ -29,7 +29,7 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
 
     React.useEffect(() => {
         loadComments(SearchCommentsInput.byDefault()).then();
-        }, [refresh]);
+        }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItemsPerPage(parseInt(e.currentTarget.value));
@@ -163,6 +163,7 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
         </div>
 
     return (<>
+            <input type="hidden" name="reload" value={refresh.toString()}/>
             {htmlSearch}
             <AppPagination handlePageChanged={handlePageChanged} currentPage={page} totalPages={totalPages()}/>
             {data.getComments().map((each: CommentAndReport) => (

@@ -35,7 +35,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
-    }, [resourcePrefix, topicTagsOptions, countryTagsOptions]);
+    }, []);
 
     const handleReference = (commentIdReferred: number) => {
         if (refText.current) {

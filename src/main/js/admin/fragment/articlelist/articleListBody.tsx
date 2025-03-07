@@ -8,6 +8,7 @@ import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
 
 type ArticleListBodyProps = {
+    isForAdmin?: boolean;
     mode?: HeadlinesMode;
     hasSearchMenu: boolean;
     directoryToIndividualPage: string;
@@ -15,15 +16,23 @@ type ArticleListBodyProps = {
 
 
 export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
+                                                                    isForAdmin = false,
                                                                     mode = HeadlinesMode.SMALL,
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
                                                                 }) => {
+    const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault(isForAdmin));
     const articleService: ArticleService = new ArticleService();
+
+    const [itemsPerPage, setItemsPerPage] = React.useState<number>(inputFixed.itemsPerPage);
+    const [page, setPage] = React.useState<number>(inputFixed.page);
+    const [keywords, setKeywords] = React.useState<string>(inputFixed.keywords);
+    const [dateFrom, setDateFrom] = React.useState<Date | null>(inputFixed.dateFrom);
+    const [dateTo, setDateTo] = React.useState<Date | null>(inputFixed.dateTo);
+    const [isPublished, setIsPublished] = React.useState<boolean>(inputFixed.isPublished);
     const MIN_DATE: Date = new Date("2025-01-01");
     const MAX_DATE: Date = new Date();
-    const [inputCached, setInputCached] = React.useState(SearchArticlesInput.byDefault());
-    const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault());
+
     const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
 
@@ -35,16 +44,26 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputCached(inputCached.appendItemsPerPage(parseInt(e.currentTarget.value)));
+        setItemsPerPage(parseInt(e.currentTarget.value));
     }
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputCached(inputCached.appendKeywords(e.currentTarget.value));
+        setKeywords(e.currentTarget.value);
     }
     const handleDateFrom = (date: Date | null) => {
-        setInputCached(inputCached.appendDateFrom(date));
+        setDateFrom(date);
     }
     const handleDateTo = (date: Date | null) => {
-        setInputCached(inputCached.appendDateTo(date));
+        setDateTo(date);
+    }
+    const handleIsPublished = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsPublished(e.currentTarget.checked);
+    }
+    const handlePageChanged = async (page: number) => {
+        // Trigger the form submission manually
+        const input: SearchArticlesInput = inputFixed.appendPage(page);
+        setPage(page);
+        setInputFixed(input);
+        await loadArticles(input);
     }
 
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
@@ -57,19 +76,20 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         setRefresh(r => !r);
     }
 
-    const handlePageChanged = async (page: number) => {
-        // Trigger the form submission manually
-        const input: SearchArticlesInput = inputFixed.appendPage(page);
-        setInputCached(input);
-        setInputFixed(input);
-        await loadArticles(input);
-    }
 
     const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
 
-        const input: SearchArticlesInput = inputCached.appendPage(1);
-        setInputCached(input);
+        setPage(1);
+        const input: SearchArticlesInput = new SearchArticlesInput(
+            itemsPerPage,
+            1,
+            isPublished,
+            dateFrom,
+            dateTo,
+            keywords,
+            isForAdmin
+        );
         setInputFixed(input);
         await loadArticles(input);
     }
@@ -82,9 +102,20 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
 
     const htmlPagination = <AppPagination
         handlePageChanged={handlePageChanged}
-        currentPage={inputCached.page}
+        currentPage={page}
         totalPages={totalPages()}
     />
+
+    const htmlIsPublished = isForAdmin ?
+        <p>公開状態：
+            <input
+                className="admin-editable-text-activated"
+                type="checkbox"
+                checked={isPublished}
+                onChange={handleIsPublished}
+            />
+        </p> : <></>
+
 
     const htmlSearch =
         <div className="comment-modal-exterior">
@@ -102,17 +133,16 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             step="5"
                             placeholder="items per page"
                             onChange={handleItemsPerPage}
-                            value={inputCached.itemsPerPage}
+                            value={itemsPerPage}
                         />
                     </p>
-
                     <br/>
                     <p>キーワード :
                         <input
                             className="input-keywords"
                             placeholder="space-separated search keywords"
                             onChange={handleKeywords}
-                            value={inputCached.keywords}
+                            value={keywords}
                         />
                     </p>
                     <p>日付範囲 :
@@ -120,7 +150,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             dateFormat="yyyy/MM/dd"
                             placeholderText="date from"
                             onChange={handleDateFrom}
-                            selected={inputCached.dateFrom}
+                            selected={dateFrom}
                             minDate={MIN_DATE}
                             maxDate={MAX_DATE}
                             showMonthYearDropdown/>
@@ -129,12 +159,13 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             dateFormat="yyyy/MM/dd"
                             placeholderText="date to"
                             onChange={handleDateTo}
-                            selected={inputCached.dateTo}
+                            selected={dateTo}
                             minDate={MIN_DATE}
                             maxDate={MAX_DATE}
                             showMonthYearDropdown/>
                     </p>
-
+                    <br/>
+                    {htmlIsPublished}
                 </form>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ArticleSummaryList} from "../../../domain/articlelist/articleSummaryList";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
@@ -26,10 +26,6 @@ export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({
                                                                                   directoryToIndividualPage,
                                                                                   reRender
                                                                               }) => {
-
-
-    useEffect(() => {
-    }, [reRender]);
 
 
     if (mode === HeadlinesMode.SMALL) {

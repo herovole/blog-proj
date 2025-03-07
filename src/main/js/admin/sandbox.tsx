@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {DateSelectingForm} from './fragment/atomic/dateSelectingForm';
 import {TagSelectingForm} from './fragment/atomic/tagselectingform/tagSelectingForm';
-import {ElementId} from '../domain/elementId/elementId';
 import {ImageSelectingModal} from './fragment/image/imageSelectingModal';
 import {TagButton} from "./fragment/atomic/tagselectingform/tagButton";
 import {ArticleSummaryList} from "../domain/articlelist/articleSummaryList";
