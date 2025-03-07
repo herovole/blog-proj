@@ -1,10 +1,9 @@
 package org.herovole.blogproj.infra.hibernate;
 
-import jakarta.persistence.Entity;
 import org.herovole.blogproj.application.AppSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.hibernate.query.MutationQuery;
 
 import java.util.Collection;
 
@@ -59,7 +58,7 @@ public class AppSessionHibernate implements AppSession {
 
     @Override
     public void executeSql(String sql) {
-        Query<Entity> query = session.createQuery(sql, Entity.class);
+        MutationQuery query = session.createNativeMutationQuery(sql);
         query.executeUpdate();
     }
 
