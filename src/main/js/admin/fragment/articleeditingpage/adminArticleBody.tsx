@@ -55,6 +55,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                 <input type="hidden" name="reload" value={refresh.toString()}/>
                 <form onSubmit={handleSubmit}>
                     <button type="submit">Submit</button>
+                    <input type="hidden" name="requiresAuth" value={1}/>
                     <div>
                         <div className="flex-container">
                             <p className="article-edit-title">Image</p>

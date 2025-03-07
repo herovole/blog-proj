@@ -101,6 +101,7 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
             </form>
 
             <form onSubmit={handleSubmit}>
+                <input type="hidden" name="requiresAuth" value={1}/>
                 <table>
                     <thead>
                     <tr>

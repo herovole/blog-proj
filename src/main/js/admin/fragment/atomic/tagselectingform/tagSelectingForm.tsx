@@ -34,11 +34,6 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
     const [fixedSelectedTags, setFixedSelectedTags] = useState<ReadonlyArray<string>>(argSelectedTags);
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
-    console.log(JSON.stringify(candidates));
-    console.log(JSON.stringify(selectedTags));
-    console.log(JSON.stringify(candidates.getTagOptionsJapanese()));
-    console.log(JSON.stringify(candidates.getTagOptionsJapaneseSelected(selectedTags)));
-
 
     const edit = () => {
         setIsBeingEdited(true);
@@ -57,7 +52,6 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
     const handleChange = (theSelectedTags:
                               ReadonlyArray<{ value: string, label: string }> | { value: string, label: string }
     ) => {
-        console.log(JSON.stringify(theSelectedTags));
 
         if (Array.isArray(theSelectedTags)) {
             setSelectedTags(theSelectedTags.map(tag => tag.value));
