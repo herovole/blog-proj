@@ -15,20 +15,27 @@ import {BasicApiResult} from "../../../domain/basicApiResult";
 import {PublicUserCommentView} from "../../../public/fragment/article/usercomment/publicUserCommentView";
 import {CommentUnit} from "../../../domain/comment/commentUnit";
 import {ResourceManagement} from "../../../service/resourceManagement";
+import {useNavigate} from "react-router-dom";
 
 
 type AdminArticleBodyProps = {
     postKey: ElementId;
     content?: Article | null;
+    reload?: () => void;
+    pageArticleList?: string;
 }
 export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                                                                       postKey,
                                                                       content = null,
+                                                                      reload = () => {
+                                                                      },
+                                                                      pageArticleList = "",
                                                                   }) => {
-    const [refresh, setRefresh] = React.useState(false);
+    const navigate = useNavigate();
     const [message, setMessage] = React.useState("");
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const refSourceComments = React.useRef<{ emptyAddedComments: () => void } | null>(null);
     const articleService: ArticleService = new ArticleService();
 
     React.useEffect(() => {
@@ -42,9 +49,13 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
         const output: BasicApiResult = await articleService.editArticle(formData);
         if (output.isSuccessful()) {
             setMessage(output.getMessage("記事編集"));
-            setRefresh(r => !r);
+            if (refSourceComments) {
+                refSourceComments?.current?.emptyAddedComments();
+            }
+            reload();
         } else {
             setMessage(output.getMessage("記事編集"));
+            navigate(pageArticleList);
         }
     };
     if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
@@ -52,7 +63,6 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
     } else {
         return (
             <div>
-                <input type="hidden" name="reload" value={refresh.toString()}/>
                 <form onSubmit={handleSubmit}>
                     <button type="submit">Submit</button>
                     <input type="hidden" name="requiresAuth" value={1}/>
@@ -156,6 +166,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                             <AdminCommentEditor
                                 postKey={postKey.append("sourceComments")}
                                 content={content ? content.sourceComments : new Array<CommentUnit>()}
+                                ref={refSourceComments}
                             />
                         </div>
                     </div>

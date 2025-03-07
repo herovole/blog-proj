@@ -95,14 +95,16 @@ const App = () => {
                 <Route path="/admin/articles/:articleId" element={
                     <AdminProtectedRoute>
                         <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                            <AdminPageArticle/>
+                            <AdminPageArticle />
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}
                 <Route path="/admin/articles/new" element={
                     <AdminProtectedRoute>
                         <GoogleReCaptchaProvider reCaptchaKey={googleReCaptchaSiteKey}>
-                            <AdminPageArticleNew/>
+                            <AdminPageArticleNew
+                                pageArticleList={"/admin/articles"}
+                            />
                         </GoogleReCaptchaProvider>
                     </AdminProtectedRoute>
                 }/> {}

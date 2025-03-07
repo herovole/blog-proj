@@ -4,14 +4,18 @@ import {AdminArticleBody} from "./fragment/articleeditingpage/adminArticleBody";
 import {RootElementId} from "../domain/elementId/rootElementId";
 import {AdminBasicLayout} from "./fragment/adminBasicLayout";
 
-export const AdminPageArticleNew: React.FC = () => {
+type AdminPageArticleNewProps = {
+    pageArticleList: string;
+}
+export const AdminPageArticleNew: React.FC<AdminPageArticleNewProps> = ({pageArticleList}) => {
 
-        return (
-            <AdminBasicLayout>
-                <AdminArticleBody
-                    postKey={RootElementId.valueOf("articleEditingPage")}
-                />
-            </AdminBasicLayout>
-        );
-    }
-;
+
+    return (
+        <AdminBasicLayout>
+            <AdminArticleBody
+                postKey={RootElementId.valueOf("articleEditingPage")}
+                pageArticleList={pageArticleList}
+            />
+        </AdminBasicLayout>
+    );
+};
