@@ -1,19 +1,26 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import {AdminCommentEditorUnit} from './adminCommentEditorUnit'
 import {ElementId} from "../../../../domain/elementId/elementId";
 import {CommentUnit} from "../../../../domain/comment/commentUnit";
 import {SourceCommentUnit} from "../../../../domain/comment/sourceCommentUnit";
 
+type AdminCommentEditorHandle = {
+    emptyAddedComments: () => void;
+}
 type AdminCommentEditorProps = {
     postKey: ElementId;
     content: ReadonlyArray<CommentUnit>;
 }
-export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
-                                                                          postKey,
-                                                                          content,
-                                                                      }) => {
+export const AdminCommentEditor = forwardRef<AdminCommentEditorHandle, AdminCommentEditorProps>(({
+                                                                                                     postKey,
+                                                                                                     content,
+                                                                                                 }, ref) => {
 
     const [countAddedComments, setCountAddedComments] = React.useState<number>(0);
+
+    React.useImperativeHandle(ref, () => ({
+        emptyAddedComments: () => setCountAddedComments(0),
+    }));
 
     const handleAddComment = (): void => {
         setCountAddedComments(n => n + 1);
@@ -54,6 +61,5 @@ export const AdminCommentEditor: React.FC<AdminCommentEditorProps> = ({
             </div>
         </div>
     );
-}
+});
 
-//

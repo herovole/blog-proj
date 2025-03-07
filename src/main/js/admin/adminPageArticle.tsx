@@ -13,6 +13,7 @@ export const AdminPageArticle: React.FC = () => {
     const {articleId} = useParams();
     const articleService: ArticleService = new ArticleService();
     const [article, setArticle] = React.useState<Article>();
+    const [refresh, setRefresh] = React.useState<boolean>(false);
 
     const load = async (): Promise<void> => {
         const articleInput: FindArticleInput = new FindArticleInput(articleId, true);
@@ -23,9 +24,14 @@ export const AdminPageArticle: React.FC = () => {
             console.error("failed to fetch article record");
         }
     };
+
+    const reload = (): void => {
+        setRefresh(r => !r);
+    }
+
     useEffect(() => {
         load().then();
-    }, []);
+    }, [refresh]);
 
     if (article) {
         return (
@@ -33,6 +39,7 @@ export const AdminPageArticle: React.FC = () => {
                 <AdminArticleBody
                     postKey={RootElementId.valueOf("articleEditingPage")}
                     content={article}
+                    reload={reload}
                 />
             </AdminBasicLayout>
         );
