@@ -13,6 +13,7 @@ import {UserService} from "../service/user/userService";
 import {SearchRatingHistoryOutput} from "../service/user/searchRatingHistoryOutput";
 import {VisitArticleInput} from "../service/articles/visitArticleInput";
 import {BasicApiResult} from "../domain/basicApiResult";
+import {MetaInfo} from "./fragment/metaInfo";
 
 export const PublicPageArticleView: React.FC = () => {
     const {articleId} = useParams();
@@ -57,10 +58,16 @@ export const PublicPageArticleView: React.FC = () => {
     };
     useEffect(() => {
         load().then();
-    }, []);
+    }, [refresh]);
 
     if (article && ratingHistory) {
         return <>
+            <MetaInfo
+                tabTitle={article.title}
+                description={article.text}
+                keywords={""}
+                image={article.imageName}
+            />
             <PublicBasicLayout>
                 <PublicArticleBody
                     postKey={RootElementId.valueOf("article")}
@@ -68,7 +75,7 @@ export const PublicPageArticleView: React.FC = () => {
                     ratingHistory={ratingHistory}
                     reRender={reRender}
                 /></PublicBasicLayout>
-            <input type="hidden" value={refresh.toString()}/></>
+        </>
     } else {
         return <PublicBasicLayout>
             <div>Loading...</div>

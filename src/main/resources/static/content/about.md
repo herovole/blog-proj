@@ -1,11 +1,25 @@
 ## 当サイトについて
 
+
+- 画像著作権 (敬称略)  
+  - DotGothic16 Fontworks Inc.
+    https://fonts.google.com/specimen/DotGothic16
+  - Bing Image Creator  
+    https://www.bing.com/images/create
+
+
 - 概要  
-  主に英語圏のWeb掲示板を対象とした小規模まとめサイト  
+  主に英語圏のWeb掲示板を対象とした小規模まとめサイト
+ 
+
+- サイト名  
+  変則電信アーカイブ  
+  Irregular Telegraph Archives
+
 
 - 連絡先  
   signat12345ure@gmail.com
-  
+
 
 ## システム更新履歴
 
