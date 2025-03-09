@@ -9,19 +9,22 @@ export const HeroBanner: React.FC = () => {
         ResourceManagement.getInstance().systemImagePrefixWithSlash().then(setResourcePrefix);
     }, []);
 
-    return (
-        <div className="hero-banner-base">
-            <img src={resourcePrefix + "hero_banner.jpg"}
-                 alt={"banner"}/>
-            <div className="hero-banner-title-base">
-                <div className="hero-banner-title-jp">
-                    変則電信アーカイブ
-                </div>
-                <div className="hero-banner-title-en">
-                    Irregular Telegraph Archives
+    if (resourcePrefix) {
+        return (
+            <div className="hero-banner-base">
+                <img src={resourcePrefix + "hero_banner.jpg"}
+                     alt={"banner"}/>
+                <div className="hero-banner-title-base">
+                    <div className="hero-banner-title-jp">
+                        変則電信アーカイブ
+                    </div>
+                    <div className="hero-banner-title-en">
+                        Irregular Telegraph Archives
+                    </div>
                 </div>
             </div>
-        </div>
-
-    )
+        );
+    } else {
+        return <div>loading...</div>;
+    }
 }
