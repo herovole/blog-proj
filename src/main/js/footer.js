@@ -6,13 +6,13 @@ export const Footer = () => {
     return (<div>
             <ul>
                 <li>
-                    <Link to="/">ホーム</Link> {/*aタグじゃないよ*/}
+                    <Link to="/">ホーム</Link>
                 </li>
                 <li>
                     <Link to="/articles">検索</Link>
                 </li>
                 <li>
-                    <Link to="/about">サイト概要</Link>
+                    <Link to="/about">サイト情報</Link>
                 </li>
                 <li>
                     <Link to="/admin">管理者</Link>
