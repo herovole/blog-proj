@@ -34,6 +34,14 @@ export class ResourceManagement {
         return ResourceManagement.instance;
     }
 
+    public getSiteNameJp(): string {
+        return "変則電信アーカイブ"
+    }
+
+    public getSiteNameEn(): string {
+        return "Irregular Telegraph Archives"
+    }
+
     private async prefixWithSlash(): Promise<string> {
         while (this.isLoadingPrefix) {
             await Zurvan.delay(0.05);

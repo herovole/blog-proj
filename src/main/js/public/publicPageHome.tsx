@@ -6,6 +6,8 @@ import {HeadlinesMode} from "./fragment/articlelist/publicArticleHeadlines";
 import {VisitArticleInput} from "../service/articles/visitArticleInput";
 import {BasicApiResult} from "../domain/basicApiResult";
 import {ArticleService} from "../service/articles/articleService";
+import {Helmet} from "react-helmet-async";
+import {MetaInfo} from "./fragment/metaInfo";
 
 export const PublicPageHome: React.FC = () => {
     const ARTICLE_ID: string = "0";
@@ -28,11 +30,20 @@ export const PublicPageHome: React.FC = () => {
         load().then();
     }, []);
 
-    return <PublicBasicLayout>
-        <ArticleListBody
-            mode={HeadlinesMode.LARGE}
-            hasSearchMenu={false}
-            directoryToIndividualPage={"/articles"}
+    return <>
+        <MetaInfo
+            tabTitle={"Home"}
+            description={"まとめサイト"}
+            keywords={"まとめ、まとめサイト、世界"}
+            image={"hero_banner.jpg"}
+            hasSystemImage={true}
         />
-    </PublicBasicLayout>
+        <PublicBasicLayout>
+            <ArticleListBody
+                mode={HeadlinesMode.LARGE}
+                hasSearchMenu={false}
+                directoryToIndividualPage={"/articles"}
+            />
+        </PublicBasicLayout>
+    </>
 };

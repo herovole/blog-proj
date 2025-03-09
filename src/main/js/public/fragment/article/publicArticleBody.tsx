@@ -44,47 +44,51 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         }
     }
 
-    return (
-        <div>
-            <h2 className="article-title">{article.title}</h2>
-            <img className="article-image" src={resourcePrefix + article.imageName} alt="not rendered"/>
-            <DivText className="article-text">{article.text}</DivText>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-tag-alignment">
-                <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                            searchBaseUrl={directoryToIndividualPage}/>
-            </div>
-            <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
-            <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
+    if (!resourcePrefix || topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+        return <div>loading...</div>
+    } else {
+        return (
+            <div>
+                <h2 className="article-title">{article.title}</h2>
+                <img className="article-image" src={resourcePrefix + article.imageName} alt="not rendered"/>
+                <DivText className="article-text">{article.text}</DivText>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-tag-alignment">
+                    <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
+                                searchBaseUrl={directoryToIndividualPage}/>
+                </div>
+                <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
+                <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
 
 
-            <div>
-                <PublicSourceCommentView
-                    commentUnits={article.sourceComments}
-                    countryTagsOptions={countryTagsOptions}
-                    handleReference={handleReference}
-                />
+                <div>
+                    <PublicSourceCommentView
+                        commentUnits={article.sourceComments}
+                        countryTagsOptions={countryTagsOptions}
+                        handleReference={handleReference}
+                    />
+                </div>
+                <div>
+                    <PublicUserCommentView
+                        commentUnits={article.userComments}
+                        ratingHistory={ratingHistory}
+                        handleReference={handleReference}
+                    />
+                </div>
+                <div>
+                    <PublicUserCommentForm
+                        postKey={postKey.append("userCommentForm")}
+                        articleId={article.articleId}
+                        articleTitle={article.title}
+                        refText={refText}
+                        reRender={reRender}
+                    />
+                </div>
             </div>
-            <div>
-                <PublicUserCommentView
-                    commentUnits={article.userComments}
-                    ratingHistory={ratingHistory}
-                    handleReference={handleReference}
-                />
-            </div>
-            <div>
-                <PublicUserCommentForm
-                    postKey={postKey.append("userCommentForm")}
-                    articleId={article.articleId}
-                    articleTitle={article.title}
-                    refText={refText}
-                    reRender={reRender}
-                />
-            </div>
-        </div>
-    );
+        );
+    }
 }
 

@@ -31,7 +31,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
         navigate(directoryToIndividualPage + "/" + articleId);
     }
 
-    if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+    if (!resourcePrefix || topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
         return <div>loading...</div>;
     } else {
         return (
