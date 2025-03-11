@@ -2,6 +2,7 @@ package org.herovole.blogproj;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
 import org.herovole.blogproj.domain.adminuser.Password;
 import org.herovole.blogproj.domain.adminuser.Role;
@@ -42,15 +43,18 @@ public class ConfigFile {
     private static final String CONFIG_KEY_AWS_ACCESS_KEY = "aws_access_key";
     private static final String CONFIG_KEY_AWS_SECRET_ACCESS_KEY = "aws_secret_access_key";
     private static final String CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET = "aws_public_resources_bucket";
+    private static final String CONFIG_KEY_SITE_DOMAIN = "site_domain";
+    private static final String CONFIG_KEY_SITE_NAME_JP = "site_name_jp";
+    private static final String CONFIG_KEY_SITE_NAME_EN = "site_name_en";
+    private static final String CONFIG_KEY_SITE_DESCRIPTION = "site_description";
+    private static final String CONFIG_KEY_SITE_LANG = "site_lang";
+    private static final String CONFIG_KEY_SITE_COPYRIGHT = "site_copyright";
+    private static final String CONFIG_KEY_RSS_XML = "rss_xml";
 
     private final Map<String, String> configs;
 
     String getImageDirectoryPath() {
         return this.configs.get(CONFIG_KEY_IMAGE_LOCAL);
-    }
-
-    String getImageDomain() {
-        return this.configs.get(CONFIG_KEY_IMAGE_DOMAIN);
     }
 
     String getCommentBlacklistFilePath() {
@@ -99,6 +103,50 @@ public class ConfigFile {
 
     public String getAwsPublicResourcesBucket() {
         return this.configs.get(CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET);
+    }
+
+    private String getSiteDomain() {
+        return this.configs.get(CONFIG_KEY_SITE_DOMAIN);
+    }
+
+    private String getImageDomain() {
+        return this.configs.get(CONFIG_KEY_IMAGE_DOMAIN);
+    }
+
+    private String getSiteNameJp() {
+        return this.configs.get(CONFIG_KEY_SITE_NAME_JP);
+    }
+
+    private String getSiteNameEn() {
+        return this.configs.get(CONFIG_KEY_SITE_NAME_EN);
+    }
+
+    private String getSiteDescription() {
+        return this.configs.get(CONFIG_KEY_SITE_DESCRIPTION);
+    }
+
+    private String getSiteLanguage() {
+        return this.configs.get(CONFIG_KEY_SITE_LANG);
+    }
+
+    private String getSiteCopyright() {
+        return this.configs.get(CONFIG_KEY_SITE_COPYRIGHT);
+    }
+
+    public SiteInformation getSiteInformation() {
+        return SiteInformation.builder()
+                .siteDomain(this.getSiteDomain())
+                .imageDomain(this.getImageDomain())
+                .siteNameJp(this.getSiteNameJp())
+                .siteNameEn(this.getSiteNameEn())
+                .siteDescription(this.getSiteDescription())
+                .siteLanguage(this.getSiteLanguage())
+                .siteCopyright(this.getSiteCopyright())
+                .build();
+    }
+
+    public String getRssXmlFile() {
+        return this.configs.get(CONFIG_KEY_RSS_XML);
     }
 
 }

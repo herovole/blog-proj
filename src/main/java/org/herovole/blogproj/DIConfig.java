@@ -3,9 +3,11 @@ package org.herovole.blogproj;
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
+import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.infra.datasource.AccessTokenFactoryJwt;
+import org.herovole.blogproj.infra.datasource.ArticleTransactionalDatasourceRss2;
 import org.herovole.blogproj.infra.datasource.DailyUserIdFactoryImpl;
 import org.herovole.blogproj.infra.datasource.GoogleReCaptchaResultServer;
 import org.herovole.blogproj.infra.datasource.ImageDatasourceAWSS3;
@@ -26,6 +28,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 @Configuration
 public class DIConfig {
@@ -65,7 +68,7 @@ public class DIConfig {
                                 configFile.getAwsSecretAccessKey()
                         )
                 )).build();
-        return new ImageDatasourceAWSS3(s3Client, configFile.getAwsPublicResourcesBucket());
+        return new ImageDatasourceAWSS3(configFile.getSiteInformation(), s3Client, configFile.getAwsPublicResourcesBucket());
     }
 
     @Bean
@@ -97,5 +100,11 @@ public class DIConfig {
     @Bean
     public AccessTokenFactory buildAccessTokenFactory() {
         return AccessTokenFactoryJwt.of(configFile.getHoursAdminTokenExpires());
+    }
+
+    @Bean("articleTransactionalDatasourceRss2")
+    public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2() throws IOException {
+        LocalFile rss2Xml = LocalFile.of(configFile.getRssXmlFile(), localFileSystem);
+        return new ArticleTransactionalDatasourceRss2(rss2Xml, configFile.getSiteInformation());
     }
 }

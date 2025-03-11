@@ -6,6 +6,7 @@ import org.herovole.blogproj.domain.time.Timestamp;
 
 public interface GenericPresenter<T> {
 
+    T getContent();
     GenericPresenter<T> setContent(T content);
 
     GenericPresenter<T> setUseCaseErrorType(UseCaseErrorType useCaseErrorType);

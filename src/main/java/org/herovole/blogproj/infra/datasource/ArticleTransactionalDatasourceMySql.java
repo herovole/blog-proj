@@ -25,7 +25,7 @@ import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("articleTransactionalDatasourceMySql")
 public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql implements ArticleTransactionalDatasource {
 
     private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
