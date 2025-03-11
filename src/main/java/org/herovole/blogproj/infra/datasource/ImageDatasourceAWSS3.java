@@ -1,5 +1,6 @@
 package org.herovole.blogproj.infra.datasource;
 
+import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.accesskey.AccessKeyAsPath;
@@ -29,10 +30,13 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
 
     private static final AccessKey DIRECTORY_ARTICLE = AccessKeyAsPath.valueOf("articles");
     private static final int MAX_OBJECT_AMOUNT = 1000; // This is the maximum number S3 supports.
+
+    private final SiteInformation siteInformation;
     private final S3Client s3Client;
     private final String bucketName;
 
-    public ImageDatasourceAWSS3(S3Client s3client, String bucketName) {
+    public ImageDatasourceAWSS3(SiteInformation siteInformation, S3Client s3client, String bucketName) {
+        this.siteInformation = siteInformation;
         this.s3Client = s3client;
         this.bucketName = bucketName;
     }
@@ -40,7 +44,7 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
     // ex. https://blog2025-stg-s3-public.s3.ap-northeast-1.amazonaws.com/large.jpg
     @Override
     public String imageResourcePrefix() {
-        return "https://<bucketName>.s3.ap-northeast-1.amazonaws.com".replace("<bucketName>", bucketName);
+        return this.siteInformation.getImageTopUrl().memorySignature();
     }
 
     @Override

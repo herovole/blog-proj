@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Articles {
@@ -21,6 +22,10 @@ public class Articles {
 
     public Article.Json[] toJsonRecord() {
         return Arrays.stream(arrayOfArticles).map(Article::toJsonModel).toArray(Article.Json[]::new);
+    }
+
+    public Stream<Article> stream() {
+        return Stream.of(arrayOfArticles);
     }
 
 }

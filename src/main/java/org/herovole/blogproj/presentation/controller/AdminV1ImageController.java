@@ -38,7 +38,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/images")
 public class AdminV1ImageController {
 
-    Logger logger = LoggerFactory.getLogger(AdminV1ImageController.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(AdminV1ImageController.class.getSimpleName());
 
     private final SearchImages searchImages;
     private final SearchImagesPresenter searchImagesPresenter;

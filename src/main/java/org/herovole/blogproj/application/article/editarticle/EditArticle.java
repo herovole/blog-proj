@@ -26,7 +26,10 @@ public class EditArticle {
     private final GenericPresenter<Object> presenter;
 
     @Autowired
-    public EditArticle(AppSessionFactory sessionFactory, @Qualifier("articleDatasource") ArticleDatasource articleDatasource, ArticleTransactionalDatasource articleTransactionalDatasource, GenericPresenter<Object> presenter) {
+    public EditArticle(AppSessionFactory sessionFactory,
+                       @Qualifier("articleDatasource") ArticleDatasource articleDatasource,
+                       @Qualifier("articleTransactionalDatasourceMySql") ArticleTransactionalDatasource articleTransactionalDatasource,
+                       GenericPresenter<Object> presenter) {
         this.sessionFactory = sessionFactory;
         this.articleDatasource = articleDatasource;
         this.articleTransactionalDatasource = articleTransactionalDatasource;

@@ -8,7 +8,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 @ToString
@@ -23,6 +25,9 @@ public class Timestamp implements Comparable<Timestamp> {
     private static final DateTimeFormatter formatterFrontendDisplay = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private static final DateTimeFormatter formatterYyyyMMddSpaceHHmmss = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
     private static final DateTimeFormatter formatterYyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+    // RSS 2.0 pubDate (RFC 1123 format)
+    private static final DateTimeFormatter formatterRss20 = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 
     public static Timestamp empty() {
         return new Timestamp(null);
@@ -89,6 +94,11 @@ public class Timestamp implements Comparable<Timestamp> {
     public String letterSignatureFrontendDisplay() {
         if (this.isEmpty()) return EMPTY;
         return this.localDateTime.format(formatterFrontendDisplay);
+    }
+
+    public String rss20PubDate() {
+        ZonedDateTime zonedDateTime = this.localDateTime.atZone(zoneIdTokyo);
+        return zonedDateTime.format(formatterRss20);
     }
 
     public Date toDate() {
