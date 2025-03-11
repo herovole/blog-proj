@@ -20,3 +20,4 @@ src/main/resources/prod/hibernate.cfg.xml
 *.crt
 *.zip
 aws_user.log
+rss.xml

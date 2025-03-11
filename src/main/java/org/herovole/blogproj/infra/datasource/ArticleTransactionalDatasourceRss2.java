@@ -15,13 +15,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @RequiredArgsConstructor
 public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalDatasource {
 
-    private static final List<Article> articles = new ArrayList<>();
+    private static final Queue<Article> articles = new ConcurrentLinkedQueue<>();
     private final LocalFile rssXml;
     private final SiteInformation siteInformation;
 
@@ -41,8 +41,10 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element rss = document.createElement("rss");
             rss.setAttribute("version", "2.0");
             rss.setAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
+            document.appendChild(rss);
 
             Element channel = document.createElement("channel");
+            rss.appendChild(channel);
 
             Element title = document.createElement("title");
             title.appendChild(document.createTextNode(this.siteInformation.getSiteNameJp()));
@@ -59,9 +61,6 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element generator = document.createElement("generator");
             generator.appendChild(document.createTextNode("Java Spring React"));
 
-            articles.stream()
-                    .map(e -> new ArticleXml(siteInformation, e).toElement(document))
-                    .forEach(channel::appendChild);
             channel.appendChild(title);
             channel.appendChild(link);
             channel.appendChild(description);
@@ -69,6 +68,13 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             channel.appendChild(copyright);
             channel.appendChild(lastBuildDate);
             channel.appendChild(generator);
+
+            while (!articles.isEmpty()) {
+                Article article = articles.poll();
+                Element item = new ArticleXml(siteInformation, article).toElement(document);
+                channel.appendChild(item);
+            }
+
 
             rssXml.write(document);
         } catch (IOException | ParserConfigurationException e) {
@@ -79,7 +85,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
 
     @Override
     public void insert(Article article) {
-        articles.add(article);
+        articles.offer(article);
     }
 
     @Override

@@ -1,8 +1,12 @@
+## RSS
+
+- [rss.xml](./rss.xml)
+
 ## 当サイトについて
 
 
 - 画像著作権 (敬称略)  
-  - DotGothic16 Fontworks Inc.
+  - DotGothic16 by Fontworks Inc.
     https://fonts.google.com/specimen/DotGothic16
   - Bing Image Creator  
     https://www.bing.com/images/create

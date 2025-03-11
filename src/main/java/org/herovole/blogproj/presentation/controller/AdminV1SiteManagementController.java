@@ -56,7 +56,7 @@ public class AdminV1SiteManagementController {
         return this.getResourcePrefixPresenter.buildResponseEntity();
     }
 
-    @PostMapping
+    @PostMapping("/rss2")
     public ResponseEntity<String> generateRss2(
             HttpServletRequest httpServletRequest) {
         logger.info("Endpoint : generate RSS 2 (post) ");

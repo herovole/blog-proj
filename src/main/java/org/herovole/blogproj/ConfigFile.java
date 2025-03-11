@@ -49,7 +49,7 @@ public class ConfigFile {
     private static final String CONFIG_KEY_SITE_DESCRIPTION = "site_description";
     private static final String CONFIG_KEY_SITE_LANG = "site_lang";
     private static final String CONFIG_KEY_SITE_COPYRIGHT = "site_copyright";
-    private static final String CONFIG_KEY_RSS_XML = "rss_xml";
+    private static final String CONFIG_KEY_RSS_XML = "rss_output";
 
     private final Map<String, String> configs;
 
