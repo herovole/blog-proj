@@ -62,6 +62,9 @@ public class LocalFile {
     }
 
     public void write(Document xmlDocument) throws IOException {
+        if (!this.exists()) {
+            Files.createFile(this.path);
+        }
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -70,16 +73,16 @@ public class LocalFile {
 
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            try (java.io.StringWriter writer = new java.io.StringWriter()) {
+                transformer.transform(new DOMSource(xmlDocument), new StreamResult(writer));
 
-            // Write XML content to a StringWriter
-            java.io.StringWriter writer = new java.io.StringWriter();
-            transformer.transform(new DOMSource(xmlDocument), new StreamResult(writer));
+                // Write XML content to file with UTF-8 encoding
+                Files.writeString(this.path, writer.toString(),
+                        StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            }
 
-            // Convert XML string to bytes and write to file using Path
-            Files.write(this.path, writer.toString().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            throw e;
         } catch (TransformerException e) {
             throw new IOException(e);
         }

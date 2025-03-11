@@ -14,6 +14,7 @@ public class SourceUrl {
     private static final int LENGTH_LIMIT = 200;
     private static final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
 
+    private static final String LOCAL_TESTING_URL = "https://localhost:8080";
     private static final String API_KEY_SOURCE_URL = "sourceUrl";
 
     public static SourceUrl fromPostContent(FormContent formContent) {
@@ -23,6 +24,7 @@ public class SourceUrl {
 
     public static SourceUrl valueOf(String url) {
         if (url == null || url.isEmpty() || url.isBlank()) return empty();
+        if (url.startsWith(LOCAL_TESTING_URL)) return new SourceUrl(url);
         if (LENGTH_LIMIT < url.length()) throw new DomainInstanceGenerationException(url);
         if (!urlValidator.isValid(url)) throw new DomainInstanceGenerationException(url);
         return new SourceUrl(url);
