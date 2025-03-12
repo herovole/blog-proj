@@ -10,6 +10,10 @@ phases:
       - aws s3 cp s3://blog2025-stg-s3-private/build/aws_user.log ./docker/staging/aws_user.log
       - aws s3 cp s3://blog2025-stg-s3-private/build/docker_user.log ./docker/staging/docker_user.log
 
+      - echo Prepare Env
+      - source ./docker/staging/docker_user.log
+      - source ./docker/staging/aws_user.log
+
       - echo Login to Docker
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 
@@ -35,7 +39,6 @@ phases:
   post_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - source ./docker/staging/aws_user.log
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - echo Pushing the Docker image to Amazon ECR...
