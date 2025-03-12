@@ -20,4 +20,5 @@ src/main/resources/prod/hibernate.cfg.xml
 *.crt
 *.zip
 aws_user.log
+docker_user.log
 rss.xml

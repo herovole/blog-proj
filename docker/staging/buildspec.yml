@@ -8,10 +8,10 @@ phases:
     commands:
       - echo AWS resource download
       - aws s3 cp s3://blog2025-stg-s3-private/build/aws_user.log ./docker/staging/aws_user.log
+      - aws s3 cp s3://blog2025-stg-s3-private/build/docker_user.log ./docker/staging/docker_user.log
 
-      - echo Logging in to Amazon ECR...
-      - source ./docker/staging/aws_user.log
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo Login to Docker
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 
       - echo Backend S3 resource download
       - aws s3 cp --recursive s3://blog2025-stg-s3-private/build/backend/app_utility/ ./docker/staging/backend/app_utility/
@@ -34,6 +34,10 @@ phases:
 
   post_build:
     commands:
+      - echo Logging in to Amazon ECR...
+      - source ./docker/staging/aws_user.log
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
       - echo Pushing the Docker image to Amazon ECR...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-backend:latest
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/staging/blog-proj-staging-frontend:latest
