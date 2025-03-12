@@ -21,4 +21,6 @@ src/main/resources/prod/hibernate.cfg.xml
 *.zip
 aws_user.log
 docker_user.log
+application-staging.yml
+application-product.yml
 rss.xml
