@@ -19,7 +19,7 @@ public class CountryCodes {
     public static CountryCodes fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
         FormContents arrayChildren = child.getInArray();
-        CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).toArray(CountryCode[]::new);
+        CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
         return of(codes);
     }
 
