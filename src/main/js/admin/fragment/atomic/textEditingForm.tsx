@@ -33,16 +33,19 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         setEditedText(currentText);
     }
 
-    const edit = () => {
+    const edit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIsBeingEdited(true);
     }
 
-    const fix = () => {
+    const fix = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setFixedText(editedText);
         setIsBeingEdited(false);
     }
 
-    const cancel = () => {
+    const cancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setEditedText(fixedText);
         setIsBeingEdited(false);
     }
@@ -60,8 +63,8 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         return (
             <div>
                     <textarea
-                        className="admin-editable-text-activated"
-                        style={{width, height}}
+                        className="admin-editable-text-activated admin-editable-textarea"
+                        style={{ minWidth: width, minHeight: height }}
                         onChange={handleChange}
                         placeholder="Type here..."
                     >
@@ -75,8 +78,8 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         return <div>
             <input
                 type="password"
-                className="admin-editable-text-activated"
-                style={{width, height}}
+                className="admin-editable-text-activated admin-editable-textarea"
+                style={{ minWidth: width, minHeight: height }}
                 onChange={handleChangePassword}
                 value={editedText}
             />
@@ -87,8 +90,8 @@ export const TextEditingForm: React.FC<TextEditingFormProps> = ({
         return (
             <>
                 <button type="button"
-                        className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
-                        style={{width, height}}
+                        className={isFixed ? "admin-non-editable-text admin-editable-textarea" : "admin-editable-text admin-editable-textarea"}
+                        style={{ minWidth: width, minHeight: height }}
                         onClick={edit}>
                     <DivText className="admin-editable-text-content">
                         {textToShow}

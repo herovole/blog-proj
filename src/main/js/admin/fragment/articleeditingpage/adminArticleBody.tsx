@@ -52,10 +52,15 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
             if (refSourceComments) {
                 refSourceComments?.current?.emptyAddedComments();
             }
-            reload();
+            if (content) {
+                // If the operation is to modify an existing article
+                reload();
+            } else {
+                // If the operation is to create a new article
+                navigate(pageArticleList);
+            }
         } else {
             setMessage(output.getMessage("記事編集"));
-            navigate(pageArticleList);
         }
     };
     if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
@@ -106,6 +111,7 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                                     {content ? content.sourceDate : null}
                                 </DateSelectingForm>
                             </p>
+                            <p className="article-edit-title-large"/>
                         </div>
                         <div className="flex-container">
                             <p className="article-edit-title">Published?</p>

@@ -12,7 +12,8 @@ type TagButtonProps = {
 export const TagButton: React.FC<TagButtonProps> = ({unit, searchBaseUrl, searchKey}) => {
 
     const navigate = useNavigate();
-    const handleOnClick = () => {
+    const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         const hash = {[searchKey]: unit.fields.id.toString()};
         const urlSearchParams = new URLSearchParams(Object.entries(hash));
         navigate(`${searchBaseUrl}?${urlSearchParams.toString()}`);

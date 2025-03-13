@@ -35,14 +35,17 @@ export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children = 
         setEditedDate(date);
     }
 
-    const edit = () => {
+    const edit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIsBeingEdited(true);
     }
-    const fix = () => {
+    const fix = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setFixedDate(editedDate);
         setIsBeingEdited(false);
     }
-    const cancel = () => {
+    const cancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setEditedDate(fixedDate);
         setIsBeingEdited(false);
     }
@@ -76,7 +79,7 @@ export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children = 
                 <button type="button"
                         className={isFixed ? "admin-non-editable-text" : "admin-editable-text"}
                         onClick={edit}>
-                    {fixedDate == null ? null : format(fixedDate, 'yyyy/MM/dd')}
+                    {fixedDate == null ? "(No Date)" : format(fixedDate, 'yyyy/MM/dd')}
                 </button>
                 <input type="hidden"
                        name={postKey.toStringKey()}

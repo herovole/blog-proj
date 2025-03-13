@@ -32,8 +32,6 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
 
     useEffect(() => {
         initialLoad();
-        return () => {
-        }
     }, []);
 
     const initialLoad = () => {
