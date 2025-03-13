@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
-@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Timestamp implements Comparable<Timestamp> {
 
