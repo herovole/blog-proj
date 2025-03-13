@@ -13,9 +13,9 @@ export class ReportUserCommentInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "commentSerialNumber": this.commentSerialNumber.toString(),
+            "commentSerialNumber": encodeURIComponent(this.commentSerialNumber.toString()),
             "text": this.reportingText ? encodeURIComponent(this.reportingText) : "",
-            "botDetectionToken": this.verificationToken
+            "botDetectionToken": encodeURIComponent(this.verificationToken)
         });
     };
 

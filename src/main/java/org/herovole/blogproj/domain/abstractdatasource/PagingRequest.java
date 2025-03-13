@@ -4,6 +4,9 @@ import lombok.EqualsAndHashCode;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @EqualsAndHashCode
 public class PagingRequest {
 
@@ -12,9 +15,9 @@ public class PagingRequest {
 
     public static PagingRequest fromFormContent(FormContent formContent) {
         FormContent postItemsPerPage = formContent.getChildren(API_KEY_PAGER_ITEMS_PER_PAGE);
-        int itemsPerPage = Integer.parseInt(postItemsPerPage.getValue());
+        int itemsPerPage = Integer.parseInt(URLDecoder.decode(postItemsPerPage.getValue(), StandardCharsets.UTF_8));
         FormContent postPage = formContent.getChildren(API_KEY_PAGER_PAGE);
-        int page = Integer.parseInt(postPage.getValue());
+        int page = Integer.parseInt(URLDecoder.decode(postPage.getValue(), StandardCharsets.UTF_8));
         return of(page, itemsPerPage);
     }
 

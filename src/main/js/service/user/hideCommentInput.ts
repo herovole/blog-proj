@@ -16,10 +16,10 @@ export class HideCommentInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "commentSerialNumber": this.commentSerialNumber.toString(),
-            "isHidden": this.isHidden.toString(),
-            "requiresAuth": this.requiresAuth.toString(),
-            "botDetectionToken": this.botDetectionToken,
+            "commentSerialNumber": encodeURIComponent(this.commentSerialNumber.toString()),
+            "isHidden": encodeURIComponent(this.isHidden.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString()),
+            "botDetectionToken": encodeURIComponent(this.botDetectionToken),
         });
     };
 

@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,29 +19,31 @@ public class IntegerId implements Comparable<IntegerId> {
     private static final String API_KEY_COMMENT_ID = "commentId";
     private static final String API_KEY_COMMENT_SERIAL_NUMBER = "commentSerialNumber";
     private static final String API_KEY_REPORT_ID = "reportId";
+    private static final String API_KEY_TOPIC_TAG_ID = "id";
 
     public static IntegerId fromFormContentArticleId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ARTICLE_ID);
-        return valueOf(child.getValue());
+        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static IntegerId fromFormContentTopicTagId(FormContent formContent) {
-        return fromFormContentArticleId(formContent);
+        FormContent child = formContent.getChildren(API_KEY_TOPIC_TAG_ID);
+        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static IntegerId fromFormContentCommentId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_ID);
-        return valueOf(child.getValue());
+        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static IntegerId fromFormContentCommentSerialNumber(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_SERIAL_NUMBER);
-        return valueOf(child.getValue());
+        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static IntegerId fromFormContentReportId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_REPORT_ID);
-        return valueOf(child.getValue());
+        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
     }
 
     public static IntegerId valueOf(Integer field) {
@@ -68,7 +73,7 @@ public class IntegerId implements Comparable<IntegerId> {
     protected final Long id;
 
     public boolean isEmpty() {
-        return null == id;
+        return null == id || Long.parseLong(EMPTY_ZERO) == id;
     }
 
     public String letterSignature() {

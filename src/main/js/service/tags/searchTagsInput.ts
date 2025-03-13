@@ -11,9 +11,9 @@ export class SearchTagsInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "page": this.page.toString(),
-            "itemsPerPage": this.itemsPerPage.toString(),
-            "requiresAuth": this.requiresAuth.toString()
+            "page": encodeURIComponent(this.page.toString()),
+            "itemsPerPage": encodeURIComponent(this.itemsPerPage.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString())
         };
     };
 }

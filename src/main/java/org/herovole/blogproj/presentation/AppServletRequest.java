@@ -18,6 +18,8 @@ import org.herovole.blogproj.presentation.filter.EndpointPhrases;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -149,7 +151,7 @@ public class AppServletRequest {
                 return null;
             }
         }
-        return this.formFieldsCache.get(key) == null ? null : this.formFieldsCache.get(key).asText();
+        return this.formFieldsCache.get(key) == null ? null : URLDecoder.decode(this.formFieldsCache.get(key).asText(), StandardCharsets.UTF_8);
     }
 
     private String getBotDetectionTokenFromParameter() {

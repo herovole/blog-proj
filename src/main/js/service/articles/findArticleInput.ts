@@ -14,8 +14,8 @@ export class FindArticleInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "articleId": this.articleId.toString(),
-            "requiresAuth": this.requiresAuth.toString(),
+            "articleId": encodeURIComponent(this.articleId.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString()),
         };
     };
 }

@@ -59,14 +59,14 @@ export class SearchCommentsInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "itemsPerPage": this.itemsPerPage.toString(),
-            "page": this.page.toString(),
-            "dateFrom": this.dateFrom ? format(this.dateFrom, "yyyyMMdd") : "",
-            "dateTo": this.dateTo ? format(this.dateTo, "yyyyMMdd") : "",
-            "keywords": this.keywords,
-            "hasReports": this.hasReports.toString(),
-            "hasUnaddressedReports": this.hasUnhandledReports.toString(),
-            "requiresAuth": this.requiresAuth.toString()
+            "itemsPerPage": encodeURIComponent(this.itemsPerPage.toString()),
+            "page": encodeURIComponent(this.page.toString()),
+            "dateFrom": this.dateFrom ? encodeURIComponent(format(this.dateFrom, "yyyyMMdd")) : "",
+            "dateTo": this.dateTo ? encodeURIComponent(format(this.dateTo, "yyyyMMdd")) : "",
+            "keywords": encodeURIComponent(this.keywords),
+            "hasReports": encodeURIComponent(this.hasReports.toString()),
+            "hasUnaddressedReports": encodeURIComponent(this.hasUnhandledReports.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString())
         };
     };
 }

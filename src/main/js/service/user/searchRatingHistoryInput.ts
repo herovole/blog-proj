@@ -8,7 +8,7 @@ export class SearchRatingHistoryInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "articleId": this.articleId.toString(),
+            "articleId": encodeURIComponent(this.articleId.toString()),
         };
     };
 

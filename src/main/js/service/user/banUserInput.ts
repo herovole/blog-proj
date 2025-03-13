@@ -16,10 +16,10 @@ export class BanUserInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "userId": this.userId.toString(),
-            "days": this.days.toString(),
-            "requiresAuth": this.requiresAuth.toString(),
-            "botDetectionToken": this.botDetectionToken,
+            "userId": encodeURIComponent(this.userId.toString()),
+            "days": encodeURIComponent(this.days.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString()),
+            "botDetectionToken": encodeURIComponent(this.botDetectionToken),
         });
     };
 

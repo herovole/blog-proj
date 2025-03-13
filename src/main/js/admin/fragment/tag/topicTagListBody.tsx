@@ -112,7 +112,7 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
                     </thead>
                     <tbody>
                     {output.getTagUnits().tagUnits.map((tagUnit, i) => (
-                        <tr>
+                        <tr key={"tag-" + i}>
                             <td>
                                 <TextEditingForm
                                     postKey={postKey.append(i.toString()).append("id")}
@@ -136,7 +136,7 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
                         </tr>
                     ))}
                     {Array.from({length: countAddedTags}).map((_, i) => (
-                        <tr>
+                        <tr key={"additional-tag-" + i}>
                             <td>
                                 <TextEditingForm
                                     postKey={postKey.append(i.toString()).append("id")}
