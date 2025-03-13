@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AdminLogin} from "./fragment/login/adminLogin";
-import {AdminBasicLayout} from "./fragment/adminBasicLayout";
+import {PublicBasicLayout} from "../public/fragment/publicBasicLayout";
 
 export const AdminPageLogin: React.FC = () => {
     const [refresh, setRefresh] = React.useState(false);
@@ -13,11 +13,11 @@ export const AdminPageLogin: React.FC = () => {
     return (
         <>
             <input type="hidden" name="reload" value={refresh.toString()}/>
-            <AdminBasicLayout>
+            <PublicBasicLayout>
                 <AdminLogin
                     refreshParent={reload}
                 />
-            </AdminBasicLayout>
+            </PublicBasicLayout>
         </>
     )
         ;

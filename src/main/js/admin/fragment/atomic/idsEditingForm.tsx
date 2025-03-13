@@ -32,16 +32,19 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
         );
     }
 
-    const edit = () => {
+    const edit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIsBeingEdited(true);
     }
 
-    const fix = () => {
+    const fix = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setFixedIds(ids);
         setIsBeingEdited(false);
     }
 
-    const cancel = () => {
+    const cancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIds(fixedIds);
         setIsBeingEdited(false);
     }

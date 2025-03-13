@@ -14,6 +14,7 @@ import org.herovole.blogproj.domain.FormContent;
 public class CountryCode implements Comparable<CountryCode> {
 
     private static final String API_KEY_COUNTRY = "country";
+    private static final String EMPTY = "--";
 
     public static CountryCode fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
@@ -37,11 +38,11 @@ public class CountryCode implements Comparable<CountryCode> {
     }
 
     public String memorySignature() {
-        return this.code;
+        return this.isEmpty() ? EMPTY : this.code;
     }
 
     public String letterSignature() {
-        return this.code;
+        return this.isEmpty() ? EMPTY : this.code;
     }
 
     @Override

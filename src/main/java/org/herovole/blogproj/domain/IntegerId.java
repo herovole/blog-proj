@@ -11,6 +11,7 @@ import lombok.ToString;
 public class IntegerId implements Comparable<IntegerId> {
 
     private static final String EMPTY = "-";
+    private static final String EMPTY_ZERO = "0";
     private static final String API_KEY_ARTICLE_ID = "articleId";
     private static final String API_KEY_COMMENT_ID = "commentId";
     private static final String API_KEY_COMMENT_SERIAL_NUMBER = "commentSerialNumber";
@@ -41,12 +42,12 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public static IntegerId valueOf(Integer field) {
-        if (null == field) return empty();
+        if (null == field || 0 == field) return empty();
         return valueOf(Long.valueOf(field));
     }
 
     public static IntegerId valueOf(Long field) {
-        if (null == field) return empty();
+        if (null == field || 0 == field) return empty();
         if (field < 0) throw new DomainInstanceGenerationException(field);
         return new IntegerId(field);
     }
@@ -56,7 +57,7 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public static IntegerId valueOf(String field) {
-        if (null == field || field.isEmpty() || EMPTY.equals(field)) return empty();
+        if (null == field || field.isEmpty() || EMPTY.equals(field) || EMPTY_ZERO.equals(field)) return empty();
         return new IntegerId(Long.parseLong(field, 10));
     }
 
@@ -75,7 +76,7 @@ public class IntegerId implements Comparable<IntegerId> {
     }
 
     public Long longMemorySignature() {
-        return this.id;
+        return isEmpty() ? null : this.id;
     }
 
     public Integer intMemorySignature() {

@@ -35,16 +35,19 @@ export const TagSelectingForm: React.FC<TagSelectingFormProps> = ({
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
 
-    const edit = () => {
+    const edit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIsBeingEdited(true);
     }
 
-    const fix = () => {
+    const fix = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setFixedSelectedTags(selectedTags);
         setIsBeingEdited(false);
     }
 
-    const cancel = () => {
+    const cancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setSelectedTags(fixedSelectedTags);
         setIsBeingEdited(false);
     }

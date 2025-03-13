@@ -11,6 +11,7 @@ CREATE TABLE m_country (
   UNIQUE(iso_2)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('1','No Country','国籍なし','--','---','None');
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('4','Afghanistan','アフガニスタン・イスラム共和国','af','afg','Afghanistan');
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('248','Åland Islands','オーランド諸島','ax','ala','Åland-Islands');
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('8','Albania','アルバニア共和国','al','alb','Albania');

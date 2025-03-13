@@ -37,11 +37,25 @@
     position: relative;
     border: 2px ridge #AAAAAA;
     background-color: #77AAAA;
+    text-align: left;
 }
+
 .admin-non-editable-text {
     position: relative;
     border: 2px ridge #AAAAAA;
     background-color: #999999;
+    text-align: left;
+}
+
+.admin-editable-textarea {
+    width: auto; /* Expand width based on content */
+
+    height: auto; /* Expand height based on content */
+
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word; /* Break long words if necessary */
+
+    padding: 4px 6px; /* Add spacing for better appearance */
 }
 
 .admin-editable-text-activated {

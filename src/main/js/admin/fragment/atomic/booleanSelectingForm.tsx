@@ -20,16 +20,19 @@ export const BooleanSelectingForm: React.FC<BooleanSelectingFormProps> = ({
         setCheck(isChecked);
     }
 
-    const edit = () => {
+    const edit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setIsBeingEdited(true);
     }
 
-    const fix = () => {
+    const fix = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setFixedCheck(check);
         setIsBeingEdited(false);
     }
 
-    const cancel = () => {
+    const cancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setCheck(fixedCheck);
         setIsBeingEdited(false);
     }
