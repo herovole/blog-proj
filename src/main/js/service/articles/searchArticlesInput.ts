@@ -54,13 +54,13 @@ export class SearchArticlesInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "itemsPerPage": this.itemsPerPage.toString(),
-            "page": this.page.toString(),
-            "isPublished": this.isPublished ? "1" : "0",
-            "dateFrom": this.dateFrom ? format(this.dateFrom, "yyyyMMdd") : "",
-            "dateTo": this.dateTo ? format(this.dateTo, "yyyyMMdd") : "",
-            "keywords": this.keywords,
-            "requiresAuth": this.requiresAuth ? "1" : "0",
+            "itemsPerPage": encodeURIComponent(this.itemsPerPage.toString()),
+            "page": encodeURIComponent(this.page.toString()),
+            "isPublished": this.isPublished ? encodeURIComponent("1") : encodeURIComponent("0"),
+            "dateFrom": this.dateFrom ? encodeURIComponent(format(this.dateFrom, "yyyyMMdd")) : "",
+            "dateTo": this.dateTo ? encodeURIComponent(format(this.dateTo, "yyyyMMdd")) : "",
+            "keywords": encodeURIComponent(this.keywords),
+            "requiresAuth": this.requiresAuth ? encodeURIComponent("1") : encodeURIComponent("0"),
         };
     };
 }

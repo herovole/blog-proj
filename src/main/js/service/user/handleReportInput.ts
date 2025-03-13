@@ -16,10 +16,10 @@ export class HandleReportInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "reportId": this.reportId.toString(),
-            "isHandled": this.isHandled.toString(),
-            "requiresAuth": this.requiresAuth.toString(),
-            "botDetectionToken": this.botDetectionToken,
+            "reportId": encodeURIComponent(this.reportId.toString()),
+            "isHandled": encodeURIComponent(this.isHandled.toString()),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString()),
+            "botDetectionToken": encodeURIComponent(this.botDetectionToken),
         });
     };
 

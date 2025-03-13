@@ -12,9 +12,9 @@ export class AdminLoginInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "userName": this.handle,
-            "password": this.password,
-            "botDetectionToken": this.botDetectionToken
+            "userName": encodeURIComponent(this.handle),
+            "password": encodeURIComponent(this.password),
+            "botDetectionToken": encodeURIComponent(this.botDetectionToken)
         });
     };
 }

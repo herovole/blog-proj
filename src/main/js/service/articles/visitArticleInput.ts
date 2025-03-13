@@ -1,12 +1,12 @@
 export class VisitArticleInput {
-    articleId: string | undefined;
+    articleId: string ;
 
-    constructor(articleId: string | undefined) {
+    constructor(articleId: string ) {
         this.articleId = articleId;
     }
 
-    getArticleId(): string | undefined {
-        return this.articleId;
+    getArticleId(): string {
+        return encodeURIComponent(this.articleId);
     }
 
 }

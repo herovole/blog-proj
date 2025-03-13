@@ -43,7 +43,14 @@ export class ArticleService {
     }
 
     async editArticle(formData: FormData): Promise<BasicApiResult> {
-        const postData: { [k: string]: FormDataEntryValue } = Object.fromEntries(formData.entries());
+        const postData: { [k: string]: string } = {};
+
+        formData.forEach((value, key) => {
+            if (typeof value === "string") {
+                postData[key] = encodeURIComponent(value); // 文字列だけを追加
+            }
+        });
+
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/articles", JSON.stringify(postData), {
                 headers: {'Content-Type': 'application/json;charset=utf-8',},

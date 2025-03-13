@@ -42,9 +42,14 @@ export class TagService {
     }
 
     async editTopicTags(formData: FormData): Promise<BasicApiResult> {
-        const postData: { [k: string]: FormDataEntryValue } = JSON.stringify(Object.fromEntries(formData.entries()));
+        const postData: { [k: string]: string } = {};
+        formData.forEach((value, key) => {
+            if (typeof value === "string") {
+                postData[key] = encodeURIComponent(value); // 文字列だけを追加
+            }
+        });
         try {
-            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/topicTags", postData, {
+            const response: AxiosResponse<BasicApiResultFields> = await axios.post("/api/v1/topicTags", JSON.stringify(postData), {
                 headers: {'Content-Type': 'application/json',},
             });
             return new BasicApiResult(response.data);

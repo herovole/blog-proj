@@ -12,9 +12,9 @@ export class SearchAdminUserInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "page": this.page.toString(),
-            "itemsPerPage": this.itemsPerPage.toString(),
-            "requiresAuth": this.requiresAuth ? "1" : "0",
+            "page": encodeURIComponent(this.page.toString()),
+            "itemsPerPage": encodeURIComponent(this.itemsPerPage.toString()),
+            "requiresAuth": this.requiresAuth ? encodeURIComponent("1") : encodeURIComponent("0"),
         };
     };
 }

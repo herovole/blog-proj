@@ -16,10 +16,10 @@ export class PostUserCommentInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "articleId": this.articleId.toString(),
+            "articleId": encodeURIComponent(this.articleId.toString()),
             "handleName": this.handleName ? encodeURIComponent(this.handleName) : "",
             "text": this.commentText ? encodeURIComponent(this.commentText) : "",
-            "botDetectionToken": this.verificationToken
+            "botDetectionToken": encodeURIComponent(this.verificationToken)
         });
     };
 

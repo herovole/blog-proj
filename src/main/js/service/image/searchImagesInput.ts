@@ -9,9 +9,9 @@ export class SearchImagesInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "page": this.page.toString(),
-            "itemsPerPage": this.itemsPerPage.toString(),
-            "requiresAuth": "true"
+            "page": encodeURIComponent(this.page.toString()),
+            "itemsPerPage": encodeURIComponent(this.itemsPerPage.toString()),
+            "requiresAuth": encodeURIComponent("true")
         };
     };
 }

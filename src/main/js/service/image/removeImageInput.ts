@@ -7,8 +7,8 @@ export class RemoveImageInput {
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "imageName": this.imageName,
-            "requiresAuth": "true"
+            "imageName": encodeURIComponent(this.imageName),
+            "requiresAuth": encodeURIComponent("true")
         };
     };
 }

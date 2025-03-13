@@ -36,7 +36,7 @@ public class IntegerIds implements Iterable<IntegerId> {
     private static IntegerIds fromPostContent(FormContent formContent, String apiKey) {
         FormContent child = formContent.getChildren(apiKey);
         FormContents arrayChildren = child.getInArray();
-        IntegerId[] ids = arrayChildren.stream().map(p -> IntegerId.valueOf(p.getValue())).toArray(IntegerId[]::new);
+        IntegerId[] ids = arrayChildren.stream().map(p -> IntegerId.valueOf(p.getValue())).filter(e -> !e.isEmpty()).toArray(IntegerId[]::new);
         return of(ids);
     }
 

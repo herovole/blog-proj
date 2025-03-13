@@ -16,11 +16,11 @@ export class CreateAdminUserInput {
 
     toPayloadHash(): string {
         return JSON.stringify({
-            "userName": this.handle,
-            "role": this.role,
-            "password": this.password,
-            "requiresAuth": this.requiresAuth.toString(),
-            "botDetectionToken": this.botDetectionToken
+            "userName": encodeURIComponent(this.handle),
+            "role": encodeURIComponent(this.role),
+            "password": encodeURIComponent(this.password),
+            "requiresAuth": encodeURIComponent(this.requiresAuth.toString()),
+            "botDetectionToken": encodeURIComponent(this.botDetectionToken)
         });
     };
 }
