@@ -47,6 +47,8 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         }
     };
 
+    private static final int ID_ORIGIN = 1;
+
     @Autowired
     protected ArticleTransactionalDatasourceMySql(
             AArticleRepository aArticleRepository,
@@ -79,7 +81,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
 
         Long maxId = aArticleRepository.findMaxId();
 
-        IntegerId articleId = IntegerId.valueOf(maxId == null ? 0 : maxId + 1);
+        IntegerId articleId = IntegerId.valueOf(maxId == null ? ID_ORIGIN : maxId + 1);
         AArticle entity = AArticle.fromInsertDomainObj(articleId, article);
         AArticleHasCountry[] entitiesCountries = article1.getCountries().stream().map(e -> AArticleHasCountry.fromInsertDomainObj(articleId, e)).toArray(AArticleHasCountry[]::new);
         AArticleHasEditor[] entitiesEditors = article1.getEditors().stream().map(e -> AArticleHasEditor.fromInsertDomainObj(articleId, e)).toArray(AArticleHasEditor[]::new);
