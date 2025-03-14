@@ -7,8 +7,6 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +29,7 @@ public class Date {
 
     public static Date fromFormContentArticleDate(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_SOURCE_DATE);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static Date valueOf(String field) {

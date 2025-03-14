@@ -22,7 +22,7 @@ export class ResourceManagement {
     private isLoadingTopicTags: boolean = false;
     private isLoadingCountryTags: boolean = false;
 
-    private static instance: ResourceManagement;
+    private static instance: ResourceManagement | null;
 
     private constructor() {
     }
@@ -32,6 +32,10 @@ export class ResourceManagement {
             ResourceManagement.instance = new ResourceManagement();
         }
         return ResourceManagement.instance;
+    }
+
+    public static initialize(): void {
+        ResourceManagement.instance = null;
     }
 
     public getSiteNameJp(): string {

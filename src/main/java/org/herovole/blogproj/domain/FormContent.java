@@ -3,6 +3,8 @@ package org.herovole.blogproj.domain;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +49,8 @@ public class FormContent {
     }
 
     public String getValue() {
-        return this.hash.entrySet().stream().findFirst().map(Map.Entry::getValue).orElse(null);
+        String value = this.hash.entrySet().stream().findFirst().map(Map.Entry::getValue).orElse(null);
+        return value == null ? null : URLDecoder.decode(value, StandardCharsets.UTF_8);
     }
 
     private int getLength() {

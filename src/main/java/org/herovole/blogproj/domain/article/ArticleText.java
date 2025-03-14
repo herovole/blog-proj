@@ -6,9 +6,6 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleText {
@@ -17,7 +14,7 @@ public class ArticleText {
 
     public static ArticleText fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_TEXT);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static ArticleText valueOf(String text) {

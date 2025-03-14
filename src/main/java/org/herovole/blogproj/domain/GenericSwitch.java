@@ -5,9 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,32 +24,32 @@ public class GenericSwitch implements Comparable<GenericSwitch> {
 
     public static GenericSwitch fromFormContentIsPublished(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_PUBLISHED);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch fromFormContentIsHidden(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_HIDDEN);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch fromFormContentRequiresAuth(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_REQUIRES_AUTH);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch fromFormContentHasReports(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_HAS_REPORTS);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch fromFormContentHasUnhandledReports(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_HAS_UNHANDLED_REPORTS);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch fromFormContentIsHandled(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_IS_HANDLED);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static GenericSwitch valueOf(String field) {

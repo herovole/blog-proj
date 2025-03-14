@@ -7,12 +7,13 @@ import {TagService} from "../../../service/tags/tagService";
 import {SearchTagsOutput} from "../../../service/tags/searchTagsOutput";
 import {BasicApiResult} from "../../../domain/basicApiResult";
 import {ElementId} from "../../../domain/elementId/elementId";
+import {ResourceManagement} from "../../../service/resourceManagement";
 
 type TopicTagListBodyProps = {
-    postKey: ElementId;
+    formKey: ElementId;
 }
 
-export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => {
+export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({formKey}) => {
     //prop : formKey
     const [output, setOutput] = useState(SearchTagsOutput.empty());
     const [countAddedTags, setCountAddedTags] = useState(0);
@@ -51,19 +52,20 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
         const formData = new FormData(event.target as HTMLFormElement);
         const result: BasicApiResult = await tagService.editTopicTags(formData);
         if (result.isSuccessful()) {
+            console.log("Job successful.");
+            ResourceManagement.initialize();
             setCountAddedTags(0);
             initialLoad();
         }
 
     }
 
-    const handleSearch = async (event) => {
+    const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent page reload
         const input: SearchTagsInput = new SearchTagsInput(page, itemsPerPage, true);
         const output: SearchTagsOutput = await tagService.searchTopicTags(input);
         if (output.isSuccessful()) {
             setCountAddedTags(0);
-            initialLoad();
         }
         setOutput(output);
     }
@@ -115,19 +117,19 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
                         <tr key={"tag-" + i}>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("id")}
+                                    postKey={formKey.append(i.toString()).append("id")}
                                     isFixed={true}
                                 >{tagUnit.fields.id}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("nameJp")}
+                                    postKey={formKey.append(i.toString()).append("nameJp")}
                                     isFixed={false}
                                 >{tagUnit.fields.tagJapanese}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("nameEn")}
+                                    postKey={formKey.append(i.toString()).append("nameEn")}
                                     isFixed={false}
                                 >{tagUnit.fields.tagEnglish}</TextEditingForm>
                             </td>
@@ -139,19 +141,19 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({postKey}) => 
                         <tr key={"additional-tag-" + i}>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("id")}
+                                    postKey={formKey.append(i.toString()).append("id")}
                                     isFixed={true}
                                 >{null}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("nameJp")}
+                                    postKey={formKey.append(i.toString()).append("nameJp")}
                                     isFixed={false}
                                 >{null}</TextEditingForm>
                             </td>
                             <td>
                                 <TextEditingForm
-                                    postKey={postKey.append(i.toString()).append("nameEn")}
+                                    postKey={formKey.append(i.toString()).append("nameEn")}
                                     isFixed={false}
                                 >{null}</TextEditingForm>
                             </td>

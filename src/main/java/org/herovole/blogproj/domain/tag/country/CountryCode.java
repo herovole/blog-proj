@@ -8,9 +8,6 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,7 +18,7 @@ public class CountryCode implements Comparable<CountryCode> {
 
     public static CountryCode fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
-        return valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static CountryCode valueOf(String code) {
