@@ -72,12 +72,15 @@ public class CommentUnits {
 
     public CommentUnits differentCommentsOf(CommentUnits that) {
         CommentUnit[] differentUnits = that.stream()
-                .filter(e -> !e.getSerialNumber().isEmpty() && this.hasInId(e) && !this.getBySameId(e).hasSameContent(e))
+                .filter(
+                        e -> this.hasInId(e)
+                                && !this.getBySameId(e).hasSameContent(e)
+                )
                 .toArray(CommentUnit[]::new);
         return CommentUnits.of(differentUnits);
     }
 
-    private CommentUnit findByInArticleCommentId(IntegerId commentId) {
+    public CommentUnit findByInArticleCommentId(IntegerId commentId) {
         CommentUnit[] commentOfSameId = this.stream().filter(e -> !e.isEmpty() && e.getCommentId().equals(commentId)).toArray(CommentUnit[]::new);
         if (commentOfSameId.length == 0) return CommentUnit.empty();
         return commentOfSameId[0];

@@ -19,7 +19,8 @@ export const IdsEditingForm: React.FC<IdsEditingFormProps> = ({
                                                               }) => {
 
     const SPLITTER: string = ",";
-    const initIds = children ? (children as string).toString().split(SPLITTER).map((n) => Number(n)) : new Array<number>();
+    const initIds = children && (children as string) != "" && (children as number) != 0
+        ? (children as string).toString().split(SPLITTER).map((n) => Number(n)) : new Array<number>();
 
     const [ids, setIds] = useState<Array<number>>(initIds);
     const [fixedIds, setFixedIds] = useState<Array<number>>(initIds);

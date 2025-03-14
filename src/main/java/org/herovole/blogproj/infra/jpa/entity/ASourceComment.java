@@ -74,12 +74,12 @@ public class ASourceComment implements Serializable {
         return aSourceComment;
     }
 
-    public static ASourceComment fromUpdateDomainObj(CommentUnit before, CommentUnit after) {
+    public static ASourceComment fromUpdateDomainObj(IntegerId articleId, CommentUnit before, CommentUnit after) {
         if (after.isEmpty()) throw new EmptyRecordException();
         RealSourceCommentUnit before1 = (RealSourceCommentUnit) before;
         ASourceComment sourceComment = fromDomainObj(after);
         sourceComment.setId(before1.getCommentSerialNumber().longMemorySignature());
-        sourceComment.setArticleId(before1.getArticleId().longMemorySignature());
+        sourceComment.setArticleId(articleId.longMemorySignature());
         sourceComment.setDeleteFlag(false);
         return sourceComment;
     }

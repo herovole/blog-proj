@@ -7,7 +7,7 @@ export interface SourceCommentUnit extends CommentUnit {
         commentText: string;
         country: string;
         isHidden: boolean
-        referringCommentIds: ReadonlyArray<number>;
+        referringCommentIds: ReadonlyArray<number> | null;
     };
     depth: number;
 }

@@ -126,7 +126,7 @@ public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql 
         String[] sqlsTopicTagsToDelete = topicTagsToDelete.stream().map(e -> AArticleHasTopicTag.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
         ASourceComment[] entitiesSourceCommentsToInsert = sourceCommentsToInsert.stream().map(e -> ASourceComment.fromInsertDomainObj(articleId, e)).toArray(ASourceComment[]::new);
         String[] sqlsSourceCommentsToDelete = sourceCommentsToDelete.stream().map(e -> ASourceComment.fromDeleteDomainObj(articleId, e)).toArray(String[]::new);
-        ASourceComment[] entitiesSourceCommentsToUpdate = sourceCommentsToUpdate.stream().map(e -> ASourceComment.fromUpdateDomainObj(before1.getSourceComments().findBySerialNumber(e.getSerialNumber()), e)).toArray(ASourceComment[]::new);
+        ASourceComment[] entitiesSourceCommentsToUpdate = sourceCommentsToUpdate.stream().map(e -> ASourceComment.fromUpdateDomainObj(articleId, before1.getSourceComments().findByInArticleCommentId(e.getCommentId()), e)).toArray(ASourceComment[]::new);
 
         cacheUpdate.add(entityToUpdate);
         cacheInsert.add(entitiesCountriesToInsert);
