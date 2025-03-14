@@ -55,7 +55,7 @@ export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
                     <div className="comment-edit-item-line"><span
                         className="comment-edit-label">Referring CommentIds : </span>
                         <IdsEditingForm postKey={postKey.append("referringCommentIds")}>
-                            {content ? content.body.referringCommentIds : ""}
+                            {content ? content.body.referringCommentIds : null}
                         </IdsEditingForm>
                     </div>
                     <div className="source-comment-text">
