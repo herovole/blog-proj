@@ -7,8 +7,6 @@ import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +15,17 @@ public class RealDateRange implements DateRange {
 
     public static RealDateRange fromComplementedFormContent(FormContent formContent) {
         FormContent postDateFrom = formContent.getChildren(API_KEY_DATE_FROM);
-        Date dateFrom = Date.valueOf(URLDecoder.decode(postDateFrom.getValue(), StandardCharsets.UTF_8));
+        Date dateFrom = Date.valueOf(postDateFrom.getValue());
         FormContent postDateTo = formContent.getChildren(API_KEY_DATE_TO);
-        Date dateTo = Date.valueOf(URLDecoder.decode(postDateTo.getValue(), StandardCharsets.UTF_8));
+        Date dateTo = Date.valueOf(postDateTo.getValue());
         return complementOf(dateFrom, dateTo);
     }
 
     public static RealDateRange fromPostContent(FormContent formContent) {
         FormContent postDateFrom = formContent.getChildren(API_KEY_DATE_FROM);
-        Date dateFrom = Date.valueOf(URLDecoder.decode(postDateFrom.getValue(), StandardCharsets.UTF_8));
+        Date dateFrom = Date.valueOf(postDateFrom.getValue());
         FormContent postDateTo = formContent.getChildren(API_KEY_DATE_TO);
-        Date dateTo = Date.valueOf(URLDecoder.decode(postDateTo.getValue(), StandardCharsets.UTF_8));
+        Date dateTo = Date.valueOf(postDateTo.getValue());
         return of(dateFrom, dateTo);
     }
 
@@ -41,7 +39,8 @@ public class RealDateRange implements DateRange {
         if (dateFrom.isEmpty() || dateTo.isEmpty() || dateFrom.postcedes(dateTo))
             throw new DomainInstanceGenerationException("dateFrom " + dateFrom.letterSignature() + "/dateTo " + dateTo.letterSignature());
         if (dateFrom.isEmpty() && !dateTo.isEmpty() ||
-                !dateFrom.isEmpty() && dateTo.isEmpty()) throw new DomainInstanceGenerationException("dateFrom " + dateFrom.letterSignature() + "/dateTo " + dateTo.letterSignature());
+                !dateFrom.isEmpty() && dateTo.isEmpty())
+            throw new DomainInstanceGenerationException("dateFrom " + dateFrom.letterSignature() + "/dateTo " + dateTo.letterSignature());
         return new RealDateRange(dateFrom, dateTo);
     }
 

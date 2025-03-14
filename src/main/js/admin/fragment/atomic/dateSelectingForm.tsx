@@ -12,10 +12,10 @@ type DateSelectingFormProps = {
 export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children = null, postKey, isFixed = false}) => {
 
     function reactNodeToDateStrict(node: React.ReactNode): Date | null {
-        if (node == null || node === "") return null;
+        if (node == null || node === "" || node === "-") return null;
         if (typeof node === "string") {
             if (!/^\d{8}$/.test(node)) {
-                throw new Error("Invalid date format. Expected yyyyMMdd.");
+                throw new Error("Invalid date format. Expected yyyyMMdd. : " + node);
             }
             const year = parseInt(node.slice(0, 4), 10);
             const month = parseInt(node.slice(4, 6), 10) - 1; // Month is 0-based in JS Date

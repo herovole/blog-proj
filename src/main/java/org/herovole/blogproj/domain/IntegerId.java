@@ -5,9 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,27 +20,27 @@ public class IntegerId implements Comparable<IntegerId> {
 
     public static IntegerId fromFormContentArticleId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ARTICLE_ID);
-        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static IntegerId fromFormContentTopicTagId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_TOPIC_TAG_ID);
-        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static IntegerId fromFormContentCommentId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_ID);
-        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static IntegerId fromFormContentCommentSerialNumber(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COMMENT_SERIAL_NUMBER);
-        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static IntegerId fromFormContentReportId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_REPORT_ID);
-        return child.getValue() == null ? IntegerId.empty() : valueOf(URLDecoder.decode(child.getValue(), StandardCharsets.UTF_8));
+        return valueOf(child.getValue());
     }
 
     public static IntegerId valueOf(Integer field) {
