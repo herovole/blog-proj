@@ -68,10 +68,10 @@ public class PostUserComment {
                     .interruptProcess();
         }
 
-        CommentUnit lastCommentOfSameArticle = this.userCommentDatasource.findLastComment(comment.getPublicUserId(), comment.getArticleId());
-        CommentUnit lastComment = this.userCommentDatasource.findLastComment(comment.getPublicUserId());
+        CommentUnit lastCommentOfSameArticle = this.userCommentDatasource.findLastComment(comment.getIntegerPublicUserId(), comment.getArticleId());
+        CommentUnit lastComment = this.userCommentDatasource.findLastComment(comment.getIntegerPublicUserId());
 
-        if (!lastCommentOfSameArticle.isEmpty() && lastCommentOfSameArticle.getPostedSecondsAgo() < postUserCommentDurationConfig.getSecondsIntervalSameArticle()) {
+        if (!lastCommentOfSameArticle.isEmpty() && lastCommentOfSameArticle.getPostedSecondsAgo() < postUserCommentDurationConfig.secondsIntervalSameArticle()) {
             logger.error("Frequent Posts, last post : {}, now : {}", lastCommentOfSameArticle.getPostTimestamp(), Timestamp.now());
             presenter.setUseCaseErrorType(UseCaseErrorType.FREQUENT_POSTS).interruptProcess();
         }

@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalDatasource {
 
     private static final Queue<Article> articles = new ConcurrentLinkedQueue<>();
-    private static final String AMAZON_S3_KEY_XML = "rss.xml";
+    private static final String AMAZON_S3_KEY_XML = "system/rss.xml";
     private final LocalFile rssXml;
     private final SiteInformation siteInformation;
     private final S3Client s3Client;

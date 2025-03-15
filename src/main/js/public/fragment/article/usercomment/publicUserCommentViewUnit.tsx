@@ -170,7 +170,7 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
 
         const output: BasicApiResult = await userService.reportUserComment(input);
         if (output.isSuccessful()) {
-            setMessageOrdinary(output.getMessage("送信成功"));
+            setMessageOrdinary(output.getMessage("送信"));
             setMessageWarning("");
             await Zurvan.delay(2);
             if (refReport.current != null) {
@@ -181,7 +181,7 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             closeModal();
         } else {
             setMessageOrdinary("");
-            setMessageWarning(output.getMessage("送信失敗"));
+            setMessageWarning(output.getMessage("送信"));
             setIsInProcess(false);
         }
     }

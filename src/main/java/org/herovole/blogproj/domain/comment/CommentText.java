@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerIds;
 
@@ -21,6 +22,9 @@ public class CommentText {
     private static final String EMPTY = "-";
     private static final String PRETEXT_HIDDEN_COMMENT = "（非公開）";
 
+    private static final int LENGTH_MIN = 1;
+    private static final int LENGTH_MAX = 255;
+    private static final int LF_COUNT_MAX = 7;
     private static final Pattern REFERRING_FORMAT1 = Pattern.compile("[※米]\\d+");
     private static final Pattern REFERRING_FORMAT2 = Pattern.compile("(>>|＞＞)[\\d０-９]+");
 
@@ -30,6 +34,18 @@ public class CommentText {
     }
 
     public static CommentText valueOf(String text) {
+        long lfCount = text.chars()
+                .filter(c -> c == '\n')
+                .count();
+        if (LF_COUNT_MAX < lfCount) {
+            throw new DomainInstanceGenerationException("Too many line feeds. : " + lfCount + " / " + text);
+        }
+        if (text.length() < LENGTH_MIN) {
+            throw new DomainInstanceGenerationException("Text too short. : " + text.length() + " / " + text);
+        }
+        if (LENGTH_MAX < text.length()) {
+            throw new DomainInstanceGenerationException("Text too long. : " + text.length() + " / " + text);
+        }
         return new CommentText(text);
     }
 

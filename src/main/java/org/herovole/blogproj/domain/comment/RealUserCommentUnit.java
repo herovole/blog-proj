@@ -88,6 +88,11 @@ public class RealUserCommentUnit implements CommentUnit {
     }
 
     @Override
+    public IntegerPublicUserId getIntegerPublicUserId() {
+        return (IntegerPublicUserId) this.publicUserId;
+    }
+
+    @Override
     public CommentUnit appendDailyUserId(DailyUserIdFactory algorithm) throws NoSuchAlgorithmException {
         return RealUserCommentUnit.builder()
                 .commentSerialNumber(this.commentSerialNumber)

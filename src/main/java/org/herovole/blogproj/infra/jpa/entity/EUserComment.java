@@ -111,7 +111,7 @@ public class EUserComment implements Serializable {
         userComment.setHidden(commentUnit1.getIsHidden().memorySignature());
         userComment.setReferringCommentIds(commentUnit1.getReferringCommentIds().commaSeparatedMemorySignature());
         userComment.setDailyUserId(commentUnit1.getDailyUserId().memorySignature());
-        userComment.setUserId(commentUnit1.getPublicUserId().longMemorySignature());
+        userComment.setUserId(commentUnit1.getIntegerPublicUserId().longMemorySignature());
         userComment.setAton(commentUnit1.getIp().aton());
         return userComment;
     }
