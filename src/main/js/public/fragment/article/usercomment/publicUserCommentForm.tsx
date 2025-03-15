@@ -42,6 +42,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
 
     const [messageOrdinary, setMessageOrdinary] = React.useState<string>("");
     const [messageWarning, setMessageWarning] = React.useState<string>("");
+    const [isInProcess, setIsInProcess] = React.useState<boolean>(false);
 
 
     const handleHandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +64,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
 
     const handlePost = async (event: React.FormEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault();
+        if (isInProcess) return;
+        setIsInProcess(true);
 
         setMessageOrdinary("送信中: しばらくお待ちください。");
         setMessageWarning("");
@@ -71,6 +74,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             console.error('reCAPTCHA not yet available');
             setMessageOrdinary("");
             setMessageWarning("送信失敗: Webサイト保護機能にトラブル。ページ更新後に再度お試しください。");
+            setIsInProcess(false);
             return;
         }
         const recaptchaToken: string = await executeRecaptcha(googleReCaptchaActionLabel);
@@ -78,6 +82,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             console.error('verification failed');
             setMessageOrdinary("");
             setMessageWarning("送信失敗: Webサイト保護機能にトラブル。通信状況をご確認後にに再度お試しください。");
+            setIsInProcess(false);
             return;
         }
 
@@ -100,17 +105,19 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
             setMessageOrdinary("");
             closeModal();
             setRefresh(r => !r);
+            setIsInProcess(false);
             reRender();
         } else {
             setMessageOrdinary("");
             setMessageWarning(output.getMessage("投稿"));
+            setIsInProcess(false);
         }
 
     }
 
     return (
         <div>
-            <input type="hidden" value={refresh.toString()} />
+            <input type="hidden" value={refresh.toString()}/>
             <div className="comment-form-exterior">
                 <div className="comment-form-interior">
                     <div className="comment-form-header">記事「{articleTitle}」へ投稿</div>
