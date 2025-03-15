@@ -24,9 +24,7 @@ export const PublicPageAbout = () => {
                 <div>
                     <div>
                         <h2>RSS</h2>
-                        <link rel="alternate"
-                              type="application/rss+xml"
-                              href={xmlPrefix + "/rss.xml"}/>
+                        <a href={xmlPrefix + "rss.xml"}>RSS 2.0</a>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
