@@ -2,7 +2,7 @@
 .comment-modal-body {
     display: grid;
     grid-template-columns: 80px 100%;
-    grid-template-rows: 28px 70px;
+    grid-template-rows: 28px 120px;
 }
 
 .comment-modal-exterior {
