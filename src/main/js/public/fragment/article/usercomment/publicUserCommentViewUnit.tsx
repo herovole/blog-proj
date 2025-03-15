@@ -51,44 +51,51 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const [likesBeingProcessed, setLikesBeingProcessed] = React.useState<string>("");
     const [dislikes, setDislikes] = React.useState<number>(content.body.dislikes);
     const [dislikesBeingProcessed, setDislikesBeingProcessed] = React.useState<string>("");
+    const [isInProcess, setIsInProcess] = React.useState<boolean>(false);
 
     const {executeRecaptcha} = useGoogleReCaptcha();
     const googleReCaptchaActionLabel = "user_submitting_report";
 
     const handleGood = async () => {
-        if (btnBadClass == BTN_CLASS_ON) {
+        if (btnBadClass == BTN_CLASS_ON || isInProcess) {
             return;
         }
+        setIsInProcess(true);
         setLikesBeingProcessed("処理中...");
         handleRate(1).then(isSuccessful => {
                 if (isSuccessful && btnGoodClass == BTN_CLASS_OFF) {
                     setBtnGoodClass(BTN_CLASS_ON);
                     setLikes(likes + 1);
                     setLikesBeingProcessed("");
+                    setIsInProcess(false);
                 } else if (isSuccessful && btnGoodClass == BTN_CLASS_ON) {
                     setBtnGoodClass(BTN_CLASS_OFF);
                     setLikes(n => n - 1);
                     setLikesBeingProcessed("");
+                    setIsInProcess(false);
                 }
             }
         );
     }
 
     const handleBad = async () => {
-        if (btnGoodClass == BTN_CLASS_ON) {
+        if (btnGoodClass == BTN_CLASS_ON || isInProcess) {
             return;
         }
+        setIsInProcess(true);
         setDislikesBeingProcessed("処理中...");
         handleRate(-1).then(isSuccessful => {
             if (isSuccessful && btnBadClass == BTN_CLASS_OFF) {
                 setBtnBadClass(BTN_CLASS_ON);
                 setDislikes(dislikes + 1);
                 setDislikesBeingProcessed("");
+                setIsInProcess(false);
             }
             if (isSuccessful && btnBadClass == BTN_CLASS_ON) {
                 setBtnBadClass(BTN_CLASS_OFF);
                 setDislikes(n => n - 1);
                 setDislikesBeingProcessed("");
+                setIsInProcess(false);
             }
         });
     }
@@ -135,6 +142,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
     const afterModal = () => {
     }
     const handleReport = async () => {
+        if (isInProcess) return;
+        setIsInProcess(true);
         setMessageOrdinary("送信中: しばらくお待ちください。");
         setMessageWarning("");
 
@@ -142,6 +151,7 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             console.error('reCAPTCHA not yet available');
             setMessageOrdinary("");
             setMessageWarning("送信失敗: Webサイト保護機能にトラブル。ページ更新後に再度お試しください。");
+            setIsInProcess(false);
             return;
         }
         const recaptchaToken: string = await executeRecaptcha(googleReCaptchaActionLabel);
@@ -149,6 +159,7 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             console.error('verification failed');
             setMessageOrdinary("");
             setMessageWarning("送信失敗: Webサイト保護機能にトラブル。通信状況をご確認後にに再度お試しください。");
+            setIsInProcess(false);
             return;
         }
         const input: ReportUserCommentInput = new ReportUserCommentInput(
@@ -166,10 +177,12 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
                 refReport.current.value = "";
                 setMessageOrdinary("");
             }
+            setIsInProcess(false);
             closeModal();
         } else {
             setMessageOrdinary("");
             setMessageWarning(output.getMessage("送信失敗"));
+            setIsInProcess(false);
         }
     }
 
