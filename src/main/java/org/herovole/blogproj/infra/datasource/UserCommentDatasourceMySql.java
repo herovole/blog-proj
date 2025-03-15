@@ -132,4 +132,20 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
         if (entity == null) return Reporting.empty();
         return entity.toDomainObj();
     }
+
+    @Override
+    public CommentUnit findLastComment(IntegerPublicUserId publicUserId) {
+        if (publicUserId.isEmpty()) throw new IllegalArgumentException();
+        EUserComment eUserComment = this.eUserCommentRepository.findLastCommentByPublicUserId(publicUserId.longMemorySignature());
+        if (eUserComment == null) return CommentUnit.empty();
+        return eUserComment.toDomainObj();
+    }
+
+    @Override
+    public CommentUnit findLastComment(IntegerPublicUserId publicUserId, IntegerId articleId) {
+        if (publicUserId.isEmpty() || articleId.isEmpty()) throw new IllegalArgumentException();
+        EUserComment eUserComment = this.eUserCommentRepository.findLastCommentByPublicUserIdAndArticleId(publicUserId.longMemorySignature(), articleId.longMemorySignature());
+        if (eUserComment == null) return CommentUnit.empty();
+        return eUserComment.toDomainObj();
+    }
 }

@@ -19,9 +19,15 @@ public interface UserCommentDatasource {
     RatingLogs searchActiveRatingHistoryOfArticle(IntegerId articleId, IPv4Address ip, Date date);
 
     CommentUnits searchComments(UserCommentsSearchOption searchOption);
+
     long countComments(UserCommentsSearchOption searchOption);
 
     CommentUnit findByCommentSerialNumber(IntegerId commentSerialNumber);
+
     Reporting findReportById(IntegerId reportId);
+
+    CommentUnit findLastComment(IntegerPublicUserId publicUserId);
+
+    CommentUnit findLastComment(IntegerPublicUserId publicUserId, IntegerId articleId);
 
 }

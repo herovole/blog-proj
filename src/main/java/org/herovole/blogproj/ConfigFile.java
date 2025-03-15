@@ -2,6 +2,7 @@ package org.herovole.blogproj;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.application.user.postusercomment.PostUserCommentDurationConfig;
 import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
 import org.herovole.blogproj.domain.adminuser.Password;
@@ -35,6 +36,8 @@ public class ConfigFile {
     private static final String CONFIG_KEY_IMAGE_DOMAIN = "img_domain";
     private static final String CONFIG_KEY_COMMENT_BLACKLIST = "comment_blacklist";
     private static final String CONFIG_KEY_SYSTEM_BLACKLIST = "system_blacklist";
+    private static final String CONFIG_KEY_COMMENT_DURATION_SAME_ARTICLE = "comment_duration_same_article_seconds";
+    private static final String CONFIG_KEY_COMMENT_DURATION_GENERAL = "comment_duration_general_seconds";
     private static final String CONFIG_KEY_G_RECAPTCHA_SECRET_KEY = "g_recaptcha_sercret_key";
     private static final String CONFIG_KEY_DAILY_USER_ID_KEY0 = "daily_user_id_key0";
     private static final String CONFIG_KEY_HOURS_ADMIN_TOKEN_EXPIRES = "hours_admin_token_expires";
@@ -63,6 +66,13 @@ public class ConfigFile {
 
     String getSystemBlacklistFilePath() {
         return this.configs.get(CONFIG_KEY_SYSTEM_BLACKLIST);
+    }
+
+    PostUserCommentDurationConfig getCommentDurationConfig() {
+        return new PostUserCommentDurationConfig(
+                Integer.parseInt(this.configs.get(CONFIG_KEY_COMMENT_DURATION_SAME_ARTICLE)),
+                Integer.parseInt(this.configs.get(CONFIG_KEY_COMMENT_DURATION_GENERAL))
+        );
     }
 
     String getGoogleReCaptchaSecretKey() {

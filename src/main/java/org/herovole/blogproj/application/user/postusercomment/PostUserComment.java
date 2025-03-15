@@ -12,6 +12,7 @@ import org.herovole.blogproj.domain.comment.UserCommentDatasource;
 import org.herovole.blogproj.domain.comment.UserCommentTransactionalDatasource;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
 import org.herovole.blogproj.domain.publicuser.PublicUserDatasource;
+import org.herovole.blogproj.domain.time.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class PostUserComment {
     private final TextBlackList textBlackList;
     private final DailyUserIdFactory dailyUserIdFactory;
     private final GenericPresenter<Object> presenter;
+    private final PostUserCommentDurationConfig postUserCommentDurationConfig;
 
     @Autowired
     public PostUserComment(AppSessionFactory sessionFactory,
@@ -40,7 +42,9 @@ public class PostUserComment {
                            PublicUserDatasource publicUserDatasource,
                            TextBlackList textBlackList,
                            DailyUserIdFactory dailyUserIdFactory,
-                           GenericPresenter<Object> presenter) {
+                           GenericPresenter<Object> presenter,
+                           PostUserCommentDurationConfig postUserCommentDurationConfig
+    ) {
         this.sessionFactory = sessionFactory;
         this.userCommentDatasource = userCommentDatasource;
         this.userCommentTransactionalDatasource = userCommentTransactionalDatasource;
@@ -48,6 +52,7 @@ public class PostUserComment {
         this.textBlackList = textBlackList;
         this.dailyUserIdFactory = dailyUserIdFactory;
         this.presenter = presenter;
+        this.postUserCommentDurationConfig = postUserCommentDurationConfig;
     }
 
     public void process(PostUserCommentInput input) throws ApplicationProcessException, NoSuchAlgorithmException {
@@ -58,9 +63,21 @@ public class PostUserComment {
         TextBlackUnit detectionHandleName = textBlackList.detectHumanThreat(comment.getHandleName());
         TextBlackUnit detectionCommentText = textBlackList.detectHumanThreat(comment.getCommentText());
         if (!detectionHandleName.isEmpty() || !detectionCommentText.isEmpty()) {
-            logger.info("caught to black list pattern(s) : {}, {}", detectionHandleName, detectionCommentText);
+            logger.error("caught to black list pattern(s) : {}, {}", detectionHandleName, detectionCommentText);
             presenter.setUseCaseErrorType(UseCaseErrorType.HUMAN_THREATENING_PHRASE)
                     .interruptProcess();
+        }
+
+        CommentUnit lastCommentOfSameArticle = this.userCommentDatasource.findLastComment(comment.getPublicUserId(), comment.getArticleId());
+        CommentUnit lastComment = this.userCommentDatasource.findLastComment(comment.getPublicUserId());
+
+        if (!lastCommentOfSameArticle.isEmpty() && lastCommentOfSameArticle.getPostedSecondsAgo() < postUserCommentDurationConfig.getSecondsIntervalSameArticle()) {
+            logger.error("Frequent Posts, last post : {}, now : {}", lastCommentOfSameArticle.getPostTimestamp(), Timestamp.now());
+            presenter.setUseCaseErrorType(UseCaseErrorType.FREQUENT_POSTS).interruptProcess();
+        }
+        if (!lastComment.isEmpty() && lastComment.getPostedSecondsAgo() < postUserCommentDurationConfig.secondsIntervalGeneralArticle()) {
+            logger.error("Frequent Posts, last post : {}, now : {}", lastComment.getPostTimestamp(), Timestamp.now());
+            presenter.setUseCaseErrorType(UseCaseErrorType.FREQUENT_POSTS).interruptProcess();
         }
 
         CommentUnit comment2 = comment.appendDailyUserId(this.dailyUserIdFactory);

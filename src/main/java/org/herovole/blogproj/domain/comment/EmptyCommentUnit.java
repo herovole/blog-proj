@@ -4,6 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
 @EqualsAndHashCode
@@ -41,6 +43,16 @@ public class EmptyCommentUnit implements CommentUnit {
     @Override
     public IntegerId getLatestReferredId() {
         return IntegerId.empty();
+    }
+
+    @Override
+    public IntegerPublicUserId getPublicUserId() {
+        return IntegerPublicUserId.empty();
+    }
+
+    @Override
+    public Timestamp getPostTimestamp() {
+        return Timestamp.empty();
     }
 
     @Override

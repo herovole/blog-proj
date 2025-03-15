@@ -27,6 +27,22 @@ public interface EUserCommentRepository extends JpaRepository<EUserComment, Long
     @Query(value = "Select * from e_user_comment Where id = :commentSerialNumber", nativeQuery = true)
     EUserComment findBySerialNumber(@Param("commentSerialNumber") long commentSerialNumber);
 
+    @Query(value = "Select * from e_user_comment " +
+            "  Where " +
+            "    user_id = :publicUserId " +
+            "  Order By insert_timestamp Desc " +
+            "  Limit 1", nativeQuery = true)
+    EUserComment findLastCommentByPublicUserId(@Param("publicUserId") long publicUserId);
+
+    @Query(value = "Select * from e_user_comment " +
+            "  Where " +
+            "    user_id = :publicUserId and " +
+            "    article_id = :articleId " +
+            "  Order By insert_timestamp Desc " +
+            "  Limit 1", nativeQuery = true)
+    EUserComment findLastCommentByPublicUserIdAndArticleId(
+            @Param("publicUserId") long publicUserId, @Param("articleId") long articleId);
+
     @Query(value = "Select c.*, count(rn.id) as dislikes, count(rp.id) as likes " +
             " From " +
             "   e_user_comment c " +

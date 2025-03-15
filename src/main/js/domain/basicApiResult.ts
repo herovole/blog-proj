@@ -17,6 +17,7 @@ export class BasicApiResult {
     private static readonly CODE_SYSTEM_THREATENING_PHRASE: string = "STH";
     private static readonly CODE_BOT: string = "BOT";
     private static readonly CODE_BANNED: string = "BAN";
+    private static readonly CODE_FREQUENT_POSTS: string = "FRP";
     private static readonly CODE_AUTH_FAILURE: string = "ATH";
     private static readonly CODE_AUTH_INSUFFICIENT: string = "AIS";
 
@@ -55,6 +56,9 @@ export class BasicApiResult {
             case BasicApiResult.CODE_BANNED:
                 console.error("server response " + this.fields.message);
                 return prefix + ": BANされています。解除予定 - " + this.fields.timestampBannedUntil;
+            case BasicApiResult.CODE_FREQUENT_POSTS:
+                console.error("server response " + this.fields.message);
+                return prefix + ": 前回の書き込みから間をあけてご投稿ください。 ";
             case BasicApiResult.CODE_AUTH_FAILURE:
                 console.error("server response " + this.fields.message);
                 return prefix + ": 有効な認証トークンがありません。";

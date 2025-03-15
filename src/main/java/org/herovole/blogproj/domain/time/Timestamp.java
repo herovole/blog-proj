@@ -2,7 +2,6 @@ package org.herovole.blogproj.domain.time;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,6 +9,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -83,6 +83,12 @@ public class Timestamp implements Comparable<Timestamp> {
     public Timestamp shiftHours(int hours) {
         if (this.isEmpty()) throw new IllegalStateException("Empty Timestamp");
         return Timestamp.valueOf(this.localDateTime.plusHours(hours));
+    }
+
+    public long minusInSeconds(Timestamp that) {
+        // Suppose that "that" precedes "this" normally.
+        if (this.isEmpty() || that.isEmpty()) throw new IllegalStateException();
+        return ChronoUnit.SECONDS.between(that.localDateTime, this.localDateTime);
     }
 
     public String letterSignatureYyyyMMddSpaceHHmmss() {

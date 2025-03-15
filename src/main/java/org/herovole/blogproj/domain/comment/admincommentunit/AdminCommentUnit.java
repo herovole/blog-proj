@@ -8,6 +8,7 @@ import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.HandleName;
 import org.herovole.blogproj.domain.comment.reporting.Reporting;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.security.NoSuchAlgorithmException;
@@ -54,6 +55,16 @@ public class AdminCommentUnit implements CommentUnit {
     @Override
     public IntegerId getLatestReferredId() {
         return userCommentUnit.getLatestReferredId();
+    }
+
+    @Override
+    public IntegerPublicUserId getPublicUserId() {
+        return userCommentUnit.getPublicUserId();
+    }
+
+    @Override
+    public Timestamp getPostTimestamp() {
+        return userCommentUnit.getPostTimestamp();
     }
 
     @Override
