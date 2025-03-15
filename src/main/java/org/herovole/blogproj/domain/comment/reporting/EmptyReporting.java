@@ -4,6 +4,7 @@ import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.comment.CommentText;
 import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 public class EmptyReporting implements Reporting {
     @Override
@@ -29,6 +30,11 @@ public class EmptyReporting implements Reporting {
     @Override
     public CommentText getReportingText() {
         return CommentText.empty();
+    }
+
+    @Override
+    public Timestamp getReportTimestamp() {
+        return Timestamp.empty();
     }
 
     @Override

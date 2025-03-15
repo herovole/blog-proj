@@ -58,7 +58,7 @@ export class BasicApiResult {
                 return prefix + ": BANされています。解除予定 - " + this.fields.timestampBannedUntil;
             case BasicApiResult.CODE_FREQUENT_POSTS:
                 console.error("server response " + this.fields.message);
-                return prefix + ": 前回の書き込みから間をあけてご投稿ください。 ";
+                return prefix + ": 前回の投稿から間をあけてご投稿ください。 ";
             case BasicApiResult.CODE_AUTH_FAILURE:
                 console.error("server response " + this.fields.message);
                 return prefix + ": 有効な認証トークンがありません。";

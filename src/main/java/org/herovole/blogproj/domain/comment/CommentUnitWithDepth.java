@@ -50,8 +50,8 @@ public class CommentUnitWithDepth implements CommentUnit {
     }
 
     @Override
-    public IntegerPublicUserId getPublicUserId() {
-        return this.body.getPublicUserId();
+    public IntegerPublicUserId getIntegerPublicUserId() {
+        return this.body.getIntegerPublicUserId();
     }
 
     @Override

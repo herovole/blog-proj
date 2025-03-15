@@ -67,7 +67,7 @@ public class RealSourceCommentUnit implements CommentUnit {
     }
 
     @Override
-    public IntegerPublicUserId getPublicUserId() {
+    public IntegerPublicUserId getIntegerPublicUserId() {
         throw new UnsupportedOperationException();
     }
 

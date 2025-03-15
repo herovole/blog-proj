@@ -58,8 +58,8 @@ public class AdminCommentUnit implements CommentUnit {
     }
 
     @Override
-    public IntegerPublicUserId getPublicUserId() {
-        return userCommentUnit.getPublicUserId();
+    public IntegerPublicUserId getIntegerPublicUserId() {
+        return userCommentUnit.getIntegerPublicUserId();
     }
 
     @Override

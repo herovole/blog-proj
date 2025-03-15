@@ -46,7 +46,7 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
-    public IntegerPublicUserId getPublicUserId() {
+    public IntegerPublicUserId getIntegerPublicUserId() {
         return IntegerPublicUserId.empty();
     }
 

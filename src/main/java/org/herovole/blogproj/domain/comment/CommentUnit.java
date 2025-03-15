@@ -38,7 +38,7 @@ public interface CommentUnit {
     CommentText getCommentText();
     IntegerId getLatestReferredId();
 
-    IntegerPublicUserId getPublicUserId();
+    IntegerPublicUserId getIntegerPublicUserId();
     Timestamp getPostTimestamp();
 
     default long getPostedSecondsAgo() {
