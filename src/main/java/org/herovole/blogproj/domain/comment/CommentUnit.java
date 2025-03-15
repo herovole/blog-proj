@@ -4,6 +4,8 @@ package org.herovole.blogproj.domain.comment;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -35,6 +37,14 @@ public interface CommentUnit {
 
     CommentText getCommentText();
     IntegerId getLatestReferredId();
+
+    IntegerPublicUserId getPublicUserId();
+    Timestamp getPostTimestamp();
+
+    default long getPostedSecondsAgo() {
+        if (this.getPostTimestamp().isEmpty()) return Long.MAX_VALUE;
+        return Timestamp.now().minusInSeconds(this.getPostTimestamp());
+    }
 
     boolean hasSameCommentId(CommentUnit that);
 

@@ -21,6 +21,7 @@ public enum ControllerErrorType {
     SYSTEM_THREATENING_PHRASE(UseCaseErrorType.SYSTEM_THREATENING_PHRASE, HttpStatus.FORBIDDEN, "Inappropriate Phrases (Attack)."),
     BOT(UseCaseErrorType.BOT, HttpStatus.FORBIDDEN, "Potential Bot Activity."),
     BAN(UseCaseErrorType.BAN, HttpStatus.FORBIDDEN, "Banned."),
+    FREQUENT_POSTS(UseCaseErrorType.FREQUENT_POSTS, HttpStatus.TOO_MANY_REQUESTS, "Too Many Posts in Short Duration."),
     AUTH_FAILURE(UseCaseErrorType.AUTH_FAILURE, HttpStatus.UNAUTHORIZED, "No Valid Token."),
     AUTH_INSUFFICIENT(UseCaseErrorType.AUTH_INSUFFICIENT, HttpStatus.FORBIDDEN, "Authority Insufficient.");
 

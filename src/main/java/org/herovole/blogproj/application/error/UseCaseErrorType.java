@@ -48,6 +48,12 @@ public enum UseCaseErrorType {
             throw new SuspendedUserException(message);
         }
     },
+    FREQUENT_POSTS("FRP") {
+        @Override
+        public void throwException(String message) throws FrequentPostsException {
+            throw new FrequentPostsException(message);
+        }
+    },
     AUTH_FAILURE("ATH") {
         @Override
         public void throwException(String message) throws AuthenticationFailureException {

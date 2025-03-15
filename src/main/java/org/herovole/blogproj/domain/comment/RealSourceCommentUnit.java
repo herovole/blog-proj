@@ -9,7 +9,9 @@ import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
 @Builder
@@ -62,6 +64,16 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public IntegerId getLatestReferredId() {
         return this.referringCommentIds.getLargest();
+    }
+
+    @Override
+    public IntegerPublicUserId getPublicUserId() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Timestamp getPostTimestamp() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

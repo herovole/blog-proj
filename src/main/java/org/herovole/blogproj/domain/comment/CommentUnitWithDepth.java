@@ -3,6 +3,8 @@ package org.herovole.blogproj.domain.comment;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
+import org.herovole.blogproj.domain.publicuser.IntegerPublicUserId;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -45,6 +47,16 @@ public class CommentUnitWithDepth implements CommentUnit {
     @Override
     public IntegerId getLatestReferredId() {
         return this.body.getLatestReferredId();
+    }
+
+    @Override
+    public IntegerPublicUserId getPublicUserId() {
+        return this.body.getPublicUserId();
+    }
+
+    @Override
+    public Timestamp getPostTimestamp() {
+        return this.body.getPostTimestamp();
     }
 
     @Override
