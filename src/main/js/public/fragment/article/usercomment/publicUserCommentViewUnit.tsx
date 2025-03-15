@@ -195,6 +195,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
             <span> {dislikes}</span> <span className="comment-form-process"> {dislikesBeingProcessed}</span></div>
     </>
 
+    const cancelReportButton = isInProcess ? "" : <button type="button" onClick={closeModal}>キャンセル</button>;
+
     return (
         <div className="user-comment-individual">
             <span>{content.body.commentId}:</span>
@@ -218,7 +220,7 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
                     <div className="report-form-exterior">
                         <div className="report-form-interior">
                             <div className="report-form-cancel">
-                                <button type="button" onClick={closeModal}>キャンセル</button>
+                                {cancelReportButton}
                             </div>
                             <div className="report-form-header">コメント{content.body.commentId}を管理者へ報告</div>
                             <span className="report-form-label">原文:</span>

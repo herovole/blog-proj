@@ -115,6 +115,8 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
 
     }
 
+    const cancelButton = isInProcess ? "" : <button type="button" onClick={closeModal}>キャンセル</button>;
+
     return (
         <div>
             <input type="hidden" value={refresh.toString()}/>
@@ -161,7 +163,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                 <div className="comment-modal-exterior">
                     <div className="comment-modal-interior">
                         <div className="comment-modal-cancel">
-                            <button type="button" onClick={closeModal}>キャンセル</button>
+                            {cancelButton}
                         </div>
                         <div className="comment-modal-header">【確認】記事「{articleTitle}」へ投稿</div>
                         <p>■投稿内容</p>
