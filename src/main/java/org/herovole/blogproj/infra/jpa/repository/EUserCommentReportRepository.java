@@ -17,6 +17,13 @@ public interface EUserCommentReportRepository extends JpaRepository<EUserComment
     @Query(value = "Select * from e_user_comment_report Where id = :reportId", nativeQuery = true)
     EUserCommentReport findByReportId(@Param("reportId") long reportId);
 
+    @Query(value = "Select * from e_user_comment_report " +
+            "  Where " +
+            "    reporter_user_id = :publicUserId " +
+            "  Order by insert_timestamp DESC " +
+            "  Limit 1", nativeQuery = true)
+    EUserCommentReport findByPublicUserId(@Param("publicUserId") long publicUserId);
+
     @Query(value = "Select " +
             "    r.*, " +
             "    u.banned_until as user_banned_until,  " +

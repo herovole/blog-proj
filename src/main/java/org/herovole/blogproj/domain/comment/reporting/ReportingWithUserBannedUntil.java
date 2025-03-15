@@ -40,6 +40,11 @@ public class ReportingWithUserBannedUntil implements Reporting {
     }
 
     @Override
+    public Timestamp getReportTimestamp() {
+        return reporting.getReportTimestamp();
+    }
+
+    @Override
     public boolean isEmpty() {
         return reporting.isEmpty();
     }

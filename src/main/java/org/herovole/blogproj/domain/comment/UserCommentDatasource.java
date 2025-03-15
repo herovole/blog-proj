@@ -24,10 +24,12 @@ public interface UserCommentDatasource {
 
     CommentUnit findByCommentSerialNumber(IntegerId commentSerialNumber);
 
-    Reporting findReportById(IntegerId reportId);
-
     CommentUnit findLastComment(IntegerPublicUserId publicUserId);
 
     CommentUnit findLastComment(IntegerPublicUserId publicUserId, IntegerId articleId);
+
+    Reporting findReportById(IntegerId reportId);
+
+    Reporting findLastReport(IntegerPublicUserId publicUserId);
 
 }
