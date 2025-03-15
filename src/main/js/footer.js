@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {ResourceManagement} from "./service/resourceManagement"; // 追加
 
 export const Footer = () => {
-    return (<div>
+    return (<div className="footer">
             <ul>
                 <li>
                     <Link to="/">ホーム</Link>
