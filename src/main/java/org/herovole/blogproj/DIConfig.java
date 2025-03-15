@@ -104,8 +104,19 @@ public class DIConfig {
 
     @Bean("articleTransactionalDatasourceRss2")
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2() throws IOException {
+        S3Client s3Client = S3Client.builder()
+                .region(Region.AP_NORTHEAST_1) // Set your region
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(
+                                configFile.getAwsAccessKey(),
+                                configFile.getAwsSecretAccessKey()
+                        )
+                )).build();
         LocalFile rss2Xml = LocalFile.of(configFile.getRssXmlFile(), localFileSystem);
-        return new ArticleTransactionalDatasourceRss2(rss2Xml, configFile.getSiteInformation());
+        return new ArticleTransactionalDatasourceRss2(rss2Xml,
+                configFile.getSiteInformation(),
+                s3Client,
+                configFile.getAwsPublicResourcesBucket());
     }
 
     @Bean

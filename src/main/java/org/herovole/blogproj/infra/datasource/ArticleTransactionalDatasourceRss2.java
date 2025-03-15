@@ -10,6 +10,9 @@ import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,8 +25,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalDatasource {
 
     private static final Queue<Article> articles = new ConcurrentLinkedQueue<>();
+    private static final String AMAZON_S3_KEY_XML = "rss.xml";
     private final LocalFile rssXml;
     private final SiteInformation siteInformation;
+    private final S3Client s3Client;
+    private final String bucketName;
 
     @Override
     public int amountOfCachedTransactions() {
@@ -74,9 +80,15 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
                 Element item = new ArticleXml(siteInformation, article).toElement(document);
                 channel.appendChild(item);
             }
-
-
             rssXml.write(document);
+
+            // Transfer XML to Amazon S3.
+            RequestBody requestBody = RequestBody.fromFile(rssXml.toPath());
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(AMAZON_S3_KEY_XML)
+                    .build();
+            s3Client.putObject(putObjectRequest, requestBody);
         } catch (IOException | ParserConfigurationException e) {
             throw new RuntimeException(e);
         }
