@@ -126,14 +126,6 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
     }
 
     @Override
-    public Reporting findReportById(IntegerId reportId) {
-        if (reportId.isEmpty()) throw new IllegalArgumentException();
-        EUserCommentReport entity = this.eUserCommentReportRepository.findByReportId(reportId.longMemorySignature());
-        if (entity == null) return Reporting.empty();
-        return entity.toDomainObj();
-    }
-
-    @Override
     public CommentUnit findLastComment(IntegerPublicUserId publicUserId) {
         if (publicUserId.isEmpty()) throw new IllegalArgumentException();
         EUserComment eUserComment = this.eUserCommentRepository.findLastCommentByPublicUserId(publicUserId.longMemorySignature());
@@ -148,4 +140,21 @@ public class UserCommentDatasourceMySql implements UserCommentDatasource {
         if (eUserComment == null) return CommentUnit.empty();
         return eUserComment.toDomainObj();
     }
+
+    @Override
+    public Reporting findReportById(IntegerId reportId) {
+        if (reportId.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentReport entity = this.eUserCommentReportRepository.findByReportId(reportId.longMemorySignature());
+        if (entity == null) return Reporting.empty();
+        return entity.toDomainObj();
+    }
+
+    @Override
+    public Reporting findLastReport(IntegerPublicUserId publicUserId) {
+        if (publicUserId.isEmpty()) throw new IllegalArgumentException();
+        EUserCommentReport eUserCommentReport = this.eUserCommentReportRepository.findByPublicUserId(publicUserId.longMemorySignature());
+        if (eUserCommentReport == null) return Reporting.empty();
+        return eUserCommentReport.toDomainObj();
+    }
+
 }
