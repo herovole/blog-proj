@@ -15,7 +15,7 @@
 
 - サイト名  
   変則電信アーカイブ  
-  Irregular Telegraph Archives
+  Anomalous Telegraph Archives
 
 
 - 連絡先  

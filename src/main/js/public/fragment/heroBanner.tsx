@@ -19,7 +19,7 @@ export const HeroBanner: React.FC = () => {
                         変則電信アーカイブ
                     </div>
                     <div className="hero-banner-title-en">
-                        Irregular Telegraph Archives
+                        Anomalous Telegraph Archives
                     </div>
                 </div>
             </div>
