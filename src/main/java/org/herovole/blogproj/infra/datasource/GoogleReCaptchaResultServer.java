@@ -2,6 +2,7 @@ package org.herovole.blogproj.infra.datasource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,7 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
         HttpResponse<String> responseRaw = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         ResponsePayloadModel responseInterpreted = objectMapper.readValue(responseRaw.body(), ResponsePayloadModel.class);
 
         logger.info("Request : {} / Response : {}", requestPayloadModel, responseInterpreted);
