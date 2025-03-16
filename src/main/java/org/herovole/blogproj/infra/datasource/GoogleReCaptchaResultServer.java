@@ -43,7 +43,7 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
         try {
             request = HttpRequest.newBuilder()
                     .uri(ENDPOINT)
-                    .header("Content-Type", "application/json")
+                    .header("Content-Type", "application/x-www-form-urlencoded")
                     .POST(requestPayloadModel.toPostRequestPayload())
                     .build();
         } catch (JsonProcessingException e) {
