@@ -1,7 +1,6 @@
 package org.herovole.blogproj.infra.datasource;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -14,9 +13,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -40,15 +41,11 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
         );
 
         HttpRequest request;
-        try {
-            request = HttpRequest.newBuilder()
-                    .uri(ENDPOINT)
-                    .header("Content-Type", "application/x-www-form-urlencoded")
-                    .POST(requestPayloadModel.toPostRequestPayload())
-                    .build();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        request = HttpRequest.newBuilder()
+                .uri(ENDPOINT)
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(requestPayloadModel.toPostRequestPayload())
+                .build();
 
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<String> responseRaw = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -66,10 +63,16 @@ public class GoogleReCaptchaResultServer implements ThirdpartyBotDetection {
             String response,
             String remoteip
     ) {
-        HttpRequest.BodyPublisher toPostRequestPayload() throws JsonProcessingException {
-            return HttpRequest.BodyPublishers.ofString(
-                    new ObjectMapper().writeValueAsString(this)
+
+        // Beware that Json gets rejected by ReCaptcha.
+        HttpRequest.BodyPublisher toPostRequestPayload() {
+            String requestBody = String.format(
+                    "secret=%s&response=%s&remoteip=%s",
+                    URLEncoder.encode(secret, StandardCharsets.UTF_8),
+                    URLEncoder.encode(response, StandardCharsets.UTF_8),
+                    URLEncoder.encode(remoteip, StandardCharsets.UTF_8)
             );
+            return HttpRequest.BodyPublishers.ofString(requestBody);
         }
     }
 
