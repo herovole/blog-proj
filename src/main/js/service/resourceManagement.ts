@@ -43,7 +43,7 @@ export class ResourceManagement {
     }
 
     public getSiteNameEn(): string {
-        return "Irregular Telegraph Archives"
+        return "Anomalous Telegraph Archives"
     }
 
     private async prefixWithSlash(): Promise<string> {
