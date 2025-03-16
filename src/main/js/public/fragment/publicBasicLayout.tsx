@@ -10,13 +10,13 @@ export const PublicBasicLayout: React.FC<PublicBasicLayoutProps> = ({children}) 
         <div>
             <PublicHeader/>
             <div className="main-body">
-                <div>ads here</div>
+                <div>gadgets here</div>
                 <div className="main-area-frame">
                     <div className="main-area">
                         {children}
                     </div>
                 </div>
-                <div>ads here</div>
+                <div>gadgets here</div>
             </div>
         </div>
     );
