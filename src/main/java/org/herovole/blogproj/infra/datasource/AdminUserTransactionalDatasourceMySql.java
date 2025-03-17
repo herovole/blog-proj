@@ -34,7 +34,7 @@ public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMy
         if (user.isEmpty()) throw new IllegalArgumentException("Empty AdminUser");
         Integer maxId = mAdminUserRepository.findMaxId();
         MAdminUser newEntity = MAdminUser.fromInsertDomainObj(user);
-        newEntity.setId(maxId == null ? 0 : maxId + 1);
+        newEntity.setId(maxId == null ? 1 : maxId + 1);
         cacheInsert.add(newEntity);
     }
 
