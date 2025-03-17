@@ -66,7 +66,7 @@ export class TagService {
         try {
             const rolesResponse: AxiosResponse<SearchTagsOutputFields> = await axios.get(
                 "/api/v1/roles", {
-                    params: {},
+                    params: {"requiresAuth": encodeURIComponent("1")},
                     headers: {Accept: 'application/json',},
                 }
             );

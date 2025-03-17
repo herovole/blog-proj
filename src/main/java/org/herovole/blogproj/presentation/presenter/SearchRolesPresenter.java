@@ -11,7 +11,7 @@ public class SearchRolesPresenter extends GenericPresenterProto<SearchRolesOutpu
     @Override
     public String buildResponseBody() {
         return BasicResponseBody.<SearchRolesOutput.Json>builder()
-                .contentJsonModel(this.content.toJsonModel())
+                .contentJsonModel(this.content == null ? null : this.content.toJsonModel())
                 .code(this.controllerErrorType)
                 .timestampBannedUntil(this.timestampBannedUntil)
                 .message(this.message == null ? this.controllerErrorType.getDefaultBrowserDebugMessage() : this.message)
