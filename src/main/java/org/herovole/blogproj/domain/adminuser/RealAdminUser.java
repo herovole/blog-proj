@@ -26,6 +26,7 @@ public class RealAdminUser implements AdminUser {
     @Override
     public AdminUser appendTokenInfo(AccessToken accessToken, IPv4Address accessTokenIp, Timestamp accessTokenExpiry) {
         return builder()
+                .id(this.id)
                 .userName(this.userName)
                 .role(this.role)
                 .credentialEncode(this.credentialEncode)
