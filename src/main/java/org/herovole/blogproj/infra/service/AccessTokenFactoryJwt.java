@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.datasource;
+package org.herovole.blogproj.infra.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

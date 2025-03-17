@@ -24,6 +24,17 @@ spring:
     local:
       boundary: /app/app_utility
       config: /app/app_utility/config.txt
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yourmail@gmail.com
+    password: yourpassword
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 server:
   tomcat:
     access_log_enabled: true

@@ -7,7 +7,7 @@ import {SearchAdminUserInput} from "./searchAdminUserInput";
 
 export class AuthService {
 
-    async loginAdmin(input: AdminLoginInput): Promise<BasicApiResult> {
+    async loginAdminPhase1(input: AdminLoginInput): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(
                 "/api/v1/auth/login",

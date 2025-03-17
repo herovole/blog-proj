@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.datasource;
+package org.herovole.blogproj.infra.service;
 
 import org.herovole.blogproj.domain.adminuser.CredentialsEncodingFactory;
 import org.herovole.blogproj.domain.adminuser.Password;

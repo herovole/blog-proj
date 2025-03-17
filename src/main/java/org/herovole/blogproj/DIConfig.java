@@ -4,25 +4,28 @@ import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentDurationConfig;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
+import org.herovole.blogproj.domain.adminuser.EMailService;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.image.ImageDatasource;
 import org.herovole.blogproj.domain.publicuser.DailyUserIdFactory;
-import org.herovole.blogproj.infra.datasource.AccessTokenFactoryJwt;
-import org.herovole.blogproj.infra.datasource.ArticleTransactionalDatasourceRss2;
-import org.herovole.blogproj.infra.datasource.DailyUserIdFactoryImpl;
-import org.herovole.blogproj.infra.datasource.GoogleReCaptchaResultServer;
-import org.herovole.blogproj.infra.datasource.ImageDatasourceAWSS3;
-import org.herovole.blogproj.infra.datasource.ImageDatasourceLocalFs;
-import org.herovole.blogproj.infra.datasource.TextBlackListLocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalDirectory;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
 import org.herovole.blogproj.infra.hibernate.AppSessionFactoryHibernate;
+import org.herovole.blogproj.infra.service.AccessTokenFactoryJwt;
+import org.herovole.blogproj.infra.service.ArticleTransactionalDatasourceRss2;
+import org.herovole.blogproj.infra.service.DailyUserIdFactoryImpl;
+import org.herovole.blogproj.infra.service.EMailServiceSpringMail;
+import org.herovole.blogproj.infra.service.GoogleReCaptchaResultServer;
+import org.herovole.blogproj.infra.service.ImageDatasourceAWSS3;
+import org.herovole.blogproj.infra.service.ImageDatasourceLocalFs;
+import org.herovole.blogproj.infra.service.TextBlackListLocalFile;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.mail.javamail.JavaMailSender;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -34,11 +37,13 @@ import java.io.IOException;
 public class DIConfig {
     private final LocalFileSystem localFileSystem;
     private final ConfigFile configFile;
+    private final JavaMailSender javaMailSender;
 
     @Autowired
-    public DIConfig(LocalFileSystem localFileSystem, ConfigFile configFile) {
+    public DIConfig(LocalFileSystem localFileSystem, ConfigFile configFile, JavaMailSender javaMailSender) {
         this.localFileSystem = localFileSystem;
         this.configFile = configFile;
+        this.javaMailSender = javaMailSender;
     }
 
     @Bean
@@ -122,5 +127,10 @@ public class DIConfig {
     @Bean
     public PostUserCommentDurationConfig buildPostUserCommentDurationConfig() {
         return configFile.getCommentDurationConfig();
+    }
+
+    @Bean
+    public EMailService buildEMailService() {
+        return new EMailServiceSpringMail(this.javaMailSender, configFile.getSiteInformation());
     }
 }

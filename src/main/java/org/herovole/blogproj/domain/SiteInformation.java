@@ -1,9 +1,11 @@
 package org.herovole.blogproj.domain;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.herovole.blogproj.domain.source.SourceUrl;
 
 @Builder
+@Getter
 public class SiteInformation {
     private final String siteDomain;
     private final String imageDomain;
@@ -31,23 +33,4 @@ public class SiteInformation {
         return SourceUrl.valueOf("https://" + imageDomain);
     }
 
-    public String getSiteNameJp() {
-        return this.siteNameJp;
-    }
-
-    public String getSiteNameEn() {
-        return this.siteNameEn;
-    }
-
-    public String getSiteDescription() {
-        return this.siteDescription;
-    }
-
-    public String getSiteCopyright() {
-        return this.siteCopyright;
-    }
-
-    public String getSiteLanguage() {
-        return this.siteLanguage;
-    }
 }
