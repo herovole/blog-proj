@@ -2,8 +2,8 @@ package org.herovole.blogproj.presentation.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.herovole.blogproj.application.auth.login.LoginAdmin;
-import org.herovole.blogproj.application.auth.login.LoginAdminInput;
+import org.herovole.blogproj.application.auth.loginphase1.LoginAdminPhase1;
+import org.herovole.blogproj.application.auth.loginphase1.LoginAdminPhase1Input;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUser;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUserInput;
 import org.herovole.blogproj.application.auth.searchuser.SearchAdminUsers;
@@ -38,7 +38,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/auth")
 public class AdminV1AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1AuthController.class.getSimpleName());
-    private final LoginAdmin loginAdmin;
+    private final LoginAdminPhase1 loginAdminPhase1;
     private final LoginAdminPresenter loginAdminPresenter;
     private final ValidateAccessToken validateAccessToken;
     private final ValidateAccessTokenPresenter validateAccessTokenPresenter;
@@ -49,12 +49,12 @@ public class AdminV1AuthController {
 
     @Autowired
     AdminV1AuthController(
-            LoginAdmin loginAdmin,
+            LoginAdminPhase1 loginAdminPhase1,
             LoginAdminPresenter loginAdminPresenter,
             ValidateAccessToken validateAccessToken,
             ValidateAccessTokenPresenter validateAccessTokenPresenter,
             RegisterUser registerUser, BasicPresenter registerUserPresenter, SearchAdminUsers searchAdminUsers, SearchAdminUsersPresenter searchAdminUsersPresenter) {
-        this.loginAdmin = loginAdmin;
+        this.loginAdminPhase1 = loginAdminPhase1;
         this.loginAdminPresenter = loginAdminPresenter;
         this.validateAccessToken = validateAccessToken;
         this.validateAccessTokenPresenter = validateAccessTokenPresenter;
@@ -75,8 +75,8 @@ public class AdminV1AuthController {
 
         try {
             FormContent formContent = FormContent.of(request);
-            LoginAdminInput input = LoginAdminInput.of(servletRequest.getUserIpFromHeader(), formContent);
-            this.loginAdmin.process(input);
+            LoginAdminPhase1Input input = LoginAdminPhase1Input.of(servletRequest.getUserIpFromHeader(), formContent);
+            this.loginAdminPhase1.process(input);
 
             AccessToken accessToken = this.loginAdminPresenter.getContent();
             servletResponse.setAccessTokenOnCookie(accessToken);

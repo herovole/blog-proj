@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.datasource;
+package org.herovole.blogproj.infra.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -43,7 +43,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
             recaptchaToken
         )
 
-        const output: BasicApiResult = await authService.loginAdmin(input);
+        const output: BasicApiResult = await authService.loginAdminPhase1(input);
         if (output.isSuccessful()) {
             console.log(output.getMessage("ログイン"));
             navigate("/admin");

@@ -1,4 +1,4 @@
-package org.herovole.blogproj.infra.datasource;
+package org.herovole.blogproj.infra.service;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.AppSession;

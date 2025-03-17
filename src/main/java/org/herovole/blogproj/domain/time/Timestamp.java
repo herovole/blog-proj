@@ -85,6 +85,11 @@ public class Timestamp implements Comparable<Timestamp> {
         return Timestamp.valueOf(this.localDateTime.plusHours(hours));
     }
 
+    public Timestamp shiftMinutes(int minutes) {
+        if (this.isEmpty()) throw new IllegalStateException("Empty Timestamp");
+        return Timestamp.valueOf(this.localDateTime.plusMinutes(minutes));
+    }
+
     public long minusInSeconds(Timestamp that) {
         // Suppose that "that" precedes "this" normally.
         if (this.isEmpty() || that.isEmpty()) throw new IllegalStateException();
