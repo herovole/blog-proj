@@ -1,5 +1,6 @@
 package org.herovole.blogproj.domain.adminuser;
 
+import org.herovole.blogproj.domain.EMailAddress;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.time.Timestamp;
 
@@ -15,6 +16,11 @@ public class EmptyAdminUser implements AdminUser {
     }
 
     @Override
+    public EMailAddress getEMailAddress() {
+        return EMailAddress.empty();
+    }
+
+    @Override
     public Role getRole() {
         return Role.NONE;
     }
@@ -22,6 +28,16 @@ public class EmptyAdminUser implements AdminUser {
     @Override
     public String getCredentialEncode() {
         return null;
+    }
+
+    @Override
+    public VerificationCode getVerificationCode() {
+        return VerificationCode.empty();
+    }
+
+    @Override
+    public Timestamp getVerificationCodeExpiry() {
+        return Timestamp.empty();
     }
 
     @Override
@@ -45,7 +61,17 @@ public class EmptyAdminUser implements AdminUser {
     }
 
     @Override
+    public AdminUser appendVerificationCodeInfo(VerificationCode verificationCode, Timestamp verificationCodeExpiry) {
+        throw new IllegalStateException("Empty Object");
+    }
+
+    @Override
     public boolean isCoherentTo(AdminUser user) {
+        return false;
+    }
+
+    @Override
+    public boolean hasCoherentVerificationCode(VerificationCode verificationCode) {
         return false;
     }
 
