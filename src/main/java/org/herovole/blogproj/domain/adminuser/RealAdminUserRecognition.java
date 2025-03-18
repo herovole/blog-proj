@@ -2,6 +2,7 @@ package org.herovole.blogproj.domain.adminuser;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.herovole.blogproj.domain.EMailAddress;
 import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.time.Timestamp;
 
@@ -19,7 +20,22 @@ public class RealAdminUserRecognition implements AdminUser {
     }
 
     @Override
+    public EMailAddress getEMailAddress() {
+        throw new UnsupportedOperationException(RealAdminUserRecognition.class.getSimpleName());
+    }
+
+    @Override
     public String getCredentialEncode() {
+        throw new UnsupportedOperationException(RealAdminUserRecognition.class.getSimpleName());
+    }
+
+    @Override
+    public VerificationCode getVerificationCode() {
+        throw new UnsupportedOperationException(RealAdminUserRecognition.class.getSimpleName());
+    }
+
+    @Override
+    public Timestamp getVerificationCodeExpiry() {
         throw new UnsupportedOperationException(RealAdminUserRecognition.class.getSimpleName());
     }
 
@@ -39,12 +55,22 @@ public class RealAdminUserRecognition implements AdminUser {
     }
 
     @Override
+    public AdminUser appendVerificationCodeInfo(VerificationCode verificationCode, Timestamp verificationCodeExpiry) {
+        throw new UnsupportedOperationException(RealAdminUserRecognition.class.getSimpleName());
+    }
+
+    @Override
     public boolean isCoherentTo(AdminUser legitimateUserInfo) {
         return this.userName.equals(legitimateUserInfo.getUserName()) &&
                 this.role.equals(legitimateUserInfo.getRole()) &&
                 this.accessTokenIp.equals(legitimateUserInfo.getAccessTokenIp()) &&
 
                 this.accessTokenExpiry.precedes(legitimateUserInfo.getAccessTokenExpiry());
+    }
+
+    @Override
+    public boolean hasCoherentVerificationCode(VerificationCode verificationCode) {
+        return false;
     }
 
     @Override

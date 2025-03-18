@@ -15,6 +15,7 @@ import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
 import org.herovole.blogproj.domain.adminuser.AdminUserTransactionalDatasource;
 import org.herovole.blogproj.domain.adminuser.CredentialsEncodingFactory;
 import org.herovole.blogproj.domain.adminuser.RealAdminUser;
+import org.herovole.blogproj.domain.adminuser.VerificationCode;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,8 +86,11 @@ public class RegisterUser {
         String credentialsEncoded = this.credentialsEncodingFactory.encodePassword(request.getPassword());
         AdminUser adminUser = RealAdminUser.builder()
                 .userName(request.getUserName())
+                .email(request.getEMailAddress())
                 .role(request.getRole())
                 .credentialEncode(credentialsEncoded)
+                .verificationCode(VerificationCode.empty())
+                .verificationCodeExpiry(Timestamp.empty())
                 .accessToken(AccessToken.empty())
                 .accessTokenIp(IPv4Address.empty())
                 .accessTokenExpiry(Timestamp.empty())

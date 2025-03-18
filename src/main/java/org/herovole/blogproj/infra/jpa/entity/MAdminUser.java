@@ -59,7 +59,7 @@ public class MAdminUser implements Serializable {
     @Column(name = "credential_encode")
     private String credentialEncode;
 
-    @Column(name = "verification_code")
+    @Column(name = "verification_code", columnDefinition = "CHAR")
     private String verificationCode;
 
     @Column(name = "verification_code_expiry")

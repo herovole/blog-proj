@@ -78,6 +78,7 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
 
         const input: CreateAdminUserInput = new CreateAdminUserInput(
             formData.get("userName") as string,
+            formData.get("email") as string,
             formData.get("role.0") as string,
             formData.get("password") as string,
             true,
@@ -128,6 +129,12 @@ export const AdminUsersModal: React.FC<AdminUserModalProps> = ({user, roles, lab
                                     <td>Name :</td>
                                     <td><TextEditingForm
                                         postKey={RootElementId.valueOf("userName")}>{user ? user.name : ""}</TextEditingForm>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>EMail :</td>
+                                    <td><TextEditingForm
+                                        postKey={RootElementId.valueOf("email")}>{user ? user.email : ""}</TextEditingForm>
                                     </td>
                                 </tr>
                                 <tr>
