@@ -3,6 +3,7 @@ package org.herovole.blogproj;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentDurationConfig;
+import org.herovole.blogproj.domain.EMailAddress;
 import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
 import org.herovole.blogproj.domain.adminuser.Password;
@@ -44,6 +45,7 @@ public class ConfigFile {
     private static final String CONFIG_KEY_HOURS_ADMIN_TOKEN_EXPIRES = "hours_admin_token_expires";
     private static final String CONFIG_KEY_OWNER_USER = "owner_user";
     private static final String CONFIG_KEY_OWNER_PASSWORD = "owner_password";
+    private static final String CONFIG_KEY_OWNER_EMAIL = "owner_email";
     private static final String CONFIG_KEY_AWS_ACCESS_KEY = "aws_access_key";
     private static final String CONFIG_KEY_AWS_SECRET_ACCESS_KEY = "aws_secret_access_key";
     private static final String CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET = "aws_public_resources_bucket";
@@ -101,10 +103,15 @@ public class ConfigFile {
         return Password.valueOf(this.configs.get(CONFIG_KEY_OWNER_PASSWORD));
     }
 
+    private EMailAddress getOwnerEMail() {
+        return EMailAddress.valueOf(this.configs.get(CONFIG_KEY_OWNER_EMAIL));
+    }
+
     public AdminUserRegistrationRequest buildOwnerUserRegistrationRequest() {
         return AdminUserRegistrationRequest.builder()
-                .userName(getOwnerUser())
-                .password(getOwnerPassword())
+                .userName(this.getOwnerUser())
+                .eMailAddress(this.getOwnerEMail())
+                .password(this.getOwnerPassword())
                 .role(Role.OWNER)
                 .build();
     }

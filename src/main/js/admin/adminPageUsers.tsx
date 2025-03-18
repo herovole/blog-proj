@@ -35,7 +35,7 @@ export const AdminPageUsers: React.FC = () => {
     };
     useEffect(() => {
         load().then();
-    }, []);
+    }, [refresh]);
 
     const reload = () => {
         setRefresh(r => !r);
