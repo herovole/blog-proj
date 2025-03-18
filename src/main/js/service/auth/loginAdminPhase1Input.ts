@@ -1,4 +1,4 @@
-export class AdminLoginInput {
+export class LoginAdminPhase1Input {
 
     private readonly handle: string;
     private readonly password: string;

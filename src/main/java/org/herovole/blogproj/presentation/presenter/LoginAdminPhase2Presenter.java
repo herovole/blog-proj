@@ -6,7 +6,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 @Component
 @RequestScope
-public class LoginAdminPresenter extends GenericPresenterProto<AccessToken> {
+public class LoginAdminPhase2Presenter extends GenericPresenterProto<AccessToken> {
 
     @Override
     public String buildResponseBody() {
