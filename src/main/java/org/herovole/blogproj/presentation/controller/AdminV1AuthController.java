@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.herovole.blogproj.application.auth.loginphase1.LoginAdminPhase1;
 import org.herovole.blogproj.application.auth.loginphase1.LoginAdminPhase1Input;
+import org.herovole.blogproj.application.auth.loginphase2.LoginAdminPhase2;
+import org.herovole.blogproj.application.auth.loginphase2.LoginAdminPhase2Input;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUser;
 import org.herovole.blogproj.application.auth.registeruser.RegisterUserInput;
 import org.herovole.blogproj.application.auth.searchuser.SearchAdminUsers;
@@ -18,7 +20,7 @@ import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.AppServletResponse;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
-import org.herovole.blogproj.presentation.presenter.LoginAdminPresenter;
+import org.herovole.blogproj.presentation.presenter.LoginAdminPhase2Presenter;
 import org.herovole.blogproj.presentation.presenter.SearchAdminUsersPresenter;
 import org.herovole.blogproj.presentation.presenter.ValidateAccessTokenPresenter;
 import org.slf4j.Logger;
@@ -39,7 +41,9 @@ import java.util.Map;
 public class AdminV1AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AdminV1AuthController.class.getSimpleName());
     private final LoginAdminPhase1 loginAdminPhase1;
-    private final LoginAdminPresenter loginAdminPresenter;
+    private final BasicPresenter loginAdminPhase1Presenter;
+    private final LoginAdminPhase2 loginAdminPhase2;
+    private final LoginAdminPhase2Presenter loginAdminPhase2Presenter;
     private final ValidateAccessToken validateAccessToken;
     private final ValidateAccessTokenPresenter validateAccessTokenPresenter;
     private final RegisterUser registerUser;
@@ -50,12 +54,16 @@ public class AdminV1AuthController {
     @Autowired
     AdminV1AuthController(
             LoginAdminPhase1 loginAdminPhase1,
-            LoginAdminPresenter loginAdminPresenter,
+            BasicPresenter loginAdminPhase1Presenter,
+            LoginAdminPhase2 loginAdminPhase2,
+            LoginAdminPhase2Presenter loginAdminPhase2Presenter,
             ValidateAccessToken validateAccessToken,
             ValidateAccessTokenPresenter validateAccessTokenPresenter,
             RegisterUser registerUser, BasicPresenter registerUserPresenter, SearchAdminUsers searchAdminUsers, SearchAdminUsersPresenter searchAdminUsersPresenter) {
         this.loginAdminPhase1 = loginAdminPhase1;
-        this.loginAdminPresenter = loginAdminPresenter;
+        this.loginAdminPhase1Presenter = loginAdminPhase1Presenter;
+        this.loginAdminPhase2 = loginAdminPhase2;
+        this.loginAdminPhase2Presenter = loginAdminPhase2Presenter;
         this.validateAccessToken = validateAccessToken;
         this.validateAccessTokenPresenter = validateAccessTokenPresenter;
         this.registerUser = registerUser;
@@ -64,33 +72,57 @@ public class AdminV1AuthController {
         this.searchAdminUsersPresenter = searchAdminUsersPresenter;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(
+    @PostMapping("/login/phase1")
+    public ResponseEntity<String> loginPhase1(
+            HttpServletRequest httpServletRequest,
+            @RequestBody Map<String, String> request) {
+        logger.info("Endpoint : login phase 1 (Post) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+
+        try {
+            FormContent formContent = FormContent.of(request);
+            LoginAdminPhase1Input input = LoginAdminPhase1Input.fromFormContent(servletRequest.getUserIpFromHeader(), formContent);
+            this.loginAdminPhase1.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.loginAdminPhase1Presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.loginAdminPhase1Presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+        return this.loginAdminPhase1Presenter.buildResponseEntity();
+
+    }
+
+    @PostMapping("/login/phase2")
+    public ResponseEntity<String> loginPhase2(
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
             @RequestBody Map<String, String> request) {
-        logger.info("Endpoint : login (Post) ");
+        logger.info("Endpoint : login phase 2 (Post) ");
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         AppServletResponse servletResponse = AppServletResponse.of(httpServletResponse);
 
         try {
             FormContent formContent = FormContent.of(request);
-            LoginAdminPhase1Input input = LoginAdminPhase1Input.of(servletRequest.getUserIpFromHeader(), formContent);
-            this.loginAdminPhase1.process(input);
+            LoginAdminPhase2Input input = LoginAdminPhase2Input.fromFormContent(servletRequest.getUserIpFromHeader(), formContent);
+            this.loginAdminPhase2.process(input);
 
-            AccessToken accessToken = this.loginAdminPresenter.getContent();
+            AccessToken accessToken = this.loginAdminPhase2Presenter.getContent();
             servletResponse.setAccessTokenOnCookie(accessToken);
 
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
-            this.loginAdminPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+            this.loginAdminPhase2Presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
         } catch (ApplicationProcessException e) {
             logger.error("Error Application Process Exception : ", e);
         } catch (Exception e) {
             logger.error("Error Internal Server Error : ", e);
-            this.loginAdminPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+            this.loginAdminPhase2Presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
         }
-        return this.loginAdminPresenter.buildResponseEntity();
+        return this.loginAdminPhase2Presenter.buildResponseEntity();
 
     }
 
