@@ -3,14 +3,14 @@
 }
 
 .comment-left-space {
-   padding-left: 19px
+    padding-left: 19px
 }
 
 .source-comment-individual {
     background-color: #D0CCAA;
-    padding:5px;
-    margin:2px;
-    min-width:400px;
+    padding: 5px;
+    margin: 2px;
+    min-width: 400px;
 }
 
 .source-comment-text {
@@ -20,8 +20,8 @@
 
 .user-comment-individual {
     background-color: #DDCCAA;
-    padding:5px;
-    margin:2px;
+    padding: 5px;
+    margin: 2px;
 }
 
 .user-comment-text {
@@ -50,8 +50,14 @@
 .user-comment-rate-on {
     border: 2px inset #CCCCCC;
     background-color: #666666;
-    color:#FFFFFF;
+    color: #FFFFFF;
     width: 50px;
+}
+
+.comment-lf {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
 }
 
 
