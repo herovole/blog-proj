@@ -24,17 +24,6 @@ spring:
     local:
       boundary: C:/home/git/blog-proj/app_utility
       config: C:/home/git/blog-proj/app_utility/config.txt
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: yourmail@gmail.com
-    password: yourpassword
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 server:
   tomcat:
     access_log_enabled: true

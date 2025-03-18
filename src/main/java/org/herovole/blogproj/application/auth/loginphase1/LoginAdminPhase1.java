@@ -10,6 +10,7 @@ import org.herovole.blogproj.domain.adminuser.AdminUser;
 import org.herovole.blogproj.domain.adminuser.AdminUserDatasource;
 import org.herovole.blogproj.domain.adminuser.AdminUserTransactionalDatasource;
 import org.herovole.blogproj.domain.adminuser.CredentialsEncodingFactory;
+import org.herovole.blogproj.domain.adminuser.EMailService;
 import org.herovole.blogproj.domain.adminuser.VerificationCode;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class LoginAdminPhase1 {
@@ -27,6 +30,7 @@ public class LoginAdminPhase1 {
     private final CredentialsEncodingFactory credentialsEncodingFactory;
     private final AdminUserDatasource adminUserDatasource;
     private final AdminUserTransactionalDatasource adminUserTransactionalDatasource;
+    private final EMailService emailService;
     private final GenericPresenter<Object> presenter;
 
     @Autowired
@@ -34,12 +38,14 @@ public class LoginAdminPhase1 {
                             CredentialsEncodingFactory credentialsEncodingFactory,
                             @Qualifier("adminUserDatasource") AdminUserDatasource adminUserDatasource,
                             AdminUserTransactionalDatasource adminUserTransactionalDatasource,
+                            EMailService emailService,
                             GenericPresenter<Object> presenter
     ) {
         this.sessionFactory = sessionFactory;
         this.credentialsEncodingFactory = credentialsEncodingFactory;
         this.adminUserDatasource = adminUserDatasource;
         this.adminUserTransactionalDatasource = adminUserTransactionalDatasource;
+        this.emailService = emailService;
         this.presenter = presenter;
     }
 
@@ -75,6 +81,11 @@ public class LoginAdminPhase1 {
             logger.error("transaction failure", e);
             this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
                     .interruptProcess();
+        }
+        try {
+            this.emailService.sendVerificationCode(adminUser.getEMailAddress(), verificationCode);
+        } catch(IOException e) {
+            logger.error("failed to dispatch an EMail.", e);
         }
     }
 }

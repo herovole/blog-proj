@@ -61,10 +61,10 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
 
         const output: BasicApiResult = await authService.loginAdminPhase1(input);
         if (output.isSuccessful()) {
-            console.log(output.getMessage("ログイン"));
+            console.log(output.getMessage("ログイン - 1段階目"));
             setPhase(2);
         } else {
-            console.error(output.getMessage("ログイン"));
+            console.error(output.getMessage("ログイン - 1段階目"));
             refreshParent();
         }
     }
@@ -79,10 +79,10 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
 
         const output: BasicApiResult = await authService.loginAdminPhase2(input);
         if (output.isSuccessful()) {
-            console.log(output.getMessage("ログイン"));
+            console.log(output.getMessage("ログイン - 2段階目"));
             navigate("/admin");
         } else {
-            console.error(output.getMessage("ログイン"));
+            console.error(output.getMessage("ログイン - 2段階目"));
             refreshParent();
         }
     }

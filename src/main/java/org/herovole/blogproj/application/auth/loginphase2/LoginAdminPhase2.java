@@ -94,7 +94,6 @@ public class LoginAdminPhase2 {
                     .interruptProcess();
         }
 
-        this.emailService.sendVerificationCode(adminUser.getEMailAddress(), adminUser.getVerificationCode());
         this.presenter.setContent(accessToken);
     }
 }
