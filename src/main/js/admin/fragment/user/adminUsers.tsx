@@ -26,6 +26,7 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, roles, reload}) => {
                     <tr>
                         <th className="admin-table-header-cell">ID</th>
                         <th className="admin-table-header-cell">Name</th>
+                        <th className="admin-table-header-cell">EMail</th>
                         <th className="admin-table-header-cell">Role</th>
                         <th className="admin-table-header-cell">Last Login</th>
                         <th className="admin-table-header-cell">Operation</th>
