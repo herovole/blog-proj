@@ -35,12 +35,14 @@ export const AdminUsers: React.FC<AdminUsersType> = ({data, roles, reload}) => {
                     {data.getUsers().map((user: {
                         id: number,
                         name: string,
+                        email: string,
                         role: string,
                         timestampLastLogin: string
                     }) => (
                         <tr key={user.id}>
                             <td className="admin-table-cell-btn">{user.id}</td>
                             <td className="admin-table-cell">{user.name}</td>
+                            <td className="admin-table-cell">{user.email}</td>
                             <td className="admin-table-cell">{user.role}</td>
                             <td className="admin-table-cell">{user.timestampLastLogin}</td>
                             <td className="admin-table-cell">

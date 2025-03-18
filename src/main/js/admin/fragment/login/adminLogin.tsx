@@ -32,6 +32,13 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
         setVerificationCode(e.target.value);
     }
 
+    const initialize = () => {
+        setLoginHandle("");
+        setLoginPassword("");
+        setVerificationCode("");
+        setPhase(1)
+    }
+
     const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>): Promise<void> => {
         event.preventDefault();
         if (!executeRecaptcha) {
@@ -65,6 +72,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
             setPhase(2);
         } else {
             console.error(output.getMessage("ログイン - 1段階目"));
+            initialize();
             refreshParent();
         }
     }
@@ -83,6 +91,7 @@ export const AdminLogin: React.FC<AdminLoginInputProps> = ({refreshParent}) => {
             navigate("/admin");
         } else {
             console.error(output.getMessage("ログイン - 2段階目"));
+            initialize();
             refreshParent();
         }
     }
