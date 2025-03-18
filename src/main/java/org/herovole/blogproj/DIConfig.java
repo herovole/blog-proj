@@ -15,6 +15,7 @@ import org.herovole.blogproj.infra.hibernate.AppSessionFactoryHibernate;
 import org.herovole.blogproj.infra.service.AccessTokenFactoryJwt;
 import org.herovole.blogproj.infra.service.ArticleTransactionalDatasourceRss2;
 import org.herovole.blogproj.infra.service.DailyUserIdFactoryImpl;
+import org.herovole.blogproj.infra.service.EMailServiceAmazonSES;
 import org.herovole.blogproj.infra.service.EMailServiceSpringMail;
 import org.herovole.blogproj.infra.service.GoogleReCaptchaResultServer;
 import org.herovole.blogproj.infra.service.ImageDatasourceAWSS3;
@@ -129,8 +130,13 @@ public class DIConfig {
         return configFile.getCommentDurationConfig();
     }
 
+    // Not in Use
+    public EMailService buildEMailServiceSpringMail() {
+        return new EMailServiceSpringMail(this.javaMailSender, configFile.getSiteInformation());
+    }
+
     @Bean
     public EMailService buildEMailService() {
-        return new EMailServiceSpringMail(this.javaMailSender, configFile.getSiteInformation());
+        return this.configFile.buildEMailServiceAmazonSES();
     }
 }

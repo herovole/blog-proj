@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @EqualsAndHashCode
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 public class VerificationCode {
     private static final String API_KEY_VERIFICATION_CODE = "verificationCode";
     private static final Pattern pattern999999 = Pattern.compile("\\d{6}");
+    private static final Random random = new Random();
 
     public static VerificationCode fromFormContentVerificationCode(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_VERIFICATION_CODE);
@@ -20,7 +22,7 @@ public class VerificationCode {
     }
 
     public static VerificationCode generateCode() {
-        String num = String.valueOf(Math.floor(1000000 * Math.random()));
+        String num = String.valueOf(random.nextInt(0, 1000000));
         String sixDigits = String.format("%6s", num).replace(' ', '0');
         return VerificationCode.valueOf(sixDigits);
     }

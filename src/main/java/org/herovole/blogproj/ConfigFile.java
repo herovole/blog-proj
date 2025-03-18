@@ -10,6 +10,7 @@ import org.herovole.blogproj.domain.adminuser.Role;
 import org.herovole.blogproj.domain.adminuser.UserName;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
+import org.herovole.blogproj.infra.service.EMailServiceAmazonSES;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -53,6 +54,11 @@ public class ConfigFile {
     private static final String CONFIG_KEY_SITE_LANG = "site_lang";
     private static final String CONFIG_KEY_SITE_COPYRIGHT = "site_copyright";
     private static final String CONFIG_KEY_RSS_XML = "rss_output";
+    private static final String CONFIG_KEY_SMTP_HOST = "smtp_host";
+    private static final String CONFIG_KEY_SMTP_PORT = "smtp_port";
+    private static final String CONFIG_KEY_SMTP_USER = "smtp_user";
+    private static final String CONFIG_KEY_SMTP_PASSWORD = "smtp_password";
+    private static final String CONFIG_KEY_MAIL_FROM = "mail_from";
 
     private final Map<String, String> configs;
 
@@ -159,4 +165,34 @@ public class ConfigFile {
         return this.configs.get(CONFIG_KEY_RSS_XML);
     }
 
+    public String getSmtpHost() {
+        return this.configs.get(CONFIG_KEY_SMTP_HOST);
+    }
+
+    public String getSmtpPort() {
+        return this.configs.get(CONFIG_KEY_SMTP_PORT);
+    }
+
+    public String getSmtpUser() {
+        return this.configs.get(CONFIG_KEY_SMTP_USER);
+    }
+
+    public String getSmtpPassword() {
+        return this.configs.get(CONFIG_KEY_SMTP_PASSWORD);
+    }
+
+    public String getMailFrom() {
+        return this.configs.get(CONFIG_KEY_MAIL_FROM);
+    }
+
+    public EMailServiceAmazonSES buildEMailServiceAmazonSES() {
+        return EMailServiceAmazonSES.builder()
+                .siteInformation(this.getSiteInformation())
+                .smtpHost(this.getSmtpHost())
+                .smtpPort(this.getSmtpPort())
+                .smtpUser(this.getSmtpUser())
+                .smtpPassword(this.getSmtpPassword())
+                .mailFrom(this.getMailFrom())
+                .build();
+    }
 }
