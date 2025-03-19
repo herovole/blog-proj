@@ -22,5 +22,5 @@ src/main/resources/prod/hibernate.cfg.xml
 aws_user.log
 docker_user.log
 application-staging.yml
-application-product.yml
+application-prod.yml
 rss.xml

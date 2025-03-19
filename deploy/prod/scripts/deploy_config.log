@@ -1,0 +1,9 @@
+LOG_FILE=/tmp/code_deploy.log
+DOCKER_NETWORK=blog2025-prod-docker-network
+DOCKER_BACKEND_IMAGE=prod/blog-proj-prod-backend
+DOCKER_BACKEND_CONTAINER=blog-proj-prod-backend-container
+DOCKER_FRONTEND_IMAGE=prod/blog-proj-prod-frontend
+DOCKER_FRONTEND_CONTAINER=blog-proj-prod-frontend-container
+AWS_ECR_PREFIX=982081084719.dkr.ecr.ap-northeast-1.amazonaws.com
+AWS_USER_S3=s3://blog2025-prod-s3-private/build/aws_user.log
+AWS_USER_EC2=/home/ec2-user/app/build/aws_user.log

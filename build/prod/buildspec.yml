@@ -1,0 +1,49 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo AWS resource download
+      - aws s3 cp s3://blog2025-prod-s3-private/build/aws_user.log ./build/prod/aws_user.log
+      - aws s3 cp s3://blog2025-prod-s3-private/build/docker_user.log ./build/prod/docker_user.log
+
+      - echo Prepare Env
+      - source ./build/prod/docker_user.log
+      - source ./build/prod/aws_user.log
+
+      - echo Login to Docker
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+
+      - echo Backend S3 resource download
+      - aws s3 cp --recursive s3://blog2025-prod-s3-private/build/backend/app_utility/ ./build/prod/backend/app_utility/
+      - aws s3 cp s3://blog2025-prod-s3-private/build/backend/hibernate.cfg.xml ./src/main/resources/prod/hibernate.cfg.xml
+      - aws s3 cp s3://blog2025-prod-s3-private/build/backend/application-prod.yml ./src/main/resources/application-prod.yml
+
+      - echo Frontend S3 resource download
+      - aws s3 cp s3://blog2025-prod-s3-private/build/frontend/nginx/conf.d/.htpasswd ./build/prod/frontend/nginx/conf.d/.htpasswd
+
+  build:
+    commands:
+      - echo Build started on `date`
+
+      - echo Backend Docker image build
+      - docker build --no-cache -t blog-proj-prod-backend -f build/prod/backend/Dockerfile .
+      - docker tag blog-proj-prod-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/prod/blog-proj-prod-backend:latest
+
+      - echo Frontend Docker image build
+      - docker build --no-cache -t blog-proj-prod-frontend -f build/prod/frontend/Dockerfile .
+      - docker tag blog-proj-prod-frontend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/prod/blog-proj-prod-frontend:latest
+
+  post_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/prod/blog-proj-prod-backend:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/prod/blog-proj-prod-frontend:latest
+artifacts:
+  files:
