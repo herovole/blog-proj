@@ -20,8 +20,8 @@ COPY --from=build /app/src/main/resources/templates /var/www/html
 COPY --from=build /app/src/main/resources/favicon.ico /var/www/html/favicon.ico
 COPY --from=build /app/src/main/resources/sitemap.xml /var/www/html/sitemap.xml
 COPY --from=build /app/src/main/resources/robot.txt /var/www/html/robot.txt
-COPY docker/staging/frontend/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY docker/staging/frontend/nginx/conf.d /etc/nginx/conf.d
+COPY build/prod/frontend/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY build/prod/frontend/nginx/conf.d /etc/nginx/conf.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
