@@ -12,3 +12,8 @@ else
     echo $(date) Creating docker network ${DOCKER_NETWORK}. | tee -a $LOG_FILE
     sudo docker network create \"$DOCKER_NETWORK\"
 fi
+
+# Remove all containers tagged <none>.
+# (Why isn't it performed in the last process? : To spare the second latest images on docker.)
+sudo docker rmi $(sudo docker images -f "dangling=true" -q) --force
+
