@@ -18,12 +18,11 @@ else
     echo $(date) \"Container \'$DOCKER_BACKEND_CONTAINER\' does not exist. Skipping removal.\" | tee -a $LOG_FILE
 fi
 
-if sudo docker images --format "{{.Repository}}" | grep -q "^${DOCKER_BACKEND_IMAGE}$"; then
-    echo "Previous version of the Docker image '${DOCKER_BACKEND_IMAGE}' exists. removing..." | tee -a $LOG_FILE
-    sudo docker rmi $(sudo docker images "${AWS_ECR_PREFIX}/${DOCKER_BACKEND_IMAGE}" -q) --force
-    echo "sudo docker rmi $(sudo docker images \"${AWS_ECR_PREFIX}/${DOCKER_BACKEND_IMAGE}\" -q) --force" | tee -a $LOG_FILE
+if sudo docker images --format "{{.Repository}}" | grep -q ${AWS_ECR_PREFIX}/${DOCKER_BACKEND_IMAGE}; then
+    echo $(date) "Previous version of the Docker image '${DOCKER_BACKEND_IMAGE}' exists. removing..." | tee -a $LOG_FILE
+    sudo docker rmi $(sudo docker images ${AWS_ECR_PREFIX}/${DOCKER_BACKEND_IMAGE} -q) --force
 else
-    echo "Docker image '${DOCKER_BACKEND_IMAGE}' does not exist. Skipping removal." | tee -a $LOG_FILE
+    echo $(date) "Docker image '${DOCKER_BACKEND_IMAGE}' does not exist. Skipping removal." | tee -a $LOG_FILE
 fi
 
 # Pull the backend image from ECR
