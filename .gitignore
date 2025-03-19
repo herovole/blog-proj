@@ -12,7 +12,7 @@ package.json
 tsconfig.tsbuildinfo
 dist
 .htpasswd
-docker/local/backend/*.jar
+*.jar
 src/main/resources/static/built/
 src/main/resources/staging/hibernate.cfg.xml
 src/main/resources/prod/hibernate.cfg.xml
