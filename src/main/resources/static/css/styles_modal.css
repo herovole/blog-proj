@@ -1,0 +1,33 @@
+
+.comment-modal-body {
+    display: grid;
+    grid-template-columns: 80px 100%;
+    grid-template-rows: 28px 120px;
+}
+
+.comment-modal-exterior {
+    border: 2px solid #AAAAAA;
+}
+.comment-modal-interior {
+    background-color: #779999;
+    padding:15px;
+    margin:2px;
+}
+.comment-modal-cancel {
+    text-align:right;
+}
+.comment-modal-header {
+    background-color: #CCCC88;
+}
+
+.comment-modal-submit {
+    border: 2px outset #CCCC88;
+    background-color: #CCCC88;
+    width:200px;
+}
+
+.comment-modal-submit-s {
+    border: 2px outset #CCCC88;
+    background-color: #CCCC88;
+    height:25px;
+}

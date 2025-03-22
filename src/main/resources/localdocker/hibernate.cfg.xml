@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://docker-mysql-1:3306/blog</property>
+        <property name="hibernate.connection.username">test</property>
+        <property name="hibernate.connection.password">test</property>
+        <property name="hibernate.connection.pool_size">1</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+
+        <!--
+        <property name="hibernate.archive.autodetection">class,hbm</property>
+        <mapping package="org.herovole.blogproj.infra.jpa.entity"/>
+        -->
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticle"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.ASourceComment"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.ATopicTag"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EArticleAccess"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EPublicIp"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EPublicUser"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserComment"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserCommentRating"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.EUserCommentReport"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.MCountry"/>
+        <mapping class="org.herovole.blogproj.infra.jpa.entity.MAdminUser"/>
+
+    </session-factory>
+
+</hibernate-configuration>

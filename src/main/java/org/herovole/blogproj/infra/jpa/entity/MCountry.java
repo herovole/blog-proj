@@ -5,24 +5,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryTagUnit;
+import org.herovole.blogproj.domain.tag.country.RealCountryTagUnit;
+import org.herovole.blogproj.domain.tag.topic.TagEnglish;
+import org.herovole.blogproj.domain.tag.topic.TagJapanese;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-/*
-CREATE TABLE m_country (
-  id INT PRIMARY KEY,
-  name_en VARCHAR(63) NOT NULL,
-  name_ja VARCHAR(31) NOT NULL,
-  iso_2 char(2) NOT NULL,
-  iso_3 char(3) NOT NULL,
-  icon_base VARCHAR(63) NOT NULL,
-  update_timestamp timestamp default current_timestamp on update current_timestamp,
-  insert_timestamp timestamp default current_timestamp
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
- */
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "m_country")
 @Data
@@ -30,7 +26,7 @@ public class MCountry implements Serializable {
 
     @Id
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "name_en")
     private String nameEn;
@@ -38,31 +34,31 @@ public class MCountry implements Serializable {
     @Column(name = "name_ja")
     private String nameJa;
 
-    @Column(name = "iso_2")
+    @EqualsAndHashCode.Include
+    @Column(name = "iso_2", columnDefinition = "CHAR")
     private String iso2;
 
-    @Column(name = "iso_3")
+    @Column(name = "iso_3", columnDefinition = "CHAR")
     private String iso3;
 
     @Column(name = "icon_base")
     private String iconBase;
 
+    @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
 
-    @Column(name = "insert_timestamp")
+    @CreationTimestamp
+    @Column(name = "insert_timestamp", updatable = false)
     private LocalDateTime insertTimestamp;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MCountry mCountry = (MCountry) o;
-        return nameEn.equals(mCountry.nameEn);
+    public CountryTagUnit toDomainObj() {
+        return RealCountryTagUnit.builder()
+                .id(CountryCode.valueOf(iso2))
+                .tagJapanese(TagJapanese.valueOf(nameJa))
+                .tagEnglish(TagEnglish.valueOf(nameEn))
+                .build();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameEn);
-    }
+
 }

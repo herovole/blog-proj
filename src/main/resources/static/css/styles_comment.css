@@ -1,0 +1,63 @@
+.comment-section {
+    border: 2px solid #AAAAAA;
+}
+
+.comment-left-space {
+    padding-left: 19px
+}
+
+.source-comment-individual {
+    background-color: #D0CCAA;
+    padding: 5px;
+    margin: 2px;
+    min-width: 400px;
+}
+
+.source-comment-text {
+    background-color: #D0CCAA;
+    padding: 10px;
+}
+
+.user-comment-individual {
+    background-color: #DDCCAA;
+    padding: 5px;
+    margin: 2px;
+}
+
+.user-comment-text {
+    background-color: #DDCCAA;
+    padding: 10px;
+}
+
+.comment-handle {
+    color: #007744;
+}
+
+.comment-anchor {
+    color: #2222FF
+}
+
+.report-button {
+    background-color: #444444;
+    color: #999999
+}
+
+.user-comment-rate-off {
+    border: 2px outset #CCCCCC;
+    width: 50px;
+}
+
+.user-comment-rate-on {
+    border: 2px inset #CCCCCC;
+    background-color: #666666;
+    color: #FFFFFF;
+    width: 50px;
+}
+
+.comment-lf {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+

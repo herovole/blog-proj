@@ -1,0 +1,48 @@
+spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  data:
+    rest:
+      base-path: /api
+  datasource:
+    url: jdbc:mysql://docker-mysql-1:3306/blog
+    username: test
+    password: test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        show-sql: true
+  config:
+    local:
+      boundary: /app/app_utility
+      config: /app/app_utility/config.txt
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yourmail@gmail.com
+    password: yourpassword
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+server:
+  tomcat:
+    access_log_enabled: true
+    basedir: target/tomcat
+  error:
+    whitelabel:
+      enabled: false
+logging:
+  level:
+    org:
+    #springframework: DEBUG

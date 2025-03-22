@@ -1,14 +1,17 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/main/js/app.js',
+    resolve: {extensions: ['.js', '.jsx', '.ts', '.tsx'],},
+    entry: './src/main/js/index.tsx',
+    output: {
+        path: path.resolve(__dirname, './src/main/resources/static/dist'),
+        filename: 'bundle.js',
+        publicPath: "/",
+    },
     devtool: "source-map",
     cache: true,
     mode: 'development',
-    output: {
-        path: __dirname,
-        filename: './src/main/resources/static/built/bundle.js'
-    },
     module: {
         rules: [
             {
@@ -17,6 +20,13 @@ module.exports = {
                     'style-loader',      // Injects CSS into the DOM
                     'css-loader'         // Interprets CSS as modules
                 ]
+            },
+            {
+                test: /\.tsx\?$/,        // Target TypeScript files
+                use: [
+                    'ts-loader'          // Compiles TypeScript to JavaScript
+                ],
+                exclude: /node_modules/ // Exclude node_modules directory
             },
             {
                 test: path.join(__dirname, '.'),
@@ -29,5 +39,21 @@ module.exports = {
                 }]
             }
         ]
-    }
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, './src/main/resources/static/dist'), // Serve static files from "dist"
+        },
+        historyApiFallback: true, // Redirect all requests to index.html
+        port: 3000, // Change the port if needed
+        open: true, // Auto-open browser on start
+        hot: true // Enable Hot Module Replacement (HMR)
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+        }),
+    ]
 };

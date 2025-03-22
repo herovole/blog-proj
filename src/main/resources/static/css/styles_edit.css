@@ -1,0 +1,92 @@
+.article-edit-item-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 1000px;
+}
+
+.article-edit-title {
+    border-bottom: 0px solid black;
+    margin-top: 4px;
+}
+
+.article-edit-title-large {
+    border-bottom: 1px solid black;
+    margin-top: 4px;
+}
+
+.comment-edit-item-line {
+    border: 2px solid #999999;
+    background-color: #B0AA88;
+    color: #222222;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 1px;
+    max-width: 400px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.comment-edit-label {
+    color: #227744;
+}
+
+.admin-editable-text {
+    position: relative;
+    border: 2px ridge #AAAAAA;
+    background-color: #77AAAA;
+    text-align: left;
+}
+
+.admin-non-editable-text {
+    position: relative;
+    border: 2px ridge #AAAAAA;
+    background-color: #999999;
+    text-align: left;
+}
+
+.admin-editable-textarea {
+    width: auto; /* Expand width based on content */
+
+    height: auto; /* Expand height based on content */
+
+    white-space: normal; /* Allow text to wrap */
+    word-break: break-word; /* Break long words if necessary */
+
+    padding: 4px 6px; /* Add spacing for better appearance */
+}
+
+.admin-editable-text-activated {
+    border: 4px inset #8888FF;
+    background-color: #FFFFFF;
+}
+
+.admin-editable-text-content {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+
+.admin-table {
+    background-color: #AABBDD;
+}
+
+.admin-table-header-cell {
+    background-color: #222255;
+    color: #AAAAAA;
+    border: 2px inset #AAAAAA;
+}
+
+.admin-table-cell {
+    border: 2px inset #AAAAAA;
+}
+
+.admin-table-cell-btn {
+    border: 2px outset #CCCCCC;
+    background-color: #555599;
+    color: #AAAAAA;
+    cursor: pointer;
+}

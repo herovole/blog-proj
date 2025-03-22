@@ -1,34 +1,26 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom"; // 追加
+import {Link} from "react-router-dom";
+import {ResourceManagement} from "./service/resourceManagement"; // 追加
 
 export const Footer = () => {
-    return (
-        <ul>
-            <li>
-                <Link to="/">Home</Link> {/*aタグじゃないよ*/}
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/">Home</NavLink>
-            </li>
-            <li>
-                <Link to="/about">about</Link>
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/about">About</NavLink>
-            </li>
-            <li>
-                <Link to="/contact">contact</Link>
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/contact">Contact</NavLink>
-            </li>
-            <li>
-                <Link to="/admin">admin</Link>
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin">admin</NavLink>
-            </li>
-            <li>
-                <Link to="/admin/newarticle">admin-newarticle</Link>
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/newarticle">admin-NewArticle</NavLink>
-            </li>
-            <li>
-                <Link to="/admin/sandbox">sandbox</Link>
-                <NavLink style={({ active }) => (active ? { color: 'red' } : undefined)} to="/admin/sandbox">sandbox</NavLink>
-            </li>
-
-        </ul>
+    return (<div className="footer">
+            <ul>
+                <li>
+                    <Link to="/">ホーム</Link>
+                </li>
+                <li>
+                    <Link to="/articles">検索</Link>
+                </li>
+                <li>
+                    <Link to="/about">サイト情報</Link>
+                </li>
+                <li>
+                    <Link to="/admin">管理者</Link>
+                </li>
+            </ul>
+            <br/>
+            <p>© 2025 {ResourceManagement.getInstance().getSiteNameJp()}. All rights reserved, except for materials licensed under open-source or
+                third-party licenses. See <Link to="About">this page</Link> for details..</p>
+        </div>
     )
 }

@@ -3,8 +3,9 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
-import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
+import lombok.ToString;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
+import org.herovole.blogproj.domain.FormContent;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -12,40 +13,55 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Pattern;
 
+@ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Date {
 
-    private static final String EMPTY = "----";
-    private static final Pattern yyyyDotMMDotDd = Pattern.compile("\\d{4}\\.\\d{2}\\.\\d{2}");
-    private static final String DOT = ".";
-    private static final String HYPHEN = "-";
+    private static final String EMPTY = "-";
+    private static final String EMPTY2 = "null";
+    private static final Pattern patternYyyyMMDd = Pattern.compile("\\d{8}");
+    private static final DateTimeFormatter formatterYyyyMMDd = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private static final Pattern patternYyyySlashMMSlashDd = Pattern.compile("\\d{4}/\\d{2}/\\d{2}");
+    private static final DateTimeFormatter formatterYyyySlashMMSlashDd = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
-    private static final DateTimeFormatter FROM_LOCAL_DATE_TO_YYYYMMDD = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private static final String API_KEY_SOURCE_DATE = "sourceDate";
+
+    public static Date fromFormContentArticleDate(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_SOURCE_DATE);
+        return valueOf(child.getValue());
+    }
 
     public static Date valueOf(String field) {
-        return new Date(field);
+        if (field == null || field.isEmpty() || EMPTY2.equalsIgnoreCase(field) || EMPTY.equals(field)) return empty();
+        if (patternYyyySlashMMSlashDd.matcher(field).matches())
+            return valueOf(LocalDate.parse(field, formatterYyyySlashMMSlashDd));
+        if (patternYyyyMMDd.matcher(field).matches())
+            return valueOf(LocalDate.parse(field, formatterYyyyMMDd));
+        throw new DomainInstanceGenerationException(field);
     }
 
-    public static Date fromDottedEightDigits(String field) throws DomainInstanceGenerationException {
-        if (!yyyyDotMMDotDd.matcher(field).matches()) {
-            throw new DomainInstanceGenerationException();
-        }
-        return Date.valueOf(field.replace(DOT, ""));
-    }
 
     public static Date valueOf(LocalDate localDate) {
-        return Date.valueOf(localDate.format(FROM_LOCAL_DATE_TO_YYYYMMDD));
+        return new Date(localDate);
     }
 
     public static Date empty() {
-        return new Date(EMPTY);
+        return new Date(null);
     }
 
-    private final String yyyyMMdd;
+    public static Date today() {
+        return valueOf(LocalDate.now());
+    }
+
+    public static Date newYear2024() {
+        return valueOf(LocalDate.of(2024, 1, 1));
+    }
+
+    private final LocalDate yyyyMMdd;
 
     public boolean isEmpty() {
-        return null == yyyyMMdd || EMPTY.equals(yyyyMMdd) || "".equals(yyyyMMdd);
+        return null == yyyyMMdd;
     }
 
     public int daysFrom(Date that) {
@@ -66,48 +82,23 @@ public class Date {
     }
 
     public String letterSignature() {
-        return this.yyyyMMdd;
-    }
-
-    public int intMemorySignature() {
-        if (this.isEmpty()) throw new IllegalStateException();
-        return Integer.parseInt(this.yyyyMMdd);
-    }
-
-    public String toHyphenatedYyyyMMDd() {
-        return new AggregateSignatureSplits.Builder()
-                .set(0, this.getYear())
-                .set(1, this.getMonth())
-                .set(2, this.getDayOfMonth())
-                .build().letterSignature(HYPHEN);
+        return this.isEmpty() ? EMPTY : this.toLocalDate().format(formatterYyyyMMDd);
     }
 
     public LocalDate toLocalDate() {
-        return LocalDate.parse(this.toHyphenatedYyyyMMDd());
-    }
-
-    public String getYear() {
-        return this.yyyyMMdd.substring(0, 4);
+        return this.yyyyMMdd;
     }
 
     public int getYearInInt() {
-        return Integer.parseInt(this.getYear());
-    }
-
-    public String getMonth() {
-        return this.yyyyMMdd.substring(4, 6);
+        return this.yyyyMMdd.getYear();
     }
 
     public int getMonthInInt() {
-        return Integer.parseInt(this.getMonth());
-    }
-
-    public String getDayOfMonth() {
-        return this.yyyyMMdd.substring(6, 8);
+        return this.yyyyMMdd.getMonthValue();
     }
 
     public int getDayInInt() {
-        return Integer.parseInt(this.getDayOfMonth());
+        return this.yyyyMMdd.getDayOfMonth();
     }
 
     public boolean isSunday() {
@@ -116,10 +107,15 @@ public class Date {
 
     public Date sundayOnSameWeek() {
         int dayOfWeek = this.toLocalDate().getDayOfWeek().getValue();
-        if(dayOfWeek == 7) return this;
+        if (dayOfWeek == 7) return this;
         return this.shift(dayOfWeek * (-1));
     }
-    public Week inclusiveWeek() throws DomainInstanceGenerationException {
+
+    public Week inclusiveWeek() {
         return new Week(this.sundayOnSameWeek());
+    }
+
+    public Timestamp beginningTimestampOfDay() {
+        return Timestamp.valueOf(this.toLocalDate().atStartOfDay());
     }
 }

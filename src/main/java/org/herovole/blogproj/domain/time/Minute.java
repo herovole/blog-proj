@@ -3,7 +3,7 @@ package org.herovole.blogproj.domain.time;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import org.herovole.blogproj.domain.abstractdatasource.DomainInstanceGenerationException;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -12,18 +12,18 @@ public class Minute {
     private static final String EMPTY = "--";
     private final Integer mm;
 
-    public static Minute valueOf(Integer number) throws DomainInstanceGenerationException {
+    public static Minute valueOf(Integer number)  {
         if(number < 0 || 59 < number) {
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException(number);
         }
         return new Minute(number);
     }
 
-    public static Minute valueOf(String number) throws DomainInstanceGenerationException {
+    public static Minute valueOf(String number)  {
         try {
             return EMPTY.equals(number) ? empty() : valueOf(Integer.parseInt(number));
         } catch (NumberFormatException e) {
-            throw new DomainInstanceGenerationException();
+            throw new DomainInstanceGenerationException(number);
         }
     }
 

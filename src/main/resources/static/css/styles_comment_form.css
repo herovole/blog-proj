@@ -1,0 +1,40 @@
+
+
+.comment-form-exterior {
+    border: 2px solid #AAAAAA;
+}
+.comment-form-interior {
+    background-color: #DDCCAA;
+    padding:5px;
+    margin:2px;
+}
+.comment-form-header {
+    background-color: #88CCCC;
+    width: 100%;
+}
+.comment-form-handle {
+    margin: 2px;
+}
+.comment-form-label {
+    display: inline-block;
+    width:50px;
+    vertical-align:top;
+}
+.comment-form-text {
+    margin: 2px;
+    width:70%;
+    height: 72px;
+}
+.comment-form-submit {
+    border: 2px outset #88CCCC;
+    background-color: #88CCCC;
+    width:50px;
+}
+.comment-form-process {
+    color: #444444;
+    font-size:0.8em;
+}
+.comment-form-err {
+    color: #EE4444;
+    font-size:0.8em;
+}

@@ -19,10 +19,10 @@ public abstract class ProceduralParallelism {
         this.executorService = Executors.newFixedThreadPool(threadNum);
     }
 
-    public boolean run() throws Exception {
+    public void run() throws Exception {
         final ProceduralParallelism it = this;
         final List<Future<Boolean>> calcs = new ArrayList<>();
-        Boolean result = true;
+        boolean result = true;
         try {
             for (int i = 0; i < threadNum; i++) {
                 calcs.add(executorService.submit(it::foreachThread));
@@ -30,6 +30,7 @@ public abstract class ProceduralParallelism {
             for (Future<Boolean> calc : calcs) {
                 result = result && calc.get();
             }
+            if(!result) throw new Exception();
         } catch (Exception e) {
             logger.error("Error during multi-threaded operation.", e);
             this.resign();
@@ -37,7 +38,6 @@ public abstract class ProceduralParallelism {
         } finally {
             executorService.shutdown();
         }
-        return result;
     }
 
     protected abstract boolean foreachThread() throws Exception;

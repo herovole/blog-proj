@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="basePath">/var/log/blog</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Rolling file appender -->
+        <RollingFile name="rollingFile"
+                     fileName="${basePath}/app.log"
+                     filePattern="${basePath}/app-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+            <Policies>
+                <!-- Roll over daily -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- Or roll over when file reaches 10MB -->
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <!-- Keep up to 30 days of logs -->
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${basePath}" maxDepth="2">
+                    <IfFileName glob="app-*.log"/>
+                    <IfLastModified age="30d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="rollingFile"/>
+        </Root>
+
+        <!-- Specific Logger -->
+        <Logger name="org.herovole.blogproj" level="debug" additivity="false">
+            <AppenderRef ref="rollingFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

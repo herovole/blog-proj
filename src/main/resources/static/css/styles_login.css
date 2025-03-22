@@ -1,0 +1,23 @@
+.login-frame {
+  border: 2px solid #AAAAAA;
+  padding: 2px;
+}
+.login-body {
+  background-color: #D0CCAA;
+}
+.login-label {
+  display: inline-block;
+  width:100px;
+  vertical-align:middle;
+}
+.login-handle {
+  margin: 2px;
+}
+.login-password {
+  margin: 2px;
+}
+.login-submit {
+  border: 2px outset #CCCC88;
+  background-color: #CCCC88;
+  width:60px;
+}

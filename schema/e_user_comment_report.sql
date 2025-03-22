@@ -1,0 +1,18 @@
+
+CREATE TABLE e_user_comment_report (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  comment_serial_number BIGINT NOT NULL,
+
+  reporter_user_id BIGINT NOT NULL,
+  aton BIGINT,
+
+  report_text TEXT,
+  is_handled TINYINT(1) NOT NULL DEFAULT 0,
+
+  update_timestamp timestamp default current_timestamp on update current_timestamp,
+  insert_timestamp timestamp default current_timestamp,
+  delete_flag TINYINT(1) NOT NULL DEFAULT 0,
+
+  FOREIGN KEY (comment_serial_number) REFERENCES e_user_comment(id) ON DELETE CASCADE,
+  FOREIGN KEY (reporter_user_id) REFERENCES e_public_user(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

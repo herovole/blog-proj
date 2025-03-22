@@ -1,0 +1,42 @@
+.main-body {
+    display: grid;
+    grid-template-columns: 200px 800px 200px;
+}
+
+.main-area-frame {
+    border: 2px solid #AAAAAA;
+    padding: 2px;
+    width: 100%;
+}
+
+.main-area {
+    background-color: #BBBBAA;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.input-items-per-page {
+    width: 40px;
+}
+
+.input-keywords {
+    width: 400px;
+}
+
+
+.editable-text-fixed {
+    cursor: pointer;
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+.editable-text-activated {
+    border: 1px solid black;
+    background-color: #FFFFFF;
+}
+
