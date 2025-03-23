@@ -13,3 +13,5 @@ sudo docker ps | grep $DOCKER_BACKEND_CONTAINER
 echo verifying frontend container running
 # Verify frontend container is running
 sudo docker ps | grep $DOCKER_FRONTEND_CONTAINER
+
+echo $(date) "Deployment successful." | tee -a $LOG_FILE

@@ -36,6 +36,8 @@ else
     exit 1
 fi
 
+echo $(date) "Running backend container ${DOCKER_BACKEND_CONTAINER}." | tee -a $LOG_FILE
+
 # Run the backend container
 sudo docker run -d \
         --name $DOCKER_BACKEND_CONTAINER \
