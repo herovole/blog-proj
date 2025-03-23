@@ -36,6 +36,8 @@ else
     exit 1
 fi
 
+echo $(date) "Running frontend container ${DOCKER_FRONTEND_CONTAINER}." | tee -a $LOG_FILE
+
 # Run the frontend container
 sudo docker run -d \
         --name $DOCKER_FRONTEND_CONTAINER \
