@@ -22,9 +22,6 @@ phases:
       - aws s3 cp s3://blog2025-prod-s3-private/build/backend/hibernate.cfg.xml ./src/main/resources/prod/hibernate.cfg.xml
       - aws s3 cp s3://blog2025-prod-s3-private/build/backend/application-prod.yml ./src/main/resources/application-prod.yml
 
-      - echo Frontend S3 resource download
-      - aws s3 cp s3://blog2025-prod-s3-private/build/frontend/nginx/conf.d/.htpasswd ./build/prod/frontend/nginx/conf.d/.htpasswd
-
   build:
     commands:
       - echo Build started on `date`
