@@ -34,7 +34,7 @@ export const PublicPageHome: React.FC = () => {
             tabTitle={"Home"}
             description={"まとめサイト"}
             keywords={"まとめ, まとめサイト, 世界"}
-            image={"hero_banner.jpg"}
+            image={"ogimage.jpg"}
             hasSystemImage={true}
         />
         <PublicBasicLayout>
