@@ -11,4 +11,6 @@ public interface CountryTagDatasource {
     CountryTagUnits search(boolean isDetailed, PagingRequest pagingRequest);
 
     long countAll();
+
+    CountryCodes searchCandidatesByName(String partOfCountryName);
 }

@@ -52,6 +52,11 @@ public class LoginAdminPhase1 {
     public void process(LoginAdminPhase1Input request) throws ApplicationProcessException {
         logger.info("interpreted post : {}", request);
         AdminUser adminUser = this.adminUserDatasource.find(request.getUserName());
+        if(adminUser.isEmpty()) {
+            this.presenter
+                    .setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
+                    .interruptProcess();
+        }
 
         // IP and Role aren't checked for User/Password logging in.
         if (!this.credentialsEncodingFactory.matches(request.getPassword(), adminUser.getCredentialEncode())) {
