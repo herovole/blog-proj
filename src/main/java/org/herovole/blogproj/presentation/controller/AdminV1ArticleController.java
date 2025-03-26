@@ -178,7 +178,7 @@ public class AdminV1ArticleController {
     @PostMapping("/convertsourcecomments")
     public ResponseEntity<String> convertImportedSourceComments(
             HttpServletRequest httpServletRequest) {
-        logger.info("Endpoint : articles visit (Post) ");
+        logger.info("Endpoint : convert (Post) ");
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         if (!servletRequest.getAdminUserFromAttribute().getRole().editsArticles()) {
             this.convertImportedSourceCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);

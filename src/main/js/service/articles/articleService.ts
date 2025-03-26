@@ -5,6 +5,8 @@ import {SearchArticlesOutput, SearchArticlesOutputFields} from "./searchArticles
 import {SearchArticlesInput} from "./searchArticlesInput";
 import {BasicApiResult, BasicApiResultFields} from "../../domain/basicApiResult";
 import {VisitArticleInput} from "./visitArticleInput";
+import {ConvertImportedTextOutput, ConvertImportedTextOutputFields} from "./convertImportedTextOutput";
+import {ConvertImportedTextInput} from "./convertImportedTextInput";
 
 export class ArticleService {
 
@@ -80,5 +82,22 @@ export class ArticleService {
             }
         }
         return BasicApiResult.empty();
+    }
+
+    async convertImportedText(input: ConvertImportedTextInput): Promise<ConvertImportedTextOutput> {
+        try {
+            const response: AxiosResponse<ConvertImportedTextOutputFields> = await axios.post(
+                "/api/v1/articles/convertsourcecomments",
+                input.toPayloadHash(), {
+                    headers: {'Content-Type': 'application/json;charset=utf-8',},
+                });
+            return new ConvertImportedTextOutput(response.data);
+        } catch (e: unknown) {
+            console.error("Error submitting form");
+            if (axios.isAxiosError(e) && e.response) {
+                return new ConvertImportedTextOutput(e.response.data);
+            }
+        }
+        return ConvertImportedTextOutput.empty();
     }
 }
