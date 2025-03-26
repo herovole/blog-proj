@@ -2,6 +2,7 @@ package org.herovole.blogproj.infra.datasource;
 
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
+import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.domain.tag.country.CountryTagDatasource;
 import org.herovole.blogproj.domain.tag.country.CountryTagUnit;
 import org.herovole.blogproj.domain.tag.country.CountryTagUnits;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component("countryTagDatasource")
 public class CountryTagDatasourceMySql implements CountryTagDatasource {
@@ -41,5 +43,15 @@ public class CountryTagDatasourceMySql implements CountryTagDatasource {
     @Override
     public long countAll() {
         return mCountryRepository.countAll();
+    }
+
+    @Override
+    public CountryCodes searchCandidatesByName(String partOfCountryName) {
+        List<MCountry> jpCandidates = mCountryRepository.findCandidatesByJapaneseName(partOfCountryName);
+        Stream<CountryCode> jpCodes = jpCandidates.stream().map(e -> e.toDomainObj().getCountryCode());
+        List<MCountry> enCandidates = mCountryRepository.findCandidatesByEnglishName(partOfCountryName);
+        Stream<CountryCode> enCodes = enCandidates.stream().map(e -> e.toDomainObj().getCountryCode());
+        CountryCodes.of(Stream.concat(jpCodes, enCodes).toArray(CountryCode[]::new));
+        return null;
     }
 }
