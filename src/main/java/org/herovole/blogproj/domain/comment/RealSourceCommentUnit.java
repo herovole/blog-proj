@@ -128,17 +128,17 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public CommentUnit.Json toJson() {
         return new Json(
-                this.commentSerialNumber.longMemorySignature(),
+                this.commentSerialNumber.isEmpty() ? null : this.commentSerialNumber.longMemorySignature(),
                 this.commentId.intMemorySignature(),
                 this.commentText.memorySignature(),
                 this.country.memorySignature(),
-                this.isHidden.memorySignature(),
+                this.isHidden.isEmpty(),
                 this.referringCommentIds.toIntMemorySignature()
         );
     }
 
     record Json(
-            long commentSerialNumber,
+            Long commentSerialNumber,
             Integer commentId,
             String commentText,
             String country,

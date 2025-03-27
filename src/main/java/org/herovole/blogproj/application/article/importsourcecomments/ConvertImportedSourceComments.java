@@ -2,6 +2,7 @@ package org.herovole.blogproj.application.article.importsourcecomments;
 
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
+import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.comment.importedtext.AdminImportedSourceComments;
 import org.herovole.blogproj.domain.tag.country.CountryTagDatasource;
@@ -29,8 +30,14 @@ public class ConvertImportedSourceComments {
         logger.info("interpreted post : {}", input);
 
         AdminImportedSourceComments text = input.getAdminImportedSourceComments();
+        if(text.isEmpty()) {
+            logger.error("no data: {}", input);
+            presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR).interruptProcess();
+        }
+
         CommentUnits commentUnits = text.buildSourceComments(countryTagDatasource);
-        presenter.setContent(commentUnits);
+        CommentUnits sortedCommentUnits = commentUnits.sort();
+        presenter.setContent(sortedCommentUnits);
 
         logger.info("job successful.");
 

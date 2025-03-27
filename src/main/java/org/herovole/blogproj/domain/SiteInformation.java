@@ -7,6 +7,7 @@ import org.herovole.blogproj.domain.source.SourceUrl;
 @Builder
 @Getter
 public class SiteInformation {
+    private final String environment;
     private final String siteDomain;
     private final String imageDomain;
     private final String siteNameJp;
@@ -15,6 +16,9 @@ public class SiteInformation {
     private final String siteCopyright;
     private final String siteLanguage;
 
+    public boolean isLocal() {
+        return this.environment.equals("local");
+    }
     public SourceUrl getSiteTopUrl() {
         if (siteDomain == null || siteDomain.isEmpty() || siteDomain.isBlank()) {
             throw new IllegalStateException();

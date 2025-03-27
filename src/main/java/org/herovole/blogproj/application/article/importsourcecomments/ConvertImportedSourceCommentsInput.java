@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.comment.importedtext.AdminImportedSourceComments;
 
-@Builder
 @ToString
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

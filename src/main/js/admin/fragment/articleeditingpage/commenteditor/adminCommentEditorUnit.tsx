@@ -31,7 +31,7 @@ export const AdminCommentEditorUnit: React.FC<AdminCommentEditorUnitProps> = ({
                     <div className="comment-edit-item-line"><span
                         className="comment-edit-label">CommentSerialNumber : </span>
                         <IdsEditingForm postKey={postKey.append("commentId")} isFixed={true}>
-                            {content ? content.body.commentSerialNumber : ""}
+                            {content?.body.commentSerialNumber ? content.body.commentSerialNumber : ""}
                         </IdsEditingForm>
                     </div>
                     <div className="comment-edit-item-line"><span className="comment-edit-label">CommentID : </span>

@@ -2,6 +2,7 @@ package org.herovole.blogproj;
 
 import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentDurationConfig;
+import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.abstractdatasource.TextBlackList;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.EMailService;
@@ -57,6 +58,11 @@ public class DIConfig {
                 localFileSystem
         );
         return new ImageDatasourceLocalFs(imageDirectory);
+    }
+
+    @Bean
+    public SiteInformation getSiteInformation() {
+        return configFile.getSiteInformation();
     }
 
     @Bean

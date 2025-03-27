@@ -32,6 +32,7 @@ export const AdminCommentEditor = forwardRef<AdminCommentEditorHandle, AdminComm
     }
 
     const handleImportedFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
         const file = event.target.files ? event.target.files[0] : null;
         if (!file) return;
 
@@ -42,7 +43,8 @@ export const AdminCommentEditor = forwardRef<AdminCommentEditorHandle, AdminComm
         reader.readAsText(file);
     };
 
-    const handleImportedFileUpload = async () => {
+    const handleImportedFileUpload = async (event:React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         if (!importedText || importedText instanceof ArrayBuffer) {
             alert("File Content Absent.");
             return;

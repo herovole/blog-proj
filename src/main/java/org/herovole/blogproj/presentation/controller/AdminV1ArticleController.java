@@ -177,7 +177,8 @@ public class AdminV1ArticleController {
 
     @PostMapping("/convertsourcecomments")
     public ResponseEntity<String> convertImportedSourceComments(
-            HttpServletRequest httpServletRequest) {
+            HttpServletRequest httpServletRequest,
+            @RequestBody Map<String, String> request) {
         logger.info("Endpoint : convert (Post) ");
         AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
         if (!servletRequest.getAdminUserFromAttribute().getRole().editsArticles()) {
@@ -186,8 +187,8 @@ public class AdminV1ArticleController {
         }
 
         try {
-            ConvertImportedSourceCommentsInput input = ConvertImportedSourceCommentsInput.builder()
-                    .build();
+            FormContent formContent = FormContent.of(request);
+            ConvertImportedSourceCommentsInput input = ConvertImportedSourceCommentsInput.fromPostContent(formContent);
             this.convertImportedSourceComments.process(input);
         } catch (DomainInstanceGenerationException e) {
             logger.error("Error Bad Request : ", e);
