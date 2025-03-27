@@ -5,6 +5,8 @@ import org.herovole.blogproj.application.article.editarticle.EditArticle;
 import org.herovole.blogproj.application.article.editarticle.EditArticleInput;
 import org.herovole.blogproj.application.article.findarticle.FindArticle;
 import org.herovole.blogproj.application.article.findarticle.FindArticleInput;
+import org.herovole.blogproj.application.article.importsourcecomments.ConvertImportedSourceComments;
+import org.herovole.blogproj.application.article.importsourcecomments.ConvertImportedSourceCommentsInput;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticles;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesInput;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
@@ -14,10 +16,10 @@ import org.herovole.blogproj.application.user.visit.VisitArticleInput;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.IntegerId;
-import org.herovole.blogproj.domain.adminuser.Role;
 import org.herovole.blogproj.presentation.AppServletRequest;
 import org.herovole.blogproj.presentation.presenter.BasicPresenter;
 import org.herovole.blogproj.presentation.presenter.FindArticlePresenter;
+import org.herovole.blogproj.presentation.presenter.ConvertImportedSourceCommentsPresenter;
 import org.herovole.blogproj.presentation.presenter.SearchArticlesPresenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +49,16 @@ public class AdminV1ArticleController {
     private final VisitArticle visitArticle;
     private final BasicPresenter visitArticlePresenter;
 
+    private final ConvertImportedSourceComments convertImportedSourceComments;
+    private final ConvertImportedSourceCommentsPresenter convertImportedSourceCommentsPresenter;
+
     @Autowired
     AdminV1ArticleController(
             EditArticle editArticle, BasicPresenter editArticlePresenter,
             SearchArticles searchArticles, SearchArticlesPresenter searchArticlesPresenter,
             FindArticle findArticle, FindArticlePresenter findArticlePresenter,
-            VisitArticle visitArticle, BasicPresenter visitArticlePresenter) {
+            VisitArticle visitArticle, BasicPresenter visitArticlePresenter,
+            ConvertImportedSourceComments convertImportedSourceComments, ConvertImportedSourceCommentsPresenter convertImportedSourceCommentsPresenter) {
         this.editArticle = editArticle;
         this.editArticlePresenter = editArticlePresenter;
         this.searchArticles = searchArticles;
@@ -61,6 +67,8 @@ public class AdminV1ArticleController {
         this.findArticlePresenter = findArticlePresenter;
         this.visitArticle = visitArticle;
         this.visitArticlePresenter = visitArticlePresenter;
+        this.convertImportedSourceComments = convertImportedSourceComments;
+        this.convertImportedSourceCommentsPresenter = convertImportedSourceCommentsPresenter;
     }
 
     @PostMapping
@@ -165,5 +173,33 @@ public class AdminV1ArticleController {
         }
 
         return visitArticlePresenter.buildResponseEntity();
+    }
+
+    @PostMapping("/convertsourcecomments")
+    public ResponseEntity<String> convertImportedSourceComments(
+            HttpServletRequest httpServletRequest,
+            @RequestBody Map<String, String> request) {
+        logger.info("Endpoint : convert (Post) ");
+        AppServletRequest servletRequest = AppServletRequest.of(httpServletRequest);
+        if (!servletRequest.getAdminUserFromAttribute().getRole().editsArticles()) {
+            this.convertImportedSourceCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
+            return this.convertImportedSourceCommentsPresenter.buildResponseEntity();
+        }
+
+        try {
+            FormContent formContent = FormContent.of(request);
+            ConvertImportedSourceCommentsInput input = ConvertImportedSourceCommentsInput.fromPostContent(formContent);
+            this.convertImportedSourceComments.process(input);
+        } catch (DomainInstanceGenerationException e) {
+            logger.error("Error Bad Request : ", e);
+            this.convertImportedSourceCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR);
+        } catch (ApplicationProcessException e) {
+            logger.error("Error Application Process Exception : ", e);
+        } catch (Exception e) {
+            logger.error("Error Internal Server Error : ", e);
+            this.convertImportedSourceCommentsPresenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR);
+        }
+
+        return convertImportedSourceCommentsPresenter.buildResponseEntity();
     }
 }
