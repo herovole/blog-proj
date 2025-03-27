@@ -49,6 +49,7 @@ public class ConfigFile {
     private static final String CONFIG_KEY_AWS_ACCESS_KEY = "aws_access_key";
     private static final String CONFIG_KEY_AWS_SECRET_ACCESS_KEY = "aws_secret_access_key";
     private static final String CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET = "aws_public_resources_bucket";
+    private static final String CONFIG_KEY_ENVIRONMENT = "environment";
     private static final String CONFIG_KEY_SITE_DOMAIN = "site_domain";
     private static final String CONFIG_KEY_SITE_NAME_JP = "site_name_jp";
     private static final String CONFIG_KEY_SITE_NAME_EN = "site_name_en";
@@ -128,6 +129,10 @@ public class ConfigFile {
         return this.configs.get(CONFIG_KEY_AWS_PUBLIC_RESOURCES_BUCKET);
     }
 
+    private String getEnvironment() {
+        return this.configs.get(CONFIG_KEY_ENVIRONMENT);
+    }
+
     private String getSiteDomain() {
         return this.configs.get(CONFIG_KEY_SITE_DOMAIN);
     }
@@ -158,6 +163,7 @@ public class ConfigFile {
 
     public SiteInformation getSiteInformation() {
         return SiteInformation.builder()
+                .environment(this.getEnvironment())
                 .siteDomain(this.getSiteDomain())
                 .imageDomain(this.getImageDomain())
                 .siteNameJp(this.getSiteNameJp())

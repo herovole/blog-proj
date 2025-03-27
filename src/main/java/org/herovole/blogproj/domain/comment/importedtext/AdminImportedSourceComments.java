@@ -31,11 +31,15 @@ public class AdminImportedSourceComments {
 
     private final String text;
 
+    public boolean isEmpty() {
+        return text == null;
+    }
+
     public CommentUnits buildSourceComments(CountryTagDatasource countryTagDatasource) {
         final List<CommentUnit> units = new ArrayList<>();
-        String[] texts = text.split(AdminImportedSourceComment.BEGIN_COMMENT_NUMBER);
+        String[] texts = text.split(AdminImportedSourceComment.BEGIN_COMMENT_ID);
         for (int i = 1; i < texts.length; i++) { //Discard texts[0]
-            AdminImportedSourceComment unit = AdminImportedSourceComment.of(texts[i]);
+            AdminImportedSourceComment unit = AdminImportedSourceComment.of(AdminImportedSourceComment.BEGIN_COMMENT_ID + texts[i]);
             CommentUnit sourceCommentUnit = unit.buildSourceCommentUnit(countryTagDatasource);
             units.add(sourceCommentUnit);
         }

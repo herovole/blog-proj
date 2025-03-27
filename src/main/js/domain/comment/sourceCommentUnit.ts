@@ -2,7 +2,7 @@ import {CommentUnit} from "./commentUnit";
 
 export interface SourceCommentUnit extends CommentUnit {
     body: {
-        commentSerialNumber: number;
+        commentSerialNumber: number | null;
         commentId: number;
         commentText: string;
         country: string;

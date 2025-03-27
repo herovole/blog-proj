@@ -51,7 +51,6 @@ public class CountryTagDatasourceMySql implements CountryTagDatasource {
         Stream<CountryCode> jpCodes = jpCandidates.stream().map(e -> e.toDomainObj().getCountryCode());
         List<MCountry> enCandidates = mCountryRepository.findCandidatesByEnglishName(partOfCountryName);
         Stream<CountryCode> enCodes = enCandidates.stream().map(e -> e.toDomainObj().getCountryCode());
-        CountryCodes.of(Stream.concat(jpCodes, enCodes).toArray(CountryCode[]::new));
-        return null;
+        return CountryCodes.of(Stream.concat(jpCodes, enCodes).toArray(CountryCode[]::new));
     }
 }
