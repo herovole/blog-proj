@@ -3,7 +3,7 @@
 }
 
 .comment-left-space {
-    padding-left: 19px
+    padding-left: 15px
 }
 
 .source-comment-individual {
@@ -11,6 +11,7 @@
     padding: 5px;
     margin: 2px;
     min-width: 400px;
+    max-width: 700px;
 }
 
 .source-comment-text {
