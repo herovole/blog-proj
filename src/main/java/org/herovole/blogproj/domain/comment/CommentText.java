@@ -23,7 +23,7 @@ public class CommentText {
     private static final String PRETEXT_HIDDEN_COMMENT = "（非公開）";
 
     private static final int LENGTH_MIN = 1;
-    private static final int LENGTH_MAX = 255;
+    private static final int LENGTH_MAX = 511;
     private static final int LF_COUNT_MAX = 7;
     private static final Pattern REFERRING_FORMAT1 = Pattern.compile("[※米]\\d+");
     private static final Pattern REFERRING_FORMAT2 = Pattern.compile("(>>|＞＞)[\\d０-９]+");
