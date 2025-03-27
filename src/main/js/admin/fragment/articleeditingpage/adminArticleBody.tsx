@@ -69,7 +69,10 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
         return (
             <div>
                 <form onSubmit={handleSubmit}>
-                    <button type="submit">Submit</button>
+                    <p>
+                        <button type="submit">Submit</button>
+                        <div className="comment-form-process">{message}</div>
+                    </p>
                     <input type="hidden" name="requiresAuth" value={1}/>
                     <div>
                         <div className="flex-container">
