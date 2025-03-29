@@ -19,8 +19,7 @@ export const Footer = () => {
                 </li>
             </ul>
             <br/>
-            <p>© 2025 {ResourceManagement.getInstance().getSiteNameJp()}. All rights reserved, except for materials licensed under open-source or
-                third-party licenses. See <Link to="About">this page</Link> for details..</p>
+            <p style={{textAlign: "center"}}>© 2025 {ResourceManagement.getInstance().getSiteNameJp()}. </p>
         </div>
     )
 }

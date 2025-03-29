@@ -52,7 +52,11 @@ export const AdminCommentEditor = forwardRef<AdminCommentEditorHandle, AdminComm
 
         const input : ConvertImportedTextInput = new ConvertImportedTextInput(importedText);
         const output : ConvertImportedTextOutput = await articleService.convertImportedText(input);
-        setComments(output.getSourceComments());
+        if(output.isSuccessful()) {
+            setComments(output.getSourceComments());
+        } else {
+            console.error(output.getMessage("Source Comments Import"));
+        }
     };
 
 
