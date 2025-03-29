@@ -9,6 +9,7 @@ import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagBut
 import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHistoryOutput";
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {DivText} from "../../../admin/fragment/atomic/divText";
+import {YyyyMMDd} from "../../../domain/yyyyMMDd";
 
 
 type PublicArticleBodyProps = {
@@ -61,7 +62,7 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                 searchBaseUrl={directoryToIndividualPage}/>
                 </div>
                 <div className="article-source-url">引用元: {article.sourceUrl}</div>
-                <div className="article-timestamp">引用元日付: {article.sourceDate}</div>
+                <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
 
 
