@@ -17,6 +17,8 @@
 .source-comment-text {
     background-color: #D0CCAA;
     padding: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .user-comment-individual {
@@ -28,6 +30,8 @@
 .user-comment-text {
     background-color: #DDCCAA;
     padding: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .comment-handle {
