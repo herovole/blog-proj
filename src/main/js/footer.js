@@ -19,7 +19,7 @@ export const Footer = () => {
                 </li>
             </ul>
             <br/>
-            <p>© 2025 {ResourceManagement.getInstance().getSiteNameJp()}. </p>
+            <p style={{textAlign: "center"}}>© 2025 {ResourceManagement.getInstance().getSiteNameJp()}. </p>
         </div>
     )
 }
