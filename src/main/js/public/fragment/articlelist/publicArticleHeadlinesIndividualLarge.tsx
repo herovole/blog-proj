@@ -50,7 +50,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                     <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                                 searchBaseUrl={directoryToIndividualPage}/>
                 </div>
-                <div className="article-source-url">引用元: {article.sourceUrl}, {article.sourceDate}</div>
+                <div className="article-source-url">引用元: {article.sourceUrl}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
             </div>);
     }
