@@ -85,6 +85,10 @@ public class Date {
         return this.isEmpty() ? EMPTY : this.toLocalDate().format(formatterYyyyMMDd);
     }
 
+    public String toFrontendDisplay() {
+        return this.isEmpty() ? EMPTY : this.toLocalDate().format(formatterYyyySlashMMSlashDd);
+    }
+
     public LocalDate toLocalDate() {
         return this.yyyyMMdd;
     }
