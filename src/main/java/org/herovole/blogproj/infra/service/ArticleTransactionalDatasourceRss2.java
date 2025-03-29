@@ -119,7 +119,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             title.appendChild(document.createTextNode(article1.getTitle().memorySignature()));
 
             Element link = document.createElement("link");
-            link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature()));
+            link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
 
             Element description = document.createElement("description");
             description.appendChild(document.createTextNode(article1.getText().memorySignature()));
@@ -127,7 +127,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element category = document.createElement("category");
 
             Element guid = document.createElement("guid");
-            guid.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature()));
+            guid.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
 
             Element pubDate = document.createElement("pubDate");
             pubDate.appendChild(document.createTextNode(article1.getRegistrationTimestamp().rss20PubDate()));

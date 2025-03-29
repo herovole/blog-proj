@@ -90,7 +90,7 @@ public class RealArticleSimplified implements Article {
                 .imageName(image.memorySignature())
                 .sourceUrl(sourcePage.getUrl().memorySignature())
                 .sourceTitle(sourcePage.getTitle().memorySignature())
-                .sourceDate(sourcePage.getDate().letterSignature())
+                .sourceDate(sourcePage.getDate().toFrontendDisplay())
                 .isPublished(isPublished.memorySignature())
                 .countries(countries.toMemorySignature())
                 .topicTags(topicTags.toStringMemorySignature())
