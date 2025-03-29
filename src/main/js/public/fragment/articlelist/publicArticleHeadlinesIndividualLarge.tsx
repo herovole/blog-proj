@@ -51,6 +51,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                                 searchBaseUrl={directoryToIndividualPage}/>
                 </div>
                 <div className="article-source-url">引用元: {article.sourceUrl}</div>
+                <div className="article-timestamp">引用元日付: {article.sourceDate}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
             </div>);
     }
