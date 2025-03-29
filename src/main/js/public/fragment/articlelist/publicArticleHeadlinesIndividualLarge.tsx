@@ -4,6 +4,7 @@ import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
 import {useNavigate} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {ResourceManagement} from "../../../service/resourceManagement";
+import {YyyyMMDd} from "../../../domain/yyyyMMDd";
 
 type PublicArticleHeadlinesIndividualLargeProps = {
     article: ArticleSummary;
@@ -51,7 +52,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                                 searchBaseUrl={directoryToIndividualPage}/>
                 </div>
                 <div className="article-source-url">引用元: {article.sourceUrl}</div>
-                <div className="article-timestamp">引用元日付: {article.sourceDate}</div>
+                <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
             </div>);
     }
