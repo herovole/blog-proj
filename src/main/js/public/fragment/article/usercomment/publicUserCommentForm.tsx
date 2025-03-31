@@ -173,13 +173,22 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                             <DivText>{text}</DivText>
                         </div>
                         <br/>
+                        <div>■注意事項<br/>
+                            - 本投稿内容は当記事上で公開状態に設定されます。
+                            - 投稿後のコメントの編集・削除には対応できない場合があります。</div>
+
                         <div>■利用規約<br/>
-                            - 本投稿内容は当ブログ上へ公開されます。<br/>
-                            - コメント内容によって発生する影響は投稿者側にて責任を負ってください。<br/>
+                            以下の内容を含む投稿は禁止します。<br/>
+                            - 公序良俗に反する内容<br/>
+                            - プライバシーを侵害する内容<br/>
+                            - 特定可能な個人への誹謗中傷や差別的表現<br/>
+                            - 広告・スパム・営利目的の投稿<br/>
+                            違反するコメントは予告なく削除することがあります。<br/>
+                            また、コメント内容によって発生する影響は投稿者側にて責任を負ってください。<br/>
                         </div>
                         <br/>
                         <button className="comment-modal-submit" type="button"
-                                onClick={handlePost}>利用規約に同意して投稿
+                                onClick={handlePost}>利用規約・注意事項に同意して投稿
                         </button>
                         <span className="comment-form-process">{messageOrdinary}</span>
                         <span className="comment-form-err">{messageWarning}</span>
