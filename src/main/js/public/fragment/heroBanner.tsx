@@ -12,7 +12,8 @@ export const HeroBanner: React.FC = () => {
     if (resourcePrefix) {
         return (
             <div className="hero-banner-base">
-                <img src={resourcePrefix + "hero_banner.jpg"}
+                <img className="hero-banner-image"
+                     src={resourcePrefix + "hero_banner.jpg"}
                      alt={"banner"}/>
                 <div className="hero-banner-title-base">
                     <div className="hero-banner-title-jp">
