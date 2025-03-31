@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
 .hero-banner-base {
-    width: 100%;
-    height: 120px;
+    width: 1034px;
+    height: 130px;
     position: relative;
     display: inline-block;
     border: 5px outset #777777;
     padding: 0;
+}
+
+.hero-banner-image {
+    top: 5px;
+    left: 5px;
 }
 
 .hero-banner-title-base {
