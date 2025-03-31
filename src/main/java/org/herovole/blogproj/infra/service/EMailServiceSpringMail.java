@@ -1,6 +1,7 @@
 package org.herovole.blogproj.infra.service;
 
 import org.herovole.blogproj.domain.EMailAddress;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.EMailService;
 import org.herovole.blogproj.domain.adminuser.VerificationCode;
@@ -19,7 +20,7 @@ public class EMailServiceSpringMail implements EMailService {
     }
 
     @Override
-    public void sendVerificationCode(EMailAddress emailAddress, VerificationCode verificationCode) {
+    public void sendVerificationCode(IPv4Address ip, EMailAddress emailAddress, VerificationCode verificationCode) {
 
         String subject = "[認証コード送付] " + siteInformation.getSiteNameJp() + "/" + siteInformation.getSiteNameEn();
         String text = siteInformation.getSiteDomain() + " 管理者向け認証コードです。\n" +

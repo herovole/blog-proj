@@ -1,12 +1,12 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {HeroBanner} from "./heroBanner";
 
 export const PublicHeader: React.FC = () => {
 
     return (
         <div className="header-frame">
-            <HeroBanner/>
+            <Link to={"/"}><HeroBanner/></Link>
             <div className="header-alignment">
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/" end>トップページ</NavLink>

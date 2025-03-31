@@ -6,14 +6,15 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
-import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.Builder;
 import org.herovole.blogproj.domain.EMailAddress;
+import org.herovole.blogproj.domain.IPv4Address;
 import org.herovole.blogproj.domain.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.EMailService;
 import org.herovole.blogproj.domain.adminuser.VerificationCode;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -30,7 +31,7 @@ public class EMailServiceAmazonSES implements EMailService {
 
 
     @Override
-    public void sendVerificationCode(EMailAddress emailAddress, VerificationCode verificationCode) throws IOException {
+    public void sendVerificationCode(IPv4Address ip, EMailAddress emailAddress, VerificationCode verificationCode) throws IOException {
 
         try {
 
@@ -49,7 +50,9 @@ public class EMailServiceAmazonSES implements EMailService {
 
             String subject = "[認証コード送付] " + siteInformation.getSiteNameJp() + "/" + siteInformation.getSiteNameEn();
             String text = siteInformation.getSiteDomain() + " 管理者向け認証コードです。\n" +
-                    verificationCode.letterSignature();
+                    verificationCode.letterSignature() + "\n" +
+                    "IP : " + ip.toRegularFormat() + "\n" +
+                    "発送時刻 : " + Timestamp.now().letterSignatureFrontendDisplay() + "\n";
 
             // Create Email
             Message message = new MimeMessage(session);

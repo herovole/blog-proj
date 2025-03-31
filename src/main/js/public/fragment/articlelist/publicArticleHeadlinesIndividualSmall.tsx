@@ -1,7 +1,7 @@
 import {TagButtons} from "../../../admin/fragment/atomic/tagselectingform/tagButtons";
 import React from "react";
 import {ArticleSummary} from "../../../domain/articlelist/articleSummary";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {ResourceManagement} from "../../../service/resourceManagement";
 
@@ -16,7 +16,6 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
                                                                                                             }
 ) => {
     const LETTERS_PICKUP = 30;
-    const navigate = useNavigate();
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
@@ -25,18 +24,14 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
     }, []);
 
-    const goToIndividualPage = (articleId: number) => {
-        navigate(directoryToIndividualPage + "/" + articleId);
-    }
-
-    if(topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
+    if (topicTagsOptions.isEmpty() || countryTagsOptions.isEmpty()) {
         return <div>loading...</div>;
     } else {
         return (
             <div key="" className="headline-item">
-                <button className="headline-clickable" onClick={() => goToIndividualPage(article.articleId)}>
+                <Link className="headline-clickable" to={directoryToIndividualPage + "/" + article.articleId}>
                     {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
-                </button>
+                </Link>
                 <br/>
                 <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
