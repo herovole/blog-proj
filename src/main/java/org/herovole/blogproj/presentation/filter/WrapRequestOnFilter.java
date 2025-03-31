@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Enumeration;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,7 +33,29 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         itsLogger.info("doFilterInternal");
+        //-----------------------------------------------------
+        // Get all header names
+        Enumeration<String> headerNames = request.getHeaderNames();
+
+        // Iterate over header names and print each header's name and value
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            itsLogger.info(headerName + ": " + headerValue);
+        }
+        //-----------------------------------------------------
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
+        //-----------------------------------------------------
+        // Get all header names
+        Enumeration<String> headerNames2 = wrappedRequest.getHeaderNames();
+
+        // Iterate over header names and print each header's name and value
+        while (headerNames2.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            itsLogger.info(headerName + ": " + headerValue);
+        }
+        //-----------------------------------------------------
 
         // Obtain internal cache
         wrappedRequest.getParameterMap();
