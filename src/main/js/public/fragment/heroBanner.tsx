@@ -12,14 +12,15 @@ export const HeroBanner: React.FC = () => {
     if (resourcePrefix) {
         return (
             <div className="hero-banner-base">
-                <img src={resourcePrefix + "hero_banner.jpg"}
+                <img className="hero-banner-image"
+                     src={resourcePrefix + "hero_banner.jpg"}
                      alt={"banner"}/>
                 <div className="hero-banner-title-base">
                     <div className="hero-banner-title-jp">
-                        変則電信アーカイブ
+                        輸入休暇
                     </div>
                     <div className="hero-banner-title-en">
-                        Anomalous Telegraph Archives
+                        Imported Leave
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ export const AdminHeader: React.FC = () => {
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
                          to="/articles" end>【公開】検索</NavLink>
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}
-                         to="/articles/1" end>【公開】記事0</NavLink>
+                         to="/about" end>【公開】サイト情報</NavLink>
             </div>
             <div className="header-alignment">
                 <NavLink className={({isActive}) => (isActive ? "header-unit-active" : "header-unit")}

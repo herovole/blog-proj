@@ -41,7 +41,7 @@ public class SystemThreateningPhraseFilter extends OncePerRequestFilter {
         IPv4Address ip = servletRequest.getUserIpFromHeader();
 
         TextBlackUnit detection = servletRequest.detectThreateningPhrase(textBlackList);
-        if (detection.isEmpty()) {
+        if (detection.isEmpty() && !ip.isEmpty() && !ip.isLocalIp()) {
             itsLogger.info("safe request");
             filterChain.doFilter(request, response);
             return;

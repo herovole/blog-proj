@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.util.regex.Pattern;
 
 @ToString
 @EqualsAndHashCode
@@ -40,11 +41,17 @@ public class IPv4Address {
     }
 
     private static final long MAX_ADDRESS = 256L * 256 * 256 * 256 - 1;
+    private static final Pattern LOCAL_IP = Pattern.compile("192\\.168\\..*");
     private static final String API_KEY_IP = "ip";
     private final Long aton;
 
     public boolean isEmpty() {
         return aton == null || aton == 0;
+    }
+
+    public boolean isLocalIp() {
+        if (isEmpty()) return false;
+        return LOCAL_IP.matcher(this.toRegularFormat()).matches();
     }
 
     public String toRegularFormat() {

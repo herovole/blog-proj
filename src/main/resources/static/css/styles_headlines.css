@@ -13,9 +13,20 @@
     margin-left:10px;
 }
 
-.headline-clickable {
+.headline-clickable-large {
     border: none;
     background-color: #CCCC88;
+    font-size: 1.2em;
+    color: inherit;
+    text-decoration: none;
+}
+
+.headline-clickable-small {
+    border: none;
+    background-color: #CCCC88;
+    font-size: 1.0em;
+    color: inherit;
+    text-decoration: none;
 }
 
 .small-memo {
