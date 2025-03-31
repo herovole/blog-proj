@@ -33,17 +33,6 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         itsLogger.info("doFilterInternal");
-        //-----------------------------------------------------
-        // Get all header names
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-        // Iterate over header names and print each header's name and value
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            String headerValue = request.getHeader(headerName);
-            itsLogger.info("attempt 1 " + headerName + ": " + headerValue);
-        }
-        //-----------------------------------------------------
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
         //-----------------------------------------------------
         // Get all header names
@@ -51,7 +40,7 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
 
         // Iterate over header names and print each header's name and value
         while (headerNames2.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
+            String headerName = headerNames2.nextElement();
             String headerValue = request.getHeader(headerName);
             itsLogger.info("attempt 2 " + headerName + ": " + headerValue);
         }
