@@ -174,7 +174,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                         </div>
                         <br/>
                         <div>■注意事項<br/>
-                            - 本投稿内容は当記事上で公開状態に設定されます。
+                            - 本投稿内容は当記事上で公開状態に設定されます。<br/>
                             - 投稿後のコメントの編集・削除には対応できない場合があります。</div>
 
                         <div>■利用規約<br/>
@@ -188,7 +188,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                         </div>
                         <br/>
                         <button className="comment-modal-submit" type="button"
-                                onClick={handlePost}>利用規約・注意事項に同意して投稿
+                                onClick={handlePost}>利用規約・注意事項に<br/>同意して投稿
                         </button>
                         <span className="comment-form-process">{messageOrdinary}</span>
                         <span className="comment-form-err">{messageWarning}</span>
