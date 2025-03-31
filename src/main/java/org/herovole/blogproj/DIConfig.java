@@ -53,7 +53,7 @@ public class DIConfig {
         return new ForwardedHeaderFilter();
     }
      */
-    
+
     @Bean
     public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
         FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>(new ForwardedHeaderFilter());

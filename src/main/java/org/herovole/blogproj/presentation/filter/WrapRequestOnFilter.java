@@ -41,7 +41,7 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
-            itsLogger.info(headerName + ": " + headerValue);
+            itsLogger.info("attempt 1 " + headerName + ": " + headerValue);
         }
         //-----------------------------------------------------
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
@@ -53,7 +53,7 @@ public class WrapRequestOnFilter extends OncePerRequestFilter {
         while (headerNames2.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
-            itsLogger.info(headerName + ": " + headerValue);
+            itsLogger.info("attempt 2 " + headerName + ": " + headerValue);
         }
         //-----------------------------------------------------
 
