@@ -29,7 +29,7 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
     } else {
         return (
             <div key="" className="headline-item">
-                <Link className="headline-clickable" to={directoryToIndividualPage + "/" + article.articleId}>
+                <Link className="headline-clickable-small" to={directoryToIndividualPage + "/" + article.articleId}>
                     {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
                 </Link>
                 <br/>

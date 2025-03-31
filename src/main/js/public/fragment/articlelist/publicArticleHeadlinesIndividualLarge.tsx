@@ -33,7 +33,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
     } else {
         return (
             <div key="" className="headline-item">
-                <Link className="headline-clickable" to={directoryToIndividualPage + "/" + article.articleId}>
+                <Link className="headline-clickable-large" to={directoryToIndividualPage + "/" + article.articleId}>
                     {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
                     <br/>
                     <img className="article-image" src={resourcePrefix + article.imageName} alt={article.imageName}/>
