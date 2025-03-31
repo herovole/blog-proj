@@ -70,15 +70,16 @@ public class AppServletRequest {
     }
 
     public IPv4Address getUserIpFromHeader() {
-        // Try to get the X-Forwarded-For header (the first IP is the client IP)
-        String ipAddress = request.getHeader("X-Forwarded-For");
 
+        // It doesn't work.
+        String ipAddress = request.getHeader("X-Forwarded-For");
         if (ipAddress != null && !ipAddress.isEmpty()) {
             // If there are multiple IPs, the first one is the client IP
             String[] ipArray = ipAddress.split(",");
             ipAddress = ipArray[0].trim();
         }
 
+        // It's always a private IP of the Reverse Proxy.
         /*
         // If no X-Forwarded-For header, try the X-Real-IP header (which should be set by the reverse proxy)
         if (ipAddress == null || ipAddress.isEmpty()) {
@@ -86,7 +87,7 @@ public class AppServletRequest {
         }
         */
 
-        // If still no IP, fall back to the remote address of the request (proxy IP)
+        // The framework usually sets the true IP here.
         if (ipAddress == null || ipAddress.isEmpty()) {
             ipAddress = request.getRemoteAddr();
         }
