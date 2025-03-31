@@ -177,8 +177,8 @@ export const PublicUserCommentViewUnit: React.FC<PublicUserCommentViewUnitProps>
                 refReport.current.value = "";
                 setMessageOrdinary("");
             }
-            setIsInProcess(false);
             closeModal();
+            setIsInProcess(false);
         } else {
             setMessageOrdinary("");
             setMessageWarning(output.getMessage("送信"));

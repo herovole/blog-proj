@@ -52,7 +52,7 @@ public class LoginAdminPhase1 {
     public void process(LoginAdminPhase1Input request) throws ApplicationProcessException {
         logger.info("interpreted post : {}", request);
         AdminUser adminUser = this.adminUserDatasource.find(request.getUserName());
-        if(adminUser.isEmpty()) {
+        if (adminUser.isEmpty()) {
             this.presenter
                     .setUseCaseErrorType(UseCaseErrorType.AUTH_FAILURE)
                     .interruptProcess();
@@ -88,8 +88,8 @@ public class LoginAdminPhase1 {
                     .interruptProcess();
         }
         try {
-            this.emailService.sendVerificationCode(adminUser.getEMailAddress(), verificationCode);
-        } catch(IOException e) {
+            this.emailService.sendVerificationCode(request.getIp(), adminUser.getEMailAddress(), verificationCode);
+        } catch (IOException e) {
             logger.error("failed to dispatch an EMail.", e);
         }
     }

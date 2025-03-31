@@ -50,6 +50,7 @@
 .user-comment-rate-off {
     border: 2px outset #CCCCCC;
     width: 50px;
+    white-space: nowrap;
 }
 
 .user-comment-rate-on {
@@ -57,6 +58,7 @@
     background-color: #666666;
     color: #FFFFFF;
     width: 50px;
+    white-space: nowrap;
 }
 
 .comment-lf {
