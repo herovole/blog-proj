@@ -22,9 +22,11 @@ import org.herovole.blogproj.infra.service.ImageDatasourceLocalFs;
 import org.herovole.blogproj.infra.service.TextBlackListLocalFile;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -45,9 +47,18 @@ public class DIConfig {
         this.configFile = configFile;
     }
 
+    /*
     @Bean
     public ForwardedHeaderFilter forwardedHeaderFilter() {
         return new ForwardedHeaderFilter();
+    }
+     */
+    
+    @Bean
+    public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>(new ForwardedHeaderFilter());
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 
     @Bean
