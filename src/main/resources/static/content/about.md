@@ -14,8 +14,8 @@
  
 
 - サイト名  
-  変則電信アーカイブ  
-  Anomalous Telegraph Archives
+  輸入休暇  
+  Imported Leave  
 
 
 - 連絡先  
