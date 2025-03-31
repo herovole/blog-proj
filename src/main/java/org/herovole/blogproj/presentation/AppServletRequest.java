@@ -79,10 +79,12 @@ public class AppServletRequest {
             ipAddress = ipArray[0].trim();
         }
 
+        /*
         // If no X-Forwarded-For header, try the X-Real-IP header (which should be set by the reverse proxy)
         if (ipAddress == null || ipAddress.isEmpty()) {
             ipAddress = request.getHeader("X-Real-IP");
         }
+        */
 
         // If still no IP, fall back to the remote address of the request (proxy IP)
         if (ipAddress == null || ipAddress.isEmpty()) {
