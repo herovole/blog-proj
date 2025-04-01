@@ -9,6 +9,7 @@ export const PublicPageAbout = () => {
     const [xmlPrefix, setXmlPrefix] = useState<string | null>(null);
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
         fetch("/content/about.md")
             .then((res) => res.text())
             .then((text) => setContent(marked(text) as string))  // Convert Markdown to HTML
