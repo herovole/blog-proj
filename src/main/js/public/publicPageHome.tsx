@@ -26,6 +26,7 @@ export const PublicPageHome: React.FC = () => {
     };
 
     useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
         load().then();
     }, []);
 

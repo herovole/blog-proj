@@ -27,6 +27,7 @@ export const PublicPageArticleView: React.FC = () => {
     }
     const load = async (): Promise<void> => {
         try {
+            if (!articleId) return;
             const visitArticleInput: VisitArticleInput = new VisitArticleInput(articleId);
             const visitArticleOutput: BasicApiResult = await articleService.visitArticle(visitArticleInput);
             if (!visitArticleOutput.isSuccessful()) {
@@ -57,6 +58,7 @@ export const PublicPageArticleView: React.FC = () => {
         }
     };
     useEffect(() => {
+        window.scrollTo({top: 0, behavior: "auto"});
         load().then();
     }, [refresh]);
 
