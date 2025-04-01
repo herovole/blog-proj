@@ -39,11 +39,11 @@ export class ResourceManagement {
     }
 
     public getSiteNameJp(): string {
-        return "輸入休暇"
+        return "輸入雑暇"
     }
 
     public getSiteNameEn(): string {
-        return "Imported Leave"
+        return "Imported Leisure"
     }
 
     private async prefixWithSlash(): Promise<string> {
