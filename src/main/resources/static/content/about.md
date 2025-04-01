@@ -14,8 +14,8 @@
  
 
 - サイト名  
-  輸入休暇  
-  Imported Leave  
+  輸入雑暇  
+  Imported Leisure  
 
 
 - 連絡先  

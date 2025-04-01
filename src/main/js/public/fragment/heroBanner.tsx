@@ -17,10 +17,10 @@ export const HeroBanner: React.FC = () => {
                      alt={"banner"}/>
                 <div className="hero-banner-title-base">
                     <div className="hero-banner-title-jp">
-                        輸入休暇
+                        輸入雑暇
                     </div>
                     <div className="hero-banner-title-en">
-                        Imported Leave
+                        Imported Leisure
                     </div>
                 </div>
             </div>
