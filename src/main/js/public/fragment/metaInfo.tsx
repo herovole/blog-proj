@@ -29,7 +29,10 @@ export const MetaInfo: React.FC<MetaInfoType> = ({
     }, []);
 
     if (resourcePrefix) {
-        const metaImageTag = image ? <meta property="og:image" content={resourcePrefix + image}/> : <></>
+        const metaImageTag = image ? <>
+            <meta property="og:image" content={resourcePrefix + image}/>
+            <meta property="twitter:image" content={resourcePrefix + image}/>
+        </> : <></>
         return <HelmetProvider>
             <Helmet>
                 <title>{tabTitle + " | " + ResourceManagement.getInstance().getSiteNameJp()}</title>
@@ -40,7 +43,10 @@ export const MetaInfo: React.FC<MetaInfoType> = ({
                 <meta property="og:description" content={description}/>
                 {metaImageTag}
                 <meta property="og:url" content={window.location.origin + window.location.pathname}/>
-                <meta name="twitter:card" content="summary"/>
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content={tabTitle}/>
+                <meta name="twitter:description" content={description}/>
+                <meta name="twitter:url" content={window.location.origin + window.location.pathname}/>
             </Helmet>
         </HelmetProvider>
     } else {
