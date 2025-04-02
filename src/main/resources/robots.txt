@@ -1,6 +1,6 @@
 User-agent: *
 Disallow: /admin/
-Disallow: /articles/
+Disallow: /articles/$
 Disallow: /about/
 Allow: /
 Sitemap: https://at-archives.com/sitemap.xml
