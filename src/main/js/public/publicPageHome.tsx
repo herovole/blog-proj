@@ -32,9 +32,9 @@ export const PublicPageHome: React.FC = () => {
 
     return <>
         <MetaInfo
-            tabTitle={"Home"}
+            tabTitle={"Home | 輸入雑暇"}
             description={"まとめサイト"}
-            keywords={"まとめ, まとめサイト, 世界"}
+            keywords={"まとめ, まとめサイト, 世界, 翻訳"}
             image={"ogimage.jpg"}
             hasSystemImage={true}
         />

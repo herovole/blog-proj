@@ -42,7 +42,7 @@ export const MetaInfo: React.FC<MetaInfoType> = ({
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:title" content={tabTitle}/>
                 <meta name="twitter:description" content={description}/>
-                <meta property="twitter:image" content={resourcePrefix + image}/>
+                <meta name="twitter:image" content={resourcePrefix + image}/>
                 <meta name="twitter:url" content={window.location.origin + window.location.pathname}/>
             </Helmet>
         </HelmetProvider>
