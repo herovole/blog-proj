@@ -31,10 +31,11 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     const [isOpen, setIsOpen] = React.useState(false);
 
     const [page, setPage] = React.useState(1);
-    const [imagesInPage, setImagesInPage] = React.useState(25);
+    const [imagesInPage, setImagesInPage] = React.useState(6);
 
     const [images, setImages] = React.useState<ReadonlyArray<{ fileName: string, registrationTimestamp: string }>>([]);
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
+    const [operationalMessage, setOperationalMessage] = React.useState("");
 
     useEffect(() => {
         handlePageChanged(1).then();
@@ -46,24 +47,25 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     const openModal = async () => {
         setIsOpen(true);
-        await handlePageChanged(page);
     }
     const closeModal = async () => {
         setIsOpen(false);
-        await handlePageChanged(page);
     }
 
     const nextPage = async () => {
-        setPage(page => page + 1);
-        await handlePageChanged(page);
+        await handlePageChanged(page + 1);
     }
 
     const previousPage = async () => {
-        setPage(page => page - 1);
-        await handlePageChanged(page);
+        await handlePageChanged(page - 1);
     }
 
     const handlePageChanged = async (requestedPage: number) => {
+        setOperationalMessage("requesting page " + requestedPage);
+        if(requestedPage < 1) {
+            setOperationalMessage("");
+            return;
+        }
         const input: SearchImagesInput = new SearchImagesInput(
             requestedPage,
             imagesInPage
@@ -72,8 +74,10 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
         if (output.isSuccessful()) {
             setPage(requestedPage);
             setImages(output.getFiles());
+            setOperationalMessage("");
         } else {
             console.error(output.getMessage("Image Search"))
+            setOperationalMessage(output.getMessage("Image Search"));
         }
     }
 
@@ -104,6 +108,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
                 <button type="button" onClick={previousPage}>Previous</button>
                 <button type="button" onClick={nextPage}>Next</button>
                 <button onClick={closeModal}>close</button>
+                <div className="comment-form-process">{operationalMessage}</div>
                 <div className="grid-container">
                     {images.map((image, i) => (
                         <div key={"key" + i.toString()}>
