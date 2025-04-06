@@ -31,7 +31,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     const [isOpen, setIsOpen] = React.useState(false);
 
     const [page, setPage] = React.useState(1);
-    const [imagesInPage, setImagesInPage] = React.useState(25);
+    const [imagesInPage, setImagesInPage] = React.useState(6);
 
     const [images, setImages] = React.useState<ReadonlyArray<{ fileName: string, registrationTimestamp: string }>>([]);
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
