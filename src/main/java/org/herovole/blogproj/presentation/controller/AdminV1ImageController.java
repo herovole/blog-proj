@@ -117,9 +117,9 @@ public class AdminV1ImageController {
             this.postImagePresenter.setUseCaseErrorType(UseCaseErrorType.AUTH_INSUFFICIENT);
             return this.postImagePresenter.buildResponseEntity();
         }
-        Image image = ImageAsMultipartFile.of(file);
 
         try {
+            Image image = ImageAsMultipartFile.of(file);
             PostImageInput input = PostImageInput.of(image);
             postImage.process(input);
         } catch (DomainInstanceGenerationException e) {
