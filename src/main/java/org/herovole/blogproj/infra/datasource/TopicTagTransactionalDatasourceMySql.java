@@ -11,38 +11,42 @@ import org.herovole.blogproj.infra.jpa.entity.EmptyRecordException;
 import org.herovole.blogproj.infra.jpa.entity.IncompatibleUpdateException;
 import org.herovole.blogproj.infra.jpa.repository.ATopicTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class TopicTagTransactionalDatasourceMySql extends TopicTagDatasourceMySql implements TopicTagTransactionalDatasource {
 
-    private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
+    private static AtomicInteger maxTopicTagId;
+    private final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.insert(transaction);
         }
     };
-    private static final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.update(transaction);
         }
     };
-    private static final TransactionCache<String> cacheDelete = new TransactionCache<>() {
+    private final TransactionCache<String> cacheDelete = new TransactionCache<>() {
         @Override
         protected void doTransaction(String transaction, AppSession session) {
             session.executeSql(transaction);
         }
     };
-    private final AtomicInteger maxTopicTagId;
 
     @Autowired
     public TopicTagTransactionalDatasourceMySql(ATopicTagRepository aTopicTagRepository) {
         super(aTopicTagRepository);
         Integer maxId = aTopicTagRepository.findMaxId();
-        this.maxTopicTagId = maxId == null ? new AtomicInteger(0) : new AtomicInteger(maxId);
+        maxTopicTagId = maxId == null ? new AtomicInteger(0) : new AtomicInteger(maxId);
     }
 
     @Override
