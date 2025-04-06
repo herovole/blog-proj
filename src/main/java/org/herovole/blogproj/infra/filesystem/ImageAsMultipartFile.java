@@ -17,6 +17,7 @@ public class ImageAsMultipartFile implements Image {
 
     public static Image of(MultipartFile file) {
         if (file == null || file.isEmpty()) return new ImageAsMultipartFile(null);
+        ImageName.valueOf(file.getOriginalFilename()); // Check the validity of the image name.
         return new ImageAsMultipartFile(file);
     }
 
