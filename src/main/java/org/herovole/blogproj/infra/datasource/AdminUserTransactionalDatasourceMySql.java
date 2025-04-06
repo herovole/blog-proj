@@ -6,19 +6,23 @@ import org.herovole.blogproj.domain.adminuser.AdminUserTransactionalDatasource;
 import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.MAdminUser;
 import org.herovole.blogproj.infra.jpa.repository.MAdminUserRepository;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 @Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class AdminUserTransactionalDatasourceMySql extends AdminUserDatasourceMySql implements AdminUserTransactionalDatasource {
-    private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.insert(transaction);
         }
     };
-    private static final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.update(transaction);
