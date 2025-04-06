@@ -51,7 +51,7 @@ public class AArticleHasCountry implements Serializable {
     }
 
     public static String fromDeleteDomainObj(IntegerId articleId, CountryCode countryCode) {
-        return MessageFormat.format("Delete From a_article_has_country where article_id = {0} And iso2 = {1}",
+        return MessageFormat.format("Delete From a_article_has_country where article_id = {0} And iso_2 = {1}",
                 articleId.letterSignature(), countryCode.letterSignature());
     }
 
