@@ -13,7 +13,10 @@
 - i004  
   There was a case that an image removing operation failed, saying that the target image wasn't found.
 - i005  
-  Syntax Error on SQL to delete a country tag.
+  Syntax Error on SQL to delete a country tag.  
+  branch : feature/i005_20250406  
+  version : 1.0.1-beta
+  
 
 
 ## Updates
