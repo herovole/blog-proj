@@ -19,6 +19,9 @@ public class SiteInformation {
     public boolean isLocal() {
         return this.environment.equals("local");
     }
+    public boolean isStaging() {
+        return this.environment.equals("staging");
+    }
     public SourceUrl getSiteTopUrl() {
         if (siteDomain == null || siteDomain.isEmpty() || siteDomain.isBlank()) {
             throw new IllegalStateException();
