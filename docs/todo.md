@@ -8,7 +8,9 @@
   branch : feature/i001_20250406  
   version : 1.0.1-beta  
 - i002  
-  Transactions that haven't been executed remain in the cache and affect the next operation.
+  Transactions that haven't been executed remain in the cache and affect the next operation.  
+  branch : i002_20250406  
+  version : 1.0.1-beta  
 - i003  
   No defense on domain level when an image name is too long.  
   results in the SQL error.
