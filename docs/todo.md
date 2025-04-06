@@ -9,7 +9,9 @@
   Transactions that haven't been executed remain in the cache and affect the next operation.
 - i003  
   No defense on domain level when an image name is too long.  
-  results in the SQL error.
+  results in the SQL error.  
+  branch : feature/i003_20250406
+  version : 1.0.1-beta
 - i004  
   There was a case that an image removing operation failed, saying that the target image wasn't found.
 - i005  

@@ -70,7 +70,7 @@ public class LoginAdminPhase2 {
         }
 
         //Skip verifying verification code if the environment is local
-        if (!siteInformation.isLocal()) {
+        if (!siteInformation.isLocal() && !siteInformation.isStaging()) {
             // Check Verification Code
             if (!adminUser.hasCoherentVerificationCode(request.getVerificationCode()) ||
                     adminUser.getVerificationCodeExpiry().isEmpty() ||
