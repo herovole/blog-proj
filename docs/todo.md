@@ -5,8 +5,8 @@
 - i001  
   The image selecting modal is to huge.   
   An editor can't control the whole feature without shrinking the browser.  
-  branch : feature/i001_20250406
-  version : 1.0.1-beta
+  branch : feature/i001_20250406  
+  version : 1.0.1-beta  
 - i002  
   Transactions that haven't been executed remain in the cache and affect the next operation.
 - i003  
