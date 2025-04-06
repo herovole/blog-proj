@@ -53,7 +53,7 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
         MultipartFile imageFile = ((ImageAsMultipartFile) image).toMultipartFile();
         AccessKey destKey = DIRECTORY_ARTICLE.appendWithSlash(key);
 
-        if (!this.findByName(destKey).isEmpty()) throw new IOException("Declared file has already existed.");
+        if (!this.findByName(key).isEmpty()) throw new IOException("Declared file has already existed.");
 
         // Upload to S3
         s3Client.putObject(
@@ -69,7 +69,7 @@ public class ImageDatasourceAWSS3 implements ImageDatasource {
     @Override
     public void remove(AccessKey key) throws IOException {
         AccessKey destKey = DIRECTORY_ARTICLE.appendWithSlash(key);
-        if (this.findByName(destKey).isEmpty()) throw new IOException("Declared file doesn't exist: " + destKey);
+        if (this.findByName(key).isEmpty()) throw new IOException("Declared file doesn't exist: " + destKey);
 
         DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
                 .bucket(bucketName)
