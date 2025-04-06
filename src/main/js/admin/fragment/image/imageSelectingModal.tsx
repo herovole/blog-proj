@@ -35,6 +35,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     const [images, setImages] = React.useState<ReadonlyArray<{ fileName: string, registrationTimestamp: string }>>([]);
     const [selectedImage, setSelectedImage] = React.useState<string>(imageName);
+    const [operationalMessage, setOperationalMessage] = React.useState("");
 
     useEffect(() => {
         handlePageChanged(1).then();
@@ -60,6 +61,11 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
     }
 
     const handlePageChanged = async (requestedPage: number) => {
+        setOperationalMessage("requesting page " + requestedPage);
+        if(requestedPage < 1) {
+            setOperationalMessage("");
+            return;
+        }
         const input: SearchImagesInput = new SearchImagesInput(
             requestedPage,
             imagesInPage
@@ -68,8 +74,10 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
         if (output.isSuccessful()) {
             setPage(requestedPage);
             setImages(output.getFiles());
+            setOperationalMessage("");
         } else {
             console.error(output.getMessage("Image Search"))
+            setOperationalMessage(output.getMessage("Image Search"));
         }
     }
 
@@ -100,6 +108,7 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
                 <button type="button" onClick={previousPage}>Previous</button>
                 <button type="button" onClick={nextPage}>Next</button>
                 <button onClick={closeModal}>close</button>
+                <div className="comment-form-process">{operationalMessage}</div>
                 <div className="grid-container">
                     {images.map((image, i) => (
                         <div key={"key" + i.toString()}>
