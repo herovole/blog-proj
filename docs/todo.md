@@ -3,7 +3,7 @@
 ## Issues
 
 - i001  
-  The image selecting modal is to huge.   
+  The image selecting modal is too huge.   
   An editor can't control the whole feature without shrinking the browser.
 - i002  
   Transactions that haven't been executed remain in the cache and affect the next operation.
@@ -14,7 +14,6 @@
   There was a case that an image removing operation failed, saying that the target image wasn't found.
 - i005  
   Syntax Error on SQL to delete a country tag.
-- i006
 
 
 ## Updates
