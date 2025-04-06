@@ -46,21 +46,17 @@ export const ImageSelectingModal: React.FC<ImageSelectingModalProps> = (
 
     const openModal = async () => {
         setIsOpen(true);
-        await handlePageChanged(page);
     }
     const closeModal = async () => {
         setIsOpen(false);
-        await handlePageChanged(page);
     }
 
     const nextPage = async () => {
-        setPage(page => page + 1);
-        await handlePageChanged(page);
+        await handlePageChanged(page + 1);
     }
 
     const previousPage = async () => {
-        setPage(page => page - 1);
-        await handlePageChanged(page);
+        await handlePageChanged(page - 1);
     }
 
     const handlePageChanged = async (requestedPage: number) => {
