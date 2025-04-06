@@ -12,6 +12,8 @@
   results in the SQL error.
 - i004  
   There was a case that an image removing operation failed, saying that the target image wasn't found.
+  branch : i004_20250406  
+  version : 1.0.1-beta
 - i005  
   Syntax Error on SQL to delete a country tag.
 - i006
