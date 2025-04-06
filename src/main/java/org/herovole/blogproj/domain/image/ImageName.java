@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageName {
 
-    private static final Pattern PATTERN_IMG = Pattern.compile("^.{1,63}\\.(jpg|png)$");
+    private static final Pattern PATTERN_IMG = Pattern.compile("^.{1,56}\\.(jpg|png)$");
     private static final String API_KEY_IMAGE_NAME = "imageName";
 
     public static ImageName fromPostContentImageName(FormContent formContent) {

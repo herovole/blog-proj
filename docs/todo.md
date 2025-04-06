@@ -4,18 +4,26 @@
 
 - i001  
   The image selecting modal is too huge.   
-  An editor can't control the whole feature without shrinking the browser.
+  An editor can't control the whole feature without shrinking the browser.  
+  branch : feature/i001_20250406  
+  version : 1.0.1-beta  
 - i002  
-  Transactions that haven't been executed remain in the cache and affect the next operation.
+  Transactions that haven't been executed remain in the cache and affect the next operation.  
+  branch : i002_20250406  
+  version : 1.0.1-beta  
 - i003  
   No defense on domain level when an image name is too long.  
-  results in the SQL error.
+  results in the SQL error.  
+  branch : feature/i003_20250406  
+  version : 1.0.1-beta  
 - i004  
-  There was a case that an image removing operation failed, saying that the target image wasn't found.
+  There was a case that an image removing operation failed, saying that the target image wasn't found.  
+  branch : i004_20250406  
+  version : 1.0.1-beta  
 - i005  
   Syntax Error on SQL to delete a country tag.  
   branch : feature/i005_20250406  
-  version : 1.0.1-beta
+  version : 1.0.1-beta  
   
 
 

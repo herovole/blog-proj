@@ -26,7 +26,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.Ordered;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -128,6 +131,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss2")
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2() throws IOException {
         S3Client s3Client = S3Client.builder()
                 .region(Region.AP_NORTHEAST_1) // Set your region

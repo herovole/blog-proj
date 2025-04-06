@@ -23,31 +23,35 @@ import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
 import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 @Component("articleTransactionalDatasourceMySql")
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class ArticleTransactionalDatasourceMySql extends ArticleDatasourceMySql implements ArticleTransactionalDatasource {
 
-    private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
+    private static final int ID_ORIGIN = 1;
+
+    private final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.insert(transaction);
         }
     };
-    private static final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.update(transaction);
         }
     };
-    private static final TransactionCache<String> cacheDelete = new TransactionCache<>() {
+    private final TransactionCache<String> cacheDelete = new TransactionCache<>() {
         @Override
         protected void doTransaction(String transaction, AppSession session) {
             session.executeSql(transaction);
         }
     };
-
-    private static final int ID_ORIGIN = 1;
 
     @Autowired
     protected ArticleTransactionalDatasourceMySql(

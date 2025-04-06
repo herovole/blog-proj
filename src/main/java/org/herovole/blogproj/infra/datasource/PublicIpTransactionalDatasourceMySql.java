@@ -8,24 +8,28 @@ import org.herovole.blogproj.infra.hibernate.TransactionCache;
 import org.herovole.blogproj.infra.jpa.entity.EPublicIp;
 import org.herovole.blogproj.infra.jpa.repository.EPublicIpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 @Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class PublicIpTransactionalDatasourceMySql extends PublicIpDatasourceMySql implements PublicIpTransactionalDatasource {
 
-    private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.insert(transaction);
         }
     };
-    private static final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.update(transaction);
         }
     };
-    private static final TransactionCache<String> cacheDelete = new TransactionCache<>() {
+    private final TransactionCache<String> cacheDelete = new TransactionCache<>() {
         @Override
         protected void doTransaction(String transaction, AppSession session) {
             session.executeSql(transaction);
