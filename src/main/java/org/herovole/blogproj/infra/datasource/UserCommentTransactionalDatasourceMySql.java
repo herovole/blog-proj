@@ -15,28 +15,32 @@ import org.herovole.blogproj.infra.jpa.repository.EUserCommentRatingRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentReportRepository;
 import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
 public class UserCommentTransactionalDatasourceMySql extends UserCommentDatasourceMySql implements UserCommentTransactionalDatasource {
-    private static final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
+    private static final Map<IntegerId, AtomicInteger> mapMaxCommentIdByArticleId = new ConcurrentHashMap<>();
+
+    private final TransactionCache<Object> cacheInsert = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.insert(transaction);
         }
     };
-    private static final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
+    private final TransactionCache<Object> cacheUpdate = new TransactionCache<>() {
         @Override
         protected void doTransaction(Object transaction, AppSession session) {
             session.update(transaction);
         }
     };
-
-    private static final Map<IntegerId, AtomicInteger> mapMaxCommentIdByArticleId = new HashMap<>();
 
     private IntegerId incrementAndGetInArticleCommentId(IntegerId articleId) {
         if (!mapMaxCommentIdByArticleId.containsKey(articleId)) {
