@@ -38,11 +38,11 @@
 - u004  
   Prepare RSS icon  
   branch : feature/u004_20250409  
-  version : 1.1.0-beta  
+  version : 1.2.0-beta  
 - u005  
   Prepare Link to X  
   branch : feature/u005_20250409  
-  version : 1.1.0-beta  
+  version : 1.2.0-beta  
 - u006  
   Prepare Country icons
 - u007  
