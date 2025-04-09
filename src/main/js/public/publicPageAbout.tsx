@@ -9,7 +9,7 @@ export const PublicPageAbout = () => {
     const [xmlPrefix, setXmlPrefix] = useState<string | null>(null);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "auto" });
+        window.scrollTo({top: 0, behavior: "auto"});
         fetch("/content/about.md")
             .then((res) => res.text())
             .then((text) => setContent(marked(text) as string))  // Convert Markdown to HTML
@@ -25,8 +25,23 @@ export const PublicPageAbout = () => {
                 <div>
                     <div>
                         <h2>RSS</h2>
-                        <a href={xmlPrefix + "rss.xml"}>RSS 2.0</a>
+                        <a href={xmlPrefix + "rss.xml"}>
+                            <img src={xmlPrefix + "Feed-icon.svg"} style={{cursor: 'pointer', width: 64, height: 64}}
+                                 alt="rss"/>
+                            <span>RSS 2.0</span>
+                        </a>
                         <br/>
+                        <a href={xmlPrefix + "rss10.xml"}>
+                            <img src={xmlPrefix + "Feed-icon.svg"} style={{cursor: 'pointer', width: 64, height: 64}}
+                                 alt="rss"/>
+                            <span>RSS 1.0</span>
+                        </a>
+                        <br/>
+                        <h2>X(旧Twitter)</h2>
+                        <a href={"https://x.com/at_archives_com"}>
+                            <img src={xmlPrefix + "X_logo_2023.svg"} style={{cursor: 'pointer', width: 64, height: 64}}
+                                 alt="x"/>
+                        </a>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
                 </div>

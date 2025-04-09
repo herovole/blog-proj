@@ -36,9 +36,17 @@
 - u003  
   Highlight comment anchors
 - u004  
-  Prepare RSS icon
+  Prepare RSS icon  
+  branch : feature/u004_20250409  
+  version : 1.2.0-beta  
 - u005  
-  Prepare Link to X
+  Prepare Link to X  
+  branch : feature/u005_20250409  
+  version : 1.2.0-beta  
 - u006  
   Prepare Country icons
+- u007  
+  Prepare RSS 1.0  
+  branch : feature/u007_20250409  
+  version : 1.1.0-beta  
   

@@ -57,6 +57,7 @@ public class ConfigFile {
     private static final String CONFIG_KEY_SITE_LANG = "site_lang";
     private static final String CONFIG_KEY_SITE_COPYRIGHT = "site_copyright";
     private static final String CONFIG_KEY_RSS_XML = "rss_output";
+    private static final String CONFIG_KEY_RSS_XML_10 = "rss_output10";
     private static final String CONFIG_KEY_SMTP_HOST = "smtp_host";
     private static final String CONFIG_KEY_SMTP_PORT = "smtp_port";
     private static final String CONFIG_KEY_SMTP_USER = "smtp_user";
@@ -174,8 +175,12 @@ public class ConfigFile {
                 .build();
     }
 
-    public String getRssXmlFile() {
+    public String getRssXml20File() {
         return this.configs.get(CONFIG_KEY_RSS_XML);
+    }
+
+    public String getRssXml10File() {
+        return this.configs.get(CONFIG_KEY_RSS_XML_10);
     }
 
     public String getSmtpHost() {
