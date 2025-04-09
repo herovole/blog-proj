@@ -41,4 +41,8 @@
   Prepare Link to X
 - u006  
   Prepare Country icons
+- u007  
+  Prepare RSS 1.0  
+  branch : feature/u007_20250409  
+  version : 1.1.0-beta  
   

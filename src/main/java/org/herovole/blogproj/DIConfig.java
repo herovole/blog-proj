@@ -14,6 +14,7 @@ import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.herovole.blogproj.infra.filesystem.LocalFileSystem;
 import org.herovole.blogproj.infra.hibernate.AppSessionFactoryHibernate;
 import org.herovole.blogproj.infra.service.AccessTokenFactoryJwt;
+import org.herovole.blogproj.infra.service.ArticleTransactionalDatasourceRss1;
 import org.herovole.blogproj.infra.service.ArticleTransactionalDatasourceRss2;
 import org.herovole.blogproj.infra.service.DailyUserIdFactoryImpl;
 import org.herovole.blogproj.infra.service.GoogleReCaptchaResultServer;
@@ -141,8 +142,26 @@ public class DIConfig {
                                 configFile.getAwsSecretAccessKey()
                         )
                 )).build();
-        LocalFile rss2Xml = LocalFile.of(configFile.getRssXmlFile(), localFileSystem);
+        LocalFile rss2Xml = LocalFile.of(configFile.getRssXml20File(), localFileSystem);
         return new ArticleTransactionalDatasourceRss2(rss2Xml,
+                configFile.getSiteInformation(),
+                s3Client,
+                configFile.getAwsPublicResourcesBucket());
+    }
+
+    @Bean("articleTransactionalDatasourceRss1")
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss1() throws IOException {
+        S3Client s3Client = S3Client.builder()
+                .region(Region.AP_NORTHEAST_1) // Set your region
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(
+                                configFile.getAwsAccessKey(),
+                                configFile.getAwsSecretAccessKey()
+                        )
+                )).build();
+        LocalFile rss1Xml = LocalFile.of(configFile.getRssXml10File(), localFileSystem);
+        return new ArticleTransactionalDatasourceRss1(rss1Xml,
                 configFile.getSiteInformation(),
                 s3Client,
                 configFile.getAwsPublicResourcesBucket());
