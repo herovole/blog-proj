@@ -22,9 +22,9 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @RequiredArgsConstructor
-public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalDatasource {
+public class ArticleTransactionalDatasourceRss1 implements ArticleTransactionalDatasource {
 
-    private static final String AMAZON_S3_KEY_XML = "system/rss.xml";
+    private static final String AMAZON_S3_KEY_XML = "system/rss10.xml";
     private final Queue<Article> articles = new ConcurrentLinkedQueue<>();
     private final LocalFile rssXml;
     private final SiteInformation siteInformation;
@@ -44,11 +44,13 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Document document = builder.newDocument();
 
             // Root element
-            Element rss = document.createElement("rss");
-            rss.setAttribute("version", "2.0");
+            Element rss = document.createElement("rdf:RDF");
+            rss.setAttribute("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+            rss.setAttribute("xmlns", "http://purl.org/rss/1.0/");
             document.appendChild(rss);
 
             Element channel = document.createElement("channel");
+            channel.setAttribute("rdf:about", this.siteInformation.getSiteTopUrl().memorySignature());
             rss.appendChild(channel);
 
             Element title = document.createElement("title");
@@ -74,9 +76,17 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             channel.appendChild(lastBuildDate);
             channel.appendChild(generator);
 
+            Element items = document.createElement("items");
+            Element rdfSeq = document.createElement("rdf:Seq");
+            channel.appendChild(items);
+            items.appendChild(rdfSeq);
+
             while (!articles.isEmpty()) {
                 Article article = articles.poll();
-                Element item = new ArticleXml(siteInformation, article).toElement(document);
+                ArticleXml articleXml = new ArticleXml(siteInformation, article);
+                Element rdfLi = articleXml.toRdfLiElement(document);
+                rdfSeq.appendChild(rdfLi);
+                Element item = articleXml.toElement(document);
                 channel.appendChild(item);
             }
             rssXml.write(document);
@@ -109,10 +119,18 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
         private final SiteInformation siteInformation;
         private final Article article;
 
+        Element toRdfLiElement(Document document) {
+            if (!(article instanceof RealArticleSimplified article1)) throw new IllegalStateException();
+            Element rdfLi = document.createElement("rdf:li");
+            rdfLi.setAttribute("rdf:resource", siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature());
+            return rdfLi;
+        }
+
         Element toElement(Document document) {
             if (!(article instanceof RealArticleSimplified article1)) throw new IllegalStateException();
 
             Element item = document.createElement("item");
+            item.setAttribute("rdf:about", siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature());
 
             Element title = document.createElement("title");
             title.appendChild(document.createTextNode(article1.getTitle().memorySignature()));
