@@ -7,6 +7,8 @@
     https://fonts.google.com/specimen/DotGothic16
   - Bing Image Creator  
     https://www.bing.com/images/create
+  - Wikimedia Commons  
+    https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg
 
 
 - 概要  
@@ -25,7 +27,7 @@
 ## システム更新履歴
 
 - 2025/04/09  
-  ver 1.1.0-beta - RSS 1.0 u007 / RSS 1.0 u007
+  ver 1.1.0-beta - RSS 1.0 u007, RSSアイコン u004 / RSS 1.0 u007, RSS Icons u004
 - 2025/04/06  
   ver 1.0.1-beta - エラー修正 i001,i002,i003,i004,i005 / Bugfix i001,i002,i003,i004,i005
 - 2025/04/01  
