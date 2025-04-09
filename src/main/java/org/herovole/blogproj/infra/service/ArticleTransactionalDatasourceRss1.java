@@ -44,14 +44,14 @@ public class ArticleTransactionalDatasourceRss1 implements ArticleTransactionalD
             Document document = builder.newDocument();
 
             // Root element
-            Element rss = document.createElement("rdf:RDF");
-            rss.setAttribute("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-            rss.setAttribute("xmlns", "http://purl.org/rss/1.0/");
-            document.appendChild(rss);
+            Element rdfRdf = document.createElement("rdf:RDF");
+            rdfRdf.setAttribute("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+            rdfRdf.setAttribute("xmlns", "http://purl.org/rss/1.0/");
+            document.appendChild(rdfRdf);
 
             Element channel = document.createElement("channel");
             channel.setAttribute("rdf:about", this.siteInformation.getSiteTopUrl().memorySignature());
-            rss.appendChild(channel);
+            rdfRdf.appendChild(channel);
 
             Element title = document.createElement("title");
             title.appendChild(document.createTextNode(this.siteInformation.getSiteNameJp()));
@@ -87,7 +87,7 @@ public class ArticleTransactionalDatasourceRss1 implements ArticleTransactionalD
                 Element rdfLi = articleXml.toRdfLiElement(document);
                 rdfSeq.appendChild(rdfLi);
                 Element item = articleXml.toElement(document);
-                channel.appendChild(item);
+                rdfRdf.appendChild(item);
             }
             rssXml.write(document);
 
