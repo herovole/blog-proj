@@ -23,7 +23,6 @@
 
 - 連絡先  
   signat12345ure@gmail.com  
-  [![X icon](s3://blog2025-prod-s3-public/system/X_logo_2023.svg)](https://x.com/at_archives_com)
 
 
 ## システム更新履歴
