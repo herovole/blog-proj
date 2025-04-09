@@ -37,6 +37,8 @@
   Highlight comment anchors
 - u004  
   Prepare RSS icon
+  branch : feature/u004_20250409  
+  version : 1.1.0-beta
 - u005  
   Prepare Link to X
 - u006  
