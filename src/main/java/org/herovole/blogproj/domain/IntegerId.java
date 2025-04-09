@@ -17,6 +17,7 @@ public class IntegerId implements Comparable<IntegerId> {
     private static final String API_KEY_COMMENT_SERIAL_NUMBER = "commentSerialNumber";
     private static final String API_KEY_REPORT_ID = "reportId";
     private static final String API_KEY_TOPIC_TAG_ID = "id";
+    private static final String API_KEY_VERSION = "version";
 
     public static IntegerId fromFormContentArticleId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_ARTICLE_ID);
@@ -40,6 +41,11 @@ public class IntegerId implements Comparable<IntegerId> {
 
     public static IntegerId fromFormContentReportId(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_REPORT_ID);
+        return valueOf(child.getValue());
+    }
+
+    public static IntegerId fromFormContentVersion(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_VERSION);
         return valueOf(child.getValue());
     }
 

@@ -10,9 +10,9 @@ export const AdminRss2 = () => {
     const [messageWarning, setMessageWarning] = React.useState<string>("");
 
 
-    const generateRss2 = async () => {
+    const generateRss = async () => {
         const input: GenerateRss2Input = new GenerateRss2Input();
-        const output: BasicApiResult = await siteService.generateRss2(input);
+        const output: BasicApiResult = await siteService.generateRss(input);
         if (output.isSuccessful()) {
             setMessageOrdinary(output.getMessage("Rss2 Generation"));
         } else {
@@ -23,7 +23,7 @@ export const AdminRss2 = () => {
 
     return (
         <div>
-            <button type="button" onClick={generateRss2}>Generate rss2.xml</button>
+            <button type="button" onClick={generateRss}>Generate rss2.xml</button>
             <br/>
             <span className="comment-form-process">{messageOrdinary}</span>
             <span className="comment-form-err">{messageWarning}</span>

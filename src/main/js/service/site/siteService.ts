@@ -4,7 +4,7 @@ import {GenerateRss2Input} from "./generateRss2Input";
 
 export class SiteService {
 
-    async generateRss2(input: GenerateRss2Input): Promise<BasicApiResult> {
+    async generateRss(input: GenerateRss2Input): Promise<BasicApiResult> {
         try {
             const response: AxiosResponse<BasicApiResultFields> = await axios.post(
                 "/api/v1/site/rss2",

@@ -21,28 +21,31 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GenerateRss2 {
+public class GenerateRss {
 
-    private static final Logger logger = LoggerFactory.getLogger(GenerateRss2.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(GenerateRss.class.getSimpleName());
 
     private final SearchArticles searchArticles;
-    private final ArticleTransactionalDatasource articleTransactionalDatasource;
+    private final ArticleTransactionalDatasource articleTransactionalDatasourceRss20;
+    private final ArticleTransactionalDatasource articleTransactionalDatasourceRss10;
     private final GenericPresenter<SearchArticlesOutput> searchArticlesPresenter;
     private final GenericPresenter<Object> presenter;
 
     @Autowired
-    public GenerateRss2(
+    public GenerateRss(
             SearchArticles searchArticles,
             GenericPresenter<SearchArticlesOutput> searchArticlesPresenter,
-            @Qualifier("articleTransactionalDatasourceRss2") ArticleTransactionalDatasource articleTransactionalDatasource,
+            @Qualifier("articleTransactionalDatasourceRss2") ArticleTransactionalDatasource articleTransactionalDatasourceRss20,
+            @Qualifier("articleTransactionalDatasourceRss1") ArticleTransactionalDatasource articleTransactionalDatasourceRss10,
             GenericPresenter<Object> presenter) {
         this.searchArticles = searchArticles;
         this.searchArticlesPresenter = searchArticlesPresenter;
-        this.articleTransactionalDatasource = articleTransactionalDatasource;
+        this.articleTransactionalDatasourceRss20 = articleTransactionalDatasourceRss20;
+        this.articleTransactionalDatasourceRss10 = articleTransactionalDatasourceRss10;
         this.presenter = presenter;
     }
 
-    public void process(GenerateRss2Input input) throws ApplicationProcessException {
+    public void process(GenerateRssInput input) throws ApplicationProcessException {
         logger.info("interpreted post : {}", input);
 
         ArticleListSearchOption searchOption =
@@ -64,6 +67,12 @@ public class GenerateRss2 {
         logger.info("fetched article samples: {}", searchArticlesOutput.getTotalArticles());
 
         Articles articles = searchArticlesOutput.getArticles();
+
+        ArticleTransactionalDatasource articleTransactionalDatasource
+                = input.getVersion().intMemorySignature() == 1 ?
+                articleTransactionalDatasourceRss10 :
+                articleTransactionalDatasourceRss20;
+
         articles.stream().forEach(articleTransactionalDatasource::insert);
 
         logger.info("total transaction number : {}", articleTransactionalDatasource.amountOfCachedTransactions());
