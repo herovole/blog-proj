@@ -29,7 +29,7 @@
 ## システム更新履歴
 
 - 2025/04/09  
-  ver 1.1.1-beta - X u005, RSSアイコン u004 / X u005, RSS Icons u004  
+  ver 1.2.0-beta - X u005, RSSアイコン u004 / X u005, RSS Icons u004  
   ver 1.1.0-beta - RSS 1.0 u007 / RSS 1.0 u007
 - 2025/04/06  
   ver 1.0.1-beta - エラー修正 i001,i002,i003,i004,i005 / Bugfix i001,i002,i003,i004,i005
