@@ -7,6 +7,8 @@
     https://fonts.google.com/specimen/DotGothic16
   - Bing Image Creator  
     https://www.bing.com/images/create
+  - Wikimedia Commons  
+    https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg
 
 
 - 概要  
