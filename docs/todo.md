@@ -24,6 +24,10 @@
   Syntax Error on SQL to delete a country tag.  
   branch : feature/i005_20250406  
   version : 1.0.1-beta  
+- i006  
+  Home Title has redundant declaration of the website  
+  branch : feature/i006_20250411  
+  version : 1.2.1-beta
   
 
 
