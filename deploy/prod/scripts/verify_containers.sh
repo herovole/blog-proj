@@ -8,10 +8,19 @@ source $SCRIPT_DIR/deploy_config.log
 
 echo verifying backend container running
 # Verify backend container is running
-sudo docker ps | grep $DOCKER_BACKEND_CONTAINER
+if sudo docker ps | grep $DOCKER_BACKEND_CONTAINER; then
+    echo $(date) "${DOCKER_BACKEND_CONTAINER} deployed" | tee -a $LOG_FILE
+else
+    echo $(date) "${DOCKER_BACKEND_CONTAINER} failed to get deployed" | tee -a $LOG_FILE
+    exit 1
+fi
 
-echo verifying frontend container running
 # Verify frontend container is running
-sudo docker ps | grep $DOCKER_FRONTEND_CONTAINER
+if sudo docker ps | grep $DOCKER_FRONTEND_CONTAINER; then
+    echo $(date) "${DOCKER_FRONTEND_CONTAINER} deployed" | tee -a $LOG_FILE
+else
+    echo $(date) "${DOCKER_FRONTEND_CONTAINER} failed to get deployed" | tee -a $LOG_FILE
+    exit 1
+fi
 
 echo $(date) "Deployment successful." | tee -a $LOG_FILE
