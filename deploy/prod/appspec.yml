@@ -8,10 +8,13 @@ hooks:
     - location: scripts/login_ecr.sh
       runas: ec2-user
   AfterInstall:
-    - location: scripts/build_run_backend.sh
+    - location: scripts/deploy_image_backend.sh
       runas: ec2-user
-    - location: scripts/build_run_frontend.sh
+    - location: scripts/deploy_image_frontend.sh
       runas: ec2-user
   ApplicationStart:
+    - location: scripts/build_containers.sh
+      runas: ec2-user
+  ValidateService:
     - location: scripts/verify_containers.sh
       runas: ec2-user
