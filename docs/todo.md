@@ -49,6 +49,10 @@
   version : 1.1.0-beta  
 - u008  
   Retain search/page conditions of the article list fragments when page reloading operation is performed.  
+- u009  
+  Place RSS files right next to index.html  
+  branch : feature/u009_20250413  
+  version : 1.3.0-beta  
   
 ## Layout Updates
 

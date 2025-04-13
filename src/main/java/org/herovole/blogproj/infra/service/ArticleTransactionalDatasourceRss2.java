@@ -27,6 +27,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
     private static final String AMAZON_S3_KEY_XML = "system/rss.xml";
     private final Queue<Article> articles = new ConcurrentLinkedQueue<>();
     private final LocalFile rssXml;
+    private final LocalFile rssFeed;
     private final SiteInformation siteInformation;
     private final S3Client s3Client;
     private final String bucketName;
@@ -80,6 +81,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
                 channel.appendChild(item);
             }
             rssXml.write(document);
+            rssFeed.write(document);
 
             // Transfer XML to Amazon S3.
             RequestBody requestBody = RequestBody.fromFile(rssXml.toPath());
