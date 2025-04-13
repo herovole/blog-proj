@@ -7,3 +7,5 @@ DOCKER_FRONTEND_CONTAINER=blog-proj-staging-frontend-container
 AWS_ECR_PREFIX=982081084719.dkr.ecr.ap-northeast-1.amazonaws.com
 AWS_USER_S3=s3://blog2025-stg-s3-private/build/aws_user.log
 AWS_USER_EC2=/home/ec2-user/app/build/aws_user.log
+DIRECTORY_DOCKER_BACKEND_FRONTEND=/app/app_utility/frontend
+DIRECTORY_DOCKER_FRONTEND=/var/www/html
