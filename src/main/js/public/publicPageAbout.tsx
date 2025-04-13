@@ -52,7 +52,7 @@ export const PublicPageAbout = () => {
                            target="_blank"><img alt="人気ブログランキングでフォロー" width="172" height="20"
                                                 src="https://blog.with2.net/banner/follow/2128848?t=m"/></a>
                         <br/><span
-                        style={{fontSize: "0.8em"}}>もし当ブログを気に入っていただけましたら、上記リンクよりランキング閲覧にお力添えいただけると大変励みになります。</span>
+                        style={{fontSize: "0.8em"}}>もし当ブログを気に入っていただけましたら、上記リンク(左側)よりランキング閲覧にお力添えいただけると大変励みになります。</span>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
