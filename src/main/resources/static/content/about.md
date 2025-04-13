@@ -28,7 +28,8 @@
 ## システム更新履歴
 
 - 2025/04/13  
-  ver 1.2.2-beta - 人気ブログランキングバナー設置 a001 / install blog.with2.net banner a001
+  ver 1.2.2-beta - 人気ブログランキングバナー設置 a001 / install blog.with2.net banner a001  
+  ver 1.3.0-beta - RSS配置場所変更 u009 / change locations for RSS deployment u009  
 - 2025/04/11  
   ver 1.2.1-beta - エラー修正 i006 / Bugfix i006  
 - 2025/04/09  

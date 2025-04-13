@@ -143,7 +143,9 @@ public class DIConfig {
                         )
                 )).build();
         LocalFile rss2Xml = LocalFile.of(configFile.getRssXml20File(), localFileSystem);
-        return new ArticleTransactionalDatasourceRss2(rss2Xml,
+        LocalFile rssFeed = LocalFile.of(configFile.getRssFeedFile(), localFileSystem);
+        return new ArticleTransactionalDatasourceRss2(
+                rss2Xml, rssFeed,
                 configFile.getSiteInformation(),
                 s3Client,
                 configFile.getAwsPublicResourcesBucket());

@@ -7,7 +7,7 @@ SCRIPT_DIR=$(cd $(dirname $0) && pwd)
 source $SCRIPT_DIR/deploy_config.log
 source $AWS_USER_EC2
 
-echo $(date) deploying frontend container $DOCKER_FRONTEND_CONTAINER | tee -a $LOG_FILE
+echo $(date) terminating previous frontend container $DOCKER_FRONTEND_CONTAINER | tee -a $LOG_FILE
 
 # Check if the container exists (running or stopped)
 if sudo docker ps -a --format \'{{.Names}}\' | grep -wq $DOCKER_FRONTEND_CONTAINER; then
@@ -33,22 +33,5 @@ if sudo docker images | grep -q $DOCKER_FRONTEND_IMAGE; then
     echo $(date) "Image pulled out ${DOCKER_FRONTEND_IMAGE}." | tee -a $LOG_FILE
 else
     echo $(date) "No image ${DOCKER_FRONTEND_IMAGE}." | tee -a $LOG_FILE
-    exit 1
-fi
-
-echo $(date) "Running frontend container ${DOCKER_FRONTEND_CONTAINER}." | tee -a $LOG_FILE
-
-# Run the frontend container
-sudo docker run -d \
-        --name $DOCKER_FRONTEND_CONTAINER \
-        --net $DOCKER_NETWORK \
-        -p 80:80 \
-        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$DOCKER_FRONTEND_IMAGE:latest
-
-# Verify frontend container running
-if sudo docker ps | grep $DOCKER_FRONTEND_CONTAINER; then
-    echo $(date) "${DOCKER_FRONTEND_CONTAINER} deployed" | tee -a $LOG_FILE
-else
-    echo $(date) "${DOCKER_FRONTEND_CONTAINER} failed to get deployed" | tee -a $LOG_FILE
     exit 1
 fi
