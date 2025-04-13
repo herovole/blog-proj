@@ -25,13 +25,13 @@ export const PublicPageAbout = () => {
                 <div>
                     <div>
                         <h2>RSS</h2>
-                        <a href={xmlPrefix + "rss.xml"}>
+                        <a href={"./rss.xml"}>
                             <img src={xmlPrefix + "Feed-icon.svg"} style={{cursor: 'pointer', width: 64, height: 64}}
                                  alt="rss"/>
                             <span>RSS 2.0</span>
                         </a>
                         <br/>
-                        <a href={xmlPrefix + "rss10.xml"}>
+                        <a href={"./rss10.xml"}>
                             <img src={xmlPrefix + "Feed-icon.svg"} style={{cursor: 'pointer', width: 64, height: 64}}
                                  alt="rss"/>
                             <span>RSS 1.0</span>
