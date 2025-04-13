@@ -28,10 +28,12 @@
   Home Title has redundant declaration of the website  
   branch : feature/i006_20250411  
   version : 1.2.1-beta
-  
+- i007  
+  Google search result picks up the Site Information page.  
+- i008  
+  isHidden attribute of Source Comment editing fragment has a possibility that it doesn't reflect the actual value.
 
-
-## Updates
+## System Updates
 
 - u001  
   Include country tags and topic tags in search options.  
@@ -39,18 +41,26 @@
   Make country tags and topic tags clickable for instant search.
 - u003  
   Highlight comment anchors
-- u004  
-  Prepare RSS icon  
-  branch : feature/u004_20250409  
-  version : 1.2.0-beta  
-- u005  
-  Prepare Link to X  
-  branch : feature/u005_20250409  
-  version : 1.2.0-beta  
 - u006  
   Prepare Country icons
 - u007  
   Prepare RSS 1.0  
   branch : feature/u007_20250409  
   version : 1.1.0-beta  
+- u008  
+  Retain search/page conditions of the article list fragments when page reloading operation is performed.  
   
+## Layout Updates
+
+- u004  
+  Prepare RSS icon  
+  branch : feature/u004_20250409  
+  version : 1.2.0-beta
+- u005  
+  Prepare Link to X  
+  branch : feature/u005_20250409  
+  version : 1.2.0-beta  
+- a001  
+  Prepare blog.with2.net(人気ブログランキング) banners  
+  branch : feature/a001_20250413  
+  version : 1.2.2-beta  
