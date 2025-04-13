@@ -43,6 +43,19 @@ export const PublicPageAbout = () => {
                                  alt="x"/>
                         </a>
                     </div>
+                    <div>
+                        <h2>加入リンク</h2>
+                        <a href="https://blog.with2.net/link/?id=2128848&cid=4281" title="海外の反応ランキング"><img
+                            alt="海外の反応ランキング" width="110" height="31"
+                            src="https://blog.with2.net/img/banner/c/banner_1/br_c_4281_1.gif"/></a><br/><a
+                        href="https://blog.with2.net/link/?id=2128848&cid=4281" title="海外の反応ランキング"
+                        style={{fontSize: "0.9em"}}>海外の反応ランキング</a>
+                        <a href="https://blog.with2.net/link/?id=2128848&follow" title="人気ブログランキングでフォロー"
+                           target="_blank"><img alt="人気ブログランキングでフォロー" width="235" height="46"
+                                                src="https://blog.with2.net/banner/follow/2128848?t=b"/></a>
+                        <br/><span
+                        style={{fontSize: "0.8em"}}>もし当ブログを気に入っていただけましたら、上記リンクからのランキング閲覧にお力添えいただけると大変励みになります。</span>
+                    </div>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
                 </div>
             </PublicBasicLayout>
