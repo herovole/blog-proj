@@ -53,6 +53,20 @@
   Place RSS files right next to index.html  
   branch : feature/u009_20250413  
   version : 1.3.0-beta  
+- u010  
+  Stop showing source comments with isHidden=true  
+- u011  
+  Get search conditions linked with the get parameters.  
+- u012  
+  Article Preview  
+- u013  
+  Get each article carry the publishing timestamp.  
+- u014  
+  User View Admin page  
+- u015  
+  Take referer data.  
+- u016  
+  Gadget(left) of an article list aligned by the timestamps of the latest comments.  
   
 ## Layout Updates
 
@@ -68,3 +82,5 @@
   Prepare blog.with2.net(人気ブログランキング) banners  
   branch : feature/a001_20250413  
   version : 1.2.2-beta  
+- a002  
+  Gadget(right) of external links.  
