@@ -57,6 +57,8 @@
   version : 1.3.0-beta  
 - u010  
   Stop showing source comments with isHidden=true  
+  branch : feature/u010_20250417  
+  version : 1.4.0-beta  
 - u011  
   Get search conditions linked with the get parameters.  
 - u012  

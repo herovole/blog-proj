@@ -100,14 +100,11 @@ public class RealSourceCommentUnit implements CommentUnit {
 
     @Override
     public CommentUnit maskPrivateItems() {
-        return builder()
-                .commentSerialNumber(this.commentSerialNumber)
-                .commentId(this.commentId)
-                .commentText(this.isHidden.isTrue() ? CommentText.hidden() : this.commentText)
-                .country(this.country)
-                .isHidden(this.isHidden)
-                .referringCommentIds(this.referringCommentIds)
-                .build();
+        if (this.isHidden.isTrue()) {
+            return CommentUnit.empty();
+        } else {
+            return this;
+        }
     }
 
     @Override
