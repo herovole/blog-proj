@@ -1,0 +1,40 @@
+.gadget-links-external {
+    border: 1px solid black;
+    background-color:#FFFFFF;
+    width:256px;
+
+    position: fixed;
+    bottom: 20px; /* distance from the top */
+    right: 20px; /* distance from the right */
+    box-shadow: 0 0 8px rgba(32,0,128,0.4);
+}
+
+.gadget-links-close {
+    border: 4px outset #CCCCCC;
+    background-color:#EEEEEE;
+    width:100%;
+    margin:0px;
+    padding:8px;
+    cursor:pointer;
+}
+
+.gadget-links-title {
+    border: 1px solid black;
+    background-color:#000000;
+    color:#FFFFFF;
+    padding-left:8px;
+}
+
+.gadget-links-body {
+    border: 1px solid black;
+    background-color:#FFFFFF;
+    color:#000000;
+    padding-left:16px;
+    padding-bottom:16px;
+}
+
+.gadget-links-item {
+    padding-top:4px;
+    padding-bottom:4px;
+    cursor:pointer;
+}

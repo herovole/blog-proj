@@ -129,7 +129,7 @@ public class RealSourceCommentUnit implements CommentUnit {
                 this.commentId.intMemorySignature(),
                 this.commentText.memorySignature(),
                 this.country.memorySignature(),
-                this.isHidden.isEmpty(),
+                this.isHidden.isTrue(),
                 this.referringCommentIds.toIntMemorySignature()
         );
     }

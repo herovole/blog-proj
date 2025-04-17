@@ -44,7 +44,7 @@ export const PublicPageAbout = () => {
                         </a>
                     </div>
                     <div>
-                        <h2>加入リンク</h2>
+                        <h2>参加リンク</h2>
                         <a href="https://blog.with2.net/link/?id=2128848&cid=4281" title="海外の反応ランキング"
                            target="_blank"><img alt="海外の反応ランキング" width="110" height="31"
                                                 src="https://blog.with2.net/img/banner/c/banner_1/br_c_4281_1.gif"/></a>
