@@ -12,6 +12,7 @@
 .gadget-links-close {
     border: 4px outset #CCCCCC;
     background-color:#EEEEEE;
+    width:100%;
     margin:0px;
     padding:8px;
     cursor:pointer;
