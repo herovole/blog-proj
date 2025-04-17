@@ -30,6 +30,8 @@
   version : 1.2.1-beta
 - i007  
   Google search result picks up the Site Information page.  
+  branch : none  
+  version : 1.3.0-beta  
 - i008  
   isHidden attribute of Source Comment editing fragment has a possibility that it doesn't reflect the actual value.
 
@@ -84,3 +86,5 @@
   version : 1.2.2-beta  
 - a002  
   Gadget(right) of external links.  
+  branch : feature/a002_20250417  
+  version : 1.3.1-beta  
