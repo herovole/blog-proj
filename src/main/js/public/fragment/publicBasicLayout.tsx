@@ -1,6 +1,6 @@
 import React from "react";
 import {PublicHeader} from "./publicHeader";
-import {LivedoorRss} from "./livedoorRss";
+import {GadgetsRight} from "./gadget/gadgetsRight";
 
 type PublicBasicLayoutProps = {
     children: React.ReactNode;
@@ -18,7 +18,7 @@ export const PublicBasicLayout: React.FC<PublicBasicLayoutProps> = ({children}) 
                     </div>
                 </div>
                 <div>
-                    <LivedoorRss/>
+                    <GadgetsRight/>
                 </div>
             </div>
         </div>
