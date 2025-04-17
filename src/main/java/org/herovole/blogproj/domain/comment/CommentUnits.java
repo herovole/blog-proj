@@ -144,7 +144,7 @@ public class CommentUnits {
     }
 
     public CommentUnits maskPrivateItems() {
-        return CommentUnits.of(this.stream().map(CommentUnit::maskPrivateItems).toArray(CommentUnit[]::new));
+        return CommentUnits.of(this.stream().map(CommentUnit::maskPrivateItems).filter(e -> !e.isEmpty()).toArray(CommentUnit[]::new));
     }
 
     public CommentUnit.Json[] toJsonModel() {
