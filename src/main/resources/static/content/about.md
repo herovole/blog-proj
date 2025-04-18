@@ -3,13 +3,15 @@
 
 
 - 画像著作権 (敬称略)  
-  - DotGothic16 by Fontworks Inc.  
-    https://fonts.google.com/specimen/DotGothic16
   - Bing Image Creator  
     https://www.bing.com/images/create
   - Wikimedia Commons  
     https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg  
     https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg
+  - DotGothic16 by Fontworks Inc.  
+    https://fonts.google.com/specimen/DotGothic16
+  - Flag Icons by GoSquared  
+    https://github.com/gosquared/flags  
 
 
 - 概要  
@@ -27,8 +29,10 @@
 
 ## システム更新履歴
 
+- 2025/04/18  
+  ver 1.4.1-beta - 国旗表示 u006 / Display flags u006  
 - 2025/04/17  
-  ver 1.4.0-beta - Admin 仕様変更 u10 / admin specification updates u010  
+  ver 1.4.0-beta - Admin 仕様変更 u010 / admin specification updates u010  
   ver 1.3.1-beta - レイアウト変更 a002 エラー修正 i008/ Layout updates a002 Bugfix i008  
 - 2025/04/13  
   ver 1.3.0-beta - RSS配置場所変更 u009 / change locations for RSS deployment u009  
