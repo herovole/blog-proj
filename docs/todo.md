@@ -48,7 +48,7 @@
 - u006  
   Prepare Country icons  
   branch : feature/u006_20250418  
-  version : 1.5.0-beta  
+  version : 1.4.1-beta  
 - u007  
   Prepare RSS 1.0  
   branch : feature/u007_20250409  
