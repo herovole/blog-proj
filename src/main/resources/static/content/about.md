@@ -30,6 +30,7 @@
 ## システム更新履歴
 
 - 2025/04/18  
+  ver 1.4.2-beta - 一時的な4ch出典の非表示 a003 / Temporarily omit 4ch reference a003  
   ver 1.4.1-beta - 国旗表示 u006 / Display flags u006  
 - 2025/04/17  
   ver 1.4.0-beta - Admin 仕様変更 u010 / admin specification updates u010  

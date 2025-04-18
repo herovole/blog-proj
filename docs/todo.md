@@ -94,3 +94,7 @@
   Gadget(right) of external links.  
   branch : feature/a002_20250417  
   version : 1.3.1-beta  
+- a003
+  Stop showing 4chan reference temporarily while that forum is under control of the crackers.  
+  branch : feature/a003_20250418  
+  version : 1.4.2-beta  
