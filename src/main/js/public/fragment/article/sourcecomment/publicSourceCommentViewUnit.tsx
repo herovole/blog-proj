@@ -19,7 +19,7 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
     const [flagPrefix, setFlagPrefix] = useState<string | null>(null);
 
     useEffect(() => {
-        ResourceManagement.getInstance().systemImagePrefixWithSlash().then(e => setFlagPrefix(e + "flag/"));
+        ResourceManagement.getInstance().systemImagePrefixWithSlash().then(e => setFlagPrefix(e + "flags/"));
     }, []);
 
     const handleOnClickReference = () => {
@@ -28,13 +28,22 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
 
     return (
         <div className="source-comment-individual">
-            <span>{content.body.commentId}:</span>
-            <span><img src={flagPrefix + content.body.country + ".png"} alt={content.body.country}/></span>
-            <span className="comment-handle">
-                {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
-            </span>
-            <span>  </span>
-            <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
+            <table>
+                <thead>
+                <tr>
+                    <th className="table-header-plain">{content.body.commentId}:</th>
+                    <th className="table-header-plain">
+                        <img src={flagPrefix + content.body.country.toUpperCase() + ".png"} alt={content.body.country}/>
+                    </th>
+                    <th className="comment-handle table-header-plain">
+                        {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
+                    </th>
+                    <th className="table-header-plain-align-right">
+                        <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
+                    </th>
+                </tr>
+                </thead>
+            </table>
             <DivText className="source-comment-text">{content.body.commentText}</DivText>
         </div>
     );
