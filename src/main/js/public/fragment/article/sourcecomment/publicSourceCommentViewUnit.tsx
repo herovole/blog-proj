@@ -31,12 +31,10 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
             <table style={{width:"100%"}}>
                 <thead>
                 <tr>
-                    <th className="table-header-plain">{content.body.commentId}:</th>
                     <th className="table-header-plain">
+                        <span>{content.body.commentId}:</span>
                         <img src={flagPrefix + content.body.country.toUpperCase() + ".png"} alt={content.body.country}/>
-                    </th>
-                    <th className="comment-handle table-header-plain">
-                        {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
+                        <span>{countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}</span>
                     </th>
                     <th className="table-header-plain-rightmost">
                         <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
