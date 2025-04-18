@@ -38,7 +38,7 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
                     <th className="comment-handle table-header-plain">
                         {countryTagsOptions.getJapaneseNamesByIdsForDisplay([content.body.country])}
                     </th>
-                    <th className="table-header-plain-align-right">
+                    <th className="table-header-plain-rightmost">
                         <button type="button" onClick={handleOnClickReference}>この元記事コメントへコメント</button>
                     </th>
                 </tr>
