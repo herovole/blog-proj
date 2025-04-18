@@ -28,7 +28,7 @@ export const PublicSourceCommentViewUnit: React.FC<PublicSourceCommentViewUnitPr
 
     return (
         <div className="source-comment-individual">
-            <table>
+            <table style={{width:"100%"}}>
                 <thead>
                 <tr>
                     <th className="table-header-plain">{content.body.commentId}:</th>
