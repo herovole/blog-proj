@@ -47,7 +47,6 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                     <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                                 searchBaseUrl={directoryToIndividualPage}/>
                 </div>
-                <div className="article-source-url">引用元: {article.sourceUrl}</div>
                 <div className="article-source-url">引用元: {article.sourceUrl.includes("4chan.org") ? "(出典元サイトにトラブル発生中のため一時的に非表示)" : article.sourceUrl}</div>
                 <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
