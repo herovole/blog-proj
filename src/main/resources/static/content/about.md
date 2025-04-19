@@ -29,12 +29,14 @@
 
 ## システム更新履歴
 
+- 2025/04/19  
+  ver 1.4.3-beta - レイアウト変更 a004 / Layout updates a004  
 - 2025/04/18  
   ver 1.4.2-beta - 一時的な4ch出典の非表示 a003 / Temporarily omit 4ch reference a003  
   ver 1.4.1-beta - 国旗表示 u006 / Display flags u006  
 - 2025/04/17  
   ver 1.4.0-beta - Admin 仕様変更 u010 / admin specification updates u010  
-  ver 1.3.1-beta - レイアウト変更 a002 エラー修正 i008/ Layout updates a002 Bugfix i008  
+  ver 1.3.1-beta - レイアウト変更 a002, エラー修正 i008/ Layout updates a002, Bugfix i008  
 - 2025/04/13  
   ver 1.3.0-beta - RSS配置場所変更 u009 / change locations for RSS deployment u009  
   ver 1.2.2-beta - 人気ブログランキングバナー設置 a001 / install blog.with2.net banner a001  
