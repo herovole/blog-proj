@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 export const ExtLinks: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState<boolean>(true);
 
-    const itemBlogWith2Net = <Link to="https://blog.with2.net/link/?id=2128848&cid=4281">人気ブログランキング</Link>
+    const itemBlogWith2Net = <Link className="gadget-links-item-link" to="https://blog.with2.net/link/?id=2128848&cid=4281">人気ブログランキング</Link>
 
     if (isOpen) {
         return (
