@@ -98,3 +98,7 @@
   Stop showing 4chan reference temporarily while that forum is under control of the crackers.  
   branch : feature/a003_20250418  
   version : 1.4.2-beta  
+- a004
+  modify ExtLinks gadget design  
+  branch : feature/a004_20250419  
+  version : 1.4.3-beta  
