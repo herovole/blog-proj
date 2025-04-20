@@ -1,7 +1,7 @@
 .main-body {
     display: grid;
     grid-template-columns: 200px 800px 200px;
-    background-color: #DDE8EE;
+    background-color: #002244;
 }
 
 .main-area-frame {
