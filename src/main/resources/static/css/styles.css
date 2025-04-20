@@ -48,3 +48,7 @@
     font-weight: normal;
     text-align: right;
 }
+
+.indent {
+    padding-left: 4vw;
+}
