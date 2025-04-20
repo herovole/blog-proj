@@ -20,7 +20,7 @@ export const PublicPageAbout = () => {
     if (content && systemImgPrefix) {
         return <>
             <MetaInfo
-                tabTitle={"サイト概要"}
+                tabTitle={"サイト情報"}
             />
             <PublicBasicLayout>
                 <PublicAboutLinks iconPrefix={systemImgPrefix}/>
