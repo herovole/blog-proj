@@ -102,3 +102,7 @@
   modify ExtLinks gadget design  
   branch : feature/a004_20250419  
   version : 1.4.3-beta  
+- a005
+  apply background color  
+  branch : feature/a005_20250420  
+  version : 1.4.4-beta  
