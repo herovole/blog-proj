@@ -1,15 +1,16 @@
-.gadget-links-external {
-    border: 1px solid black;
-    background-color:#FFFFFF;
-    width:256px;
-
+.gadget-float-bottom-right {
     position: fixed;
     bottom: 5vh;
     right: 5vw;
     box-shadow: 0 0 8px rgba(32,0,128,0.4);
 }
 
-.gadget-links-close {
+.gadget-external {
+    border: 1px solid black;
+    background-color:#FFFFFF;
+}
+
+.gadget-close {
     border: 4px outset #CCCCCC;
     background-color:#EEEEEE;
     width:100%;
@@ -27,6 +28,7 @@
 
 .gadget-links-body {
     border: 1px solid black;
+    width:256px;
     background-color:#BBBBBB;
     color:#FFFFFF;
     padding-left:16px;
