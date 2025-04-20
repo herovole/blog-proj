@@ -29,7 +29,7 @@
 
 ## システム更新履歴
 
-- 2025/04/20
+- 2025/04/20  
   ver 1.4.5-beta - レイアウト変更 a004 / Layout updates a004
 - 2025/04/19  
   ver 1.4.3-beta - レイアウト変更 a004 / Layout updates a004  
