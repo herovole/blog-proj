@@ -12,7 +12,7 @@ export const PublicPageArticleList = () => {
 
     return (<>
             <MetaInfo
-                tabTitle={"記事検索"}
+                tabTitle={"一覧"}
             />
             <PublicBasicLayout>
                 <ArticleListBody
