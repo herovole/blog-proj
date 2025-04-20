@@ -19,7 +19,7 @@ export const PublicPageAbout = () => {
     if (content && xmlPrefix) {
         return <>
             <MetaInfo
-                tabTitle={"サイト概要"}
+                tabTitle={"サイト情報"}
             />
             <PublicBasicLayout>
                 <div>
