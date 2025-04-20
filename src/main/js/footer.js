@@ -9,7 +9,7 @@ export const Footer = () => {
                     <Link to="/">ホーム</Link>
                 </li>
                 <li>
-                    <Link to="/articles">検索</Link>
+                    <Link to="/articles">一覧</Link>
                 </li>
                 <li>
                     <Link to="/about">サイト情報</Link>
