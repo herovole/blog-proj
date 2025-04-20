@@ -96,7 +96,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
 
     const totalPages = () => {
         return output.getLength() % inputFixed.itemsPerPage === 0
-            ? Math.min(output.getLength() / inputFixed.itemsPerPage, 1)
+            ? Math.max(output.getLength() / inputFixed.itemsPerPage, 1)
             : Math.floor(output.getLength() / inputFixed.itemsPerPage) + 1;
     }
 
