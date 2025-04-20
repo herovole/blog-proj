@@ -36,6 +36,8 @@
   isHidden attribute of Source Comment editing fragment has a possibility that it doesn't reflect the actual value.  
   branch : feature/i008_20250417  
   version : 1.3.1-beta
+- i009  
+  failure in calculating method of pagination : there can be cases that Math.max is miscoded Math.min.  
 
 ## System Updates
 
