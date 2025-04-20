@@ -1,12 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-type PublicAboutLinks = {
+type PublicAboutLinksProps = {
     iconPrefix: string;
 }
 
 
-export const PublicAboutLinks: React.FC<PublicAboutLinks> = ({iconPrefix}) => {
+export const PublicAboutLinks: React.FC<PublicAboutLinksProps> = ({iconPrefix}) => {
 
     return (
         <div>
