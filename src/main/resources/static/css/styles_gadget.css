@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 5vh;
     right: 5vw;
-    box-shadow: 0 0 8px rgba(32,0,128,0.4);
+    box-shadow: 0 0 8px rgba(192,192,256,1.0);
 }
 
 .gadget-external {
