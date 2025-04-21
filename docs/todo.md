@@ -38,6 +38,8 @@
   version : 1.3.1-beta
 - i009  
   failure in calculating method of pagination : there can be cases that Math.max is miscoded Math.min.  
+  branch : feature/i009_20250421  
+  version : 1.4.6-beta  
 
 ## System Updates
 
@@ -103,7 +105,7 @@
 - a004
   modify ExtLinks gadget design  
   branch : feature/a004_20250419  
-  version : 1.4.3-beta  
+  version : 1.4.3-beta, 1.4.5-beta  
 - a005
   apply background color  
   branch : feature/a005_20250420  
