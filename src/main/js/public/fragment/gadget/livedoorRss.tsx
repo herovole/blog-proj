@@ -8,7 +8,7 @@ export const LivedoorRss: React.FC = () => {
             src="/livedoor-rss.html"
             style={{
                 width: '320px',
-                height: '512px', // adjust height as needed
+                height: '768px', // adjust height as needed
                 backgroundColor: '#cccc88',
                 border: 'none',
             }}
