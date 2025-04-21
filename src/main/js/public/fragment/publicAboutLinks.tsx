@@ -49,7 +49,9 @@ export const PublicAboutLinks: React.FC<PublicAboutLinksProps> = ({iconPrefix}) 
                 <br/>
                 <h2>申請中アンテナサイト</h2>
                 <div className="indent">
-                    <span>ヤクテナ : <Link to="https://www.yakutena.com/">https://www.yakutena.com/</Link> </span>
+                    <p>ヤクテナ : <Link to="https://www.yakutena.com/">https://www.yakutena.com/</Link></p>
+                    <p>海外の反応アンテナ.com : <Link to="https://kaihan-antenna.com/">https://kaihan-antenna.com/</Link></p>
+                    <p>海外反応研究会 : <Link to="https://kaiken.atna.jp/">https://kaiken.atna.jp/</Link></p>
                 </div>
             </div>
         </div>
