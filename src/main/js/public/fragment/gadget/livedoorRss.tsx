@@ -5,7 +5,7 @@ export const LivedoorRss: React.FC = () => {
     return <div style={{width: '100%', border: 'none', overflow: 'hidden'}}>
         <iframe
             title="Blogroll Widget"
-            src="/livedoor_rss.html"
+            src="/livedoor-rss.html"
             style={{
                 width: '320px',
                 height: '512px', // adjust height as needed
