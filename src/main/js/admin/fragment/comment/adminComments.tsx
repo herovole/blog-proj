@@ -91,7 +91,7 @@ export const AdminComments: React.FC<AdminCommentsProps> = ({directoryToIndividu
     }
     const totalPages = () => {
         return data.getTotal() % inputFixed.itemsPerPage === 0
-            ? Math.min(data.getTotal() / inputFixed.itemsPerPage, 1)
+            ? Math.max(data.getTotal() / inputFixed.itemsPerPage, 1)
             : Math.floor(data.getTotal() / inputFixed.itemsPerPage) + 1;
     }
 
