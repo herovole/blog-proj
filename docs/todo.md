@@ -115,3 +115,7 @@
   apply background color  
   branch : feature/a005_20250420  
   version : 1.4.4-beta  
+- a006  
+  registration requests to two other antennas  
+  branch : feature/a006_20250421  
+  version : 1.4.8-beta  
