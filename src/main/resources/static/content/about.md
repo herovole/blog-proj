@@ -31,6 +31,8 @@
 
 - 2025/04/21  
   ver 1.4.8-beta - レイアウト変更 a006 / Layout updates a006  
+  ver 1.4.7-beta - エラー修正 i010 / Bugfix i010  
+  ver 1.4.6-beta - エラー修正 i009 / bugfix i009  
 - 2025/04/20  
   ver 1.4.5-beta - レイアウト変更 a004 / Layout updates a004  
   ver 1.4.4-beta - レイアウト変更 a005 / Layout updates a005  
