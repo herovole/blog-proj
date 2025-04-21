@@ -3,7 +3,7 @@ import {marked} from "marked";
 import {PublicBasicLayout} from "./fragment/publicBasicLayout";
 import {MetaInfo} from "./fragment/metaInfo";
 import {ResourceManagement} from "../service/resourceManagement";
-import {PublicAboutLinks} from "./fragment/publicAboutLinksProps"; // Import the Markdown parser
+import {PublicAboutLinks} from "./fragment/publicAboutLinks"; // Import the Markdown parser
 
 export const PublicPageAbout = () => {
     const [content, setContent] = useState<string>("");
