@@ -15,7 +15,7 @@ export const GadgetBase: React.FC<GadgetBaseProps> = ({children, width="256px", 
             <div className="gadget-external" style={{width: width}}>
                 <button className="gadget-close" onClick={function () {
                     setIsOpen(false);
-                }}>{"▽" + subjectName + "ガジェットを畳む"}
+                }}>{"▽" + subjectName + "ウィジェットを畳む"}
                 </button>
                 {children}
             </div>
@@ -25,7 +25,7 @@ export const GadgetBase: React.FC<GadgetBaseProps> = ({children, width="256px", 
             <div className="gadget-external" style={{width: width}}>
                 <button className="gadget-close" onClick={function () {
                     setIsOpen(true);
-                }}>{"▲" + subjectName + "ガジェットを広げる"}
+                }}>{"▲" + subjectName + "ウィジェットを広げる"}
                 </button>
             </div>
         );
