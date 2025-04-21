@@ -40,6 +40,11 @@
   failure in calculating method of pagination : there can be cases that Math.max is miscoded Math.min.  
   branch : feature/i009_20250421  
   version : 1.4.6-beta  
+- i010  
+  RSS links in iframe do not send users with the referrer set to my domain.  
+  branch : feature/i010_20250421  
+  version : 1.4.7-beta  
+
 
 ## System Updates
 
