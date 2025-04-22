@@ -44,6 +44,16 @@
   RSS links in iframe do not send users with the referrer set to my domain.  
   branch : feature/i010_20250421  
   version : 1.4.7-beta  
+- i011  
+  Let an article editing button fail, when the article title is empty.  
+- i012  
+  Let an article editing button fail, when a source comment refers to a comment with an older number.  
+- i013  
+  Alter format of the article publishing timestamp  
+- i014  
+  Fix : a long title gets abbreviated on the top page  
+- i015  
+  Fix : a long title gets abbreviated without ... on the list page  
 
 
 ## System Updates
@@ -84,6 +94,15 @@
   Take referer data.  
 - u016  
   Gadget(left) of an article list aligned by the timestamps of the latest comments.  
+- u017  
+  Introduce a flag and a tag for German language sphere.  
+- u018  
+  Introduce RSS for German language.  
+- u019  
+  Function to rebuild sitemap.xml.  
+- u020  
+  Function to build dummy HTMLs for respective articles.  
+
   
 ## Layout Updates
 
