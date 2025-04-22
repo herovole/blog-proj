@@ -54,6 +54,14 @@
   Fix : a long title gets abbreviated on the top page  
 - i015  
   Fix : a long title gets abbreviated without ... on the list page  
+- i016  
+  Needs automatic reloading after getting an editing page updated.  
+- i017  
+  Get each method converting a domain object to a JPA entity have concrete class instead of an abstract one for its argument.  
+- i018  
+  Get a custom exception "EmptyRecordException" and "IncompatibleUpdateException" abolished or standardized.  
+- i019  
+  Get every UnSupportedOperationException have argument String.  
 
 
 ## System Updates
