@@ -46,6 +46,8 @@
   version : 1.4.7-beta  
 - i011  
   Let an article editing button fail, when the article title is empty.  
+  branch : feature/i011_20250423  
+  version : 1.4.9-beta  
 - i012  
   Let an article editing button fail, when a source comment refers to a comment with an older number.  
 - i013  
