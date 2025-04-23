@@ -65,6 +65,11 @@ public class CommentUnitWithDepth implements CommentUnit {
     }
 
     @Override
+    public boolean precedes(CommentUnit that) {
+        return this.body.precedes(that);
+    }
+
+    @Override
     public boolean hasSameContent(CommentUnit that) {
         return this.body.hasSameContent(that);
     }

@@ -83,6 +83,12 @@ public class RealSourceCommentUnit implements CommentUnit {
     }
 
     @Override
+    public boolean precedes(CommentUnit that) {
+        if (that.isEmpty()) return false;
+        return this.commentId.precedes(((RealSourceCommentUnit) that).commentId);
+    }
+
+    @Override
     public boolean hasSameContent(CommentUnit that) {
         if (that.isEmpty()) return false;
         RealSourceCommentUnit it = (RealSourceCommentUnit) that;
