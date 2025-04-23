@@ -79,6 +79,11 @@ public class IntegerId implements Comparable<IntegerId> {
         return null == id || Long.parseLong(EMPTY_ZERO) == id;
     }
 
+    public boolean precedes(IntegerId that) {
+        if (this.isEmpty() || that.isEmpty()) return false;
+        return this.id < that.id;
+    }
+
     public String letterSignature() {
         return this.isEmpty() ? EMPTY : String.valueOf(this.id);
     }

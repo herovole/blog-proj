@@ -47,7 +47,10 @@
 - i011  
   Let an article editing button fail, when the article title is empty.  
 - i012  
-  Let an article editing button fail, when a source comment refers to a comment with an older number.  
+  (Let an article editing button fail, when a source comment refers to a comment with an older number.)  
+  Changed the plan : just ignore the wrong referred ID.  
+  branch : feature/i012_20250423  
+  version : 1.4.9-beta  
 - i013  
   Alter format of the article publishing timestamp  
 - i014  
