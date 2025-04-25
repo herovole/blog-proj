@@ -10,6 +10,8 @@ export class SearchArticlesInput {
             null,
             null,
             "",
+            [],
+            [],
             isForAdmin
         );
     }
@@ -20,6 +22,8 @@ export class SearchArticlesInput {
     dateFrom: Date | null;
     dateTo: Date | null;
     keywords: string;
+    topicTags: ReadonlyArray<string>;
+    countryTags: ReadonlyArray<string>;
     requiresAuth: boolean;
 
     constructor(
@@ -29,6 +33,8 @@ export class SearchArticlesInput {
         dateFrom: Date | null,
         dateTo: Date | null,
         keywords: string,
+        topicTags: ReadonlyArray<string>,
+        countryTags: ReadonlyArray<string>,
         requiresAuth: boolean
     ) {
         this.itemsPerPage = itemsPerPage;
@@ -37,6 +43,8 @@ export class SearchArticlesInput {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.keywords = keywords;
+        this.topicTags = topicTags;
+        this.countryTags = countryTags;
         this.requiresAuth = requiresAuth;
     }
 
@@ -48,6 +56,8 @@ export class SearchArticlesInput {
             this.dateFrom,
             this.dateTo,
             this.keywords,
+            this.topicTags,
+            this.countryTags,
             this.requiresAuth
         );
     }
@@ -60,6 +70,8 @@ export class SearchArticlesInput {
             "dateFrom": this.dateFrom ? encodeURIComponent(format(this.dateFrom, "yyyyMMdd")) : "",
             "dateTo": this.dateTo ? encodeURIComponent(format(this.dateTo, "yyyyMMdd")) : "",
             "keywords": encodeURIComponent(this.keywords),
+            "topicTags": encodeURIComponent(this.topicTags.join(",")),
+            "countries": encodeURIComponent(this.countryTags.join(",")),
             "requiresAuth": this.requiresAuth ? encodeURIComponent("1") : encodeURIComponent("0"),
         };
     };

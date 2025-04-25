@@ -34,4 +34,8 @@ public class SearchKeywords {
             return SearchKeyword.empty();
         }
     }
+
+    public int size() {
+        return this.keywords.length;
+    }
 }
