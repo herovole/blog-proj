@@ -164,7 +164,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     <p>キーワード :
                         <input
                             className="input-keywords"
-                            placeholder="space-separated search keywords"
+                            placeholder="スペース区切り、最大3"
                             onChange={handleKeywords}
                             value={keywords}
                         />
@@ -176,7 +176,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             options={topicTagsOptions.getTagOptionsJapanese()}
                             value={topicTagsOptions.getTagOptionsJapaneseSelected(topicTags)}
                             onChange={handleTopicTags}
-                            placeholder="Select or type to add tags"
+                            placeholder="最大3"
                         />
                     </p>
                     <br/>
@@ -186,7 +186,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             options={countryTagsOptions.getTagOptionsJapanese()}
                             value={countryTagsOptions.getTagOptionsJapaneseSelected(countries)}
                             onChange={handleCountries}
-                            placeholder="Select or type to add tags"
+                            placeholder="最大3"
                         />
                     </p>
                     <p>日付範囲 :
