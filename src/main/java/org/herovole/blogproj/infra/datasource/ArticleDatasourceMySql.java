@@ -101,6 +101,12 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         long[] ids = aArticleRepository.searchByOptions(
                 searchOption.getIsPublished().intMemorySignature(),
+                searchOption.getTopics().get(0).intMemorySignature(),
+                searchOption.getTopics().get(1).intMemorySignature(),
+                searchOption.getTopics().get(2).intMemorySignature(),
+                searchOption.getCountries().get(0).memorySignature(),
+                searchOption.getCountries().get(1).memorySignature(),
+                searchOption.getCountries().get(2).memorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),
@@ -118,6 +124,12 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     public long countByOptions(ArticleListSearchOption searchOption) {
         return aArticleRepository.countByOptions(
                 searchOption.getIsPublished().intMemorySignature(),
+                searchOption.getTopics().get(0).intMemorySignature(),
+                searchOption.getTopics().get(1).intMemorySignature(),
+                searchOption.getTopics().get(2).intMemorySignature(),
+                searchOption.getCountries().get(0).memorySignature(),
+                searchOption.getCountries().get(1).memorySignature(),
+                searchOption.getCountries().get(2).memorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),

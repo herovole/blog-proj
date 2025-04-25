@@ -18,41 +18,88 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
     @Query(value = "Select max(id) from a_article limit 1", nativeQuery = true)
     Long findMaxId();
 
-    @Query(value = "Select id from a_article " +
+    @Query(value = "Select a.id from a_article a  " +
+            " Left Join a_article_has_topic_tag t  " +
+            "   On t.article_id = a.id  " +
+            " Left Join a_article_has_country c  " +
+            "   On c.article_id = a.id  " +
             " Where " +
-            "   is_published = :isPublished " +
+            "   a.is_published = :isPublished " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId1  " +
+            "   OR  " +
+            "     :topicTagId1 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId2  " +
+            "   OR  " +
+            "     :topicTagId2 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId3  " +
+            "   OR  " +
+            "     :topicTagId3 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId1  " +
+            "   OR  " +
+            "     :countryTagId1 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId2  " +
+            "   OR  " +
+            "     :countryTagId2 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId3  " +
+            "   OR  " +
+            "     :countryTagId3 is NULL  " +
+            "   )  " +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword1, '%') " +
+            "     a.title like Concat('%', :keyword1, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword1, '%') " +
+            "     a.text like Concat('%', :keyword1, '%') " +
             "   OR :keyword1 is null " +
             "   )" +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword2, '%') " +
+            "     a.title like Concat('%', :keyword2, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword2, '%') " +
+            "     a.text like Concat('%', :keyword2, '%') " +
             "   OR :keyword2 is null " +
             "   )" +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword3, '%') " +
+            "     a.title like Concat('%', :keyword3, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword3, '%') " +
+            "     a.text like Concat('%', :keyword3, '%') " +
             "   OR :keyword3 is null " +
             "   )" +
             "  AND " +
             "   (" +
-            "     update_timestamp between :timestampFrom And :timestampTo " +
+            "     a.update_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     insert_timestamp between :timestampFrom And :timestampTo " +
+            "     a.insert_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     coalesce(source_date,curdate()) between :dateFrom And :dateTo " +
+            "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) " +
-            " order by id desc" +
+            " group by a.id  " +
+            " order by a.id desc" +
             " limit :limit offset :offset", nativeQuery = true)
     long[] searchByOptions(@Param("isPublished") int isPublished,
+                           @Param("topicTagId1") int topicTagId1,
+                           @Param("topicTagId2") int topicTagId2,
+                           @Param("topicTagId3") int topicTagId3,
+                           @Param("countryTagId1") String countryTagId1,
+                           @Param("countryTagId2") String countryTagId2,
+                           @Param("countryTagId3") String countryTagId3,
                            @Param("keyword1") String keyword1,
                            @Param("keyword2") String keyword2,
                            @Param("keyword3") String keyword3,
@@ -64,39 +111,85 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
                            @Param("offset") long offset
     );
 
-    @Query(value = "Select count(id) from a_article " +
+    @Query(value = "Select count(distinct(a.id)) from a_article a  " +
+            " Left Join a_article_has_topic_tag t  " +
+            "   On t.article_id = a.id  " +
+            " Left Join a_article_has_country c  " +
+            "   On c.article_id = a.id  " +
             " Where " +
-            "   is_published = :isPublished " +
+            "   a.is_published = :isPublished " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId1  " +
+            "   OR  " +
+            "     :topicTagId1 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId2  " +
+            "   OR  " +
+            "     :topicTagId2 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     t.topic_tag_id = :topicTagId3  " +
+            "   OR  " +
+            "     :topicTagId3 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId1  " +
+            "   OR  " +
+            "     :countryTagId1 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId2  " +
+            "   OR  " +
+            "     :countryTagId2 is NULL  " +
+            "   )  " +
+            "   And  " +
+            "   (  " +
+            "     c.iso_2 = :countryTagId3  " +
+            "   OR  " +
+            "     :countryTagId3 is NULL  " +
+            "   )  " +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword1, '%') " +
+            "     a.title like Concat('%', :keyword1, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword1, '%') " +
+            "     a.text like Concat('%', :keyword1, '%') " +
             "   OR :keyword1 is null " +
             "   )" +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword2, '%') " +
+            "     a.title like Concat('%', :keyword2, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword2, '%') " +
+            "     a.text like Concat('%', :keyword2, '%') " +
             "   OR :keyword2 is null " +
             "   )" +
             "   And " +
             "   (" +
-            "     title like Concat('%', :keyword3, '%') " +
+            "     a.title like Concat('%', :keyword3, '%') " +
             "   OR " +
-            "     text like Concat('%', :keyword3, '%') " +
+            "     a.text like Concat('%', :keyword3, '%') " +
             "   OR :keyword3 is null " +
             "   )" +
             "  AND " +
             "   (" +
-            "     update_timestamp between :timestampFrom And :timestampTo " +
+            "     a.update_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     insert_timestamp between :timestampFrom And :timestampTo " +
+            "     a.insert_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
-            "     coalesce(source_date,curdate()) between :dateFrom And :dateTo " +
+            "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) ", nativeQuery = true)
     long countByOptions(@Param("isPublished") int isPublished,
+                        @Param("topicTagId1") int topicTagId1,
+                        @Param("topicTagId2") int topicTagId2,
+                        @Param("topicTagId3") int topicTagId3,
+                        @Param("countryTagId1") String countryTagId1,
+                        @Param("countryTagId2") String countryTagId2,
+                        @Param("countryTagId3") String countryTagId3,
                         @Param("keyword1") String keyword1,
                         @Param("keyword2") String keyword2,
                         @Param("keyword3") String keyword3,

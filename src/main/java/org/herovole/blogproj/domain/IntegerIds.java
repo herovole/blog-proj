@@ -21,7 +21,7 @@ public class IntegerIds implements Iterable<IntegerId> {
     private static final String API_KEY_TOPIC_TAGS = "topicTags";
 
 
-    public static IntegerIds fromPostContentTopicTags(FormContent formContent) {
+    public static IntegerIds fromFormContentTopicTags(FormContent formContent) {
         return fromPostContent(formContent, API_KEY_TOPIC_TAGS);
     }
 
@@ -89,6 +89,17 @@ public class IntegerIds implements Iterable<IntegerId> {
 
     public boolean has(IntegerId integerId) {
         return Arrays.asList(this.ids).contains(integerId);
+    }
+
+    public IntegerId get(int index) {
+        if (index < this.ids.length) {
+            return this.ids[index];
+        }
+        return IntegerId.empty();
+    }
+
+    public int size() {
+        return this.ids.length;
     }
 
     public IntegerIds unknownItemsOf(IntegerIds that) {

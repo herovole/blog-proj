@@ -16,7 +16,7 @@ public class CountryCodes {
 
     private static final String API_KEY_COUNTRY = "countries";
 
-    public static CountryCodes fromPostContent(FormContent formContent) {
+    public static CountryCodes fromFormContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
         FormContents arrayChildren = child.getInArray();
         CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
@@ -39,6 +39,17 @@ public class CountryCodes {
 
     public boolean has(CountryCode countryCode) {
         return Arrays.asList(codes).contains(countryCode);
+    }
+
+    public CountryCode get(int index) {
+        if (index < this.codes.length) {
+            return this.codes[index];
+        }
+        return CountryCode.empty();
+    }
+
+    public int size() {
+        return this.codes.length;
     }
 
     /**

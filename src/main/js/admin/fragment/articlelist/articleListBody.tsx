@@ -1,11 +1,14 @@
 import React, {useEffect} from 'react';
 import DatePicker from 'react-datepicker';
+import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput";
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
 import {HeadlinesMode, PublicArticleHeadlines} from "../../../public/fragment/articlelist/publicArticleHeadlines";
 import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
+import {ResourceManagement} from "../../../service/resourceManagement";
+import {TagUnits} from "../atomic/tagselectingform/tagUnits";
 
 type ArticleListBodyProps = {
     isForAdmin?: boolean;
@@ -23,10 +26,14 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                 }) => {
     const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault(isForAdmin));
     const articleService: ArticleService = new ArticleService();
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
     const [itemsPerPage, setItemsPerPage] = React.useState<number>(inputFixed.itemsPerPage);
     const [page, setPage] = React.useState<number>(inputFixed.page);
     const [keywords, setKeywords] = React.useState<string>(inputFixed.keywords);
+    const [topicTags, setTopicTags] = React.useState<ReadonlyArray<string>>(inputFixed.topicTags);
+    const [countries, setCountries] = React.useState<ReadonlyArray<string>>(inputFixed.countryTags);
     const [dateFrom, setDateFrom] = React.useState<Date | null>(inputFixed.dateFrom);
     const [dateTo, setDateTo] = React.useState<Date | null>(inputFixed.dateTo);
     const [isPublished, setIsPublished] = React.useState<boolean>(inputFixed.isPublished);
@@ -35,6 +42,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
 
     const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
+
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
 
     const load = async (): Promise<void> => {
         await loadArticles(inputFixed);
@@ -48,6 +60,16 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeywords(e.currentTarget.value);
+    }
+    const handleTopicTags = (theSelectedTags:
+                             ReadonlyArray<{ value: string, label: string }>
+    ) => {
+        setTopicTags(theSelectedTags.map(tag => tag.value));
+    }
+    const handleCountries = (theSelectedTags:
+                             ReadonlyArray<{ value: string, label: string }>
+    ) => {
+        setCountries(theSelectedTags.map(tag => tag.value));
     }
     const handleDateFrom = (date: Date | null) => {
         setDateFrom(date);
@@ -88,6 +110,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             dateFrom,
             dateTo,
             keywords,
+            topicTags,
+            countries,
             isForAdmin
         );
         setInputFixed(input);
@@ -143,6 +167,26 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             placeholder="space-separated search keywords"
                             onChange={handleKeywords}
                             value={keywords}
+                        />
+                    </p>
+                    <br/>
+                    <p>話題分類 :
+                        <Select
+                            isMulti={true}
+                            options={topicTagsOptions.getTagOptionsJapanese()}
+                            value={topicTagsOptions.getTagOptionsJapaneseSelected(topicTags)}
+                            onChange={handleTopicTags}
+                            placeholder="Select or type to add tags"
+                        />
+                    </p>
+                    <br/>
+                    <p>国 :
+                        <Select
+                            isMulti={true}
+                            options={countryTagsOptions.getTagOptionsJapanese()}
+                            value={countryTagsOptions.getTagOptionsJapaneseSelected(countries)}
+                            onChange={handleCountries}
+                            placeholder="Select or type to add tags"
                         />
                     </p>
                     <p>日付範囲 :
