@@ -54,6 +54,8 @@
   Fix : a long title gets abbreviated on the top page  
 - i015  
   Fix : a long title gets abbreviated without ... on the list page  
+  branch : feature/i015_20250425  
+  version : 1.4.9-beta  
 - i016  
   Needs automatic reloading after getting an editing page updated.  
 - i017  

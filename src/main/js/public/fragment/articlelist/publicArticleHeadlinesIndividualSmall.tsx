@@ -30,7 +30,7 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
         return (
             <div key="" className="headline-item">
                 <Link className="headline-clickable-small" to={directoryToIndividualPage + "/" + article.articleId}>
-                    {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
+                    {article.title ? article.title.length > LETTERS_PICKUP ? article.title.slice(0, LETTERS_PICKUP) + "..." : article.title : ""}
                 </Link>
                 <br/>
                 <span className="small-memo">
