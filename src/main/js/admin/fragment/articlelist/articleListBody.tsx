@@ -6,6 +6,7 @@ import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutp
 import {HeadlinesMode, PublicArticleHeadlines} from "../../../public/fragment/articlelist/publicArticleHeadlines";
 import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
+import {useSearchParams} from "react-router-dom";
 
 type ArticleListBodyProps = {
     isForAdmin?: boolean;
@@ -21,7 +22,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
                                                                 }) => {
-    const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault(isForAdmin));
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefaultOrGetParams(searchParams, isForAdmin));
     const articleService: ArticleService = new ArticleService();
 
     const [itemsPerPage, setItemsPerPage] = React.useState<number>(inputFixed.itemsPerPage);
@@ -69,6 +71,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
         if (output.isSuccessful()) {
+            setSearchParams(input.toPayloadHash());
             setOutput(output);
         } else {
             console.error(output.getMessage("article list retrieval"));
