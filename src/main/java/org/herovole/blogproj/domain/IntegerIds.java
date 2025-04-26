@@ -21,8 +21,9 @@ public class IntegerIds implements Iterable<IntegerId> {
     private static final String API_KEY_TOPIC_TAGS = "topicTags";
 
 
-    public static IntegerIds fromFormContentTopicTags(FormContent formContent) {
-        return fromPostContent(formContent, API_KEY_TOPIC_TAGS);
+    public static IntegerIds fromFormContentTopicTagsInCommaSeparatedString(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_TOPIC_TAGS);
+        return of(child.getValue());
     }
 
     public static IntegerIds fromPostContentEditors(FormContent formContent) {

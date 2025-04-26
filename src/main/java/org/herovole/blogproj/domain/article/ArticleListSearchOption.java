@@ -21,8 +21,8 @@ public class ArticleListSearchOption {
                 .pagingRequest(PagingRequest.fromFormContent(formContent))
                 .dateRange(DateRange.fromComplementedFormContent(formContent))
                 .keywords(SearchKeywords.fromFormContent(formContent))
-                .topics(IntegerIds.fromFormContentTopicTags(formContent))
-                .countries(CountryCodes.fromFormContent(formContent))
+                .topics(IntegerIds.fromFormContentTopicTagsInCommaSeparatedString(formContent))
+                .countries(CountryCodes.fromFormContentInCommaSeparatedString(formContent))
                 .build();
     }
 

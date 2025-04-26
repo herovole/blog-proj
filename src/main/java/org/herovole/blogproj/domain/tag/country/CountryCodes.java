@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.domain.FormContents;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -15,11 +14,12 @@ import java.util.stream.Stream;
 public class CountryCodes {
 
     private static final String API_KEY_COUNTRY = "countries";
+    private static final String SEP = ",";
 
-    public static CountryCodes fromFormContent(FormContent formContent) {
+    public static CountryCodes fromFormContentInCommaSeparatedString(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
-        FormContents arrayChildren = child.getInArray();
-        CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
+        String[] rawCodes = child.getValue().split(SEP);
+        CountryCode[] codes = Arrays.stream(rawCodes).map(CountryCode::valueOf).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
         return of(codes);
     }
 
