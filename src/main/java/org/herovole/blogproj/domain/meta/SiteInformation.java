@@ -1,4 +1,4 @@
-package org.herovole.blogproj.domain;
+package org.herovole.blogproj.domain.meta;
 
 import lombok.Builder;
 import lombok.Getter;

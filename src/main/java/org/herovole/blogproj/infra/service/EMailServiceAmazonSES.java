@@ -11,7 +11,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.Builder;
 import org.herovole.blogproj.domain.EMailAddress;
 import org.herovole.blogproj.domain.IPv4Address;
-import org.herovole.blogproj.domain.SiteInformation;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.EMailService;
 import org.herovole.blogproj.domain.adminuser.VerificationCode;
 import org.herovole.blogproj.domain.time.Timestamp;

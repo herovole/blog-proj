@@ -1,6 +1,6 @@
 package org.herovole.blogproj.infra.service;
 
-import org.herovole.blogproj.domain.SiteInformation;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.accesskey.AccessKey;
 import org.herovole.blogproj.domain.accesskey.AccessKeyAsPath;
