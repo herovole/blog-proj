@@ -40,6 +40,11 @@ public class Articles {
         return Articles.of(merged);
     }
 
+    public Articles sliceFirst(int number) {
+        Article[] articles = Arrays.copyOf(this.arrayOfArticles, Math.min(number, this.arrayOfArticles.length));
+        return Articles.of(articles);
+    }
+
     public Article.Json[] toJsonRecord() {
         return Arrays.stream(arrayOfArticles).map(Article::toJsonModel).toArray(Article.Json[]::new);
     }
