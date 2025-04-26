@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 public class GenerateRss implements RssDestinations {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateRss.class.getSimpleName());
+    private static final int NUMBER_ADOPTED = 12;
 
     private final SearchArticles searchArticles;
     private final ArticleTransactionalDatasource articleTransactionalDatasourceRss20Feed;
@@ -72,6 +73,7 @@ public class GenerateRss implements RssDestinations {
             Articles articlesOfThisSearch = searchArticlesOutput.getArticles();
             articles = articles.append(articlesOfThisSearch);
         }
+        articles = articles.sliceFirst(NUMBER_ADOPTED);
 
         final ArticleTransactionalDatasource articleTransactionalDatasource = rssType.getCorrespondingDatasource(this);
         articles.stream().forEach(articleTransactionalDatasource::insert);
