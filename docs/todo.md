@@ -106,6 +106,8 @@
   Introduce a flag and a tag for German language sphere.  
 - u018  
   Introduce RSS for German language.  
+  branch : feature/u018_20250426  
+  version : 1.5.0-beta  
 - u019  
   Function to rebuild sitemap.xml.  
 - u020  
