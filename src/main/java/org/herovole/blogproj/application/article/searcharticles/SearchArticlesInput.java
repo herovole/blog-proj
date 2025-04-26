@@ -1,15 +1,13 @@
 package org.herovole.blogproj.application.article.searcharticles;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 
 @ToString
 @Getter
+@Builder
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchArticlesInput {
 
