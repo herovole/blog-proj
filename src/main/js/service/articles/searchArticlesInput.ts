@@ -14,6 +14,18 @@ export class SearchArticlesInput {
         );
     }
 
+    static byDefaultOrGetParams(getParams : URLSearchParams, isForAdmin: boolean) {
+        return new SearchArticlesInput(
+            getParams.get("itemsPerPage") ? parseInt(getParams.get("itemsPerPage")!) : 10,
+            getParams.get("page") ? parseInt(getParams.get("page")!) : 1,
+            getParams.get("isPublished") ? getParams.get("isPublished") === "1" : true,
+            getParams.get("dateFrom") ? new Date(getParams.get("dateFrom")!) : null,
+            getParams.get("dateTo") ? new Date(getParams.get("dateTo")!) : null,
+            getParams.get("keywords") ? getParams.get("keywords")! : "",
+            isForAdmin
+        );
+    }
+
     itemsPerPage: number;
     page: number;
     isPublished: boolean;
