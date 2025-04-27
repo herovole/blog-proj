@@ -261,3 +261,4 @@ INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('732','
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('887','Yemen','イエメン共和国','ye','yem','Yemen');
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('894','Zambia','ザンビア共和国','zm','zmb','Zambia');
 INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('716','Zimbabwe','ジンバブエ共和国','zw','zwe','Zimbabwe');
+INSERT INTO m_country (id,name_en,name_ja,iso_2,iso_3,icon_base) values ('1000','Former HRE','旧東フランク王国','d1','d11','');
