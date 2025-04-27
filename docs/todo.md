@@ -77,6 +77,8 @@
 
 - u001  
   Include country tags and topic tags in search options.  
+  branch : feature/i001_20250425  
+  version : 1.5.0-beta  
 - u002  
   Make country tags and topic tags clickable for instant search.
 - u003  

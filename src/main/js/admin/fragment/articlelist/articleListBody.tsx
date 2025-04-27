@@ -1,11 +1,14 @@
 import React, {useEffect} from 'react';
 import DatePicker from 'react-datepicker';
+import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {SearchArticlesInput} from "../../../service/articles/searchArticlesInput";
 import {SearchArticlesOutput} from "../../../service/articles/searchArticlesOutput";
 import {HeadlinesMode, PublicArticleHeadlines} from "../../../public/fragment/articlelist/publicArticleHeadlines";
 import {ArticleService} from "../../../service/articles/articleService";
 import {AppPagination} from "../appPagenation";
+import {ResourceManagement} from "../../../service/resourceManagement";
+import {TagUnits} from "../atomic/tagselectingform/tagUnits";
 
 type ArticleListBodyProps = {
     isForAdmin?: boolean;
@@ -23,10 +26,14 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                 }) => {
     const [inputFixed, setInputFixed] = React.useState(SearchArticlesInput.byDefault(isForAdmin));
     const articleService: ArticleService = new ArticleService();
+    const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
+    const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
 
     const [itemsPerPage, setItemsPerPage] = React.useState<number>(inputFixed.itemsPerPage);
     const [page, setPage] = React.useState<number>(inputFixed.page);
     const [keywords, setKeywords] = React.useState<string>(inputFixed.keywords);
+    const [topicTag, setTopicTag] = React.useState<string | null>(inputFixed.topicTag);
+    const [countryTag, setCountryTag] = React.useState<string | null>(inputFixed.countryTag);
     const [dateFrom, setDateFrom] = React.useState<Date | null>(inputFixed.dateFrom);
     const [dateTo, setDateTo] = React.useState<Date | null>(inputFixed.dateTo);
     const [isPublished, setIsPublished] = React.useState<boolean>(inputFixed.isPublished);
@@ -35,6 +42,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
 
     const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
+
+    React.useEffect(() => {
+        ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
+        ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+    }, []);
 
     const load = async (): Promise<void> => {
         await loadArticles(inputFixed);
@@ -48,6 +60,18 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeywords(e.currentTarget.value);
+    }
+    const handleTopicTag = (theSelectedTag: { value: string, label: string }) => {
+        setTopicTag(theSelectedTag.value);
+    }
+    const clearTopicTag = () => {
+        setTopicTag(null);
+    }
+    const handleCountryTag = (theSelectedTag: { value: string, label: string }) => {
+        setCountryTag(theSelectedTag.value);
+    }
+    const clearCountryTag = () => {
+        setCountryTag(null);
     }
     const handleDateFrom = (date: Date | null) => {
         setDateFrom(date);
@@ -88,6 +112,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             dateFrom,
             dateTo,
             keywords,
+            topicTag,
+            countryTag,
             isForAdmin
         );
         setInputFixed(input);
@@ -136,15 +162,52 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={itemsPerPage}
                         />
                     </p>
-                    <br/>
                     <p>キーワード :
                         <input
                             className="input-keywords"
-                            placeholder="space-separated search keywords"
+                            placeholder="スペース区切り、最大3"
                             onChange={handleKeywords}
                             value={keywords}
                         />
                     </p>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                話題分類 :
+                            </td>
+                            <td style={{width: "240px"}}>
+                                <Select
+                                    isMulti={false}
+                                    options={topicTagsOptions.getTagOptionsJapanese()}
+                                    value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
+                                    onChange={handleTopicTag}
+                                    placeholder="topic"
+                                />
+                            </td>
+                            <td>
+                                <button type="button" onClick={clearTopicTag}>クリア</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                国 :
+                            </td>
+                            <td style={{width: "240px"}}>
+                                <Select
+                                    isMulti={false}
+                                    options={countryTagsOptions.getTagOptionsJapanese()}
+                                    value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
+                                    onChange={handleCountryTag}
+                                    placeholder="country"
+                                />
+                            </td>
+                            <td>
+                                <button type="button" onClick={clearCountryTag}>クリア</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <p>日付範囲 :
                         <DatePicker
                             dateFormat="yyyy/MM/dd"
