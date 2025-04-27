@@ -177,6 +177,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
                             onChange={handleTopicTag}
                             placeholder="topic"
+                            style={{width:"100px"}}
                         />
                         <button type="button" onClick={clearTopicTag}>クリア</button>
                     </p>
@@ -187,6 +188,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
                             onChange={handleCountryTag}
                             placeholder="country"
+                            style={{width:"100px"}}
                         />
                         <button type="button" onClick={clearCountryTag}>クリア</button>
                     </p>
