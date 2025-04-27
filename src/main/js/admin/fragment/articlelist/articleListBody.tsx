@@ -32,8 +32,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const [itemsPerPage, setItemsPerPage] = React.useState<number>(inputFixed.itemsPerPage);
     const [page, setPage] = React.useState<number>(inputFixed.page);
     const [keywords, setKeywords] = React.useState<string>(inputFixed.keywords);
-    const [topicTags, setTopicTags] = React.useState<ReadonlyArray<string>>(inputFixed.topicTags);
-    const [countries, setCountries] = React.useState<ReadonlyArray<string>>(inputFixed.countryTags);
+    const [topicTag, setTopicTag] = React.useState<string | null>(inputFixed.topicTag);
+    const [countryTag, setCountryTag] = React.useState<string | null>(inputFixed.countryTag);
     const [dateFrom, setDateFrom] = React.useState<Date | null>(inputFixed.dateFrom);
     const [dateTo, setDateTo] = React.useState<Date | null>(inputFixed.dateTo);
     const [isPublished, setIsPublished] = React.useState<boolean>(inputFixed.isPublished);
@@ -61,15 +61,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeywords(e.currentTarget.value);
     }
-    const handleTopicTags = (theSelectedTags:
-                             ReadonlyArray<{ value: string, label: string }>
-    ) => {
-        setTopicTags(theSelectedTags.map(tag => tag.value));
+    const handleTopicTag = (theSelectedTag:{ value: string, label: string } ) => {
+        setTopicTag(theSelectedTag.value);
     }
-    const handleCountries = (theSelectedTags:
-                             ReadonlyArray<{ value: string, label: string }>
-    ) => {
-        setCountries(theSelectedTags.map(tag => tag.value));
+    const handleCountryTag = (theSelectedTag: { value: string, label: string } ) => {
+        setCountryTag(theSelectedTag.value);
     }
     const handleDateFrom = (date: Date | null) => {
         setDateFrom(date);
@@ -110,8 +106,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             dateFrom,
             dateTo,
             keywords,
-            topicTags,
-            countries,
+            topicTag,
+            countryTag,
             isForAdmin
         );
         setInputFixed(input);
@@ -172,11 +168,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     <br/>
                     <p>話題分類 :
                         <Select
-                            isMulti={true}
+                            isMulti={false}
                             options={topicTagsOptions.getTagOptionsJapanese()}
-                            value={topicTagsOptions.getTagOptionsJapaneseSelected(topicTags)}
-                            onChange={handleTopicTags}
-                            placeholder="最大3"
+                            value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
+                            onChange={handleTopicTag}
+                            placeholder="topic"
                         />
                     </p>
                     <br/>
@@ -184,9 +180,9 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                         <Select
                             isMulti={true}
                             options={countryTagsOptions.getTagOptionsJapanese()}
-                            value={countryTagsOptions.getTagOptionsJapaneseSelected(countries)}
-                            onChange={handleCountries}
-                            placeholder="最大3"
+                            value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
+                            onChange={handleCountryTag}
+                            placeholder="country"
                         />
                     </p>
                     <p>日付範囲 :
