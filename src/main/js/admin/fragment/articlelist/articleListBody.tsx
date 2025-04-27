@@ -61,13 +61,13 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeywords(e.currentTarget.value);
     }
-    const handleTopicTag = (theSelectedTag:{ value: string, label: string } ) => {
+    const handleTopicTag = (theSelectedTag: { value: string, label: string }) => {
         setTopicTag(theSelectedTag.value);
     }
     const clearTopicTag = () => {
         setTopicTag(null);
     }
-    const handleCountryTag = (theSelectedTag: { value: string, label: string } ) => {
+    const handleCountryTag = (theSelectedTag: { value: string, label: string }) => {
         setCountryTag(theSelectedTag.value);
     }
     const clearCountryTag = () => {
@@ -171,25 +171,27 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                         />
                     </p>
                     <p>話題分類 :
-                        <Select
-                            isMulti={false}
-                            options={topicTagsOptions.getTagOptionsJapanese()}
-                            value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
-                            onChange={handleTopicTag}
-                            placeholder="topic"
-                            style={{width:"100px"}}
-                        />
+                        <span style={{width: "240px"}}>
+                            <Select
+                                isMulti={false}
+                                options={topicTagsOptions.getTagOptionsJapanese()}
+                                value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
+                                onChange={handleTopicTag}
+                                placeholder="topic"
+                            />
+                        </span>
                         <button type="button" onClick={clearTopicTag}>クリア</button>
                     </p>
                     <p>国 :
-                        <Select
-                            isMulti={false}
-                            options={countryTagsOptions.getTagOptionsJapanese()}
-                            value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
-                            onChange={handleCountryTag}
-                            placeholder="country"
-                            style={{width:"100px"}}
-                        />
+                        <span style={{width: "240px"}}>
+                            <Select
+                                isMulti={false}
+                                options={countryTagsOptions.getTagOptionsJapanese()}
+                                value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
+                                onChange={handleCountryTag}
+                                placeholder="country"
+                            />
+                        </span>
                         <button type="button" onClick={clearCountryTag}>クリア</button>
                     </p>
                     <p>日付範囲 :
