@@ -105,6 +105,8 @@
   version : 1.4.0-beta  
 - u011  
   Get search conditions linked with the get parameters.  
+  branch : feature/i011_20250426  
+  version : 1.5.0-beta  
 - u012  
   Article Preview  
 - u013  
