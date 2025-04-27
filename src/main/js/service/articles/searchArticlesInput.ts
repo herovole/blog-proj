@@ -62,6 +62,17 @@ export class SearchArticlesInput {
         this.requiresAuth = requiresAuth;
     }
 
+    isDefault() : boolean {
+        return this.itemsPerPage == 10 &&
+            this.page == 1 &&
+            this.isPublished &&
+            this.dateFrom == null &&
+            this.dateTo == null &&
+            this.keywords == "" &&
+            this.topicTag == null &&
+            this.countryTag == null;
+    }
+
     appendPage(page: number): SearchArticlesInput {
         return new SearchArticlesInput(
             this.itemsPerPage,
