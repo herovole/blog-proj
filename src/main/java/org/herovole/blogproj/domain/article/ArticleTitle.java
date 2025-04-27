@@ -36,6 +36,10 @@ public class ArticleTitle {
 
     private final String title;
 
+    public boolean isEmpty() {
+        return this.title == null || this.title.isEmpty();
+    }
+
     public String memorySignature() {
         return this.title;
     }

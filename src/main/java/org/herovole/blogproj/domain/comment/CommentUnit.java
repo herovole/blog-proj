@@ -47,6 +47,7 @@ public interface CommentUnit {
     }
 
     boolean hasSameCommentId(CommentUnit that);
+    boolean precedes(CommentUnit that);
 
     boolean hasSameContent(CommentUnit that);
 

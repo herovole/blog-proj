@@ -46,14 +46,23 @@
   version : 1.4.7-beta  
 - i011  
   Let an article editing button fail, when the article title is empty.  
+  branch : feature/i011_20250423  
+  version : 1.4.9-beta  
 - i012  
-  Let an article editing button fail, when a source comment refers to a comment with an older number.  
+  (Let an article editing button fail, when a source comment refers to a comment with an older number.)  
+  Changed the plan : just ignore the wrong referred ID.  
+  branch : feature/i012_20250423  
+  version : 1.4.9-beta  
 - i013  
   Alter format of the article publishing timestamp  
 - i014  
   Fix : a long title gets abbreviated on the top page  
+  branch : feature/i014_20250425  
+  version : 1.4.9-beta  
 - i015  
   Fix : a long title gets abbreviated without ... on the list page  
+  branch : feature/i015_20250425  
+  version : 1.4.9-beta  
 - i016  
   Needs automatic reloading after getting an editing page updated.  
 - i017  
@@ -68,8 +77,12 @@
 
 - u001  
   Include country tags and topic tags in search options.  
+  branch : feature/i001_20250425  
+  version : 1.5.0-beta  
 - u002  
-  Make country tags and topic tags clickable for instant search.
+  Make country tags and topic tags clickable for instant search.  
+  branch : feature/u002_20250426  
+  version : 1.5.0-beta  
 - u003  
   Highlight comment anchors
 - u006  
