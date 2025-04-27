@@ -16,7 +16,6 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                                                                                                                 directoryToIndividualPage,
                                                                                                             }
 ) => {
-    const LETTERS_PICKUP = 30;
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
@@ -34,7 +33,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
         return (
             <div key="" className="headline-item">
                 <Link className="headline-clickable-large" to={directoryToIndividualPage + "/" + article.articleId}>
-                    {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
+                    {article.title ? article.title : ""}
                     <br/>
                     <img className="article-image" src={resourcePrefix + article.imageName} alt={article.imageName}/>
                 </Link>
