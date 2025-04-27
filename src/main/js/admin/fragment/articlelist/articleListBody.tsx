@@ -64,8 +64,14 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const handleTopicTag = (theSelectedTag:{ value: string, label: string } ) => {
         setTopicTag(theSelectedTag.value);
     }
+    const clearTopicTag = () => {
+        setTopicTag(null);
+    }
     const handleCountryTag = (theSelectedTag: { value: string, label: string } ) => {
         setCountryTag(theSelectedTag.value);
+    }
+    const clearCountryTag = () => {
+        setCountryTag(null);
     }
     const handleDateFrom = (date: Date | null) => {
         setDateFrom(date);
@@ -156,7 +162,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={itemsPerPage}
                         />
                     </p>
-                    <br/>
                     <p>キーワード :
                         <input
                             className="input-keywords"
@@ -165,7 +170,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={keywords}
                         />
                     </p>
-                    <br/>
                     <p>話題分類 :
                         <Select
                             isMulti={false}
@@ -174,8 +178,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             onChange={handleTopicTag}
                             placeholder="topic"
                         />
+                        <button type="button" onClick={clearTopicTag}>クリア</button>
                     </p>
-                    <br/>
                     <p>国 :
                         <Select
                             isMulti={false}
@@ -184,6 +188,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             onChange={handleCountryTag}
                             placeholder="country"
                         />
+                        <button type="button" onClick={clearCountryTag}>クリア</button>
                     </p>
                     <p>日付範囲 :
                         <DatePicker
