@@ -57,6 +57,8 @@
   Alter format of the article publishing timestamp  
 - i014  
   Fix : a long title gets abbreviated on the top page  
+  branch : feature/i014_20250425  
+  version : 1.4.9-beta  
 - i015  
   Fix : a long title gets abbreviated without ... on the list page  
 - i016  
