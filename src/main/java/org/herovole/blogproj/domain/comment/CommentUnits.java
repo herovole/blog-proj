@@ -131,7 +131,10 @@ public class CommentUnits {
                 newUnits = newUnits.appendUnit(unitWithDepth);
             } else {
                 CommentUnit referredUnit = newUnits.findByInArticleCommentId(refId);
-                if (referredUnit.isEmpty()) {
+
+                // 1. No referred Unit is found by inArticleID
+                // 2. referred Unit comes after the focused Unit. (Must ignore)
+                if (referredUnit.isEmpty() || unit.precedes(referredUnit)) {
                     CommentUnit unitWithDepth = unit.appendDepth(0);
                     newUnits = newUnits.appendUnit(unitWithDepth);
                     continue;
