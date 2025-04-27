@@ -189,10 +189,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                 <button type="button" onClick={clearTopicTag}>クリア</button>
                             </td>
                         </tr>
-                        </tbody>
-                    </table>
-                    <table>
-                        <tbody>
                         <tr>
                             <td>
                                 国 :
