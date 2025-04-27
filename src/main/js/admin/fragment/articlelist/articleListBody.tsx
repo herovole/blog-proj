@@ -171,7 +171,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                         />
                     </p>
                     <p>話題分類 :
-                        <span style={{width: "240px"}}>
+                        <div style={{width: "240px"}}>
                             <Select
                                 isMulti={false}
                                 options={topicTagsOptions.getTagOptionsJapanese()}
@@ -179,11 +179,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                 onChange={handleTopicTag}
                                 placeholder="topic"
                             />
-                        </span>
+                        </div>
                         <button type="button" onClick={clearTopicTag}>クリア</button>
                     </p>
                     <p>国 :
-                        <span style={{width: "240px"}}>
+                        <div style={{width: "240px"}}>
                             <Select
                                 isMulti={false}
                                 options={countryTagsOptions.getTagOptionsJapanese()}
@@ -191,7 +191,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                 onChange={handleCountryTag}
                                 placeholder="country"
                             />
-                        </span>
+                        </div>
                         <button type="button" onClick={clearCountryTag}>クリア</button>
                     </p>
                     <p>日付範囲 :
