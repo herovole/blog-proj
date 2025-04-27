@@ -80,7 +80,9 @@
   branch : feature/i001_20250425  
   version : 1.5.0-beta  
 - u002  
-  Make country tags and topic tags clickable for instant search.
+  Make country tags and topic tags clickable for instant search.  
+  branch : feature/u002_20250426  
+  version : 1.5.0-beta  
 - u003  
   Highlight comment anchors
 - u006  
