@@ -36,9 +36,9 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
                 <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
                             <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                                        searchBaseUrl={directoryToIndividualPage} searchKey="topicTags"/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey="topicTagId"/>
                             <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                                        searchBaseUrl={directoryToIndividualPage} searchKey="countries"/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey="country"/>
                         </span>
             </div>);
     }
