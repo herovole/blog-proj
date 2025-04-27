@@ -2,11 +2,9 @@ package org.herovole.blogproj.domain.article;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.domain.GenericSwitch;
-import org.herovole.blogproj.domain.IntegerIds;
-import org.herovole.blogproj.domain.SearchKeywords;
+import org.herovole.blogproj.domain.*;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.domain.time.DateRange;
 
@@ -21,8 +19,8 @@ public class ArticleListSearchOption {
                 .pagingRequest(PagingRequest.fromFormContent(formContent))
                 .dateRange(DateRange.fromComplementedFormContent(formContent))
                 .keywords(SearchKeywords.fromFormContent(formContent))
-                .topics(IntegerIds.fromFormContentTopicTagsInCommaSeparatedString(formContent))
-                .countries(CountryCodes.fromFormContentInCommaSeparatedString(formContent))
+                .topic(IntegerId.fromFormContentTopicTagId(formContent))
+                .country(CountryCode.fromFormContent(formContent))
                 .build();
     }
 
@@ -30,14 +28,12 @@ public class ArticleListSearchOption {
     private final PagingRequest pagingRequest;
     private final DateRange dateRange;
     private final SearchKeywords keywords;
-    private final IntegerIds topics;
-    private final CountryCodes countries;
+    private final IntegerId topic;
+    private final CountryCode country;
 
     public boolean isValid() {
         if (100 < this.pagingRequest.getItemsPerPage()) return false;
         if (3 < this.keywords.size()) return false;
-        if (3 < this.topics.size()) return false;
-        if (3 < this.countries.size()) return false;
 
         return true;
     }

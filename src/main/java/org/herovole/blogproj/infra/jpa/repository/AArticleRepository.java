@@ -33,33 +33,9 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   )  " +
             "   And  " +
             "   (  " +
-            "     t.topic_tag_id = :topicTagId2  " +
-            "   OR  " +
-            "     :topicTagId2 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     t.topic_tag_id = :topicTagId3  " +
-            "   OR  " +
-            "     :topicTagId3 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
             "     c.iso_2 = :countryTagId1  " +
             "   OR  " +
             "     :countryTagId1 = '--' " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     c.iso_2 = :countryTagId2  " +
-            "   OR  " +
-            "     :countryTagId2 = '--' " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     c.iso_2 = :countryTagId3  " +
-            "   OR  " +
-            "     :countryTagId3 = '--' " +
             "   )  " +
             "   And " +
             "   (" +
@@ -95,11 +71,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             " limit :limit offset :offset", nativeQuery = true)
     long[] searchByOptions(@Param("isPublished") int isPublished,
                            @Param("topicTagId1") Integer topicTagId1,
-                           @Param("topicTagId2") Integer topicTagId2,
-                           @Param("topicTagId3") Integer topicTagId3,
                            @Param("countryTagId1") String countryTagId1,
-                           @Param("countryTagId2") String countryTagId2,
-                           @Param("countryTagId3") String countryTagId3,
                            @Param("keyword1") String keyword1,
                            @Param("keyword2") String keyword2,
                            @Param("keyword3") String keyword3,
@@ -126,33 +98,9 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   )  " +
             "   And  " +
             "   (  " +
-            "     t.topic_tag_id = :topicTagId2  " +
-            "   OR  " +
-            "     :topicTagId2 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     t.topic_tag_id = :topicTagId3  " +
-            "   OR  " +
-            "     :topicTagId3 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
             "     c.iso_2 = :countryTagId1  " +
             "   OR  " +
             "     :countryTagId1 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     c.iso_2 = :countryTagId2  " +
-            "   OR  " +
-            "     :countryTagId2 is NULL  " +
-            "   )  " +
-            "   And  " +
-            "   (  " +
-            "     c.iso_2 = :countryTagId3  " +
-            "   OR  " +
-            "     :countryTagId3 is NULL  " +
             "   )  " +
             "   And " +
             "   (" +
@@ -185,11 +133,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "    ) ", nativeQuery = true)
     long countByOptions(@Param("isPublished") int isPublished,
                         @Param("topicTagId1") Integer topicTagId1,
-                        @Param("topicTagId2") Integer topicTagId2,
-                        @Param("topicTagId3") Integer topicTagId3,
                         @Param("countryTagId1") String countryTagId1,
-                        @Param("countryTagId2") String countryTagId2,
-                        @Param("countryTagId3") String countryTagId3,
                         @Param("keyword1") String keyword1,
                         @Param("keyword2") String keyword2,
                         @Param("keyword3") String keyword3,

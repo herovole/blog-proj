@@ -24,7 +24,7 @@ public class RealSourceCommentUnit implements CommentUnit {
                 .commentSerialNumber(IntegerId.fromFormContentCommentSerialNumber(formContent))
                 .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
-                .country(CountryCode.fromPostContent(formContent))
+                .country(CountryCode.fromFormContent(formContent))
                 .isHidden(GenericSwitch.fromFormContentIsHidden(formContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
                 .build();

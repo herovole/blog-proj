@@ -9,18 +9,8 @@ import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
-import org.herovole.blogproj.infra.jpa.entity.AArticle;
-import org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry;
-import org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor;
-import org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag;
-import org.herovole.blogproj.infra.jpa.entity.ASourceComment;
-import org.herovole.blogproj.infra.jpa.entity.EUserComment;
-import org.herovole.blogproj.infra.jpa.repository.AArticleHasCountryRepository;
-import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
-import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
-import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
-import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
-import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
+import org.herovole.blogproj.infra.jpa.entity.*;
+import org.herovole.blogproj.infra.jpa.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -101,12 +91,8 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         long[] ids = aArticleRepository.searchByOptions(
                 searchOption.getIsPublished().intMemorySignature(),
-                searchOption.getTopics().get(0).intMemorySignature(),
-                searchOption.getTopics().get(1).intMemorySignature(),
-                searchOption.getTopics().get(2).intMemorySignature(),
-                searchOption.getCountries().get(0).memorySignature(),
-                searchOption.getCountries().get(1).memorySignature(),
-                searchOption.getCountries().get(2).memorySignature(),
+                searchOption.getTopic().intMemorySignature(),
+                searchOption.getCountry().memorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),
@@ -124,12 +110,8 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     public long countByOptions(ArticleListSearchOption searchOption) {
         return aArticleRepository.countByOptions(
                 searchOption.getIsPublished().intMemorySignature(),
-                searchOption.getTopics().get(0).intMemorySignature(),
-                searchOption.getTopics().get(1).intMemorySignature(),
-                searchOption.getTopics().get(2).intMemorySignature(),
-                searchOption.getCountries().get(0).memorySignature(),
-                searchOption.getCountries().get(1).memorySignature(),
-                searchOption.getCountries().get(2).memorySignature(),
+                searchOption.getTopic().intMemorySignature(),
+                searchOption.getCountry().memorySignature(),
                 searchOption.getKeywords().get(0).memorySignature(),
                 searchOption.getKeywords().get(1).memorySignature(),
                 searchOption.getKeywords().get(2).memorySignature(),
