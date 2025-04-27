@@ -119,6 +119,8 @@
   Gadget(left) of an article list aligned by the timestamps of the latest comments.  
 - u017  
   Introduce a flag and a tag for German language sphere.  
+  branch : feature/u017_20250426  
+  version : 1.5.0-beta  
 - u018  
   Introduce RSS for German language.  
 - u019  
