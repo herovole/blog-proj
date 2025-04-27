@@ -37,7 +37,13 @@ public class SearchArticles {
         ArticleListSearchOption searchOption = input.getSearchOption();
         if (!input.getRequiresAuth().isTrue() && !searchOption.getIsPublished().isTrue()) {
             this.presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
-                    .setMessage("forbidden option")
+                    .setMessage("Forbidden option")
+                    .interruptProcess();
+        }
+
+        if(!searchOption.isValid()) {
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.GENERIC_USER_ERROR)
+                    .setMessage("Too many search options")
                     .interruptProcess();
         }
 

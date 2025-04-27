@@ -61,6 +61,11 @@ public class EmptyCommentUnit implements CommentUnit {
     }
 
     @Override
+    public boolean precedes(CommentUnit that) {
+        return false;
+    }
+
+    @Override
     public boolean hasSameContent(CommentUnit that) {
         return false;
     }

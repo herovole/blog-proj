@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.article;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
@@ -25,15 +26,17 @@ public class RealArticle implements Article {
 
     static RealArticle fromPost(FormContent formContent) {
         FormContent children = formContent.getChildren(API_KEY);
+        ArticleTitle articleTitle = ArticleTitle.fromPostContentArticleTitle(children);
+        if(articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
-                .title(ArticleTitle.fromPostContentArticleTitle(children))
+                .title(articleTitle)
                 .text(ArticleText.fromPostContent(children))
                 .image(ImageName.fromPostContentImageName(children))
                 .sourcePage(SourcePage.fromPostContent(children))
                 .isPublished(GenericSwitch.fromFormContentIsPublished(children))
-                .countries(CountryCodes.fromPostContent(children))
-                .topicTags(IntegerIds.fromPostContentTopicTags(children))
+                .countries(CountryCodes.fromFormContentInCommaSeparatedString(children))
+                .topicTags(IntegerIds.fromFormContentTopicTagsInCommaSeparatedString(children))
                 .editors(IntegerIds.fromPostContentEditors(children))
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))

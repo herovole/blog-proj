@@ -117,7 +117,7 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({formKey}) => 
                         <tr key={"tag-" + i}>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i.toString()).append("id")}
+                                    postKey={formKey.append(i.toString()).append("topicTagId")}
                                     isFixed={true}
                                 >{tagUnit.fields.id}</TextEditingForm>
                             </td>
@@ -141,7 +141,7 @@ export const TopicTagListBody: React.FC<TopicTagListBodyProps> = ({formKey}) => 
                         <tr key={"additional-tag-" + i}>
                             <td>
                                 <TextEditingForm
-                                    postKey={formKey.append(i.toString()).append("id")}
+                                    postKey={formKey.append(i.toString()).append("topicTagId")}
                                     isFixed={true}
                                 >{null}</TextEditingForm>
                             </td>
