@@ -24,6 +24,8 @@ export class SearchArticlesInput {
             getParams.get("dateFrom") ? new Date(getParams.get("dateFrom")!) : null,
             getParams.get("dateTo") ? new Date(getParams.get("dateTo")!) : null,
             getParams.get("keywords") ? getParams.get("keywords")! : "",
+            getParams.get("topicTagId") ? getParams.get("topicTagId")! : null,
+            getParams.get("country") ? getParams.get("country")! : null,
             isForAdmin
         );
     }
