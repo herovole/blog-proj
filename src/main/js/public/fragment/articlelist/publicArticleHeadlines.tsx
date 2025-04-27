@@ -37,6 +37,7 @@ export const PublicArticleHeadlines: React.FC<PublicArticleHeadlinesProps> = ({
                             <PublicArticleHeadlinesIndividualSmall
                                 article={article}
                                 directoryToIndividualPage={directoryToIndividualPage}
+                                hasTagClickable={false}
                             /></div>
                     ))}
             </div>

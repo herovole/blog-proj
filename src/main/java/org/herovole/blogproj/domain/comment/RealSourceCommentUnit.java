@@ -24,7 +24,7 @@ public class RealSourceCommentUnit implements CommentUnit {
                 .commentSerialNumber(IntegerId.fromFormContentCommentSerialNumber(formContent))
                 .commentId(IntegerId.fromFormContentCommentId(formContent))
                 .commentText(CommentText.fromFormContentCommentText(formContent))
-                .country(CountryCode.fromPostContent(formContent))
+                .country(CountryCode.fromFormContent(formContent))
                 .isHidden(GenericSwitch.fromFormContentIsHidden(formContent))
                 .referringCommentIds(IntegerIds.fromPostContentReferringCommentIds(formContent))
                 .build();
@@ -79,7 +79,13 @@ public class RealSourceCommentUnit implements CommentUnit {
     @Override
     public boolean hasSameCommentId(CommentUnit that) {
         if (that.isEmpty()) return false;
-        return this.commentId.equals(((RealSourceCommentUnit) that).commentId);
+        return this.commentId.equals(that.getCommentId());
+    }
+
+    @Override
+    public boolean precedes(CommentUnit that) {
+        if (that.isEmpty()) return false;
+        return this.commentId.precedes(that.getCommentId());
     }
 
     @Override

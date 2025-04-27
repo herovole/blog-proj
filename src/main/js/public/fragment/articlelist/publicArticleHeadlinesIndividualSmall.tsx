@@ -8,11 +8,13 @@ import {ResourceManagement} from "../../../service/resourceManagement";
 type PublicArticleHeadlinesIndividualSmallProps = {
     article: ArticleSummary;
     directoryToIndividualPage: string;
+    hasTagClickable?: boolean;
 }
 
 export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadlinesIndividualSmallProps> = ({
                                                                                                                 article,
                                                                                                                 directoryToIndividualPage,
+                                                                                                                hasTagClickable = true,
                                                                                                             }
 ) => {
     const LETTERS_PICKUP = 30;
@@ -30,15 +32,15 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
         return (
             <div key="" className="headline-item">
                 <Link className="headline-clickable-small" to={directoryToIndividualPage + "/" + article.articleId}>
-                    {article.title ? article.title.slice(0, LETTERS_PICKUP) : ""}
+                    {article.title ? article.title.length > LETTERS_PICKUP ? article.title.slice(0, LETTERS_PICKUP) + "..." : article.title : ""}
                 </Link>
                 <br/>
                 <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
                             <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                                        searchBaseUrl={directoryToIndividualPage}/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey={hasTagClickable ? "topicTagId" : null}/>
                             <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                                        searchBaseUrl={directoryToIndividualPage}/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey={hasTagClickable ? "country" : null}/>
                         </span>
             </div>);
     }

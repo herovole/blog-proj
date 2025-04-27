@@ -5,6 +5,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
 public class EmptyArticle implements Article {
@@ -21,6 +22,11 @@ public class EmptyArticle implements Article {
     @Override
     public IntegerId getArticleId() {
         return IntegerId.empty();
+    }
+
+    @Override
+    public Timestamp getRegistrationTimestamp() {
+        return Timestamp.empty();
     }
 
     @Override

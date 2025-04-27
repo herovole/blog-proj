@@ -73,6 +73,11 @@ public class AdminCommentUnit implements CommentUnit {
     }
 
     @Override
+    public boolean precedes(CommentUnit that) {
+        return this.userCommentUnit.precedes(that);
+    }
+
+    @Override
     public boolean hasSameContent(CommentUnit that) {
         return userCommentUnit.hasSameContent(that);
     }
