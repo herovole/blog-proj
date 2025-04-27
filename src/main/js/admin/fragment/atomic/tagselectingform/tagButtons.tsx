@@ -7,9 +7,10 @@ type TagButtonProps = {
     tagUnitList: TagUnits;
     tagIds: readonly string[];
     searchBaseUrl: string;
+    searchKey?: string | null;
 };
 
-export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searchBaseUrl}) => {
+export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searchBaseUrl, searchKey = null}) => {
 
 
     return (
@@ -18,7 +19,7 @@ export const TagButtons: React.FC<TagButtonProps> = ({tagUnitList, tagIds, searc
                 return <span key="">
                     <TagButton unit={tagUnitList.getTagUnit(id)}
                                searchBaseUrl={searchBaseUrl}
-                               searchKey={""}
+                               searchKey={searchKey}
                     /></span>
             })}
         </span>

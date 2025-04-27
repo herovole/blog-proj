@@ -10,6 +10,22 @@ export class SearchArticlesInput {
             null,
             null,
             "",
+            null,
+            null,
+            isForAdmin
+        );
+    }
+
+    static byDefaultOrGetParams(getParams : URLSearchParams, isForAdmin: boolean) {
+        return new SearchArticlesInput(
+            getParams.get("itemsPerPage") ? parseInt(getParams.get("itemsPerPage")!) : 10,
+            getParams.get("page") ? parseInt(getParams.get("page")!) : 1,
+            getParams.get("isPublished") ? getParams.get("isPublished") === "1" : true,
+            getParams.get("dateFrom") ? new Date(getParams.get("dateFrom")!) : null,
+            getParams.get("dateTo") ? new Date(getParams.get("dateTo")!) : null,
+            getParams.get("keywords") ? getParams.get("keywords")! : "",
+            getParams.get("topicTagId") ? getParams.get("topicTagId")! : null,
+            getParams.get("country") ? getParams.get("country")! : null,
             isForAdmin
         );
     }
@@ -20,6 +36,8 @@ export class SearchArticlesInput {
     dateFrom: Date | null;
     dateTo: Date | null;
     keywords: string;
+    topicTag: string | null;
+    countryTag: string | null;
     requiresAuth: boolean;
 
     constructor(
@@ -29,6 +47,8 @@ export class SearchArticlesInput {
         dateFrom: Date | null,
         dateTo: Date | null,
         keywords: string,
+        topicTag: string | null,
+        countryTag: string | null,
         requiresAuth: boolean
     ) {
         this.itemsPerPage = itemsPerPage;
@@ -37,7 +57,20 @@ export class SearchArticlesInput {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.keywords = keywords;
+        this.topicTag = topicTag;
+        this.countryTag = countryTag;
         this.requiresAuth = requiresAuth;
+    }
+
+    isDefault() : boolean {
+        return this.itemsPerPage == 10 &&
+            this.page == 1 &&
+            this.isPublished &&
+            this.dateFrom == null &&
+            this.dateTo == null &&
+            this.keywords == "" &&
+            this.topicTag == null &&
+            this.countryTag == null;
     }
 
     appendPage(page: number): SearchArticlesInput {
@@ -48,6 +81,8 @@ export class SearchArticlesInput {
             this.dateFrom,
             this.dateTo,
             this.keywords,
+            this.topicTag,
+            this.countryTag,
             this.requiresAuth
         );
     }
@@ -60,6 +95,8 @@ export class SearchArticlesInput {
             "dateFrom": this.dateFrom ? encodeURIComponent(format(this.dateFrom, "yyyyMMdd")) : "",
             "dateTo": this.dateTo ? encodeURIComponent(format(this.dateTo, "yyyyMMdd")) : "",
             "keywords": encodeURIComponent(this.keywords),
+            "topicTagId": encodeURIComponent(this.topicTag ? this.topicTag : "-"),
+            "country": encodeURIComponent(this.countryTag ? this.countryTag : "--"),
             "requiresAuth": this.requiresAuth ? encodeURIComponent("1") : encodeURIComponent("0"),
         };
     };

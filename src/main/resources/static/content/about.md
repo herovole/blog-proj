@@ -7,7 +7,8 @@
     https://www.bing.com/images/create
   - Wikimedia Commons  
     https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg  
-    https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg
+    https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg  
+    https://commons.wikimedia.org/wiki/File:Flag_of_Prussia_%281892-1918%29.svg  (縮小加工)  
   - DotGothic16 by Fontworks Inc.  
     https://fonts.google.com/specimen/DotGothic16
   - Flag Icons by GoSquared  
@@ -29,10 +30,13 @@
 
 ## システム更新履歴
 
+- 2025/04/28  
+  ver 1.5.0-beta - 検索機能向上 u001,u002,u011. RSS追加 u017,u018 / Search function updates u001,u002,u011. Additional RSS u017,u018  
+  ver 1.4.9-beta - エラー修正 i011,i012,i014,i015 / Bugfix i011,i012,i014,i015  
 - 2025/04/21  
   ver 1.4.8-beta - レイアウト変更 a006 / Layout updates a006  
   ver 1.4.7-beta - エラー修正 i010 / Bugfix i010  
-  ver 1.4.6-beta - エラー修正 i009 / bugfix i009  
+  ver 1.4.6-beta - エラー修正 i009 / Bugfix i009  
 - 2025/04/20  
   ver 1.4.5-beta - レイアウト変更 a004 / Layout updates a004  
   ver 1.4.4-beta - レイアウト変更 a005 / Layout updates a005  
