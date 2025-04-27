@@ -47,19 +47,19 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   (  " +
             "     c.iso_2 = :countryTagId1  " +
             "   OR  " +
-            "     :countryTagId1 is NULL  " +
+            "     :countryTagId1 = '--' " +
             "   )  " +
             "   And  " +
             "   (  " +
             "     c.iso_2 = :countryTagId2  " +
             "   OR  " +
-            "     :countryTagId2 is NULL  " +
+            "     :countryTagId2 = '--' " +
             "   )  " +
             "   And  " +
             "   (  " +
             "     c.iso_2 = :countryTagId3  " +
             "   OR  " +
-            "     :countryTagId3 is NULL  " +
+            "     :countryTagId3 = '--' " +
             "   )  " +
             "   And " +
             "   (" +
