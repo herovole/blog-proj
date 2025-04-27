@@ -7,7 +7,8 @@
     https://www.bing.com/images/create
   - Wikimedia Commons  
     https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg  
-    https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg
+    https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg  
+    https://commons.wikimedia.org/wiki/File:Flag_of_Prussia_%281892-1918%29.svg  (縮小加工)  
   - DotGothic16 by Fontworks Inc.  
     https://fonts.google.com/specimen/DotGothic16
   - Flag Icons by GoSquared  
