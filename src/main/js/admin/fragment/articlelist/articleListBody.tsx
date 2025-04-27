@@ -178,7 +178,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     <br/>
                     <p>国 :
                         <Select
-                            isMulti={true}
+                            isMulti={false}
                             options={countryTagsOptions.getTagOptionsJapanese()}
                             value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
                             onChange={handleCountryTag}
