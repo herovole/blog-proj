@@ -16,7 +16,7 @@ public class IntegerId implements Comparable<IntegerId> {
     private static final String API_KEY_COMMENT_ID = "commentId";
     private static final String API_KEY_COMMENT_SERIAL_NUMBER = "commentSerialNumber";
     private static final String API_KEY_REPORT_ID = "reportId";
-    private static final String API_KEY_TOPIC_TAG_ID = "id";
+    private static final String API_KEY_TOPIC_TAG_ID = "topicTagId";
     private static final String API_KEY_VERSION = "version";
 
     public static IntegerId fromFormContentArticleId(FormContent formContent) {
