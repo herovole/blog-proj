@@ -3,10 +3,12 @@ package org.herovole.blogproj.domain.meta;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.SearchKeywords;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
+import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.time.Date;
 import org.herovole.blogproj.domain.time.RealDateRange;
 
@@ -108,6 +110,8 @@ public enum RssType {
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-14), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.empty())
             .build();
     private static final ArticleListSearchOption[] ALL_RSS_OPTIONS = new ArticleListSearchOption[]{ALL_GENRE_2WEEKS_DOZEN};
 
@@ -117,30 +121,40 @@ public enum RssType {
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.valueOf("d1"))
             .build();
     private static final ArticleListSearchOption GERMAN_GENRE_GERMANY_4WEEKS_DOZEN = ArticleListSearchOption.builder()
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.valueOf("de"))
             .build();
     private static final ArticleListSearchOption GERMAN_GENRE_AUSTRIA_4WEEKS_DOZEN = ArticleListSearchOption.builder()
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.valueOf("at"))
             .build();
     private static final ArticleListSearchOption GERMAN_GENRE_SCHWEIZ_4WEEKS_DOZEN = ArticleListSearchOption.builder()
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.valueOf("ch"))
             .build();
     private static final ArticleListSearchOption GERMAN_GENRE_LIECHTENSTEIN_4WEEKS_DOZEN = ArticleListSearchOption.builder()
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
             .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .topic(IntegerId.empty())
+            .country(CountryCode.valueOf("li"))
             .build();
     private static final ArticleListSearchOption[] GERMAN_RSS_OPTIONS
             = new ArticleListSearchOption[]{GERMAN_GENRE_HRE_4WEEKS_DOZEN, GERMAN_GENRE_GERMANY_4WEEKS_DOZEN, GERMAN_GENRE_AUSTRIA_4WEEKS_DOZEN, GERMAN_GENRE_SCHWEIZ_4WEEKS_DOZEN, GERMAN_GENRE_LIECHTENSTEIN_4WEEKS_DOZEN};
