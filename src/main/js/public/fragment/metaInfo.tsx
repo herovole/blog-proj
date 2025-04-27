@@ -36,6 +36,7 @@ export const MetaInfo: React.FC<MetaInfoType> = ({
                 <title>{tabTitle + " | " + ResourceManagement.getInstance().getSiteNameJp()}</title>
                 <meta name="description" content={description}/>
                 <meta name="keywords" content={keywords}/>
+                <meta http-equiv="Content-Language" content="ja"/>
 
                 <meta property="og:title" content={tabTitle}/>
                 <meta property="og:description" content={description}/>
