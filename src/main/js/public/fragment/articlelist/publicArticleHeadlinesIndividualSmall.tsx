@@ -8,11 +8,13 @@ import {ResourceManagement} from "../../../service/resourceManagement";
 type PublicArticleHeadlinesIndividualSmallProps = {
     article: ArticleSummary;
     directoryToIndividualPage: string;
+    hasTagClickable?: boolean;
 }
 
 export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadlinesIndividualSmallProps> = ({
                                                                                                                 article,
                                                                                                                 directoryToIndividualPage,
+                                                                                                                hasTagClickable = true,
                                                                                                             }
 ) => {
     const LETTERS_PICKUP = 30;
@@ -36,9 +38,9 @@ export const PublicArticleHeadlinesIndividualSmall: React.FC<PublicArticleHeadli
                 <span className="small-memo">
                             <span>{article.countUserComments} Comments</span>
                             <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                                        searchBaseUrl={directoryToIndividualPage} searchKey="topicTagId"/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey={hasTagClickable ? "topicTagId" : null}/>
                             <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                                        searchBaseUrl={directoryToIndividualPage} searchKey="country"/>
+                                        searchBaseUrl={directoryToIndividualPage} searchKey={hasTagClickable ? "country" : null}/>
                         </span>
             </div>);
     }

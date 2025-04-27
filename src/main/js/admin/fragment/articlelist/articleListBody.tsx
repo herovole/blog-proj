@@ -58,21 +58,25 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         setItemsPerPage(parseInt(e.currentTarget.value));
     }
     const handleKeywords = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         setKeywords(e.currentTarget.value);
     }
     const handleTopicTag = (theSelectedTag: { value: string, label: string }) => {
         setTopicTag(theSelectedTag.value);
     }
-    const clearTopicTag = () => {
+    const clearTopicTag = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setTopicTag(null);
     }
     const handleCountryTag = (theSelectedTag: { value: string, label: string }) => {
         setCountryTag(theSelectedTag.value);
     }
-    const clearCountryTag = () => {
+    const clearCountryTag = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setCountryTag(null);
     }
     const handleDateFrom = (date: Date | null) => {
@@ -82,6 +86,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         setDateTo(date);
     }
     const handleIsPublished = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         setIsPublished(e.currentTarget.checked);
     }
     const handlePageChanged = async (page: number) => {
@@ -95,7 +100,11 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
         if (output.isSuccessful()) {
-            setSearchParams(input.toPayloadHash());
+            if(input.isDefault()) {
+                setSearchParams({});
+            } else {
+                setSearchParams(input.toPayloadHash());
+            }
             setOutput(output);
         } else {
             console.error(output.getMessage("article list retrieval"));
