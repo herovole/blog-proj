@@ -5,6 +5,7 @@ import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
+import org.herovole.blogproj.domain.time.Timestamp;
 
 public interface Article {
 
@@ -25,6 +26,7 @@ public interface Article {
     boolean isEmpty();
     boolean isPublished();
     IntegerId getArticleId();
+    Timestamp getRegistrationTimestamp();
 
     Article append(
             IntegerIds topicTags,

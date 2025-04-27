@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
-import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.meta.RssType;
 
 @ToString
 @Getter
@@ -14,8 +14,8 @@ public class GenerateRssInput {
 
     public static GenerateRssInput fromFormContent(FormContent formContent) {
         return new GenerateRssInput(
-                IntegerId.fromFormContentVersion(formContent));
+                RssType.fromFormContent(formContent));
     }
 
-    private final IntegerId version;
+    private final RssType rssType;
 }

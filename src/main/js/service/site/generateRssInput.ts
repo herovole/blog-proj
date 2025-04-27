@@ -1,13 +1,13 @@
 export class GenerateRssInput {
-    private readonly version: number;
+    private readonly rssType: string;
 
-    constructor(version: number) {
-        this.version = version;
+    constructor(rssType: string) {
+        this.rssType = rssType;
     }
 
     toPayloadHash(): { [key: string]: string } {
         return {
-            "version": encodeURIComponent(this.version.toString()),
+            "rssType": encodeURIComponent(this.rssType.toString()),
             "requiresAuth": encodeURIComponent("true")
         };
     };
