@@ -17,16 +17,17 @@ type PublicArticleBodyProps = {
     article: Article;
     ratingHistory: SearchRatingHistoryOutput;
     reRender: () => void;
+    directoryToIndividualPage: string;
 }
 
 export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         postKey,
                                                                         article,
                                                                         ratingHistory,
-                                                                        reRender
+                                                                        reRender,
+                                                                        directoryToIndividualPage
                                                                     }) => {
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
-    const directoryToIndividualPage: string = "undefined";
 
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
@@ -61,8 +62,10 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                     <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
                                 searchBaseUrl={directoryToIndividualPage} searchKey="country"/>
                 </div>
-                <div className="article-source-url">引用元: {article.sourceUrl.includes("4chan.org") ? "(引用元サイトにトラブル発生中のため一時的に非表示)" : article.sourceUrl}</div>
-                <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
+                <div
+                    className="article-source-url">引用元: {article.sourceUrl.includes("4chan.org") ? "(引用元サイトにトラブル発生中のため一時的に非表示)" : article.sourceUrl}</div>
+                <div
+                    className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
                 <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
 
 

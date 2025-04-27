@@ -76,6 +76,7 @@ export const PublicPageArticleView: React.FC = () => {
                     article={article}
                     ratingHistory={ratingHistory}
                     reRender={reRender}
+                    directoryToIndividualPage={"/articles"}
                 /></PublicBasicLayout>
         </>
     } else {
