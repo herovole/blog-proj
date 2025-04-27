@@ -170,30 +170,48 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                             value={keywords}
                         />
                     </p>
-                    <p>話題分類 :
-                        <div style={{width: "240px"}}>
-                            <Select
-                                isMulti={false}
-                                options={topicTagsOptions.getTagOptionsJapanese()}
-                                value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
-                                onChange={handleTopicTag}
-                                placeholder="topic"
-                            />
-                        </div>
-                        <button type="button" onClick={clearTopicTag}>クリア</button>
-                    </p>
-                    <p>国 :
-                        <div style={{width: "240px"}}>
-                            <Select
-                                isMulti={false}
-                                options={countryTagsOptions.getTagOptionsJapanese()}
-                                value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
-                                onChange={handleCountryTag}
-                                placeholder="country"
-                            />
-                        </div>
-                        <button type="button" onClick={clearCountryTag}>クリア</button>
-                    </p>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                話題分類 :
+                            </td>
+                            <td style={{width: "240px"}}>
+                                <Select
+                                    isMulti={false}
+                                    options={topicTagsOptions.getTagOptionsJapanese()}
+                                    value={topicTag ? topicTagsOptions.getTagOptionsJapaneseSelected([topicTag]) : null}
+                                    onChange={handleTopicTag}
+                                    placeholder="topic"
+                                />
+                            </td>
+                            <td>
+                                <button type="button" onClick={clearTopicTag}>クリア</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>
+                                国 :
+                            </td>
+                            <td style={{width: "240px"}}>
+                                <Select
+                                    isMulti={false}
+                                    options={countryTagsOptions.getTagOptionsJapanese()}
+                                    value={countryTag ? countryTagsOptions.getTagOptionsJapaneseSelected([countryTag]) : null}
+                                    onChange={handleCountryTag}
+                                    placeholder="country"
+                                />
+                            </td>
+                            <td>
+                                <button type="button" onClick={clearCountryTag}>クリア</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <p>日付範囲 :
                         <DatePicker
                             dateFormat="yyyy/MM/dd"
