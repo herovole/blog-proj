@@ -94,9 +94,9 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             " order by a.id desc" +
             " limit :limit offset :offset", nativeQuery = true)
     long[] searchByOptions(@Param("isPublished") int isPublished,
-                           @Param("topicTagId1") int topicTagId1,
-                           @Param("topicTagId2") int topicTagId2,
-                           @Param("topicTagId3") int topicTagId3,
+                           @Param("topicTagId1") Integer topicTagId1,
+                           @Param("topicTagId2") Integer topicTagId2,
+                           @Param("topicTagId3") Integer topicTagId3,
                            @Param("countryTagId1") String countryTagId1,
                            @Param("countryTagId2") String countryTagId2,
                            @Param("countryTagId3") String countryTagId3,
@@ -184,9 +184,9 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) ", nativeQuery = true)
     long countByOptions(@Param("isPublished") int isPublished,
-                        @Param("topicTagId1") int topicTagId1,
-                        @Param("topicTagId2") int topicTagId2,
-                        @Param("topicTagId3") int topicTagId3,
+                        @Param("topicTagId1") Integer topicTagId1,
+                        @Param("topicTagId2") Integer topicTagId2,
+                        @Param("topicTagId3") Integer topicTagId3,
                         @Param("countryTagId1") String countryTagId1,
                         @Param("countryTagId2") String countryTagId2,
                         @Param("countryTagId3") String countryTagId3,
