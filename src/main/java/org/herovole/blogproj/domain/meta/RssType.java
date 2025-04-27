@@ -30,7 +30,7 @@ public enum RssType {
     RSS20("rss20") {
         @Override
         public ArticleTransactionalDatasource getCorrespondingDatasource(RssDestinations rssDestinations) {
-            return rssDestinations.getGermanRss20Destination();
+            return rssDestinations.getRss20Destination();
         }
 
         @Override
@@ -41,7 +41,7 @@ public enum RssType {
     RSS10("rss10") {
         @Override
         public ArticleTransactionalDatasource getCorrespondingDatasource(RssDestinations rssDestinations) {
-            return rssDestinations.getGermanRss10Destination();
+            return rssDestinations.getRss10Destination();
         }
 
         @Override
