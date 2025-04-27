@@ -38,7 +38,7 @@ public class CountryCode implements Comparable<CountryCode> {
     }
 
     public String memorySignature() {
-        return this.isEmpty() ? EMPTY : this.code;
+        return this.isEmpty() ? EMPTY : this.code; // "--" is defined to be the null expression of Country Code
     }
 
     public String letterSignature() {
