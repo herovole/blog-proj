@@ -81,6 +81,9 @@
   Reported : 20250428  
   branch : feature/i021_20250428  
   version : 1.5.1-beta  
+- i022  
+  To have RSS description surrounded by <![CDATA[ ]]>  
+  Reported : 20250428  
 
 
 ## System Updates
