@@ -74,6 +74,8 @@
 - i020  
   Fix : The pager doesn't display pages from 2 ahead.  
   Reported : 20250428  
+  branch : feature/i020_20250428  
+  version : 1.5.1-beta  
 - i021  
   Fix : Server error when updating an article without a country tag.  
   Reported : 20250428  
