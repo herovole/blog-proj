@@ -86,6 +86,9 @@
   Reported : 20250428  
   branch : feature/i022_20250428  
   version : 1.5.2-beta  
+- i023  
+  Space separated search keywords do not handle 全角 space  
+  Reported : 20250428  
 
 
 ## System Updates
