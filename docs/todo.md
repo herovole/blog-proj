@@ -144,6 +144,9 @@
   Function to rebuild sitemap.xml.  
 - u020  
   Function to build dummy HTMLs for respective articles.  
+- u021  
+  Generate RSS automatically upon deployment.  
+  Reported : 20250428  
 
   
 ## Layout Updates
