@@ -77,6 +77,8 @@
 - i021  
   Fix : Server error when updating an article without a country tag.  
   Reported : 20250428  
+  branch : feature/i021_20250428  
+  version : 1.5.1-beta  
 
 
 ## System Updates
