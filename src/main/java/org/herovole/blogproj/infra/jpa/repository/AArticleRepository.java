@@ -100,7 +100,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   (  " +
             "     c.iso_2 = :countryTagId1  " +
             "   OR  " +
-            "     :countryTagId1 is NULL  " +
+            "     :countryTagId1 = '--' " +
             "   )  " +
             "   And " +
             "   (" +
