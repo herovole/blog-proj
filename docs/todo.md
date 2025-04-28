@@ -70,14 +70,20 @@
 - i018  
   Get a custom exception "EmptyRecordException" and "IncompatibleUpdateException" abolished or standardized.  
 - i019  
-  Get every UnSupportedOperationException have argument String.  
+  Get every UnSupportedOperationException have argument String. 
+- i020  
+  Fix : The pager doesn't display pages from 2 ahead.  
+  Reported : 20250428  
+- i021  
+  Fix : Server error when updating an article without a country tag.  
+  Reported : 20250428  
 
 
 ## System Updates
 
 - u001  
   Include country tags and topic tags in search options.  
-  branch : feature/i001_20250425  
+  branch : feature/u001_20250425  
   version : 1.5.0-beta  
 - u002  
   Make country tags and topic tags clickable for instant search.  
