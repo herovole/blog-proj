@@ -50,7 +50,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element link = document.createElement("link");
             link.appendChild(document.createTextNode(this.siteInformation.getSiteTopUrl().memorySignature()));
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode("<![CDATA[" + this.siteInformation.getSiteDescription() + "]]>"));
+            description.appendChild(document.createCDATASection(this.siteInformation.getSiteDescription()));
             Element language = document.createElement("language");
             language.appendChild(document.createTextNode(this.siteInformation.getSiteLanguage()));
             Element copyright = document.createElement("copyright");
@@ -108,7 +108,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
 
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode("<![CDATA[" + article1.getText().memorySignature() + "]]>"));
+            description.appendChild(document.createCDATASection(article1.getText().memorySignature()));
 
             Element category = document.createElement("category");
 
