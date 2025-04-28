@@ -2,10 +2,10 @@ package org.herovole.blogproj.infra.service;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.AppSession;
-import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.article.RealArticleSimplified;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.w3c.dom.Document;
@@ -52,7 +52,7 @@ public class ArticleTransactionalDatasourceRss1 implements ArticleTransactionalD
             Element link = document.createElement("link");
             link.appendChild(document.createTextNode(this.siteInformation.getSiteTopUrl().memorySignature()));
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode(this.siteInformation.getSiteDescription()));
+            description.appendChild(document.createCDATASection(this.siteInformation.getSiteDescription()));
             Element language = document.createElement("language");
             language.appendChild(document.createTextNode(this.siteInformation.getSiteLanguage()));
             Element copyright = document.createElement("copyright");
@@ -125,7 +125,7 @@ public class ArticleTransactionalDatasourceRss1 implements ArticleTransactionalD
             link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
 
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode(article1.getText().memorySignature()));
+            description.appendChild(document.createCDATASection(article1.getText().memorySignature()));
 
             Element category = document.createElement("category");
 
