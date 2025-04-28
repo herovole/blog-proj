@@ -26,6 +26,10 @@ public class IntegerIds implements Iterable<IntegerId> {
         return of(child.getValue());
     }
 
+    public static IntegerIds fromPostContentTopicTags(FormContent formContent) {
+        return fromPostContent(formContent, API_KEY_TOPIC_TAGS);
+    }
+
     public static IntegerIds fromPostContentEditors(FormContent formContent) {
         return fromPostContent(formContent, API_KEY_EDITORS);
     }
