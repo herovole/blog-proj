@@ -31,7 +31,7 @@
 ## システム更新履歴
 
 - 2025/04/28  
-  ver 1.5.1-beta - エラー修正 i020,i021 / Bugfix i020,i021  
+  ver 1.5.1-beta - エラー修正 i020,i021,i022 / Bugfix i020,i021,i022  
   ver 1.5.0-beta - 検索機能向上 u001,u002,u011. RSS追加 u017,u018 / Search function updates u001,u002,u011. Additional RSS u017,u018  
   ver 1.4.9-beta - エラー修正 i011,i012,i014,i015 / Bugfix i011,i012,i014,i015  
 - 2025/04/21  
