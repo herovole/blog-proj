@@ -56,7 +56,7 @@
 - i013  
   Alter format of the article publishing timestamp  
   branch : feature/i013_20250430  
-  version : 1.6.0-beta  
+  version : 1.5.3-beta  
 - i014  
   Fix : a long title gets abbreviated on the top page  
   branch : feature/i014_20250425  
