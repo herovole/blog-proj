@@ -83,7 +83,7 @@ export const DateSelectingForm: React.FC<DateSelectingFormProps> = ({children = 
                 </button>
                 <input type="hidden"
                        name={postKey.toStringKey()}
-                       value={fixedDate == null ? "" : format(fixedDate, 'yyyy/MM/dd')}/>
+                       value={fixedDate == null ? "" : format(fixedDate, 'yyyyMMdd')}/>
             </>
         );
     }

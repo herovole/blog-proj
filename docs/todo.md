@@ -134,6 +134,8 @@
   Article Preview  
 - u013  
   Get each article carry the publishing timestamp.  
+  branch : feature/u013_20250430  
+  version : 1.6.0-beta  
 - u014  
   User View Admin page  
 - u015  

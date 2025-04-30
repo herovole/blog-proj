@@ -60,9 +60,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   )" +
             "  AND " +
             "   (" +
-            "     a.update_timestamp between :timestampFrom And :timestampTo " +
-            "   OR " +
-            "     a.insert_timestamp between :timestampFrom And :timestampTo " +
+            "     a.registration_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
             "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) " +
@@ -125,9 +123,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "   )" +
             "  AND " +
             "   (" +
-            "     a.update_timestamp between :timestampFrom And :timestampTo " +
-            "   OR " +
-            "     a.insert_timestamp between :timestampFrom And :timestampTo " +
+            "     a.registration_timestamp between :timestampFrom And :timestampTo " +
             "   OR " +
             "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) ", nativeQuery = true)
