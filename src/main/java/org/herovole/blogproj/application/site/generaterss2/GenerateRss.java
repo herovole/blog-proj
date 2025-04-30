@@ -57,9 +57,15 @@ public class GenerateRss implements RssDestinations {
     @PostConstruct
     public void processToGenerateRssUponDeployment() throws ApplicationProcessException {
         logger.info("Start initial RSS generation.");
-        for (RssType rssType : RssType.valuesForGeneratingUponDeployment()) {
-            GenerateRssInput input = new GenerateRssInput(rssType);
-            this.process(input);
+        try {
+            for (RssType rssType : RssType.valuesForGeneratingUponDeployment()) {
+                GenerateRssInput input = new GenerateRssInput(rssType);
+                this.process(input);
+            }
+        } catch (ApplicationProcessException e) {
+            logger.error("Error initial RSS generation", e);
+            this.presenter.setUseCaseErrorType(UseCaseErrorType.SERVER_ERROR)
+                    .interruptProcess();
         }
     }
 
