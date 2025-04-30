@@ -22,6 +22,7 @@ public class Timestamp implements Comparable<Timestamp> {
 
 
     private static final DateTimeFormatter formatterFrontendDisplay = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    private static final DateTimeFormatter formatterYyyyMMddHHmmss = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private static final DateTimeFormatter formatterYyyyMMddSpaceHHmmss = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
     private static final DateTimeFormatter formatterYyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
 
@@ -96,6 +97,12 @@ public class Timestamp implements Comparable<Timestamp> {
         return ChronoUnit.SECONDS.between(that.localDateTime, this.localDateTime);
     }
 
+    public String letterSignatureYyyyMMddHHmmss() {
+        if (this.isEmpty()) return EMPTY;
+        return this.localDateTime.format(formatterYyyyMMddHHmmss);
+    }
+
+    @Deprecated
     public String letterSignatureYyyyMMddSpaceHHmmss() {
         if (this.isEmpty()) return EMPTY;
         return this.localDateTime.format(formatterYyyyMMddSpaceHHmmss);

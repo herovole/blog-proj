@@ -97,8 +97,8 @@ public class RealArticleSimplified implements Article {
                 .editors(editors.toIntMemorySignature())
                 .countSourceComments(sourceComments)
                 .countUserComments(userComments)
-                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
-                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
                 .build();
     }
 
