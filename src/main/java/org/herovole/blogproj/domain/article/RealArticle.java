@@ -28,6 +28,11 @@ public class RealArticle implements Article {
         FormContent children = formContent.getChildren(API_KEY);
         ArticleTitle articleTitle = ArticleTitle.fromPostContentArticleTitle(children);
         if (articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
+
+        Timestamp registrationTimestamp = Timestamp.fromFormContentRegistrationTimestamp(children);
+        if(registrationTimestamp.isEmpty()) {
+            registrationTimestamp = Timestamp.now();
+        }
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
                 .title(articleTitle)
@@ -41,7 +46,7 @@ public class RealArticle implements Article {
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
-                .registrationTimestamp(Timestamp.fromFormContentRegistrationTimestamp(children))
+                .registrationTimestamp(registrationTimestamp)
                 .latestEditTimestamp(Timestamp.empty())
 
                 .build();
