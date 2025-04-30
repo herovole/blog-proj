@@ -30,6 +30,9 @@
 
 ## システム更新履歴
 
+- 2025/05/01  
+  ver 1.6.0-beta - 運用機能改善 u013,u021 / Improved operating usability u013,u021  
+  ver 1.5.3-beta - エラー修正 i013,i023 / Bugfix i013,i023  
 - 2025/04/28  
   ver 1.5.2-beta - エラー修正 i022 / Bugfix i022  
   ver 1.5.1-beta - エラー修正 i020,i021 / Bugfix i020,i021  

@@ -27,7 +27,12 @@ public class RealArticle implements Article {
     static RealArticle fromPost(FormContent formContent) {
         FormContent children = formContent.getChildren(API_KEY);
         ArticleTitle articleTitle = ArticleTitle.fromPostContentArticleTitle(children);
-        if(articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
+        if (articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
+
+        Timestamp registrationTimestamp = Timestamp.fromFormContentRegistrationTimestamp(children);
+        if(registrationTimestamp.isEmpty()) {
+            registrationTimestamp = Timestamp.now();
+        }
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
                 .title(articleTitle)
@@ -41,6 +46,7 @@ public class RealArticle implements Article {
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
+                .registrationTimestamp(registrationTimestamp)
                 .latestEditTimestamp(Timestamp.empty())
 
                 .build();
@@ -145,8 +151,8 @@ public class RealArticle implements Article {
                 .editors(editors.toIntMemorySignature())
                 .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
-                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
-                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
                 .build();
     }
 
