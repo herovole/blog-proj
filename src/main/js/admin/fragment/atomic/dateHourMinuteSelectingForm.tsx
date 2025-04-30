@@ -18,7 +18,7 @@ export const DateHourMinuteSelectingForm: React.FC<DateHourMinuteSelectingFormPr
     function reactNodeToDateStrict(node: React.ReactNode): Date | null {
         if (node == null || node === "" || node === "-") return null;
         if (typeof node === "string") {
-            if (!/^\d{12}$/.test(node)) {
+            if (!/^\d{14}$/.test(node)) {
                 throw new Error("Invalid date format. Expected yyyyMMdd. : " + node);
             }
             const year = parseInt(node.slice(0, 4), 10);
