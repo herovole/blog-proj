@@ -13,9 +13,6 @@ import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
-import org.herovole.blogproj.domain.time.Date;
-import org.herovole.blogproj.domain.time.Hour;
-import org.herovole.blogproj.domain.time.Minute;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
@@ -44,13 +41,7 @@ public class RealArticle implements Article {
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
-                .registrationTimestamp(
-                        Timestamp.fromDateHourMinute(
-                                Date.fromFormContentRegistrationDate(children),
-                                Hour.fromFormContentRegistrationHour(children),
-                                Minute.fromFormContentRegistrationMinute(children)
-                        )
-                )
+                .registrationTimestamp(Timestamp.fromFormContentRegistrationTimestamp(children))
                 .latestEditTimestamp(Timestamp.empty())
 
                 .build();

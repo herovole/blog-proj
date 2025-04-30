@@ -2,6 +2,8 @@ package org.herovole.blogproj.domain.time;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
+import org.herovole.blogproj.domain.FormContent;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Timestamp implements Comparable<Timestamp> {
@@ -20,7 +23,7 @@ public class Timestamp implements Comparable<Timestamp> {
     private static final ZoneOffset zoneOffsetTokyo = ZoneOffset.of("+09:00");
     private static final ZoneId zoneIdTokyo = ZoneId.of("Asia/Tokyo");
 
-
+    private static final Pattern patternYyyyMMddHHmm = Pattern.compile("\\d{12}");
     private static final DateTimeFormatter formatterFrontendDisplay = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private static final DateTimeFormatter formatterYyyyMMddHHmmss = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private static final DateTimeFormatter formatterYyyyMMddSpaceHHmmss = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
@@ -28,6 +31,20 @@ public class Timestamp implements Comparable<Timestamp> {
 
     // RSS 2.0 pubDate (RFC 1123 format)
     private static final DateTimeFormatter formatterRss20 = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+
+    private static final String API_KEY_REGISTRATION_TIMESTAMP = "registrationTimestamp";
+
+    public static Timestamp fromFormContentRegistrationTimestamp(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_REGISTRATION_TIMESTAMP);
+        String value = child.getValue();
+        if (!patternYyyyMMddHHmm.matcher(value).matches()) {
+            throw new DomainInstanceGenerationException(value);
+        }
+        Date date = Date.valueOf(value.substring(0, 8));
+        Hour hours = Hour.valueOf(value.substring(8, 10));
+        Minute minutes = Minute.valueOf(value.substring(10, 12));
+        return fromDateHourMinute(date, hours, minutes);
+    }
 
     public static Timestamp empty() {
         return new Timestamp(null);

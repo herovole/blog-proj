@@ -10,14 +10,8 @@ import org.herovole.blogproj.domain.FormContent;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Minute {
 
-    private static final String API_KEY_REGISTRATION_MINUTE = "registrationMinute";
     private static final String EMPTY = "--";
     private final Integer mm;
-
-    public static Minute fromFormContentRegistrationMinute(FormContent formContent) {
-        FormContent child = formContent.getChildren(API_KEY_REGISTRATION_MINUTE);
-        return valueOf(child.getValue());
-    }
 
     public static Minute valueOf(Integer number)  {
         if(number < 0 || 59 < number) {

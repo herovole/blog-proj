@@ -16,6 +16,7 @@ import {PublicUserCommentView} from "../../../public/fragment/article/usercommen
 import {CommentUnit} from "../../../domain/comment/commentUnit";
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {useNavigate} from "react-router-dom";
+import {DateHourMinuteSelectingForm} from "../atomic/dateHourMinuteSelectingForm";
 
 
 type AdminArticleBodyProps = {
@@ -122,6 +123,13 @@ export const AdminArticleBody: React.FC<AdminArticleBodyProps> = ({
                                 postKey={postKey.append("isPublished")}>
                                 {content ? content.isPublished : false}
                             </BooleanSelectingForm>
+                        </div>
+                        <div className="flex-container">
+                            <p className="article-edit-title">Registration Timestamp</p>
+                            <DateHourMinuteSelectingForm
+                                postKey={postKey.append("registrationTimestamp")}>
+                                {content ? content.registrationTimestamp: null}
+                            </DateHourMinuteSelectingForm>
                         </div>
                         <div className="flex-container">
                             <p className="article-edit-title">Editors</p>

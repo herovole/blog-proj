@@ -6,15 +6,11 @@ import {ElementId} from "../../../domain/elementId/elementId";
 
 type DateHourMinuteSelectingFormProps = {
     children?: React.ReactNode;
-    hours?: number | null;
-    minutes?: number | null;
     postKey: ElementId;
     isFixed?: boolean;
 }
 export const DateHourMinuteSelectingForm: React.FC<DateHourMinuteSelectingFormProps> = ({
                                                                                             children = null,
-                                                                                            hours = null,
-                                                                                            minutes = null,
                                                                                             postKey,
                                                                                             isFixed = false
                                                                                         }) => {
@@ -22,24 +18,26 @@ export const DateHourMinuteSelectingForm: React.FC<DateHourMinuteSelectingFormPr
     function reactNodeToDateStrict(node: React.ReactNode): Date | null {
         if (node == null || node === "" || node === "-") return null;
         if (typeof node === "string") {
-            if (!/^\d{8}$/.test(node)) {
+            if (!/^\d{12}$/.test(node)) {
                 throw new Error("Invalid date format. Expected yyyyMMdd. : " + node);
             }
             const year = parseInt(node.slice(0, 4), 10);
             const month = parseInt(node.slice(4, 6), 10) - 1; // Month is 0-based in JS Date
             const day = parseInt(node.slice(6, 8), 10);
+            const hours = parseInt(node.slice(8, 10), 10);
+            const minutes = parseInt(node.slice(10, 12), 10);
 
-            return new Date(year, month, day);
+            return new Date(year, month, day, hours, minutes);
         }
         throw new Error("ReactNode is not convertible to a Date");
     }
 
     const [editedDate, setEditedDate] = useState<Date | null | undefined>(reactNodeToDateStrict(children));
     const [fixedDate, setFixedDate] = useState<Date | null | undefined>(reactNodeToDateStrict(children));
-    const [editedHours, setEditedHours] = useState<number | null | undefined>(hours);
-    const [fixedHours, setFixedHours] = useState<number | null | undefined>(hours);
-    const [editedMinutes, setEditedMinutes] = useState<number | null | undefined>(minutes);
-    const [fixedMinutes, setFixedMinutes] = useState<number | null | undefined>(minutes);
+    const [editedHours, setEditedHours] = useState<number | null | undefined>(reactNodeToDateStrict(children)?.getHours());
+    const [fixedHours, setFixedHours] = useState<number | null | undefined>(reactNodeToDateStrict(children)?.getHours());
+    const [editedMinutes, setEditedMinutes] = useState<number | null | undefined>(reactNodeToDateStrict(children)?.getMinutes());
+    const [fixedMinutes, setFixedMinutes] = useState<number | null | undefined>(reactNodeToDateStrict(children)?.getMinutes());
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
 
 
