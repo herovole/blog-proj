@@ -24,9 +24,6 @@ export class YyyyMMDdHhMmSs {
     public toYyyySlashMMSlashDdSpaceHhColonMm(): string {
         if (this._field == null) { return ""; }
         const yyyyMMDdHhMmSs = this._field;
-        return `${yyyyMMDdHhMmSs.substring(0, 4)}/
-        ${yyyyMMDdHhMmSs.substring(4, 6)}/
-        ${yyyyMMDdHhMmSs.substring(6, 8)} ${yyyyMMDdHhMmSs.substring(8, 10)}:
-        ${yyyyMMDdHhMmSs.substring(10, 12)}`;
+        return `${yyyyMMDdHhMmSs.substring(0, 4)}/${yyyyMMDdHhMmSs.substring(4, 6)}/${yyyyMMDdHhMmSs.substring(6, 8)} ${yyyyMMDdHhMmSs.substring(8, 10)}:${yyyyMMDdHhMmSs.substring(10, 12)}`;
     }
 }
