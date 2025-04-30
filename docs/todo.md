@@ -91,6 +91,8 @@
 - i023  
   Space separated search keywords do not handle 全角 space  
   Reported : 20250428  
+  branch : feature/i023_20250430  
+  version : 1.5.3-beta  
 
 
 ## System Updates
