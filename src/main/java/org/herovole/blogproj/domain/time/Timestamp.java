@@ -120,6 +120,7 @@ public class Timestamp implements Comparable<Timestamp> {
         return this.localDateTime.format(formatterYyyyMMddHHmmss);
     }
 
+    @Deprecated
     public String letterSignatureYyyyMMddSpaceHHmmss() {
         if (this.isEmpty()) return EMPTY;
         return this.localDateTime.format(formatterYyyyMMddSpaceHHmmss);

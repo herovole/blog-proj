@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {YyyyMMDd} from "../../../domain/yyyyMMDd";
+import {YyyyMMDdHhMmSs} from "../../../domain/yyyyMMDdHhMmSs";
 
 type PublicArticleHeadlinesIndividualLargeProps = {
     article: ArticleSummary;
@@ -48,7 +49,7 @@ export const PublicArticleHeadlinesIndividualLarge: React.FC<PublicArticleHeadli
                 </div>
                 <div className="article-source-url">引用元: {article.sourceUrl.includes("4chan.org") ? "(引用元サイトにトラブル発生中のため一時的に非表示)" : article.sourceUrl}</div>
                 <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
-                <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
+                <div className="article-timestamp">ブログ内掲載: {YyyyMMDdHhMmSs.valueOfYyyyMMDdHhMmSs(article.registrationTimestamp).toYyyySlashMMSlashDdSpaceHhColonMm()}</div>
             </div>);
     }
 }
