@@ -121,7 +121,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss2Feed")
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2Feed() throws IOException {
         LocalFile rssFeed = LocalFile.of(configFile.getRssFeedFile(), localFileSystem);
         return new ArticleTransactionalDatasourceRss2(
@@ -130,7 +130,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss2")
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2() throws IOException {
         LocalFile rss2Xml = LocalFile.of(configFile.getRssXml20File(), localFileSystem);
         return new ArticleTransactionalDatasourceRss2(
@@ -139,7 +139,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss1")
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss1() throws IOException {
         LocalFile rss1Xml = LocalFile.of(configFile.getRssXml10File(), localFileSystem);
         return new ArticleTransactionalDatasourceRss1(
@@ -148,7 +148,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss2German")
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss2German() throws IOException {
         LocalFile rss2XmlGerman = LocalFile.of(configFile.getRssXmlGerman20File(), localFileSystem);
         return new ArticleTransactionalDatasourceRss2(
@@ -157,7 +157,7 @@ public class DIConfig {
     }
 
     @Bean("articleTransactionalDatasourceRss1German")
-    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+    //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
     public ArticleTransactionalDatasource buildArticleTransactionalDatasourceRss1German() throws IOException {
         LocalFile rss1XmlGerman = LocalFile.of(configFile.getRssXmlGerman10File(), localFileSystem);
         return new ArticleTransactionalDatasourceRss1(

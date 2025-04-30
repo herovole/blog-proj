@@ -104,6 +104,9 @@ public enum RssType {
         return toEnum.getOrDefault(signature, NONE);
     }
 
+    public static RssType[] valuesForGeneratingUponDeployment() {
+        return new RssType[]{RSS20, RSS10, FEED20, GERMAN20, GERMAN10};
+    }
 
     private static final ArticleListSearchOption ALL_GENRE_2WEEKS_DOZEN = ArticleListSearchOption.builder()
             .isPublished(GenericSwitch.positive())
