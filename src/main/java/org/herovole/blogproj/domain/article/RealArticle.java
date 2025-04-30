@@ -13,6 +13,9 @@ import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.image.ImageName;
 import org.herovole.blogproj.domain.source.SourcePage;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
+import org.herovole.blogproj.domain.time.Date;
+import org.herovole.blogproj.domain.time.Hour;
+import org.herovole.blogproj.domain.time.Minute;
 import org.herovole.blogproj.domain.time.Timestamp;
 
 @ToString
@@ -27,7 +30,7 @@ public class RealArticle implements Article {
     static RealArticle fromPost(FormContent formContent) {
         FormContent children = formContent.getChildren(API_KEY);
         ArticleTitle articleTitle = ArticleTitle.fromPostContentArticleTitle(children);
-        if(articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
+        if (articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
                 .title(articleTitle)
@@ -41,6 +44,13 @@ public class RealArticle implements Article {
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
+                .registrationTimestamp(
+                        Timestamp.fromDateHourMinute(
+                                Date.fromFormContentRegistrationDate(children),
+                                Hour.fromFormContentRegistrationHour(children),
+                                Minute.fromFormContentRegistrationMinute(children)
+                        )
+                )
                 .latestEditTimestamp(Timestamp.empty())
 
                 .build();
@@ -145,8 +155,8 @@ public class RealArticle implements Article {
                 .editors(editors.toIntMemorySignature())
                 .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
-                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
-                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
                 .build();
     }
 
