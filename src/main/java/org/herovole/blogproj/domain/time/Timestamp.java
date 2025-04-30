@@ -37,6 +37,7 @@ public class Timestamp implements Comparable<Timestamp> {
     public static Timestamp fromFormContentRegistrationTimestamp(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_REGISTRATION_TIMESTAMP);
         String value = child.getValue();
+        if (value == null || value.isEmpty()) return Timestamp.empty();
         if (!patternYyyyMMddHHmm.matcher(value).matches()) {
             throw new DomainInstanceGenerationException(value);
         }
