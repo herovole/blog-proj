@@ -26,15 +26,9 @@ public class Date {
     private static final DateTimeFormatter formatterYyyySlashMMSlashDd = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
     private static final String API_KEY_SOURCE_DATE = "sourceDate";
-    private static final String API_KEY_REGISTRATION_DATE = "registrationDate";
 
     public static Date fromFormContentArticleDate(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_SOURCE_DATE);
-        return valueOf(child.getValue());
-    }
-
-    public static Date fromFormContentRegistrationDate(FormContent formContent) {
-        FormContent child = formContent.getChildren(API_KEY_REGISTRATION_DATE);
         return valueOf(child.getValue());
     }
 

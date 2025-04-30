@@ -10,14 +10,8 @@ import org.herovole.blogproj.domain.FormContent;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Hour {
 
-    private static final String API_KEY_REGISTRATION_HOUR = "registrationHour";
     private static final String EMPTY = "--";
     private final Integer hh;
-
-    public static Hour fromFormContentRegistrationHour(FormContent formContent) {
-        FormContent child = formContent.getChildren(API_KEY_REGISTRATION_HOUR);
-        return valueOf(child.getValue());
-    }
 
     public static Hour valueOf(Integer number)  {
         if(number < 0 || 23 < number) {
