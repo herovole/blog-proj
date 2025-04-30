@@ -55,6 +55,8 @@
   version : 1.4.9-beta  
 - i013  
   Alter format of the article publishing timestamp  
+  branch : feature/i013_20250430  
+  version : 1.5.3-beta  
 - i014  
   Fix : a long title gets abbreviated on the top page  
   branch : feature/i014_20250425  
@@ -89,6 +91,8 @@
 - i023  
   Space separated search keywords do not handle 全角 space  
   Reported : 20250428  
+  branch : feature/i023_20250430  
+  version : 1.5.3-beta  
 
 
 ## System Updates
@@ -130,6 +134,8 @@
   Article Preview  
 - u013  
   Get each article carry the publishing timestamp.  
+  branch : feature/u013_20250430  
+  version : 1.6.0-beta  
 - u014  
   User View Admin page  
 - u015  
@@ -151,6 +157,8 @@
 - u021  
   Generate RSS automatically upon deployment.  
   Reported : 20250428  
+  branch : feature/u021_20250430  
+  version : 1.6.0-beta  
 
   
 ## Layout Updates
