@@ -58,6 +58,10 @@ public class AArticle implements Serializable {
     @Column(name = "is_published")
     private boolean isPublished;
 
+    @CreationTimestamp
+    @Column(name = "registration_timestamp")
+    private LocalDateTime registrationTimestamp;
+
     @UpdateTimestamp
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;
@@ -101,6 +105,7 @@ public class AArticle implements Serializable {
         entity.setSourcePage(sourcePage.getUrl().memorySignature());
         entity.setSourceDate(sourcePage.getDate().toLocalDate());
         entity.setPublished(article1.getIsPublished().memorySignature());
+        entity.setRegistrationTimestamp(article1.getRegistrationTimestamp().toLocalDateTime());
 
         entity.setDeleteFlag(false);
         return entity;
@@ -118,7 +123,7 @@ public class AArticle implements Serializable {
                         .date(Date.valueOf(sourceDate))
                         .build())
                 .isPublished(GenericSwitch.valueOf(isPublished))
-                .registrationTimestamp(Timestamp.valueOf(insertTimestamp))
+                .registrationTimestamp(Timestamp.valueOf(registrationTimestamp))
                 .latestEditTimestamp(Timestamp.valueOf(updateTimestamp))
 
                 .build();
@@ -136,7 +141,7 @@ public class AArticle implements Serializable {
                         .date(Date.valueOf(sourceDate))
                         .build())
                 .isPublished(GenericSwitch.valueOf(isPublished))
-                .registrationTimestamp(Timestamp.valueOf(insertTimestamp))
+                .registrationTimestamp(Timestamp.valueOf(registrationTimestamp))
                 .latestEditTimestamp(Timestamp.valueOf(updateTimestamp))
 
                 .build();
