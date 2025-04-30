@@ -145,8 +145,8 @@ public class RealArticle implements Article {
                 .editors(editors.toIntMemorySignature())
                 .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
-                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
-                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
                 .build();
     }
 
