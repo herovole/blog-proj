@@ -151,6 +151,8 @@
 - u021  
   Generate RSS automatically upon deployment.  
   Reported : 20250428  
+  branch : feature/u021_20250430  
+  version : 1.6.0-beta  
 
   
 ## Layout Updates

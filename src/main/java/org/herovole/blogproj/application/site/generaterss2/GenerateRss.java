@@ -1,5 +1,6 @@
 package org.herovole.blogproj.application.site.generaterss2;
 
+import jakarta.annotation.PostConstruct;
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticles;
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesInput;
@@ -51,6 +52,15 @@ public class GenerateRss implements RssDestinations {
         this.articleTransactionalDatasourceRss20German = articleTransactionalDatasourceRss20German;
         this.articleTransactionalDatasourceRss10German = articleTransactionalDatasourceRss10German;
         this.presenter = presenter;
+    }
+
+    @PostConstruct
+    public void processToGenerateRssUponDeployment() throws ApplicationProcessException {
+        logger.info("Start initial RSS generation.");
+        for (RssType rssType : RssType.valuesForGeneratingUponDeployment()) {
+            GenerateRssInput input = new GenerateRssInput(rssType);
+            this.process(input);
+        }
     }
 
     public void process(GenerateRssInput input) throws ApplicationProcessException {
