@@ -93,6 +93,10 @@
   Reported : 20250428  
   branch : feature/i023_20250430  
   version : 1.5.3-beta  
+- i024  
+  SearchArticlesPresenter losing @RequestScope causing the background UseCaseErrorType retained
+  through multiple requests. Needs to overwrite it by UseCaseErrorType.NONE.  
+  Reported : 20250501
 
 
 ## System Updates
