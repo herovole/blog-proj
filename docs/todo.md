@@ -97,6 +97,8 @@
   SearchArticlesPresenter losing @RequestScope causing the background UseCaseErrorType retained
   through multiple requests. Needs to recover the annotation and needs another way to handle the initial RSS generation.  
   Reported : 20250501
+  branch : feature/i024_20250502  
+  version : 1.6.1-beta
 
 
 ## System Updates
