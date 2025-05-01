@@ -2,11 +2,9 @@ package org.herovole.blogproj.presentation.presenter;
 
 import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOutput;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
-@Component("searchArticlesPresenterRequest")
-@RequestScope
-public class SearchArticlesPresenter extends GenericPresenterProto<SearchArticlesOutput> {
+@Component("searchArticlesPresenterPlain")
+public class SearchArticlesPresenterPlain extends GenericPresenterProto<SearchArticlesOutput> {
 
     @Override
     public String buildResponseBody() {
