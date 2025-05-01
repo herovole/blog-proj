@@ -37,7 +37,7 @@ public class GenerateRss implements RssDestinations {
     @Autowired
     public GenerateRss(
             SearchArticles searchArticles,
-            GenericPresenter<SearchArticlesOutput> searchArticlesPresenter,
+            @Qualifier("searchArticlesPresenterPlain") GenericPresenter<SearchArticlesOutput> searchArticlesPresenter,
             @Qualifier("articleTransactionalDatasourceRss2Feed") ArticleTransactionalDatasource articleTransactionalDatasourceRss20Feed,
             @Qualifier("articleTransactionalDatasourceRss2") ArticleTransactionalDatasource articleTransactionalDatasourceRss20,
             @Qualifier("articleTransactionalDatasourceRss1") ArticleTransactionalDatasource articleTransactionalDatasourceRss10,
@@ -82,7 +82,7 @@ public class GenerateRss implements RssDestinations {
                     .searchOption(searchOption)
                     .requiresAuth(GenericSwitch.positive())
                     .build();
-            this.searchArticles.process(searchArticlesInput);
+            this.searchArticles.process(searchArticlesInput, this.searchArticlesPresenter);
             SearchArticlesOutput searchArticlesOutput = this.searchArticlesPresenter.getContent();
             logger.info("fetched article samples: {}", searchArticlesOutput.getTotalArticles());
 
