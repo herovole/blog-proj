@@ -201,3 +201,7 @@
   registration requests to two other antennas  
   branch : feature/a006_20250421  
   version : 1.4.8-beta  
+- a007  
+  Remove a003  
+  Reported : 20250502  
+
