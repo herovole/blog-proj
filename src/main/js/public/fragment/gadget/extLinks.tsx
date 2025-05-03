@@ -8,6 +8,10 @@ export const ExtLinks: React.FC = () => {
 
     const itemKitaaaNet = <Link className="gadget-links-item-link"
                                 to="https://kitaaa.net/">キター(ﾟ∀ﾟ)ー！アンテナ</Link>
+
+    const item0matomeCom = <Link className="gadget-links-item-link"
+                                 to="https://0matome.com/">おまとめ</Link>
+
     const item2channelerCom = <Link className="gadget-links-item-link"
                                     to="https://2channeler.com/">ねらーアンテナ</Link>
     const itemLivdirComKaigaiAntenna = <Link className="gadget-links-item-link"
@@ -23,10 +27,11 @@ export const ExtLinks: React.FC = () => {
             <div className="gadget-links-title">登録アンテナサイト</div>
             <div className="gadget-links-body">
                 <div className="gadget-links-item">{itemBlogWith2Net}</div>
+                <div className="gadget-links-item">{itemKitaaaNet}</div>
             </div>
             <div className="gadget-links-title">申請中アンテナサイト</div>
             <div className="gadget-links-body">
-                <div className="gadget-links-item">{itemKitaaaNet}</div>
+                <div className="gadget-links-item">{item0matomeCom}</div>
                 <div className="gadget-links-item">{itemLivdirComKaigaiAntenna}</div>
                 <div className="gadget-links-item">{item2channelerCom}</div>
                 <div className="gadget-links-item">{itemKaihanAntennaCom}</div>
