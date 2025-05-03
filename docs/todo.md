@@ -206,4 +206,7 @@
   Reported : 20250502  
   branch : feature/a007_20250502  
   version : 1.6.2-beta  
+- a008  
+  Add RSS widget for misc genre  
+  Reported : 20250503  
 
