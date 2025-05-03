@@ -1,19 +1,43 @@
 import React from "react";
 
-export const LivedoorRss: React.FC = () => {
+export enum RssMode {
+    OVERSEAS,
+    MISC
+}
+type LivedoorRssProps = {
+    rssMode: RssMode;
+}
 
-    return <div style={{width: '100%', border: 'none', overflow: 'hidden'}}>
-        <iframe
-            title="Blogroll Widget"
-            src="https://at-archives.com/livedoor-rss.html"
-            style={{
-                width: '320px',
-                height: '768px', // adjust height as needed
-                backgroundColor: '#cccc88',
-                border: 'none',
-            }}
-        />
-    </div>;
+export const LivedoorRss: React.FC<LivedoorRssProps> = ({rssMode}) => {
+
+    if(rssMode === RssMode.OVERSEAS) {
+        return <div style={{width: '100%', border: 'none', overflow: 'hidden'}}>
+            <iframe
+                title="Blogroll Widget"
+                src="https://at-archives.com/livedoor-rss.html"
+                style={{
+                    width: '320px',
+                    height: '768px', // adjust height as needed
+                    backgroundColor: '#cccc88',
+                    border: 'none',
+                }}
+            />
+        </div>;
+    }
+    if(rssMode === RssMode.MISC) {
+        return <div style={{width: '100%', border: 'none', overflow: 'hidden'}}>
+            <iframe
+                title="Blogroll Widget"
+                src="https://at-archives.com/livedoor-rss-misc.html"
+                style={{
+                    width: '320px',
+                    height: '768px', // adjust height as needed
+                    backgroundColor: '#cccc88',
+                    border: 'none',
+                }}
+            />
+        </div>;
+    }
     /* Default
         <script type="text/javascript">
         <!--

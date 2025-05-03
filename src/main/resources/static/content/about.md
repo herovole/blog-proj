@@ -30,6 +30,8 @@
 
 ## システム更新履歴
 
+- 2025/05/03  
+  ver 1.6.3-beta - ウィジェット追加 a008 / additional widget a008  
 - 2025/05/02  
   ver 1.6.2-beta - 4ch出典表示の回復 a007 / Recover 4ch reference a007  
   ver 1.6.1-beta - エラー修正 i024 / Bugfix i024   
