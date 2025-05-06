@@ -102,7 +102,9 @@
 - i025  
   There's a case that manual RSS generation doesn't update the RSS files, while it's performed by redeployment of the project.  
   Reported : 20250506  
-
+- i026  
+  Background positions are strange when opened by smartphones.  
+  Reported : 20250507  
 
 ## System Updates
 
@@ -168,6 +170,9 @@
   Reported : 20250428  
   branch : feature/u021_20250430  
   version : 1.6.0-beta  
+- u022  
+  "Go to top" following widget  
+  Reported : 20250507  
 
   
 ## Layout Updates
