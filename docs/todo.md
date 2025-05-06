@@ -99,6 +99,9 @@
   Reported : 20250501
   branch : feature/i024_20250502  
   version : 1.6.1-beta
+- i025  
+  There's a case that manual RSS generation doesn't update the RSS files, while it's performed by redeployment of the project.  
+  Reported : 20250506  
 
 
 ## System Updates
