@@ -108,6 +108,9 @@
 - i027  
   Delete description of the webpack server.  
   Reported : 20250507
+- i028  
+  sort articles order by publish_timestamp instead of by id.  
+  Reported : 20250508  
 
 ## System Updates
 
