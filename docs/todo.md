@@ -105,6 +105,9 @@
 - i026  
   Background positions are strange when opened by smartphones.  
   Reported : 20250507  
+- i027  
+  Delete description of the webpack server.  
+  Reported : 20250507
 
 ## System Updates
 
