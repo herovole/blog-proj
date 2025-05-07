@@ -176,6 +176,9 @@
 - u022  
   "Go to top" following widget  
   Reported : 20250507  
+- u023  
+  Add (海外の反応) to RSS articles titles  
+  Reported : 20250508
 
   
 ## Layout Updates
