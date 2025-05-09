@@ -111,6 +111,9 @@
 - i028  
   sort articles order by publish_timestamp instead of by id.  
   Reported : 20250508  
+- i029  
+  shrink the max size of the comment width, to the same degree to that in editing page.  
+  Reported : 20250509  
 
 ## System Updates
 
