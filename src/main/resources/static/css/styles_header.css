@@ -3,14 +3,9 @@
     border: 1px solid #000000;
     background-color: #EEEEEE;
 }
-
 .header-alignment {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0px;
-    width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    max-width: 500px;
 }
 
 .header-unit {
