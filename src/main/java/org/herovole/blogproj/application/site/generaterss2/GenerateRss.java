@@ -8,6 +8,7 @@ import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOu
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
 import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.article.Articles;
@@ -90,6 +91,10 @@ public class GenerateRss implements RssDestinations {
             articles = articles.append(articlesOfThisSearch);
         }
         articles = articles.sliceFirst(NUMBER_ADOPTED);
+
+        for(Article article : articles.stream().toList()) {
+            logger.info("Application " + article.getArticleId().letterSignature() + " " + article.getRegistrationTimestamp().letterSignatureFrontendDisplay());
+        }
 
         final ArticleTransactionalDatasource articleTransactionalDatasource = rssType.getCorrespondingDatasource(this);
         articles.stream().forEach(articleTransactionalDatasource::insert);

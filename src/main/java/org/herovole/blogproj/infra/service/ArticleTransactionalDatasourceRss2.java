@@ -2,12 +2,15 @@ package org.herovole.blogproj.infra.service;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.AppSession;
+import org.herovole.blogproj.application.site.generaterss2.GenerateRss;
 import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.article.RealArticleSimplified;
 import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,6 +27,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
     private final Queue<Article> articles = new ConcurrentLinkedQueue<>();
     private final LocalFile rssXml;
     private final SiteInformation siteInformation;
+    private static final Logger logger = LoggerFactory.getLogger(ArticleTransactionalDatasourceRss2.class.getSimpleName());
 
     @Override
     public int amountOfCachedTransactions() {
@@ -70,6 +74,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
 
             while (!articles.isEmpty()) {
                 Article article = articles.poll();
+                logger.info("RSS 2 Flush " + article.getArticleId().letterSignature() + " " + article.getRegistrationTimestamp().letterSignatureFrontendDisplay());
                 Element item = new ArticleXml(siteInformation, article).toElement(document);
                 channel.appendChild(item);
             }
