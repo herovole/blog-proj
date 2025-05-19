@@ -4,15 +4,18 @@
     background-color: #EEEEEE;
 }
 .header-alignment {
-    width: 100%;
-    max-width: 500px;
+    display: grid;
+    justify-content: center;
+    width : 100%;
+    height : 42px;
 }
 
 .header-unit {
     border: 4px outset #AAAAAA;
     background-color: #EEEEEE;
-    padding: 5px;
+    padding-left: 5px;
     width: 120px;
+    height: 42px;
     text-align: center;
     color: #000000;
     text-decoration: none;
