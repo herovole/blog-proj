@@ -71,7 +71,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) " +
             " group by a.id  " +
-            " order by :orderByColumn desc" +
+            " order by :orderByColumn  " +
             " limit :limit offset :offset", nativeQuery = true)
     long[] searchByOptions(@Param("isPublished") int isPublished,
                            @Param("topicTagId1") Integer topicTagId1,
