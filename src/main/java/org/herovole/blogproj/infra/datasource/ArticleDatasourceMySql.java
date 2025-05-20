@@ -1,7 +1,10 @@
 package org.herovole.blogproj.infra.datasource;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.domain.IntegerId;
 import org.herovole.blogproj.domain.IntegerIds;
+import org.herovole.blogproj.domain.OrderBy;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleDatasource;
 import org.herovole.blogproj.domain.article.ArticleListSearchOption;
@@ -9,12 +12,24 @@ import org.herovole.blogproj.domain.comment.CommentUnit;
 import org.herovole.blogproj.domain.comment.CommentUnits;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.tag.country.CountryCodes;
-import org.herovole.blogproj.infra.jpa.entity.*;
-import org.herovole.blogproj.infra.jpa.repository.*;
+import org.herovole.blogproj.infra.jpa.entity.AArticle;
+import org.herovole.blogproj.infra.jpa.entity.AArticleHasCountry;
+import org.herovole.blogproj.infra.jpa.entity.AArticleHasEditor;
+import org.herovole.blogproj.infra.jpa.entity.AArticleHasTopicTag;
+import org.herovole.blogproj.infra.jpa.entity.ASourceComment;
+import org.herovole.blogproj.infra.jpa.entity.EUserComment;
+import org.herovole.blogproj.infra.jpa.repository.AArticleHasCountryRepository;
+import org.herovole.blogproj.infra.jpa.repository.AArticleHasEditorRepository;
+import org.herovole.blogproj.infra.jpa.repository.AArticleHasTopicTagRepository;
+import org.herovole.blogproj.infra.jpa.repository.AArticleRepository;
+import org.herovole.blogproj.infra.jpa.repository.ASourceCommentRepository;
+import org.herovole.blogproj.infra.jpa.repository.EUserCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component("articleDatasource")
 public class ArticleDatasourceMySql implements ArticleDatasource {
@@ -100,6 +115,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
                 searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
                 searchOption.getDateRange().from().toLocalDate(),
                 searchOption.getDateRange().to().toLocalDate(),
+                MySqlOrderBy.of(searchOption.getOrderBy()).phrase,
                 searchOption.getPagingRequest().getLimit(),
                 searchOption.getPagingRequest().getOffset()
         );
@@ -120,5 +136,28 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
                 searchOption.getDateRange().from().toLocalDate(),
                 searchOption.getDateRange().to().toLocalDate()
         );
+    }
+
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    enum MySqlOrderBy {
+        NONE(OrderBy.NONE, "a.id"),
+        ID(OrderBy.ID, "a.id"),
+        REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP, "registration_timestamp"),
+        LATEST_COMMENT(OrderBy.LATEST_COMMENT, "latest_comment_timestamp");
+
+        private static final Map<OrderBy, MySqlOrderBy> toEnum = new HashMap<>();
+
+        static {
+            for (MySqlOrderBy mySqlOrderBy : values()) {
+                toEnum.put(mySqlOrderBy.domainOrderBy, mySqlOrderBy);
+            }
+        }
+
+        public static MySqlOrderBy of(OrderBy orderBy) {
+            return toEnum.getOrDefault(orderBy, NONE);
+        }
+
+        private final OrderBy domainOrderBy;
+        private final String phrase;
     }
 }

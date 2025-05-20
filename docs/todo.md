@@ -165,6 +165,8 @@
   Take referer data.  
 - u016  
   Gadget(left) of an article list aligned by the timestamps of the latest comments.  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - u017  
   Introduce a flag and a tag for German language sphere.  
   branch : feature/u017_20250426  

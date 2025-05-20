@@ -18,11 +18,17 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
     @Query(value = "Select max(id) from a_article limit 1", nativeQuery = true)
     Long findMaxId();
 
-    @Query(value = "Select a.id from a_article a  " +
+    @Query(value = "Select " +
+            "   a.id, " +
+            "   max(a.registration_timestamp) as registration_timestamp,  " +
+            "   coalesce(max(u.insert_timestamp), max(a.registration_timestamp)) as latest_comment_timestamp  " +
+            " from a_article a  " +
             " Left Join a_article_has_topic_tag t  " +
             "   On t.article_id = a.id  " +
             " Left Join a_article_has_country c  " +
             "   On c.article_id = a.id  " +
+            " Left Join e_user_comment u  " +
+            "   On u.article_id = a.id  " +
             " Where " +
             "   a.is_published = :isPublished " +
             "   And  " +
@@ -65,7 +71,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             "     coalesce(a.source_date,curdate()) between :dateFrom And :dateTo " +
             "    ) " +
             " group by a.id  " +
-            " order by a.id desc" +
+            " order by :orderByColumn desc" +
             " limit :limit offset :offset", nativeQuery = true)
     long[] searchByOptions(@Param("isPublished") int isPublished,
                            @Param("topicTagId1") Integer topicTagId1,
@@ -77,6 +83,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
                            @Param("timestampTo") LocalDateTime timestampTo,
                            @Param("dateFrom") LocalDate dateFrom,
                            @Param("dateTo") LocalDate dateTo,
+                           @Param("orderByColumn") String orderByColumn,
                            @Param("limit") int limit,
                            @Param("offset") long offset
     );
