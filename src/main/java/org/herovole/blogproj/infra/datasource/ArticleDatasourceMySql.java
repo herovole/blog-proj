@@ -140,10 +140,10 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     enum MySqlOrderBy {
-        NONE(OrderBy.NONE, "a.id"),
-        ID(OrderBy.ID, "a.id"),
-        REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP, "registration_timestamp"),
-        LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP, "latest_comment_timestamp");
+        NONE(OrderBy.NONE, "a.id DESC"),
+        ID(OrderBy.ID, "a.id DESC"),
+        REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP, "registration_timestamp DESC"),
+        LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP, "latest_comment_timestamp DESC");
 
         private static final Map<OrderBy, MySqlOrderBy> toEnum = new HashMap<>();
 
