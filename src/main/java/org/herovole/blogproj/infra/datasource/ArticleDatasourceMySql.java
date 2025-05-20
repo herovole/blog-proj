@@ -143,7 +143,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         NONE(OrderBy.NONE, "a.id"),
         ID(OrderBy.ID, "a.id"),
         REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP, "registration_timestamp"),
-        LATEST_COMMENT(OrderBy.LATEST_COMMENT, "latest_comment_timestamp");
+        LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP, "latest_comment_timestamp");
 
         private static final Map<OrderBy, MySqlOrderBy> toEnum = new HashMap<>();
 

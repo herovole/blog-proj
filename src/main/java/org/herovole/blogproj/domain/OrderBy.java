@@ -11,7 +11,7 @@ public enum OrderBy {
     NONE("none"),
     ID("id"),
     REGISTRATION_TIMESTAMP("registration"),
-    LATEST_COMMENT("comment"),
+    LATEST_COMMENT_TIMESTAMP("comment"),
     ;
 
     private final String signature;
