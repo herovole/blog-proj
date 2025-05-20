@@ -1,3 +1,7 @@
+.all-body {
+    min-width: 1200px;
+}
+
 .main-body {
     display: grid;
     grid-template-columns: 200px 800px 200px;

@@ -8,7 +8,7 @@ type PublicBasicLayoutProps = {
 
 export const PublicBasicLayout: React.FC<PublicBasicLayoutProps> = ({children}) => {
     return (
-        <div>
+        <div className="all-body">
             <PublicHeader/>
             <div className="main-body">
                 <div>gadgets here</div>
