@@ -2,6 +2,7 @@ package org.herovole.blogproj.domain.article;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
@@ -11,6 +12,7 @@ import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
 import org.herovole.blogproj.domain.time.DateRange;
 
+@ToString
 @Getter
 @Builder
 public class ArticleListSearchOption {
