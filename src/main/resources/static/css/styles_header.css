@@ -1,5 +1,6 @@
 .header-frame {
     width: 100%;
+    min-width: 1200px;
     border: 1px solid #000000;
     background-color: #EEEEEE;
 }
