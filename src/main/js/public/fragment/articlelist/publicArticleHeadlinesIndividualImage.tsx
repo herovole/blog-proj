@@ -25,7 +25,7 @@ export const PublicArticleHeadlinesIndividualImage: React.FC<PublicArticleHeadli
     } else {
         return (
             <div className="article-image-small-base">
-                <Link className="headline-clickable-small" to={directoryToIndividualPage + "/" + article.articleId}>
+                <Link className="headline-clickable-image" to={directoryToIndividualPage + "/" + article.articleId}>
                     <img className="article-image-small" src={resourcePrefix + article.imageName}
                          alt={article.imageName}/>
                     <div className="article-image-title-base">
