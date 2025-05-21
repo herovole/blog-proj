@@ -14,7 +14,8 @@
     <name>a blog project</name>
     <description>a blog project</description>
 
-    <version>1.6.3-beta</version>
+
+    <version>1.7.0-beta</version>
     <url>http://projects.spring.io/spring-boot/</url>
 
     <organization>

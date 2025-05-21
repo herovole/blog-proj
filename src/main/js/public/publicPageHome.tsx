@@ -40,7 +40,7 @@ export const PublicPageHome: React.FC = () => {
         />
         <PublicBasicLayout>
             <ArticleListBody
-                mode={HeadlinesMode.LARGE}
+                mode={HeadlinesMode.HOME}
                 hasSearchMenu={false}
                 directoryToIndividualPage={"/articles"}
             />
