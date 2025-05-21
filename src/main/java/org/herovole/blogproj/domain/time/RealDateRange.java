@@ -33,7 +33,7 @@ public class RealDateRange implements DateRange {
 
     public static RealDateRange complementOf(Date dateFrom, Date dateTo) {
         Date dateFrom1 = dateFrom.isEmpty() ? Date.newYear2024() : dateFrom;
-        Date dateTo1 = dateTo.isEmpty() ? Date.today() : dateFrom;
+        Date dateTo1 = dateTo.isEmpty() ? Date.today() : dateTo;
         return of(dateFrom1, dateTo1);
     }
 
