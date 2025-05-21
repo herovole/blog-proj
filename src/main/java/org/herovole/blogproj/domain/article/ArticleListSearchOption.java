@@ -2,12 +2,17 @@ package org.herovole.blogproj.domain.article;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.herovole.blogproj.domain.*;
+import lombok.ToString;
+import org.herovole.blogproj.domain.FormContent;
+import org.herovole.blogproj.domain.GenericSwitch;
+import org.herovole.blogproj.domain.IntegerId;
+import org.herovole.blogproj.domain.OrderBy;
+import org.herovole.blogproj.domain.SearchKeywords;
 import org.herovole.blogproj.domain.abstractdatasource.PagingRequest;
 import org.herovole.blogproj.domain.tag.country.CountryCode;
-import org.herovole.blogproj.domain.tag.country.CountryCodes;
 import org.herovole.blogproj.domain.time.DateRange;
 
+@ToString
 @Getter
 @Builder
 public class ArticleListSearchOption {
@@ -21,6 +26,7 @@ public class ArticleListSearchOption {
                 .keywords(SearchKeywords.fromFormContent(formContent))
                 .topic(IntegerId.fromFormContentTopicTagId(formContent))
                 .country(CountryCode.fromFormContent(formContent))
+                .orderBy(OrderBy.fromFormContent(formContent))
                 .build();
     }
 
@@ -30,6 +36,7 @@ public class ArticleListSearchOption {
     private final SearchKeywords keywords;
     private final IntegerId topic;
     private final CountryCode country;
+    private final OrderBy orderBy;
 
     public boolean isValid() {
         if (100 < this.pagingRequest.getItemsPerPage()) return false;
