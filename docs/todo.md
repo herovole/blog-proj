@@ -129,6 +129,9 @@
   Reported : 20250511  
   branch : feature/i030_20250521  
   version : 1.6.4-beta
+- i031  
+  "Life" category is rendered "Test"  
+  Reported : 20250521  
 
 ## System Updates
 
