@@ -2,9 +2,11 @@ package org.herovole.blogproj.domain.abstractdatasource;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
+@ToString
 @Getter
 @EqualsAndHashCode
 public class PagingRequest {
