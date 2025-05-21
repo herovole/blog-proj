@@ -187,7 +187,9 @@
   Reported : 20250507  
 - u023  
   Add (海外の反応) to RSS articles titles  
-  Reported : 20250508
+  Reported : 20250508  
+  branch : feature/u023_20250521  
+  version : 1.6.4-beta  
 
   
 ## Layout Updates
