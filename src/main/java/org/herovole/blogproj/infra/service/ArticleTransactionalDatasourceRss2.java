@@ -102,7 +102,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element item = document.createElement("item");
 
             Element title = document.createElement("title");
-            title.appendChild(document.createTextNode(article1.getTitle().memorySignature()));
+            title.appendChild(document.createTextNode(article1.getTitle().memorySignature() + "（海外の反応）"));
 
             Element link = document.createElement("link");
             link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
