@@ -40,15 +40,6 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        static: {
-            directory: path.join(__dirname, './src/main/resources/static/dist'), // Serve static files from "dist"
-        },
-        historyApiFallback: true, // Redirect all requests to index.html
-        port: 3000, // Change the port if needed
-        open: true, // Auto-open browser on start
-        hot: true // Enable Hot Module Replacement (HMR)
-    },
     plugins: [
         new webpack.ProvidePlugin({
             $: 'jquery',

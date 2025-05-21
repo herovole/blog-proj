@@ -102,21 +102,33 @@
 - i025  
   There's a case that manual RSS generation doesn't update the RSS files, while it's performed by redeployment of the project.  
   Reported : 20250506  
+  branch : feature/i025_20250521  
+  version : 1.6.4-beta  
 - i026  
   Background positions are strange when opened by smartphones.  
   Reported : 20250507  
+  branch : feature/i026_20250520  
+  version : 1.6.4-beta  
 - i027  
   Delete description of the webpack server.  
-  Reported : 20250507
+  Reported : 20250507  
+  branch : feature/i027_20250520  
+  version : 1.6.4-beta  
 - i028  
   sort articles order by publish_timestamp instead of by id.  
   Reported : 20250508  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - i029  
   shrink the max size of the comment width, to the same degree to that in editing page.  
   Reported : 20250509  
+  branch : feature/i029_20250521  
+  version : 1.6.4-beta
 - i030  
   More relaxing messages for the usage guides of the comment function.  
   Reported : 20250511  
+  branch : feature/i030_20250521  
+  version : 1.6.4-beta
 
 ## System Updates
 
@@ -165,6 +177,8 @@
   Take referer data.  
 - u016  
   Gadget(left) of an article list aligned by the timestamps of the latest comments.  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - u017  
   Introduce a flag and a tag for German language sphere.  
   branch : feature/u017_20250426  
@@ -185,9 +199,13 @@
 - u022  
   "Go to top" following widget  
   Reported : 20250507  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - u023  
   Add (海外の反応) to RSS articles titles  
-  Reported : 20250508
+  Reported : 20250508  
+  branch : feature/u023_20250521  
+  version : 1.6.4-beta  
 
   
 ## Layout Updates
