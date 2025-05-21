@@ -59,7 +59,7 @@ export class TagUnits {
 
     getJapaneseNameByIdForDisplay(id: string): string | null {
         for (const e of this.tagUnits) {
-            if (id.includes(e.fields.id)) {
+            if (id === e.fields.id) {
                 return e.fields.tagJapanese;
             }
         }
