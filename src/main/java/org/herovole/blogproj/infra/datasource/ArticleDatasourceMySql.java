@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Component("articleDatasource")
 public class ArticleDatasourceMySql implements ArticleDatasource {
@@ -104,22 +105,9 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
 
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
-        long[] ids = aArticleRepository.searchByOptions(
-                searchOption.getIsPublished().intMemorySignature(),
-                searchOption.getTopic().intMemorySignature(),
-                searchOption.getCountry().memorySignature(),
-                searchOption.getKeywords().get(0).memorySignature(),
-                searchOption.getKeywords().get(1).memorySignature(),
-                searchOption.getKeywords().get(2).memorySignature(),
-                searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
-                searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
-                searchOption.getDateRange().from().toLocalDate(),
-                searchOption.getDateRange().to().toLocalDate(),
-                MySqlOrderBy.of(searchOption.getOrderBy()).phrase,
-                searchOption.getPagingRequest().getLimit(),
-                searchOption.getPagingRequest().getOffset()
-        );
-        return IntegerIds.of(ids);
+        MySqlOrderBy mySqlOrderBy = MySqlOrderBy.of(searchOption.getOrderBy());
+        AArticle.AArticleSearchIds[] searchIds = mySqlOrderBy.query(searchOption, aArticleRepository);
+        return IntegerIds.of(Stream.of(searchIds).map(AArticle.AArticleSearchIds::getId).mapToLong(Long::longValue).toArray());
     }
 
     @Override
@@ -140,10 +128,82 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     enum MySqlOrderBy {
-        NONE(OrderBy.NONE, "a.id DESC"),
-        ID(OrderBy.ID, "a.id DESC"),
-        REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP, "registration_timestamp DESC"),
-        LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP, "latest_comment_timestamp DESC");
+        NONE(OrderBy.NONE) {
+            @Override
+            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+                return aArticleRepository.searchByOptionsOrderById(
+                        searchOption.getIsPublished().intMemorySignature(),
+                        searchOption.getTopic().intMemorySignature(),
+                        searchOption.getCountry().memorySignature(),
+                        searchOption.getKeywords().get(0).memorySignature(),
+                        searchOption.getKeywords().get(1).memorySignature(),
+                        searchOption.getKeywords().get(2).memorySignature(),
+                        searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().from().toLocalDate(),
+                        searchOption.getDateRange().to().toLocalDate(),
+                        searchOption.getPagingRequest().getLimit(),
+                        searchOption.getPagingRequest().getOffset()
+                );
+            }
+        },
+        ID(OrderBy.ID) {
+            @Override
+            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+                return aArticleRepository.searchByOptionsOrderById(
+                        searchOption.getIsPublished().intMemorySignature(),
+                        searchOption.getTopic().intMemorySignature(),
+                        searchOption.getCountry().memorySignature(),
+                        searchOption.getKeywords().get(0).memorySignature(),
+                        searchOption.getKeywords().get(1).memorySignature(),
+                        searchOption.getKeywords().get(2).memorySignature(),
+                        searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().from().toLocalDate(),
+                        searchOption.getDateRange().to().toLocalDate(),
+                        searchOption.getPagingRequest().getLimit(),
+                        searchOption.getPagingRequest().getOffset()
+                );
+            }
+        },
+        REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP) {
+            @Override
+            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+                return aArticleRepository.searchByOptionsOrderByRegistrationTimestamp(
+                        searchOption.getIsPublished().intMemorySignature(),
+                        searchOption.getTopic().intMemorySignature(),
+                        searchOption.getCountry().memorySignature(),
+                        searchOption.getKeywords().get(0).memorySignature(),
+                        searchOption.getKeywords().get(1).memorySignature(),
+                        searchOption.getKeywords().get(2).memorySignature(),
+                        searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().from().toLocalDate(),
+                        searchOption.getDateRange().to().toLocalDate(),
+                        searchOption.getPagingRequest().getLimit(),
+                        searchOption.getPagingRequest().getOffset()
+                );
+            }
+        },
+        LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP) {
+            @Override
+            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+                return aArticleRepository.searchByOptionsOrderByLatestCommentTimestamp(
+                        searchOption.getIsPublished().intMemorySignature(),
+                        searchOption.getTopic().intMemorySignature(),
+                        searchOption.getCountry().memorySignature(),
+                        searchOption.getKeywords().get(0).memorySignature(),
+                        searchOption.getKeywords().get(1).memorySignature(),
+                        searchOption.getKeywords().get(2).memorySignature(),
+                        searchOption.getDateRange().from().beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().to().shift(1).beginningTimestampOfDay().toLocalDateTime(),
+                        searchOption.getDateRange().from().toLocalDate(),
+                        searchOption.getDateRange().to().toLocalDate(),
+                        searchOption.getPagingRequest().getLimit(),
+                        searchOption.getPagingRequest().getOffset()
+                );
+            }
+        };
 
         private static final Map<OrderBy, MySqlOrderBy> toEnum = new HashMap<>();
 
@@ -158,6 +218,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         }
 
         private final OrderBy domainOrderBy;
-        private final String phrase;
+
+        abstract AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository);
     }
 }
