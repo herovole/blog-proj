@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,7 +22,7 @@ type ArticleListBodyProps = {
 
 export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                     isForAdmin = false,
-                                                                    mode = HeadlinesMode.SMALL,
+                                                                    mode = HeadlinesMode.LINE,
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
                                                                 }) => {
@@ -50,14 +50,14 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+        load().then();
+        ResourceManagement.getInstance().initReferredTopicTags();
+        ResourceManagement.getInstance().initReferredCountryTags();
     }, []);
 
     const load = async (): Promise<void> => {
         await loadArticles(inputFixed);
     };
-    useEffect(() => {
-        load().then();
-    }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -274,7 +274,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    reRender={refresh}
                 />
             </>
         )
@@ -287,7 +286,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    reRender={refresh}
                 />
             </>
         )
