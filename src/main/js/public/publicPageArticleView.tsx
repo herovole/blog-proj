@@ -60,7 +60,7 @@ export const PublicPageArticleView: React.FC = () => {
     useEffect(() => {
         window.scrollTo({top: 0, behavior: "auto"});
         load().then();
-    }, [refresh]);
+    }, [refresh, articleId]);
 
     if (article && ratingHistory) {
         return <>
