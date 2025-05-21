@@ -117,6 +117,8 @@
 - i030  
   More relaxing messages for the usage guides of the comment function.  
   Reported : 20250511  
+  branch : feature/i030_20250521  
+  version : 1.6.4-beta
 
 ## System Updates
 
