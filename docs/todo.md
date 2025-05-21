@@ -105,18 +105,26 @@
 - i026  
   Background positions are strange when opened by smartphones.  
   Reported : 20250507  
+  branch : feature/i026_20250520  
+  version : 1.6.4-beta  
 - i027  
   Delete description of the webpack server.  
-  Reported : 20250507
+  Reported : 20250507  
+  branch : feature/i027_20250520  
+  version : 1.6.4-beta  
 - i028  
   sort articles order by publish_timestamp instead of by id.  
   Reported : 20250508  
 - i029  
   shrink the max size of the comment width, to the same degree to that in editing page.  
   Reported : 20250509  
+  branch : feature/i029_20250521  
+  version : 1.6.4-beta
 - i030  
   More relaxing messages for the usage guides of the comment function.  
   Reported : 20250511  
+  branch : feature/i030_20250521  
+  version : 1.6.4-beta
 
 ## System Updates
 

@@ -112,7 +112,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-14), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-14), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.empty())
             .build();
@@ -123,7 +123,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.valueOf("d1"))
             .build();
@@ -131,7 +131,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.valueOf("de"))
             .build();
@@ -139,7 +139,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.valueOf("at"))
             .build();
@@ -147,7 +147,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.valueOf("ch"))
             .build();
@@ -155,7 +155,7 @@ public enum RssType {
             .isPublished(GenericSwitch.positive())
             .pagingRequest(PagingRequest.of(1, 12))
             .keywords(SearchKeywords.empty())
-            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.today()))
+            .dateRange(RealDateRange.of(Date.today().shift(-28), Date.newYear2100()))
             .topic(IntegerId.empty())
             .country(CountryCode.valueOf("li"))
             .build();
