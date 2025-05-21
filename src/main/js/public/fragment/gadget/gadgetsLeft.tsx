@@ -4,6 +4,7 @@ import {ArticleListGadgetBody} from "../../../admin/fragment/articlelist/article
 import {OrderBy, OrderByEnum} from "../../../domain/articlelist/orderBy";
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {TagUnits} from "../../../admin/fragment/atomic/tagselectingform/tagUnits";
+import {BackToTop} from "./backToTop";
 
 type GadgetsLeftProps = {
     directoryToIndividualPage: string;
@@ -52,6 +53,9 @@ export const GadgetsLeft: React.FC<GadgetsLeftProps> = ({directoryToIndividualPa
                         orderBy={new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)}
                     />
                 </GadgetBase>
+                <div className="gadget-float-bottom-left">
+                    <BackToTop/>
+                </div>
             </div>
         );
 
