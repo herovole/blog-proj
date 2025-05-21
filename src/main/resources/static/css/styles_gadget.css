@@ -8,8 +8,7 @@
 .gadget-float-bottom-left {
     position: fixed;
     bottom: 5vh;
-    left: 5vw;
-    box-shadow: 0 0 8px rgba(192,192,256,1.0);
+    left: 4vw;
 }
 
 .gadget-external {
@@ -62,6 +61,6 @@
 
     background-color: transparent;
     border: none;
-    color: inherit; /* or specify a color like 'black' or '#fff' */
+    color: #FFFFFF;
     cursor: pointer;
 }
