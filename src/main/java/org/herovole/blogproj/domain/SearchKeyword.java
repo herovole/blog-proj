@@ -2,7 +2,9 @@ package org.herovole.blogproj.domain;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchKeyword {
 

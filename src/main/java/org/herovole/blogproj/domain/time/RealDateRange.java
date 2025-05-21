@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.time;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
@@ -10,6 +11,7 @@ import org.herovole.blogproj.domain.helper.AggregateSignatureSplits;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RealDateRange implements DateRange {
 

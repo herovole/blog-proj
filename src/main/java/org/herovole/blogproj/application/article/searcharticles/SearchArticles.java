@@ -65,6 +65,8 @@ public class SearchArticles {
 
         long articleNumber = articleDatasource.countByOptions(searchOption);
         IntegerIds ids = articleDatasource.searchByOptions(searchOption);
+        logger.info("total : {}, retrieved : {}", articleNumber, ids.size());
+
         List<Article> articles0 = new ArrayList<>();
         for (IntegerId id : ids) {
             Article article = articleDatasource.findByIdSimplified(id);
