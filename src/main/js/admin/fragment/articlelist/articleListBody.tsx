@@ -51,8 +51,8 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
         load().then();
-        ResourceManagement.getInstance().initReferredTopicTags();
-        ResourceManagement.getInstance().initReferredCountryTags();
+        ResourceManagement.getInstance().clearReferredTopicTags();
+        ResourceManagement.getInstance().clearReferredCountryTags();
     }, []);
 
     const load = async (): Promise<void> => {

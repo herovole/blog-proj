@@ -22,13 +22,13 @@ export const ArticleListGadgetBody: React.FC<ArticleListGadgetBodyProps> = ({
                                                                                 orderBy = new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)
                                                                             }) => {
     const articleService: ArticleService = new ArticleService();
-    const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
+    const [output, setOutput] = React.useState<SearchArticlesOutput | null>(SearchArticlesOutput.empty());
 
     React.useEffect(() => {
-        loadArticles().then();
+        loadArticles().then(setOutput);
     }, []);
 
-    const loadArticles = async (): Promise<void> => {
+    const loadArticles = async (): Promise<SearchArticlesOutput | null> => {
         const MIN_DATE: Date = new Date("2025-01-01");
         const MAX_DATE: Date = new Date();
         const input: SearchArticlesInput = new SearchArticlesInput(
@@ -45,19 +45,22 @@ export const ArticleListGadgetBody: React.FC<ArticleListGadgetBodyProps> = ({
         );
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
         if (output.isSuccessful()) {
-            setOutput(output);
+            return output;
         } else {
-            console.error(output.getMessage("article list retrieval"));
+            console.error(output.getMessage("gadget article list retrieval"));
+            return null;
         }
     }
 
-    return (
-        <>
-            <PublicArticleHeadlines
-                mode={HeadlinesMode.IMAGE}
-                articles={output.getArticleSummaryList()}
-                directoryToIndividualPage={directoryToIndividualPage}
-            />
-        </>
-    );
+    if (output != null && output.getLength() > 0) {
+        return (
+            <>
+                <PublicArticleHeadlines
+                    mode={HeadlinesMode.IMAGE}
+                    articles={output.getArticleSummaryList()}
+                    directoryToIndividualPage={directoryToIndividualPage}
+                />
+            </>
+        );
+    }
 }
