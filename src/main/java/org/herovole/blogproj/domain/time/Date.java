@@ -58,6 +58,10 @@ public class Date {
         return valueOf(LocalDate.of(2024, 1, 1));
     }
 
+    public static Date newYear2100() {
+        return valueOf(LocalDate.of(2100, 1, 1));
+    }
+
     private final LocalDate yyyyMMdd;
 
     public boolean isEmpty() {
