@@ -183,7 +183,7 @@ export const PublicUserCommentForm: React.FC<PublicUserCommentFormProps> = (
                             - 広告・スパム・営利目的の投稿<br/>
                             - 特定可能な私人への誹謗中傷やプライバシーを侵害する内容<br/>
                             違反するコメントは予告なく削除することがあります。<br/>
-                            また、コメント内容によって発生する影響は投稿者側にて責任を負ってください。<br/>
+                            また、コメントに起因するいかなる問題についても、運営側は責任を負いません。<br/>
                         </div>
                         <br/>
                         <button className="comment-modal-submit" type="button"

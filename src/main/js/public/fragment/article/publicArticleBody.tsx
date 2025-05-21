@@ -38,6 +38,8 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().setReferredTopicTags(article.topicTags);
+        ResourceManagement.getInstance().setReferredCountryTags(article.countries);
     }, []);
 
     const handleReference = (commentIdReferred: number) => {
@@ -67,7 +69,8 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                     className="article-source-url">引用元: {article.sourceUrl}</div>
                 <div
                     className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
-                <div className="article-timestamp">ブログ内掲載: {YyyyMMDdHhMmSs.valueOfYyyyMMDdHhMmSs(article.registrationTimestamp).toYyyySlashMMSlashDdSpaceHhColonMm()}</div>
+                <div
+                    className="article-timestamp">ブログ内掲載: {YyyyMMDdHhMmSs.valueOfYyyyMMDdHhMmSs(article.registrationTimestamp).toYyyySlashMMSlashDdSpaceHhColonMm()}</div>
 
 
                 <div>

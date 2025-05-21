@@ -29,6 +29,16 @@
     text-decoration: none;
 }
 
+.headline-clickable-image {
+    border: none;
+    background-color: #CCCC88;
+    font-size: 1.0em;
+    color: inherit;
+    text-decoration: none;
+    width: 200px;
+    height: 200px;
+}
+
 .small-memo {
     font-size:0.8em;
 }

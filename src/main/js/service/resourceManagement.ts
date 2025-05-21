@@ -22,6 +22,11 @@ export class ResourceManagement {
     private isLoadingTopicTags: boolean = false;
     private isLoadingCountryTags: boolean = false;
 
+    //Updates when a specific article page is opened.
+    //null = yet to be prepared
+    private referredTopicTags: ReadonlyArray<string> | null = [];
+    private referredCountryTags: ReadonlyArray<string> | null = [];
+
     private static instance: ResourceManagement | null;
 
     private constructor() {
@@ -123,4 +128,45 @@ export class ResourceManagement {
         return this.countryTags;
     }
 
+    public undefineReferredTopicTags(): void {
+        this.referredTopicTags = null;
+    }
+
+    public clearReferredTopicTags(): void {
+        this.referredTopicTags = [];
+    }
+
+    public setReferredTopicTags(tags: ReadonlyArray<string>): void {
+        this.referredTopicTags = tags;
+    }
+
+    public async getRandomReferredTopicTag(): Promise<string | null> {
+        while (this.referredTopicTags == null) {
+            await Zurvan.delay(0.05);
+        }
+        return 0 < this.referredTopicTags.length ?
+            this.referredTopicTags[Math.floor(Math.random() * this.referredTopicTags.length)] :
+            null;
+    }
+
+    public undefineReferredCountryTags(): void {
+        this.referredCountryTags = null;
+    }
+
+    public clearReferredCountryTags(): void {
+        this.referredCountryTags = [];
+    }
+
+    public setReferredCountryTags(tags: ReadonlyArray<string>): void {
+        this.referredCountryTags = tags;
+    }
+
+    public async getRandomReferredCountryTag(): Promise<string | null> {
+        while (this.referredCountryTags == null) {
+            await Zurvan.delay(0.05);
+        }
+        return 0 < this.referredCountryTags.length ?
+            this.referredCountryTags[Math.floor(Math.random() * this.referredCountryTags.length)] :
+            null;
+    }
 }
