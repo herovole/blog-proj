@@ -137,6 +137,8 @@
 - i032  
   Left gadgets are unclickable  
   Reported : 20250521  
+  branch : feature/i032_20250521  
+  version : 1.7.1-beta  
 
 ## System Updates
 
