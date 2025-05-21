@@ -22,6 +22,10 @@ export class ResourceManagement {
     private isLoadingTopicTags: boolean = false;
     private isLoadingCountryTags: boolean = false;
 
+    //Updates when a specific article page is opened.
+    private referredTopicTags: ReadonlyArray<string> = [];
+    private referredCountryTags: ReadonlyArray<string> = [];
+
     private static instance: ResourceManagement | null;
 
     private constructor() {
@@ -123,4 +127,31 @@ export class ResourceManagement {
         return this.countryTags;
     }
 
+    public initReferredTopicTags(): void {
+        this.referredTopicTags = [];
+    }
+
+    public setReferredTopicTags(tags: ReadonlyArray<string>): void {
+        this.referredTopicTags = tags;
+    }
+
+    public getRandomReferredTopicTag(): string | null {
+        return 0 < this.referredTopicTags.length ?
+            this.referredTopicTags[Math.floor(Math.random() * this.referredTopicTags.length)] :
+            null;
+    }
+
+    public initReferredCountryTags(): void {
+        this.referredCountryTags = [];
+    }
+
+    public setReferredCountryTags(tags: ReadonlyArray<string>): void {
+        this.referredCountryTags = tags;
+    }
+
+    public getRandomReferredCountryTag(): string | null {
+        return 0 < this.referredCountryTags.length ?
+            this.referredCountryTags[Math.floor(Math.random() * this.referredCountryTags.length)] :
+            null;
+    }
 }
