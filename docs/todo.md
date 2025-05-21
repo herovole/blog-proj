@@ -132,6 +132,9 @@
 - i031  
   "Life" category is rendered "Test"  
   Reported : 20250521  
+- i032  
+  Left gadgets are unclickable  
+  Reported : 20250521  
 
 ## System Updates
 
