@@ -29,14 +29,12 @@ export const ArticleListGadgetBody: React.FC<ArticleListGadgetBodyProps> = ({
     }, []);
 
     const loadArticles = async (): Promise<SearchArticlesOutput | null> => {
-        const MIN_DATE: Date = new Date("2025-01-01");
-        const MAX_DATE: Date = new Date();
         const input: SearchArticlesInput = new SearchArticlesInput(
             articleNumber,
             1,
             true,
-            MIN_DATE,
-            MAX_DATE,
+            null,
+            null,
             "",
             topicTag,
             countryTag,
