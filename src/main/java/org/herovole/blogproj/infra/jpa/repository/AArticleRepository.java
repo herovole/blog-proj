@@ -73,7 +73,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
                 coalesce(a.source_date,curdate()) between :dateFrom And :dateTo
                )
             group by a.id
-            order by a.id
+            order by a.id DESC
             limit :limit offset :offset
             """, nativeQuery = true)
     List<AArticle.AArticleSearchIds> searchByOptionsOrderById(@Param("isPublished") int isPublished,
@@ -144,7 +144,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
                 coalesce(a.source_date,curdate()) between :dateFrom And :dateTo
                )
             group by a.id
-            order by registration_timestamp
+            order by registration_timestamp DESC
             limit :limit offset :offset
             """, nativeQuery = true)
     List<AArticle.AArticleSearchIds> searchByOptionsOrderByRegistrationTimestamp(@Param("isPublished") int isPublished,
@@ -215,7 +215,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
                 coalesce(a.source_date,curdate()) between :dateFrom And :dateTo
                )
             group by a.id
-            order by latest_comment_timestamp
+            order by latest_comment_timestamp DESC
             limit :limit offset :offset
             """, nativeQuery = true)
     List<AArticle.AArticleSearchIds> searchByOptionsOrderByLatestCommentTimestamp(@Param("isPublished") int isPublished,
