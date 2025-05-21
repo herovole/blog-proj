@@ -54,13 +54,13 @@ export const ArticleListGadgetBody: React.FC<ArticleListGadgetBodyProps> = ({
 
     if (output != null && output.getLength() > 0) {
         return (
-            <>
-                <PublicArticleHeadlines
-                    mode={HeadlinesMode.IMAGE}
-                    articles={output.getArticleSummaryList()}
-                    directoryToIndividualPage={directoryToIndividualPage}
-                />
-            </>
+            <PublicArticleHeadlines
+                mode={HeadlinesMode.IMAGE}
+                articles={output.getArticleSummaryList()}
+                directoryToIndividualPage={directoryToIndividualPage}
+            />
         );
+    } else {
+        return <div>loading...</div>
     }
 }
