@@ -31,6 +31,7 @@
 ## システム更新履歴
 
 - 2025/05/21  
+  ver 1.7.1-beta - エラー修正 i031, i032 / Bugfix i031, i032  
   ver 1.7.0-beta - ウィジェット追加 u016, RSS修正u023 / additional widgets u016, RSS modification u023  
   ver 1.6.4-beta - エラー修正 i025,i026,i027,i029,i030 / Bugfix i025,i026,i027,i029,i030  
 - 2025/05/03  
