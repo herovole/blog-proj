@@ -8,7 +8,7 @@ export const BackToTop: React.FC = () => {
     }
 
     return <button className="back-to-top" onClick={handleOnClick}>
-        △ 画面上部へ
+        ▲ ページトップへ
     </button>;
 
 }
