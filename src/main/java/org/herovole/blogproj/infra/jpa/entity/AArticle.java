@@ -146,4 +146,13 @@ public class AArticle implements Serializable {
 
                 .build();
     }
+
+    public interface AArticleSearchIds {
+        long getId();
+
+        LocalDateTime getRegistration_timestamp();
+
+        LocalDateTime getLatest_comment_timestamp();
+
+    }
 }

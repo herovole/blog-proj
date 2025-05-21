@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +10,7 @@ import {AppPagination} from "../appPagenation";
 import {useSearchParams} from "react-router-dom";
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {TagUnits} from "../atomic/tagselectingform/tagUnits";
+import {OrderBy} from "../../../domain/articlelist/orderBy";
 
 type ArticleListBodyProps = {
     isForAdmin?: boolean;
@@ -21,7 +22,7 @@ type ArticleListBodyProps = {
 
 export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                                                                     isForAdmin = false,
-                                                                    mode = HeadlinesMode.SMALL,
+                                                                    mode = HeadlinesMode.LINE,
                                                                     hasSearchMenu,
                                                                     directoryToIndividualPage,
                                                                 }) => {
@@ -42,20 +43,21 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const MIN_DATE: Date = new Date("2025-01-01");
     const MAX_DATE: Date = new Date();
 
+    const [orderBy, setOrderBy] = React.useState<OrderBy | null>(inputFixed.orderBy);
     const [output, setOutput] = React.useState(SearchArticlesOutput.empty());
     const [refresh, setRefresh] = React.useState(false);
 
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
+        load().then();
+        ResourceManagement.getInstance().clearReferredTopicTags();
+        ResourceManagement.getInstance().clearReferredCountryTags();
     }, []);
 
     const load = async (): Promise<void> => {
         await loadArticles(inputFixed);
     };
-    useEffect(() => {
-        load().then();
-    }, []);
 
     const handleItemsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -89,6 +91,9 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
         e.preventDefault();
         setIsPublished(e.currentTarget.checked);
     }
+    const handleOrderBy = (selectedOrder: { value: string, label: string }) => {
+        setOrderBy(OrderBy.fromSignature(selectedOrder.value));
+    }
     const handlePageChanged = async (page: number) => {
         // Trigger the form submission manually
         const input: SearchArticlesInput = inputFixed.appendPage(page);
@@ -100,7 +105,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
     const loadArticles = async (input: SearchArticlesInput): Promise<void> => {
         const output: SearchArticlesOutput = await articleService.searchArticles(input);
         if (output.isSuccessful()) {
-            if(input.isDefault()) {
+            if (input.isDefault()) {
                 setSearchParams({});
             } else {
                 setSearchParams(input.toPayloadHash());
@@ -126,6 +131,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
             keywords,
             topicTag,
             countryTag,
+            orderBy,
             isForAdmin
         );
         setInputFixed(input);
@@ -152,6 +158,19 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                 checked={isPublished}
                 onChange={handleIsPublished}
             />
+        </p> : <></>
+
+    const htmlOrderBy = isForAdmin ?
+        <p>ソート順：
+            <div style={{width: "240px"}}>
+                <Select
+                    isMulti={false}
+                    options={OrderBy.getTagOptionsJapaneseAdmin()}
+                    value={orderBy ? OrderBy.getTagOptionsJapaneseSelected(orderBy.getSignature()) : null}
+                    onChange={handleOrderBy}
+                    placeholder="Order By"
+                />
+            </div>
         </p> : <></>
 
 
@@ -241,6 +260,7 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     </p>
                     <br/>
                     {htmlIsPublished}
+                    {htmlOrderBy}
                 </form>
             </div>
         </div>
@@ -254,7 +274,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    reRender={refresh}
                 />
             </>
         )
@@ -267,7 +286,6 @@ export const ArticleListBody: React.FC<ArticleListBodyProps> = ({
                     mode={mode}
                     articles={output.getArticleSummaryList()}
                     directoryToIndividualPage={directoryToIndividualPage}
-                    reRender={refresh}
                 />
             </>
         )

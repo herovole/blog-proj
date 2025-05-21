@@ -2,9 +2,11 @@ package org.herovole.blogproj.domain;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.Arrays;
 
+@ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchKeywords {
 
