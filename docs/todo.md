@@ -132,6 +132,8 @@
 - i031  
   "Life" category is rendered "Test"  
   Reported : 20250521  
+  branch : feature/i031_20250521  
+  version : 1.7.1-beta
 - i032  
   Left gadgets are unclickable  
   Reported : 20250521  
