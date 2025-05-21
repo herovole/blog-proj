@@ -118,6 +118,8 @@
 - i029  
   shrink the max size of the comment width, to the same degree to that in editing page.  
   Reported : 20250509  
+  branch : feature/i029_20250521  
+  version : 1.6.4-beta
 - i030  
   More relaxing messages for the usage guides of the comment function.  
   Reported : 20250511  
