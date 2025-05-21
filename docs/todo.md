@@ -102,6 +102,8 @@
 - i025  
   There's a case that manual RSS generation doesn't update the RSS files, while it's performed by redeployment of the project.  
   Reported : 20250506  
+  branch : feature/i025_20250521  
+  version : 1.6.4-beta  
 - i026  
   Background positions are strange when opened by smartphones.  
   Reported : 20250507  
@@ -115,6 +117,8 @@
 - i028  
   sort articles order by publish_timestamp instead of by id.  
   Reported : 20250508  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - i029  
   shrink the max size of the comment width, to the same degree to that in editing page.  
   Reported : 20250509  
@@ -195,6 +199,8 @@
 - u022  
   "Go to top" following widget  
   Reported : 20250507  
+  branch : feature/u016_20250520  
+  version : 1.7.0-beta  
 - u023  
   Add (海外の反応) to RSS articles titles  
   Reported : 20250508  
