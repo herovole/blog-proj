@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface AArticleRepository extends JpaRepository<AArticle, Long> {
@@ -75,7 +76,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             order by a.id
             limit :limit offset :offset
             """, nativeQuery = true)
-    AArticle.AArticleSearchIds[] searchByOptionsOrderById(@Param("isPublished") int isPublished,
+    List<AArticle.AArticleSearchIds> searchByOptionsOrderById(@Param("isPublished") int isPublished,
                                                           @Param("topicTagId1") Integer topicTagId1,
                                                           @Param("countryTagId1") String countryTagId1,
                                                           @Param("keyword1") String keyword1,
@@ -146,7 +147,7 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             order by registration_timestamp
             limit :limit offset :offset
             """, nativeQuery = true)
-    AArticle.AArticleSearchIds[] searchByOptionsOrderByRegistrationTimestamp(@Param("isPublished") int isPublished,
+    List<AArticle.AArticleSearchIds> searchByOptionsOrderByRegistrationTimestamp(@Param("isPublished") int isPublished,
                                                                              @Param("topicTagId1") Integer topicTagId1,
                                                                              @Param("countryTagId1") String countryTagId1,
                                                                              @Param("keyword1") String keyword1,
@@ -217,18 +218,18 @@ public interface AArticleRepository extends JpaRepository<AArticle, Long> {
             order by latest_comment_timestamp
             limit :limit offset :offset
             """, nativeQuery = true)
-    AArticle.AArticleSearchIds[] searchByOptionsOrderByLatestCommentTimestamp(@Param("isPublished") int isPublished,
-                                                                              @Param("topicTagId1") Integer topicTagId1,
-                                                                              @Param("countryTagId1") String countryTagId1,
-                                                                              @Param("keyword1") String keyword1,
-                                                                              @Param("keyword2") String keyword2,
-                                                                              @Param("keyword3") String keyword3,
-                                                                              @Param("timestampFrom") LocalDateTime timestampFrom,
-                                                                              @Param("timestampTo") LocalDateTime timestampTo,
-                                                                              @Param("dateFrom") LocalDate dateFrom,
-                                                                              @Param("dateTo") LocalDate dateTo,
-                                                                              @Param("limit") int limit,
-                                                                              @Param("offset") long offset
+    List<AArticle.AArticleSearchIds> searchByOptionsOrderByLatestCommentTimestamp(@Param("isPublished") int isPublished,
+                                                                                  @Param("topicTagId1") Integer topicTagId1,
+                                                                                  @Param("countryTagId1") String countryTagId1,
+                                                                                  @Param("keyword1") String keyword1,
+                                                                                  @Param("keyword2") String keyword2,
+                                                                                  @Param("keyword3") String keyword3,
+                                                                                  @Param("timestampFrom") LocalDateTime timestampFrom,
+                                                                                  @Param("timestampTo") LocalDateTime timestampTo,
+                                                                                  @Param("dateFrom") LocalDate dateFrom,
+                                                                                  @Param("dateTo") LocalDate dateTo,
+                                                                                  @Param("limit") int limit,
+                                                                                  @Param("offset") long offset
     );
 
     @Query(value = "Select count(distinct(a.id)) from a_article a  " +

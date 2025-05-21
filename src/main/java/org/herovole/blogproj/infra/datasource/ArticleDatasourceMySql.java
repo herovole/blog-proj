@@ -30,7 +30,6 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Component("articleDatasource")
 public class ArticleDatasourceMySql implements ArticleDatasource {
@@ -106,8 +105,8 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     @Override
     public IntegerIds searchByOptions(ArticleListSearchOption searchOption) {
         MySqlOrderBy mySqlOrderBy = MySqlOrderBy.of(searchOption.getOrderBy());
-        AArticle.AArticleSearchIds[] searchIds = mySqlOrderBy.query(searchOption, aArticleRepository);
-        return IntegerIds.of(Stream.of(searchIds).map(AArticle.AArticleSearchIds::getId).mapToLong(Long::longValue).toArray());
+        List<AArticle.AArticleSearchIds> searchIds = mySqlOrderBy.query(searchOption, aArticleRepository);
+        return IntegerIds.of(searchIds.stream().map(AArticle.AArticleSearchIds::getId).mapToLong(Long::longValue).toArray());
     }
 
     @Override
@@ -130,7 +129,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
     enum MySqlOrderBy {
         NONE(OrderBy.NONE) {
             @Override
-            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+            List<AArticle.AArticleSearchIds> query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
                 return aArticleRepository.searchByOptionsOrderById(
                         searchOption.getIsPublished().intMemorySignature(),
                         searchOption.getTopic().intMemorySignature(),
@@ -149,7 +148,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         },
         ID(OrderBy.ID) {
             @Override
-            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+            List<AArticle.AArticleSearchIds> query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
                 return aArticleRepository.searchByOptionsOrderById(
                         searchOption.getIsPublished().intMemorySignature(),
                         searchOption.getTopic().intMemorySignature(),
@@ -168,7 +167,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         },
         REGISTRATION_TIMESTAMP(OrderBy.REGISTRATION_TIMESTAMP) {
             @Override
-            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+            List<AArticle.AArticleSearchIds> query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
                 return aArticleRepository.searchByOptionsOrderByRegistrationTimestamp(
                         searchOption.getIsPublished().intMemorySignature(),
                         searchOption.getTopic().intMemorySignature(),
@@ -187,7 +186,7 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
         },
         LATEST_COMMENT(OrderBy.LATEST_COMMENT_TIMESTAMP) {
             @Override
-            AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
+            List<AArticle.AArticleSearchIds> query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository) {
                 return aArticleRepository.searchByOptionsOrderByLatestCommentTimestamp(
                         searchOption.getIsPublished().intMemorySignature(),
                         searchOption.getTopic().intMemorySignature(),
@@ -219,6 +218,6 @@ public class ArticleDatasourceMySql implements ArticleDatasource {
 
         private final OrderBy domainOrderBy;
 
-        abstract AArticle.AArticleSearchIds[] query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository);
+        abstract List<AArticle.AArticleSearchIds> query(ArticleListSearchOption searchOption, AArticleRepository aArticleRepository);
     }
 }
