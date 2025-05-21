@@ -13,42 +13,47 @@ export const GadgetsLeft: React.FC<GadgetsLeftProps> = ({directoryToIndividualPa
 
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
     const [countryTagsOptions, setCountryTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
-    const [topicTag, setTopicTag] = React.useState<string | null>(null);
-    const [countryTag, setCountryTag] = React.useState<string | null>(null);
+    const [topicTag, setTopicTag] = React.useState<string | null>("");
+    const [countryTag, setCountryTag] = React.useState<string | null>("");
 
     React.useEffect(() => {
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
-        setTopicTag(ResourceManagement.getInstance().getRandomReferredTopicTag());
-        setCountryTag(ResourceManagement.getInstance().getRandomReferredCountryTag());
+        ResourceManagement.getInstance().getRandomReferredTopicTag().then(setTopicTag);
+        ResourceManagement.getInstance().getRandomReferredCountryTag().then(setCountryTag);
     }, []);
 
-    return (
-        <div>
-            <GadgetBase subjectName={topicTag ?
-                topicTagsOptions.getJapaneseNameByIdForDisplay(topicTag) + "カテゴリの記事" :
-                "注目の記事"}
-                        isOpenByDefault={true} width="200px">
-                <ArticleListGadgetBody
-                    directoryToIndividualPage={directoryToIndividualPage}
-                    articleNumber={4}
-                    topicTag={topicTag}
-                    countryTag={null}
-                    orderBy={new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)}
-                />
-            </GadgetBase>
-            <GadgetBase subjectName={countryTag ?
-                countryTagsOptions.getJapaneseNameByIdForDisplay(countryTag) + "の記事" :
-                "注目の記事"}
-                        isOpenByDefault={true} width="200px">
-                <ArticleListGadgetBody
-                    directoryToIndividualPage={directoryToIndividualPage}
-                    articleNumber={4}
-                    topicTag={null}
-                    countryTag={countryTag}
-                    orderBy={new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)}
-                />
-            </GadgetBase>
-        </div>
-    );
+    if (topicTag != "" && countryTag != "") {
+        ResourceManagement.getInstance().undefineReferredTopicTags();
+        ResourceManagement.getInstance().undefineReferredCountryTags();
+        return (
+            <div>
+                <GadgetBase subjectName={topicTag ?
+                    topicTagsOptions.getJapaneseNameByIdForDisplay(topicTag) + "カテゴリの記事" :
+                    "注目の記事"}
+                            isOpenByDefault={true} width="200px">
+                    <ArticleListGadgetBody
+                        directoryToIndividualPage={directoryToIndividualPage}
+                        articleNumber={4}
+                        topicTag={topicTag}
+                        countryTag={null}
+                        orderBy={new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)}
+                    />
+                </GadgetBase>
+                <GadgetBase subjectName={countryTag ?
+                    countryTagsOptions.getJapaneseNameByIdForDisplay(countryTag) + "の記事" :
+                    "注目の記事"}
+                            isOpenByDefault={true} width="200px">
+                    <ArticleListGadgetBody
+                        directoryToIndividualPage={directoryToIndividualPage}
+                        articleNumber={4}
+                        topicTag={null}
+                        countryTag={countryTag}
+                        orderBy={new OrderBy(OrderByEnum.LATEST_COMMENT_TIMESTAMP)}
+                    />
+                </GadgetBase>
+            </div>
+        );
+
+    }
 }

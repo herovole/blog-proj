@@ -23,8 +23,9 @@ export class ResourceManagement {
     private isLoadingCountryTags: boolean = false;
 
     //Updates when a specific article page is opened.
-    private referredTopicTags: ReadonlyArray<string> = [];
-    private referredCountryTags: ReadonlyArray<string> = [];
+    //null = yet to be prepared
+    private referredTopicTags: ReadonlyArray<string> | null = [];
+    private referredCountryTags: ReadonlyArray<string> | null = [];
 
     private static instance: ResourceManagement | null;
 
@@ -127,7 +128,11 @@ export class ResourceManagement {
         return this.countryTags;
     }
 
-    public initReferredTopicTags(): void {
+    public undefineReferredTopicTags(): void {
+        this.referredTopicTags = null;
+    }
+
+    public clearReferredTopicTags(): void {
         this.referredTopicTags = [];
     }
 
@@ -135,13 +140,20 @@ export class ResourceManagement {
         this.referredTopicTags = tags;
     }
 
-    public getRandomReferredTopicTag(): string | null {
+    public async getRandomReferredTopicTag(): Promise<string | null> {
+        while (this.referredTopicTags == null) {
+            await Zurvan.delay(0.05);
+        }
         return 0 < this.referredTopicTags.length ?
             this.referredTopicTags[Math.floor(Math.random() * this.referredTopicTags.length)] :
             null;
     }
 
-    public initReferredCountryTags(): void {
+    public undefineReferredCountryTags(): void {
+        this.referredCountryTags = null;
+    }
+
+    public clearReferredCountryTags(): void {
         this.referredCountryTags = [];
     }
 
@@ -149,7 +161,10 @@ export class ResourceManagement {
         this.referredCountryTags = tags;
     }
 
-    public getRandomReferredCountryTag(): string | null {
+    public async getRandomReferredCountryTag(): Promise<string | null> {
+        while (this.referredCountryTags == null) {
+            await Zurvan.delay(0.05);
+        }
         return 0 < this.referredCountryTags.length ?
             this.referredCountryTags[Math.floor(Math.random() * this.referredCountryTags.length)] :
             null;
