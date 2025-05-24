@@ -95,9 +95,12 @@ The project contains the software resources required to run my Translated Matome
   - phase2 : user name, password, 6-digit phrase sent by e-mail  
 
   #### Admin Home
+  [adminEntrance.tsx](/src/main/js/admin/adminEntrance.tsx)  
   There's a button to regenerate RSS files.  
 
   #### Admin Article Editor (New Article) (Update)  
+  [adminPageArticleNew.tsx](/src/main/js/admin/adminPageArticleNew.tsx)  
+  [adminPageArticle.tsx](/src/main/js/admin/adminPageArticle.tsx)  
   An admin user builds an article here. The menu includes  
   - main image
   - title
@@ -111,21 +114,26 @@ The project contains the software resources required to run my Translated Matome
     - referring comment number
 
   #### Admin Article List
+  [adminPageArticleList.tsx](/src/main/js/admin/adminPageArticleList.tsx)  
   In addition to the Search options for the public users, it offers  
   - published/not ... an admin user can list non-published articles.  
   - sort options ... an admin user can sort the articles by ID and the timestamp of the latest user comments, in addition to the timestamp of article publication which is the default.  
   
   #### Admin Topic Tags Management
+  [adminPageTopicTagList.js](/src/main/js/admin/adminPageTopicTagList.js)  
   Offers services to Create/Read/Update topic classifications  
   e.g. Society, IT-Digital, Life
 
   #### Admin Image Management
+  [adminPageImages.tsx](/src/main/js/admin/adminPageImages.tsx)  
   Offers services to Create/Read/Delete cover images
 
-  #### Admin AdminUser Management (*)
+  #### Admin AdminUser Management 
+  [adminPageUsers.tsx](/src/main/js/admin/adminPageUsers.tsx)  
   Offers services to Create/Read/Update Admin users
 
   #### Admin Public Comments Management (*)
+  [adminPageUserComments.tsx](/src/main/js/admin/adminPageUserComments.tsx)  
   Offers services to list the public user comments and the reports they receive.  
   An admin user can search comments by  
   - keywords
@@ -145,4 +153,34 @@ The project contains the software resources required to run my Translated Matome
 - Livedoor 相互(mutual) RSS   
   My webservice has an account for it. It offers a portal to register RSS files of external Matome Antenna to build external links automatically.  
   
+
+## Backend Security
+
+Backend REST API Endpoints are protected by some security measures, which are mainly called by Filters (a Spring Boot concept).  
+
+
+1. [WrapRequestOnFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/WrapRequestOnFilter.java)  
+  Preparation. It just converts the request to a cached data type.  
+  (Without this, the http request takes form of stream that evaporates upon first read.)  
+
+2. [SystemThreateningPhraseFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/SystemThreateningPhraseFilter.java)  
+  Protects the entire service.  
+  Scans the strings in the request. Checks all phrases potentially harmful to the system. e.g. "update ~ set ~" used often for SQL Injection.  
+
+3. [TrackPublicUserByFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/TrackPublicUserByFilter.java)
+  Checks its cookie to see if the user has ever previously visited. Assign new ID if he/she is a new visitor.   
+
+4. [BotFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/BotFilter.java)
+  Protects some publicly exposed user interaction operations.  
+  Checks Google ReCaptcha score to see whether the access is organic or not.  
+
+5. [BanFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/BanFilter.java)
+  Protects the public user comment functions.  
+  Checks its public user ID and IP to see whether he/she is banned from the user comment functions.  
+
+6. [AuthFilter.java](/src/main/java/org/herovole/blogproj/presentation/filter/AuthFilter.java)
+  Protects the Admin only operations.  
+  Checks its token to see if he/she is an admin user.  
+
+
 
