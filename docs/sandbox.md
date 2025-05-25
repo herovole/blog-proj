@@ -182,5 +182,34 @@ Backend REST API Endpoints are protected by some security measures, which are ma
   Protects the Admin only operations.  
   Checks its token to see if he/she is an admin user.  
 
+## Backend Architecture
 
+A modified Clean Architecture is adopted. (let me abbreviate it as CA)  
+The flow of an endpoint process after passing the security measures stated above is  
+
+1. The Controller builds an Input data.  
+  Here, it converts raw REST API payload to Domain level objects.  
+  e.g. [AdminV1ArticleController.java](/src/main/java/org/herovole/blogproj/presentation/controller/AdminV1ArticleController.java) [AdminV1UserCommentController.java](/src/main/java/org/herovole/blogproj/presentation/controller/AdminV1UserCommentController.java)  
+  e.g. [FindArticleInput.java](/src/main/java/org/herovole/blogproj/application/article/findarticle/FindArticleInput.java) [EditArticleInput.java](/src/main/java/org/herovole/blogproj/application/article/editarticle/EditArticleInput.java) [PostUserCommentInput.java](/src/main/java/org/herovole/blogproj/application/user/postusercomment/PostUserCommentInput.java)  
+
+2. The Controller passes Input data to a UseCase.  
+  True CA : Interface on Application Layer. Implementations on Application Layer.  
+  My Case : Single implementation on Application Layer.  
+  e.g. [FindArticle.java](/src/main/java/org/herovole/blogproj/application/article/findarticle/FindArticle.java) [EditArticle.java](/src/main/java/org/herovole/blogproj/application/article/editarticle/EditArticle.java) [PostUserComment.java](/src/main/java/org/herovole/blogproj/application/user/postusercomment/PostUserComment.java)  
+
+3. and 4. The UseCase performs its job by means of Input data and pre-defined Gateway interfaces(like database access).  
+  True CA = My Case : Gateways have interfaces on Application Layer, and implementations on Infrastructure Layer.  
+  No reference from Application Layer to Infrastructure Layer is permitted.  
+  e.g. [ArticleDatasource.java](/src/main/java/org/herovole/blogproj/domain/article/ArticleDatasource.java) [ArticleTransactionalDatasource.java](/src/main/java/org/herovole/blogproj/domain/article/ArticleTransactionalDatasource.java) [UserCommentDatasource.java](/src/main/java/org/herovole/blogproj/domain/comment/UserCommentDatasource.java) [UserCommentTransactionalDatasource.java](/src/main/java/org/herovole/blogproj/domain/comment/UserCommentTransactionalDatasource.java)    
+  e.g. [ArticleDatasourceMySql.java](/src/main/java/org/herovole/blogproj/infra/datasource/ArticleDatasourceMySql.java) [ArticleTransactionalDatasourceMySql.java)](/src/main/java/org/herovole/blogproj/infra/datasource/ArticleTransactionalDatasourceMySql.java) [UserCommentDatasourceMySql.java](/src/main/java/org/herovole/blogproj/infra/datasource/UserCommentDatasourceMySql.java) [UserCommentTransactionalDatasourceMySql.java](/src/main/java/org/herovole/blogproj/infra/datasource/UserCommentTransactionalDatasourceMySql.java)  
+
+5. The result gets handed in to a Presenter interface.  
+  True CA = My Case : A Presenter has an interface on Application Layer, and an implementation on Presentation Layer.  
+  No reference from Application Layer to Presentation Layer is permitted.  
+  e.g. [GenericPresenter.java](/src/main/java/org/herovole/blogproj/application/GenericPresenter.java)  
+
+6. The Controller orders the Presenter to build a JSON string for the REST API response.  
+  True CA : The Presenter is anticipated to return REST API response directly.  
+  My Case : The Controller mediates the REST API response.(Spring Boot REST API Controller specification)  
+  e.g. [FindArticlePresenter.java](/src/main/java/org/herovole/blogproj/presentation/presenter/FindArticlePresenter.java) [BasicPresenter.java](/src/main/java/org/herovole/blogproj/presentation/presenter/BasicPresenter.java)  
 
