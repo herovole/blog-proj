@@ -158,4 +158,7 @@ and for each comment
   placed on forms with Post/Put methods with public user interaction or some critical Admin features.
 - Livedoor 相互(mutual) RSS   
   My webservice has an account for it. It offers a portal to register RSS files of external Matome Antenna to build external links automatically.  
-  
+
+----
+
+[Back to Project Description Home](./home.md)
