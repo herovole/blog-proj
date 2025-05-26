@@ -38,7 +38,7 @@ Backend REST API Endpoints are protected by some security measures, which are ma
 
 ![backend_architecture](./blog_engine_backend.jpg)
 
-A modified Clean Architecture is adopted. (let me abbreviate it as CA)  
+A modified form of Clean Architecture is adopted. (let me abbreviate it as CA)  
 The flow of an endpoint process after passing the previously mentioned security measures is  
 
 1. The Controller builds an Input data.  

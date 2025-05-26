@@ -19,11 +19,13 @@
 
 ## Public User Services
 ### Home
+[On website](https://at-archives.com/)  
 [publicPageHome.tsx](/src/main/js/public/publicPageHome.tsx)  
 The website home.  
 A public user can see a list of recently added articles.
 
 ### Article
+[On website](https://at-archives.com/articles/35)  
 [publicPageArticleView.tsx](/src/main/js/public/publicPageArticleView.tsx)  
 An individual article page.  
 It's composed of the following sections.
@@ -39,6 +41,7 @@ It's composed of the following sections.
   A public user posts a comment.  (opens a modal window)
 
 ### List
+[On website](https://at-archives.com/articles)  
 [publicPageArticleList.tsx](/src/main/js/public/publicPageArticleList.tsx)  
 The page where a public user can search articles in the past.  
 It's composed of the following sections.
@@ -54,6 +57,7 @@ It's composed of the following sections.
   The list of the articles specified by the search menu.
 
 ### About
+[On website](https://at-archives.com/about)  
 [publicPageAbout.tsx](/src/main/js/public/publicPageAbout.tsx)  
 Website information. RSS, my mail address, etc...
 
@@ -78,17 +82,24 @@ Also, these pages have common components.
 ## Admin Services
 
 ### Login Form (*)
+[On website](https://at-archives.com/admin/login)  
 [adminPageLogin.tsx](/src/main/js/admin/adminPageLogin.tsx)  
 2-Factor-Auth. A user needs
 - phase1 : user name, password
 - phase2 : user name, password, 6-digit phrase sent by e-mail
 
 ### Admin Home
+[On website](https://at-archives.com/admin)  
 [adminEntrance.tsx](/src/main/js/admin/adminEntrance.tsx)  
 There's a button to regenerate RSS files.
 
-### Admin Article Editor (New Article) (Update)
+### Admin Article Editor
+(New Article)  
+[On website](https://at-archives.com/admin/articles/new)  
 [adminPageArticleNew.tsx](/src/main/js/admin/adminPageArticleNew.tsx)  
+
+(Update)  
+[On website](https://at-archives.com/admin/articles/35)  
 [adminPageArticle.tsx](/src/main/js/admin/adminPageArticle.tsx)  
 An admin user builds an article here. The menu includes
 - main image
@@ -103,25 +114,30 @@ An admin user builds an article here. The menu includes
     - referring comment number
 
 ### Admin Article List
+[On website](https://at-archives.com/admin/articles)    
 [adminPageArticleList.tsx](/src/main/js/admin/adminPageArticleList.tsx)  
 In addition to the Search options for the public users, it offers
 - published/not ... an admin user can list non-published articles.
 - sort options ... an admin user can sort the articles by ID and the timestamp of the latest user comments, in addition to the timestamp of article publication which is the default.
 
 ### Admin Topic Tags Management
+[On website](https://at-archives.com/admin/topictags)    
 [adminPageTopicTagList.js](/src/main/js/admin/adminPageTopicTagList.js)  
 Offers services to Create/Read/Update topic classifications  
 e.g. Society, IT-Digital, Life
 
 ### Admin Image Management
+[On website](https://at-archives.com/admin/images)    
 [adminPageImages.tsx](/src/main/js/admin/adminPageImages.tsx)  
 Offers services to Create/Read/Delete cover images
 
 ### Admin AdminUser Management
+[On website](https://at-archives.com/admin/users)  
 [adminPageUsers.tsx](/src/main/js/admin/adminPageUsers.tsx)  
 Offers services to Create/Read/Update Admin users
 
 ### Admin Public Comments Management (*)
+[On website](https://at-archives.com/admin/usercomments)  
 [adminPageUserComments.tsx](/src/main/js/admin/adminPageUserComments.tsx)  
 Offers services to list the public user comments and the reports they receive.  
 An admin user can search comments by
