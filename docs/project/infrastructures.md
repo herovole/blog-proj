@@ -9,3 +9,7 @@ The entire service works on the infrastructures Amazon AWS provides.
 - [Scripts for AWS CodeDeploy](/deploy)
 
 Some confidential resource files are stored on the Amazon S3.  
+
+----
+
+[Back to Project Description Home](./home.md)
