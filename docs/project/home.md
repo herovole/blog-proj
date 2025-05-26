@@ -21,7 +21,7 @@
 
 The project contains the software resources required to run my Translated Matome Blog.  
 
-- Product URL : https://at-archives.com/
+- Production URL : https://at-archives.com/
 - Staging URL : https://stg.at-archives.com/ (It's often turned off to reduce my AWS expenditure.)  
 - Service Name : 輸入雑貨 / Imported Leisure
 - Types of Contents
