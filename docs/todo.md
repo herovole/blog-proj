@@ -216,6 +216,16 @@
   Reported : 20250508  
   branch : feature/u023_20250521  
   version : 1.6.4-beta  
+- u024  
+  SEO settings to let search engines find the articles.  
+  Reported : 20250531  
+- u025  
+  Allow each source comment to have an image reference.  
+  Reported : 20250531
+- u026  
+  Menu item to switch display types(line, image, image+line) of the article list.  
+  Reported : 20250531
+
 
   
 ## Layout Updates
