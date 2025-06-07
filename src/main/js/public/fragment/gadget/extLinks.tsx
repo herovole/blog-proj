@@ -33,7 +33,6 @@ export const ExtLinks: React.FC = () => {
             <div className="gadget-links-body">
                 <div className="gadget-links-item">{item0matomeCom}</div>
                 <div className="gadget-links-item">{itemLivdirComKaigaiAntenna}</div>
-                <div className="gadget-links-item">{item2channelerCom}</div>
                 <div className="gadget-links-item">{itemKaihanAntennaCom}</div>
                 <div className="gadget-links-item">{itemKaikenAtnaJp}</div>
                 <div className="gadget-links-item">{itemYakutenaCom}</div>
