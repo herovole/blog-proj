@@ -15,11 +15,19 @@ import java.util.stream.Stream;
 public class CountryCodes {
 
     private static final String API_KEY_COUNTRY = "countries";
+    private static final String SEP = ",";
 
     public static CountryCodes fromPostContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
         FormContents arrayChildren = child.getInArray();
         CountryCode[] codes = arrayChildren.stream().map(p -> CountryCode.valueOf(p.getValue())).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
+        return of(codes);
+    }
+
+    public static CountryCodes fromFormContentInCommaSeparatedString(FormContent formContent) {
+        FormContent child = formContent.getChildren(API_KEY_COUNTRY);
+        String[] rawCodes = child.getValue().split(SEP);
+        CountryCode[] codes = Arrays.stream(rawCodes).map(CountryCode::valueOf).filter(e -> !e.isEmpty()).toArray(CountryCode[]::new);
         return of(codes);
     }
 
@@ -39,6 +47,17 @@ public class CountryCodes {
 
     public boolean has(CountryCode countryCode) {
         return Arrays.asList(codes).contains(countryCode);
+    }
+
+    public CountryCode get(int index) {
+        if (index < this.codes.length) {
+            return this.codes[index];
+        }
+        return CountryCode.empty();
+    }
+
+    public int size() {
+        return this.codes.length;
     }
 
     /**

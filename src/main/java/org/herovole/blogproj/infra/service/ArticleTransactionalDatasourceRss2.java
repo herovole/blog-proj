@@ -2,7 +2,7 @@ package org.herovole.blogproj.infra.service;
 
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.AppSession;
-import org.herovole.blogproj.domain.SiteInformation;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.article.Article;
 import org.herovole.blogproj.domain.article.ArticleTransactionalDatasource;
 import org.herovole.blogproj.domain.article.RealArticleSimplified;
@@ -10,9 +10,6 @@ import org.herovole.blogproj.domain.time.Timestamp;
 import org.herovole.blogproj.infra.filesystem.LocalFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,13 +21,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @RequiredArgsConstructor
 public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalDatasource {
 
-    private static final String AMAZON_S3_KEY_XML = "system/rss.xml";
     private final Queue<Article> articles = new ConcurrentLinkedQueue<>();
     private final LocalFile rssXml;
-    private final LocalFile rssFeed;
     private final SiteInformation siteInformation;
-    private final S3Client s3Client;
-    private final String bucketName;
 
     @Override
     public int amountOfCachedTransactions() {
@@ -57,7 +50,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element link = document.createElement("link");
             link.appendChild(document.createTextNode(this.siteInformation.getSiteTopUrl().memorySignature()));
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode(this.siteInformation.getSiteDescription()));
+            description.appendChild(document.createCDATASection(this.siteInformation.getSiteDescription()));
             Element language = document.createElement("language");
             language.appendChild(document.createTextNode(this.siteInformation.getSiteLanguage()));
             Element copyright = document.createElement("copyright");
@@ -81,15 +74,7 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
                 channel.appendChild(item);
             }
             rssXml.write(document);
-            rssFeed.write(document);
 
-            // Transfer XML to Amazon S3.
-            RequestBody requestBody = RequestBody.fromFile(rssXml.toPath());
-            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(AMAZON_S3_KEY_XML)
-                    .build();
-            s3Client.putObject(putObjectRequest, requestBody);
         } catch (IOException | ParserConfigurationException e) {
             throw new RuntimeException(e);
         }
@@ -117,13 +102,13 @@ public class ArticleTransactionalDatasourceRss2 implements ArticleTransactionalD
             Element item = document.createElement("item");
 
             Element title = document.createElement("title");
-            title.appendChild(document.createTextNode(article1.getTitle().memorySignature()));
+            title.appendChild(document.createTextNode(article1.getTitle().memorySignature() + "（海外の反応）"));
 
             Element link = document.createElement("link");
             link.appendChild(document.createTextNode(siteInformation.getArticlesUrl().memorySignature() + "/" + article1.getArticleId().letterSignature()));
 
             Element description = document.createElement("description");
-            description.appendChild(document.createTextNode(article1.getText().memorySignature()));
+            description.appendChild(document.createCDATASection(article1.getText().memorySignature()));
 
             Element category = document.createElement("category");
 

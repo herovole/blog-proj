@@ -25,3 +25,4 @@ application.yml
 application-staging.yml
 application-prod.yml
 rss.xml
+.DS_Store

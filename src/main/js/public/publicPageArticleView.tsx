@@ -60,7 +60,7 @@ export const PublicPageArticleView: React.FC = () => {
     useEffect(() => {
         window.scrollTo({top: 0, behavior: "auto"});
         load().then();
-    }, [refresh]);
+    }, [refresh, articleId]);
 
     if (article && ratingHistory) {
         return <>
@@ -76,6 +76,7 @@ export const PublicPageArticleView: React.FC = () => {
                     article={article}
                     ratingHistory={ratingHistory}
                     reRender={reRender}
+                    directoryToIndividualPage={"/articles"}
                 /></PublicBasicLayout>
         </>
     } else {

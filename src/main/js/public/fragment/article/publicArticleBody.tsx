@@ -10,6 +10,7 @@ import {SearchRatingHistoryOutput} from "../../../service/user/searchRatingHisto
 import {ResourceManagement} from "../../../service/resourceManagement";
 import {DivText} from "../../../admin/fragment/atomic/divText";
 import {YyyyMMDd} from "../../../domain/yyyyMMDd";
+import {YyyyMMDdHhMmSs} from "../../../domain/yyyyMMDdHhMmSs";
 
 
 type PublicArticleBodyProps = {
@@ -17,16 +18,17 @@ type PublicArticleBodyProps = {
     article: Article;
     ratingHistory: SearchRatingHistoryOutput;
     reRender: () => void;
+    directoryToIndividualPage: string;
 }
 
 export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                                                                         postKey,
                                                                         article,
                                                                         ratingHistory,
-                                                                        reRender
+                                                                        reRender,
+                                                                        directoryToIndividualPage
                                                                     }) => {
     const refText: RefObject<HTMLTextAreaElement | null> = React.useRef(null);
-    const directoryToIndividualPage: string = "undefined";
 
     const [resourcePrefix, setResourcePrefix] = useState<string | null>(null);
     const [topicTagsOptions, setTopicTagsOptions] = React.useState<TagUnits>(TagUnits.empty());
@@ -36,6 +38,8 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
         ResourceManagement.getInstance().getTopicTags().then(setTopicTagsOptions);
         ResourceManagement.getInstance().getCountryTags().then(setCountryTagsOptions);
         ResourceManagement.getInstance().articlesImagePrefixWithSlash().then(setResourcePrefix);
+        ResourceManagement.getInstance().setReferredTopicTags(article.topicTags);
+        ResourceManagement.getInstance().setReferredCountryTags(article.countries);
     }, []);
 
     const handleReference = (commentIdReferred: number) => {
@@ -55,15 +59,18 @@ export const PublicArticleBody: React.FC<PublicArticleBodyProps> = ({
                 <DivText className="article-text">{article.text}</DivText>
                 <div className="article-tag-alignment">
                     <TagButtons tagUnitList={topicTagsOptions} tagIds={article.topicTags}
-                                searchBaseUrl={directoryToIndividualPage}/>
+                                searchBaseUrl={directoryToIndividualPage} searchKey="topicTagId"/>
                 </div>
                 <div className="article-tag-alignment">
                     <TagButtons tagUnitList={countryTagsOptions} tagIds={article.countries}
-                                searchBaseUrl={directoryToIndividualPage}/>
+                                searchBaseUrl={directoryToIndividualPage} searchKey="country"/>
                 </div>
-                <div className="article-source-url">引用元: {article.sourceUrl.includes("4chan.org") ? "(引用元サイトにトラブル発生中のため一時的に非表示)" : article.sourceUrl}</div>
-                <div className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
-                <div className="article-timestamp">ブログ内掲載: {article.registrationTimestamp}</div>
+                <div
+                    className="article-source-url">引用元: {article.sourceUrl}</div>
+                <div
+                    className="article-timestamp">引用元日付: {YyyyMMDd.valueOfYyyyMMDd(article.sourceDate).toYyyySlashMMSlashDd()}</div>
+                <div
+                    className="article-timestamp">ブログ内掲載: {YyyyMMDdHhMmSs.valueOfYyyyMMDdHhMmSs(article.registrationTimestamp).toYyyySlashMMSlashDdSpaceHhColonMm()}</div>
 
 
                 <div>

@@ -1,6 +1,10 @@
+.all-body {
+    min-width: 1320px;
+}
+
 .main-body {
     display: grid;
-    grid-template-columns: 200px 800px 200px;
+    grid-template-columns: 200px 800px 320px;
     background-color: #002244;
 }
 
@@ -21,7 +25,7 @@
 }
 
 .input-items-per-page {
-    width: 40px;
+    width: 60px;
 }
 
 .input-keywords {

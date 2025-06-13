@@ -45,13 +45,16 @@ export const PublicAboutLinks: React.FC<PublicAboutLinksProps> = ({iconPrefix}) 
                            target="_blank"><img alt="人気ブログランキングでフォロー" width="172" height="20"
                                                 src="https://blog.with2.net/banner/follow/2128848?t=m"/></a>
                     </div>
+                    <p>キター(ﾟ∀ﾟ)ー！アンテナ : <Link to="https://kitaaa.net/">https://kitaaa.net/</Link></p>
                 </div>
                 <br/>
                 <h2>申請中アンテナサイト</h2>
                 <div className="indent">
-                    <p>ヤクテナ : <Link to="https://www.yakutena.com/">https://www.yakutena.com/</Link></p>
-                    <p>海外の反応アンテナ.com : <Link to="https://kaihan-antenna.com/">https://kaihan-antenna.com/</Link></p>
-                    <p>海外反応研究会 : <Link to="https://kaiken.atna.jp/">https://kaiken.atna.jp/</Link></p>
+                    <p>5/3 おまとめ : <Link to="https://0matome.com/">https://0matome.com/</Link></p>
+                    <p>4/28 シンプル海外の反応アンテナ : <Link to="https://livdir.com/kaigai-antenna/">https://livdir.com/kaigai-antenna/</Link></p>
+                    <p>4/21 海外の反応アンテナ.com : <Link to="https://kaihan-antenna.com/">https://kaihan-antenna.com/</Link></p>
+                    <p>4/21 海外反応研究会 : <Link to="https://kaiken.atna.jp/">https://kaiken.atna.jp/</Link></p>
+                    <p>4/20 ヤクテナ : <Link to="https://www.yakutena.com/">https://www.yakutena.com/</Link></p>
                 </div>
             </div>
         </div>

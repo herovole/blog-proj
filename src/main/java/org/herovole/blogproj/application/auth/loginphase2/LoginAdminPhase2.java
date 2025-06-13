@@ -5,7 +5,7 @@ import org.herovole.blogproj.application.AppSessionFactory;
 import org.herovole.blogproj.application.GenericPresenter;
 import org.herovole.blogproj.application.error.ApplicationProcessException;
 import org.herovole.blogproj.application.error.UseCaseErrorType;
-import org.herovole.blogproj.domain.SiteInformation;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.AccessToken;
 import org.herovole.blogproj.domain.adminuser.AccessTokenFactory;
 import org.herovole.blogproj.domain.adminuser.AdminUser;

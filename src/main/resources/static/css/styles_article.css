@@ -11,6 +11,33 @@
     margin-left:auto;
     margin-right:auto;
 }
+.article-image-small-base {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: inline-block;
+    border: 4px solid #000000;
+    padding: 0;
+}
+.article-image-small {
+    width: 192px;
+    height: 192px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.article-image-title-base {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    padding: 0;
+}
+.article-image-title {
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
 .article-text {
     font-size:20px;
 }

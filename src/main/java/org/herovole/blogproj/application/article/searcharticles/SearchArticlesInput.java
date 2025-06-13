@@ -15,11 +15,11 @@ import org.herovole.blogproj.domain.article.ArticleListSearchOption;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SearchArticlesInput {
 
-
     public static SearchArticlesInput fromFormContent(FormContent formContent) {
         return new SearchArticlesInput(
                 ArticleListSearchOption.fromFormContent(formContent),
-                GenericSwitch.fromFormContentRequiresAuth(formContent));
+                GenericSwitch.fromFormContentRequiresAuth(formContent)
+        );
     }
 
     private final ArticleListSearchOption searchOption;

@@ -3,6 +3,7 @@ package org.herovole.blogproj.domain.article;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 import org.herovole.blogproj.domain.GenericSwitch;
 import org.herovole.blogproj.domain.IntegerId;
@@ -25,9 +26,16 @@ public class RealArticle implements Article {
 
     static RealArticle fromPost(FormContent formContent) {
         FormContent children = formContent.getChildren(API_KEY);
+        ArticleTitle articleTitle = ArticleTitle.fromPostContentArticleTitle(children);
+        if (articleTitle.isEmpty()) throw new DomainInstanceGenerationException(articleTitle.memorySignature());
+
+        Timestamp registrationTimestamp = Timestamp.fromFormContentRegistrationTimestamp(children);
+        if(registrationTimestamp.isEmpty()) {
+            registrationTimestamp = Timestamp.now();
+        }
         return RealArticle.builder()
                 .articleId(IntegerId.fromFormContentArticleId(children))
-                .title(ArticleTitle.fromPostContentArticleTitle(children))
+                .title(articleTitle)
                 .text(ArticleText.fromPostContent(children))
                 .image(ImageName.fromPostContentImageName(children))
                 .sourcePage(SourcePage.fromPostContent(children))
@@ -38,6 +46,7 @@ public class RealArticle implements Article {
                 .sourceComments(CommentUnits.fromFormContentToSourceComments(children))
                 .userComments(CommentUnits.fromFormContentToUserComments(children))
 
+                .registrationTimestamp(registrationTimestamp)
                 .latestEditTimestamp(Timestamp.empty())
 
                 .build();
@@ -142,8 +151,8 @@ public class RealArticle implements Article {
                 .editors(editors.toIntMemorySignature())
                 .sourceComments(sourceComments.toJsonModel())
                 .userComments(userComments.toJsonModel())
-                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
-                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddSpaceHHmmss())
+                .registrationTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
+                .latestEditTimestamp(registrationTimestamp.letterSignatureYyyyMMddHHmmss())
                 .build();
     }
 

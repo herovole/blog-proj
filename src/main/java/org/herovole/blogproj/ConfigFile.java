@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.herovole.blogproj.application.user.postusercomment.PostUserCommentDurationConfig;
 import org.herovole.blogproj.domain.EMailAddress;
-import org.herovole.blogproj.domain.SiteInformation;
+import org.herovole.blogproj.domain.meta.SiteInformation;
 import org.herovole.blogproj.domain.adminuser.AdminUserRegistrationRequest;
 import org.herovole.blogproj.domain.adminuser.Password;
 import org.herovole.blogproj.domain.adminuser.Role;
@@ -59,6 +59,8 @@ public class ConfigFile {
     private static final String CONFIG_KEY_RSS_XML = "rss_output";
     private static final String CONFIG_KEY_RSS_XML_10 = "rss_output10";
     private static final String CONFIG_KEY_RSS_FEED= "rss_output_feed";
+    private static final String CONFIG_KEY_RSS_XML_GERMAN = "rss_output_german";
+    private static final String CONFIG_KEY_RSS_XML_10_GERMAN = "rss_output10_german";
     private static final String CONFIG_KEY_SMTP_HOST = "smtp_host";
     private static final String CONFIG_KEY_SMTP_PORT = "smtp_port";
     private static final String CONFIG_KEY_SMTP_USER = "smtp_user";
@@ -186,6 +188,14 @@ public class ConfigFile {
 
     public String getRssFeedFile() {
         return this.configs.get(CONFIG_KEY_RSS_FEED);
+    }
+
+    public String getRssXmlGerman20File() {
+        return this.configs.get(CONFIG_KEY_RSS_XML_GERMAN);
+    }
+
+    public String getRssXmlGerman10File() {
+        return this.configs.get(CONFIG_KEY_RSS_XML_10_GERMAN);
     }
 
     public String getSmtpHost() {

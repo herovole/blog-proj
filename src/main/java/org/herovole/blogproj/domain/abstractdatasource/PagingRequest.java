@@ -1,9 +1,13 @@
 package org.herovole.blogproj.domain.abstractdatasource;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.herovole.blogproj.domain.DomainInstanceGenerationException;
 import org.herovole.blogproj.domain.FormContent;
 
+@ToString
+@Getter
 @EqualsAndHashCode
 public class PagingRequest {
 
@@ -18,25 +22,25 @@ public class PagingRequest {
         return of(page, itemsPerPage);
     }
 
-    public static PagingRequest of(int page, int size) {
-        return new PagingRequest(page, size);
+    public static PagingRequest of(int page, int itemsPerPage) {
+        return new PagingRequest(page, itemsPerPage);
     }
 
     private final int page;
-    private final int size;
+    private final int itemsPerPage;
 
-    private PagingRequest(int page, int size) {
+    private PagingRequest(int page, int itemsPerPage) {
         this.page = page;
-        this.size = size;
-        if (page < 1 || size < 1) throw new DomainInstanceGenerationException("page " + page + "/size " + size);
+        this.itemsPerPage = itemsPerPage;
+        if (page < 1 || itemsPerPage < 1) throw new DomainInstanceGenerationException("page " + page + "/itemsPerPage " + itemsPerPage);
     }
 
     public int getLimit() {
-        return this.size;
+        return this.itemsPerPage;
     }
 
     public long getOffset() {
-        return (long) this.size * (this.page - 1);
+        return (long) this.itemsPerPage * (this.page - 1);
     }
 
     public long getLastIndexZeroOrigin() {
@@ -50,7 +54,7 @@ public class PagingRequest {
     }
 
     public PagingRequest nextPage() {
-        return of(this.page + 1, this.size);
+        return of(this.page + 1, this.itemsPerPage);
     }
 
 }

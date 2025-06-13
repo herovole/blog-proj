@@ -16,7 +16,7 @@ public class CountryCode implements Comparable<CountryCode> {
     private static final String API_KEY_COUNTRY = "country";
     private static final String EMPTY = "--";
 
-    public static CountryCode fromPostContent(FormContent formContent) {
+    public static CountryCode fromFormContent(FormContent formContent) {
         FormContent child = formContent.getChildren(API_KEY_COUNTRY);
         return valueOf(child.getValue());
     }
@@ -38,7 +38,7 @@ public class CountryCode implements Comparable<CountryCode> {
     }
 
     public String memorySignature() {
-        return this.isEmpty() ? EMPTY : this.code;
+        return this.isEmpty() ? EMPTY : this.code; // "--" is defined to be the null expression of Country Code
     }
 
     public String letterSignature() {

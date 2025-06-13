@@ -57,6 +57,15 @@ export class TagUnits {
         return result.join(",");
     }
 
+    getJapaneseNameByIdForDisplay(id: string): string | null {
+        for (const e of this.tagUnits) {
+            if (id === e.fields.id) {
+                return e.fields.tagJapanese;
+            }
+        }
+        return null;
+    }
+
     getEnglishNamesByIdsForDisplay(ids: ReadonlyArray<string>): string {
         const result: Array<string> = [];
         for (const e of this.tagUnits) {

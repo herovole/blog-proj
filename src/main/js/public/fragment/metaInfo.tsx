@@ -31,11 +31,10 @@ export const MetaInfo: React.FC<MetaInfoType> = ({
     if (resourcePrefix) {
         return <HelmetProvider>
             <Helmet>
-                <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-
                 <title>{tabTitle + " | " + ResourceManagement.getInstance().getSiteNameJp()}</title>
                 <meta name="description" content={description}/>
                 <meta name="keywords" content={keywords}/>
+                <meta http-equiv="Content-Language" content="ja"/>
 
                 <meta property="og:title" content={tabTitle}/>
                 <meta property="og:description" content={description}/>

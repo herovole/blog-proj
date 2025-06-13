@@ -4,7 +4,7 @@ import org.herovole.blogproj.application.article.searcharticles.SearchArticlesOu
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-@Component
+@Component("searchArticlesPresenterRequest")
 @RequestScope
 public class SearchArticlesPresenter extends GenericPresenterProto<SearchArticlesOutput> {
 
